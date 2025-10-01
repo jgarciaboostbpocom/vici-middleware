@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Ops – Test (AC-CID)</title>
+  <meta name="x-admin-token" content="changeme123" />
+  <style>
+    body{margin:0;padding:20px;background:#0f1420;color:#e6ecff;font-family:Inter,system-ui,Arial,sans-serif}
+    h1{margin:0 0 14px}
+    .row{display:flex;gap:8px;align-items:center;margin:0 0 12px}
+    select,button{background:#0f172a;color:#e6ecff;border:1px solid #22304d;border-radius:8px;padding:6px 8px}
+    button{background:#2b48ff;border:0;cursor:pointer}
+    table{border-collapse:collapse;width:100%;background:#141b2d;border:1px solid #22304d;border-radius:12px;overflow:hidden}
+    th,td{border-bottom:1px solid #22304d;padding:8px 10px;text-align:left;font-size:14px}
+    th{background:#0f172a}
+    tr:hover{background:#0f172a}
+    .muted{color:#9fb0d1;font-size:12px}
+    .btn{padding:4px 8px;border-radius:8px;margin-right:6px}
+    .btn.alt{background:#0f172a;border:1px solid #22304d}
+    #stamp{margin:8px 0 14px;color:#9fb0d1;font-size:12px}
+  </style>
+</head>
+<body>
+  <h1>Ops – Test (AC-CID)</h1>
+  <div class="row">
+    <label>State:</label>
+    <select id="state"></select>
+    <button id="refresh" class="btn">Refresh</button>
+    <span id="hint" class="muted">(Using AC-CID + AHT debug)</span>
+  </div>
+  <div id="stamp" class="muted">Last updated: —</div>
+
+  <table id="grid">
+    <thead>
+      <tr>
+        <th>State</th>
+        <th>Area</th>
+        <th>DID</th>
+        <th>Calls Today</th>
+        <th>AHT (sec)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+<script>
+const $ = s => document.querySelector(s);
+const j = (u, opt) => fetch(u, opt).then(r => r.json());
+
+// Build state dropdown from AC-CID descriptions
+async function loadStates() {
+  const rows = await j('/api/ops/calls/today').catch(()=>[]);
+  const states = Array.from(new Set(rows.map(r => (r.description || '').trim()).filter(Boolean))).sort();
+  const sel = $('#state');
+  sel.innerHTML = '<option value="__ALL__">All</option>' + states.map(s => `<option value="${s}">${s}</option>`).join('');
+}
+
+// Load table data (AC-CID + AHT), optional filter by state
+async function loadTable() {
+  $('#stamp').textContent = 'Last updated: ' + new Date().toLocaleString();
+
+  const state = $('#state').value;
+  const accid = await j('/api/ops/calls/today').catch(()=>[]);
+  let ahts = {};
+  try {
+    const a = await j('/api/ops/debug/aht');
+    ahts = a.reduce((m,x)=>{ m[String(x.did).replace(/\D/g,'')] = Number(x.aht_sec)||0; return m; }, {});
+  } catch(e){ ahts = {}; }
+
+  const filt = accid.filter(r => state==='__ALL__' ? true : String(r.description||'').trim().toLowerCase() === state.trim().toLowerCase());
+  const rows = (filt.length ? filt : accid);
+
+  const tbody = $('#grid tbody');
+  tbody.innerHTML = rows.map(r => {
+    const didDigits = String(r.did).replace(/\D/g,'');
+    const calls = Number(r.calls_today)||0;
+    const aht = ahts[didDigits] ?? 0;
+    return `<tr data-did="${didDigits}" data-state="${r.description||''}">
+      <td>${r.description || ''}</td>
+      <td>${r.areacode}</td>
+      <td><b>${didDigits}</b></td>
+      <td>${calls}</td>
+      <td>${aht}</td>
+      <td>
+        <button class="btn alt" data-act="pause">Pause</button>
+        <button class="btn" data-act="activate">Activate</button>
+        <button class="btn alt" data-act="resume">Resume</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// Wire table action buttons to ops endpoints
+function wireActions(){
+  const ADMIN_TOKEN = (document.querySelector('meta[name="x-admin-token"]')?.content || '').trim();
+  $('#grid').onclick = async (e)=>{
+    const btn = e.target.closest('button'); if(!btn) return;
+    const tr  = e.target.closest('tr'); if(!tr) return;
+    const did = tr.dataset.did;
+    const state = tr.dataset.state || '';
+    const act = btn.dataset.act;
+
+    // map action -> correct ops endpoint
+    const url =
+      act === 'pause'
+        ? `/api/ops/did/${did}/pause`
+        : act === 'resume'
+          ? `/api/ops/did/${did}/resume`
+          : `/api/ops/state/activate/${did}`;
+
+    try{
+      const res = await fetch(url,{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'x-admin-token': ADMIN_TOKEN
+        },
+        body: JSON.stringify({ state })
+      }).then(r=>r.json());
+
+      if (!res?.ok) {
+        alert(res?.error || 'Action failed');
+      } else {
+        await loadTable();
+      }
+    } catch (err) {
+      alert('Action failed');
+    }
+  };
+}
+
+async function refresh(){ await loadTable(); }
+$('#refresh').onclick = refresh;
+
+(async function init(){
+  await loadStates();
+  wireActions();
+  await refresh();
+  setInterval(refresh, 30000);
+})();
+</script>
+</body>
+</html>

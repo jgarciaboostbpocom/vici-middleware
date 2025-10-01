@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Ops</title>
+  <style>
+    :root{
+      --bg:#0f1420; --card:#141b2d; --text:#e6ecff; --muted:#9fb0d1;
+      --accent:#2b48ff; --accent-2:#1e293b; --border:#22304d;
+      --ok:#22c55e; --warn:#f59e0b; --bad:#ef4444;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;padding:24px;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif}
+    h1{margin:0 0 16px 0}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:0 0 16px}
+    select,button,input{background:#0f172a;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:8px 10px}
+    button{background:var(--accent);border:0;cursor:pointer}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(4, minmax(260px, 1fr))}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;min-height:280px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+    .card h2{margin:0 0 10px 0;font-size:18px}
+    .metric{font-size:12px;color:var(--muted);margin-top:4px}
+    .pill{display:inline-block;background:var(--accent-2);color:var(--muted);font-size:12px;padding:2px 8px;border-radius:999px;margin-left:6px}
+    .did{display:flex;justify-content:space-between;align-items:center;border:1px dashed var(--border);border-radius:12px;padding:10px;margin:8px 0}
+    .did b{letter-spacing:.3px}
+    .btnrow{display:flex;gap:8px;margin-top:8px}
+    .btn{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:6px 10px;cursor:pointer}
+    .btn.alt{background:#0f172a;border:1px solid var(--border)}
+    .tiny{font-size:12px;color:var(--muted)}
+    .divider{height:1px;background:var(--border);margin:12px 0}
+  </style>
+</head>
+<body>
+  <h1>Ops</h1>
+
+  <div class="row">
+    <label>State:</label>
+    <select id="state">
+      <option>FL</option><option>TX</option><option>NJ</option>
+      <option>NC</option><option>NY</option><option>CA</option>
+    </select>
+    <button id="refresh">Refresh</button>
+    <span id="cfg" class="tiny"></span>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Active <span class="pill" id="count-active">0</span></h2>
+      <div id="box-active">None</div>
+    </div>
+    <div class="card">
+      <h2>Waiting <span class="pill" id="count-waiting">0</span></h2>
+      <div id="box-waiting">None</div>
+    </div>
+    <div class="card">
+      <h2>Exhausted <span class="pill" id="count-exhausted">0</span></h2>
+      <div id="box-exhausted">None</div>
+    </div>
+    <div class="card">
+      <h2>Paused <span class="pill" id="count-paused">0</span></h2>
+      <div id="box-paused">None</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="tiny" id="stamp">Last updated: —</div>
+
+  <script>
+    // ---------- small helper ----------
+    const $ = sel => document.querySelector(sel);
+    const j = (url, init) => fetch(url, init).then(r=>r.json());
+
+    // ---------- admin API wrapper (matches your controls.html) ----------
+    const api = {
+      config  : (state) => j('/api/admin/config?state='+encodeURIComponent(state)),
+      saveCfg : (state, cfg) => j('/api/admin/config', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({state, ...cfg})}),
+      listDIDs: (state) => j('/api/admin/dids/state/'+encodeURIComponent(state)),
+      activate: (state,did) => j('/api/admin/activate', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({state,did})}),
+      pause   : (state,did) => j('/api/admin/pause',    {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({state,did})}),
+      resume  : (state,did) => j('/api/admin/resume',   {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({state,did})}),
+    };
+
+    // ---------- ops metrics ----------
+    async function callsTodayMap(){
+      const arr = await j('/api/ops/calls/today');             // [{did,calls_today,...}]
+      const m = {};
+      for (const x of arr) { m[String(x.did).replace(/\\D/g,'')] = +x.calls_today || 0; }
+      return m;
+    }
+    async function ahtMap(){
+      try {
+        const arr = await j('/api/ops/debug/aht');             // [{did,aht_sec}] – present in ops router
+        const m = {};
+        for (const x of arr) { m[String(x.did).replace(/\\D/g,'')] = +x.aht_sec || 0; }
+        return m;
+      } catch(e) { return {}; }
+    }
+
+    // ---------- renderer ----------
+    function didRowHTML(row, callsMap, ahtMap){
+      const did = String(row.did).replace(/\\D/g,'');
+      const calls = callsMap[did] ?? 0;
+      const aht = ahtMap[did] ?? 0;
+      return \`
+        <div class="did" data-did="\${did}">
+          <div>
+            <b>\${did}</b>
+            <div class="metric">Calls today: \${calls} · AHT: \${aht}s</div>
+            <div class="metric tiny">\${row.state || ''} · <span class="pill">\${row.status || 'WAITING'}</span></div>
+          </div>
+          <div class="btnrow">
+            \${row.status==='PAUSED'
+              ? '<button class="btn" data-act="resume">Resume</button>'
+              : '<button class="btn alt" data-act="pause">Pause</button>'}
+            <button class="btn" data-act="activate">Activate now</button>
+          </div>
+        </div>\`;
+    }
+
+    function wireBoxClicks(boxId, state){
+      const box = $(boxId);
+      box.onclick = async (e)=>{
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        const did = btn.closest('.did')?.dataset.did;
+        const act = btn.dataset.act;
+        if (!did || !act) return;
+        try{
+          const fn = act==='pause' ? api.pause : act==='resume' ? api.resume : api.activate;
+          const res = await fn(state, did);
+          if (!res?.ok) alert(res?.error || 'Action failed');
+          await refresh(); // reload grid after action
+        }catch(err){ console.error(err); alert('Action failed');}
+      };
+    }
+
+<script>
+async function refresh(){
+  const state = document.querySelector('#state').value;
+  document.querySelector('#stamp').textContent =
+    'Last updated: ' + new Date().toLocaleString();
+
+  // Map short state codes in the dropdown to the long names stored in AC-CID "description"
+  const stateNameMap = {
+    FL: 'Florida', TX: 'Texas', NJ: 'New jersey', // case-insensitive compare anyway
+    NC: 'North Carolina', NY: 'New york', CA: 'California'
+  };
+  const wanted = (stateNameMap[state.toUpperCase()] || state).toLowerCase();
+
+  // ---- get data only from AC-CID + AHT debug endpoint ----
+  const all = await fetch('/api/ops/calls/today').then(r=>r.json()).catch(()=>[]);
+  const callsMap = {};
+  for (const x of all) callsMap[String(x.did).replace(/\D/g,'')] = +x.calls_today || 0;
+
+  let ahts = {};
+  try {
+    const a = await fetch('/api/ops/debug/aht').then(r=>r.json());
+    for (const x of a) ahts[String(x.did).replace(/\D/g,'')] = +x.aht_sec || 0;
+  } catch(_) {}
+
+  // ---- build the DID list from AC-CID (filter to state if it matches; else show ALL) ----
+  const filtered = all.filter(x => String(x.description||'').toLowerCase() === wanted);
+  const src = filtered.length ? filtered : all;
+
+  const dids = src.map(x => ({
+    did: String(x.did),
+    state: x.description || '',
+    status: 'WAITING'
+  }));
+
+  // ---- group by status (all start as WAITING here) ----
+  const groups = { ACTIVE:[], WAITING:[], EXHAUSTED:[], PAUSED:[] };
+  for (const r of dids) groups[(r.status||'WAITING').toUpperCase()].push(r);
+
+  // ---- render lanes ----
+  const lanes = [
+    ['#box-active',   groups.ACTIVE,    '#count-active'],
+    ['#box-waiting',  groups.WAITING,   '#count-waiting'],
+    ['#box-exhausted',groups.EXHAUSTED, '#count-exhausted'],
+    ['#box-paused',   groups.PAUSED,    '#count-paused'],
+  ];
+  for (const [boxSel, rows, countSel] of lanes){
+    const box = document.querySelector(boxSel);
+    document.querySelector(countSel).textContent = rows.length;
+    if (!rows.length){ box.innerHTML = 'None'; continue; }
+    box.innerHTML = rows.map(r => {
+      const did = String(r.did).replace(/\D/g,'');
+      const calls = callsMap[did] ?? 0;
+      const aht   = ahts[did] ?? 0;
+      return `
+        <div class="did" data-did="${did}">
+          <div>
+            <b>${did}</b>
+            <div class="metric">Calls today: ${calls} · AHT: ${aht}s</div>
+            <div class="metric tiny">${r.state || ''} <span class="pill">${r.status || 'WAITING'}</span></div>
+          </div>
+          <div class="btnrow">
+            <button class="btn alt" data-act="pause">Pause</button>
+            <button class="btn" data-act="activate">Activate now</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // buttons (activate/pause) – calls your admin endpoints; will work once admin API has those DIDs too
+  function wire(boxSel){
+    const box = document.querySelector(boxSel);
+    box.onclick = async (e)=>{
+      const btn = e.target.closest('button'); if(!btn) return;
+      const did = btn.closest('.did')?.dataset.did; const act = btn.dataset.act; if(!did) return;
+      try{
+        const url = act==='pause' ? '/api/admin/pause' : '/api/admin/activate';
+        const res = await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({state, did})}).then(r=>r.json());
+        if(!res?.ok) alert(res?.error || 'Action failed');
+      }catch(err){ alert('Action failed'); }
+      refresh();
+    };
+  }
+  wire('#box-active'); wire('#box-waiting'); wire('#box-exhausted'); wire('#box-paused');
+}
+
+// init
+document.querySelector('#refresh').onclick = refresh;
+refresh();
+setInterval(refresh, 30000); // auto-refresh
+</script>
+
+      // group by status
+      const groups = {ACTIVE:[], WAITING:[], EXHAUSTED:[], PAUSED:[]};
+      for (const r of (dids||[])) { groups[(r.status||'WAITING').toUpperCase()]?.push(r); }
+
+      // render each lane
+      const lanes = [
+        ['#box-active', groups.ACTIVE,     '#count-active'],
+        ['#box-waiting', groups.WAITING,   '#count-waiting'],
+        ['#box-exhausted', groups.EXHAUSTED,'#count-exhausted'],
+        ['#box-paused', groups.PAUSED,     '#count-paused'],
+      ];
+      for (const [boxSel, rows, countSel] of lanes){
+        const box = $(boxSel);
+        $(countSel).textContent = rows.length;
+        if (!rows.length) { box.innerHTML = 'None'; continue; }
+        box.innerHTML = rows.map(r => didRowHTML(r, callsMap, ahts)).join('');
+      }
+
+      // wire buttons
+      wireBoxClicks('#box-active', state);
+      wireBoxClicks('#box-waiting', state);
+      wireBoxClicks('#box-exhausted', state);
+      wireBoxClicks('#box-paused', state);
+    }
+
+    // init
+    $('#refresh').onclick = refresh;
+    refresh();
+    setInterval(refresh, 30000); // auto-refresh
+  </script>
+</body>
+</html>

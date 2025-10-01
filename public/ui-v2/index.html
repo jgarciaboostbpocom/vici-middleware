@@ -1,0 +1,299 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Middleware Dashboard v2</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;background:#0b1220;color:#e7ecf3}
+    header{padding:16px 20px;border-bottom:1px solid #1f2a44;display:flex;align-items:center;gap:12px}
+    .pill{background:#14213d;border:1px solid #24304e;padding:6px 10px;border-radius:999px;font-size:12px;color:#e7ecf3}
+    .container{padding:18px 20px;max-width:1400px;margin:0 auto}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px}
+    .card{background:#0f172a;border:1px solid #1f2a44;border-radius:14px;padding:14px}
+    .muted{color:#9fb0d1;font-size:12px}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th,td{padding:10px 8px;border-bottom:1px solid #14213d;text-align:left}
+    th{position:sticky;top:0;background:#0f172a}
+    .tag{font-size:12px;padding:3px 8px;border-radius:10px;border:1px solid #31406a}
+    .tag.call_queued{background:#0a2b1f;border-color:#0e5a41}
+    .tag.did_rotated{background:#2b0a1f;border-color:#5a0e41}
+    .tag.kpi_snapshot{background:#0e1c35;border-color:#2a3a66}
+    .ok{color:#7bdcb5}
+    input::placeholder{color:#9fb0d1}
+    .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .btn{background:#101c3a;border:1px solid #2a3a66;border-radius:10px;padding:8px 12px;color:#e7ecf3;cursor:pointer}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+    a.btn{display:inline-block;text-decoration:none}
+    .right{margin-left:auto}
+    .sep{height:1px;background:#1f2a44;margin:6px 0 12px}
+    .status{font-size:12px}
+    .success{color:#7bdcb5}
+    .error{color:#ff8f87}
+    .mini{font-size:12px}
+    .table-sm td,.table-sm th{padding:8px 6px}
+    tr.clickable:hover{background:#0c1a33}
+    .filters .btn{padding:6px 10px}
+  </style>
+</head>
+<body>
+  <header>
+    <h3 style="margin:0">Middleware Dashboard v2</h3>
+    <span id="health" class="pill">checking…</span>
+    <div class="right row">
+      <span class="muted mini">Token:</span>
+      <input id="adminToken" class="pill" placeholder="Admin token" style="min-width:200px">
+      <button class="btn" id="saveTok">Save token</button>
+      <a class="btn" href="/" target="_blank">Open Legacy Admin</a>
+    </div>
+  </header>
+
+  <div class="container grid">
+
+    <!-- DID SUMMARY -->
+    <div class="card">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <strong>DID Summary — Calls Today & AHT</strong>
+        <span class="muted mini" id="didUpdated">—</span>
+      </div>
+      <div class="sep"></div>
+      <div style="overflow:auto;">
+        <table class="table-sm">
+          <thead>
+            <tr>
+              <th style="width:180px">DID (CID)</th>
+              <th style="width:120px">Calls Today</th>
+              <th style="width:120px">Avg AHT</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="didTable"></tbody>
+        </table>
+      </div>
+      <div class="muted mini" style="margin-top:6px">
+        Click a DID row to filter Live Events.
+      </div>
+    </div>
+
+    <!-- LIVE EVENTS -->
+    <div class="card">
+      <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <strong>Live Events</strong>
+        <div class="row filters">
+          <button class="btn" data-filter="all">All</button>
+          <button class="btn" data-filter="call_queued">Calls</button>
+          <button class="btn" data-filter="kpi_snapshot">KPIs</button>
+          <input id="filterState" placeholder="State (e.g. FL)" class="pill" />
+          <input id="filterDid"   placeholder="DID (digits)"  class="pill" />
+          <input id="filterPhone" placeholder="Phone contains" class="pill" />
+          <span class="muted mini" id="lastUpdated">—</span>
+        </div>
+      </div>
+      <div style="max-height: 55vh; overflow:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Type</th>
+              <th>DID</th>
+              <th>State</th>
+              <th>Phone</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="eventsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ADMIN ACTIONS -->
+    <div class="card">
+      <div class="row" style="justify-content:space-between;align-items:center;">
+        <strong>Admin Actions</strong>
+        <span class="muted mini">Uses your existing /admin API via x-admin-token</span>
+      </div>
+      <div class="sep"></div>
+
+      <div class="row" style="align-items:center;margin-bottom:8px;">
+        <input id="stateInput" class="pill" placeholder="State (e.g. FL)" style="width:120px">
+        <button class="btn" id="btnForceState">Force rotate state</button>
+        <button class="btn" id="btnForceAll">Rotate ALL states</button>
+        <span id="adminMsg" class="status"></span>
+      </div>
+    </div>
+  </div>
+
+<script>
+const POLL_MS = 3000;
+const DID_POLL_MS = 15000;
+let lastTs = 0;
+let eventFilter = 'all'; // all | call_queued | kpi_snapshot
+
+// OPTIONAL: if you want to show State per DID, paste a map here later:
+// const DID_STATE_MAP = { "3056990269":"FL", "2145646678":"TX" };
+const DID_STATE_MAP = {};
+
+function tok(){return localStorage.getItem('adminToken')||'';}
+function setTok(v){localStorage.setItem('adminToken',v||'');}
+
+async function getJSON(url){
+  const res = await fetch(url);
+  return res.json();
+}
+function fmtTime(ts){ const d=new Date(ts); return d.toLocaleTimeString(); }
+function fmtAHT(s){ if(s==null||isNaN(s)) return '—'; const v=Math.round(Number(s)); const m = Math.floor(v/60); const ss=String(v%60).padStart(2,'0'); return `${m}:${ss}`; }
+
+function rowHtml(e){
+  if (eventFilter !== 'all' && e.type !== eventFilter) return '';
+  const tag = `<span class="tag ${e.type}">${e.type}</span>`;
+  const detPairs = [];
+  if (e.did) detPairs.push(`did: ${e.did}`);
+  if (e.state) detPairs.push(`state: ${e.state}`);
+  if (e.leadPhone) detPairs.push(`leadPhone: ${e.leadPhone}`);
+  if (e.campaign) detPairs.push(`campaign: ${e.campaign}`);
+  if (e.callsToday != null) detPairs.push(`callsToday: ${e.callsToday}`);
+  if (e.ahtSec != null) detPairs.push(`ahtSec: ${e.ahtSec}`);
+  const det = detPairs.join(' · ');
+  return `<tr>
+    <td>${fmtTime(e.ts)}</td>
+    <td>${tag}</td>
+    <td>${e.did || ''}</td>
+    <td>${e.state || ''}</td>
+    <td>${e.leadPhone || ''}</td>
+    <td class="muted">${det}</td>
+  </tr>`;
+}
+
+async function pollEvents() {
+  try {
+    const q = new URLSearchParams();
+    if (lastTs) q.set('since', String(lastTs));
+    const did = document.getElementById('filterDid').value.trim();
+    const st  = document.getElementById('filterState').value.trim();
+    const ph  = document.getElementById('filterPhone').value.trim();
+    if (did) q.set('did', did);
+    if (st)  q.set('state', st);
+    if (ph)  q.set('phone', ph);
+
+    const data = await getJSON(`/api/ui-v2/events?${q.toString()}`);
+    const list = data.items || [];
+    if (list.length) {
+      lastTs = Math.max(lastTs, ...list.map(x => x.ts));
+      const body = document.getElementById('eventsBody');
+      const html = list.map(rowHtml).join('');
+      if (html) body.insertAdjacentHTML('afterbegin', html);
+    }
+    document.getElementById('lastUpdated').textContent = `Updated ${new Date().toLocaleTimeString()}`;
+  } catch (e) {
+    console.error('poll events failed', e);
+  } finally {
+    setTimeout(pollEvents, POLL_MS);
+  }
+}
+
+// DID summary (cards/table)
+async function pollDIDs() {
+  try {
+    const { items = [] } = await getJSON('/api/ui-v2/dids/usage');
+    // sort by calls desc
+    items.sort((a,b) => (b.callsToday||0) - (a.callsToday||0));
+    const tbody = document.getElementById('didTable');
+    const rows = items.map(it => {
+      const did = it.did || '';
+      const st  = DID_STATE_MAP[did] || '';
+      return `<tr class="clickable" data-did="${did}">
+        <td>${did}</td>
+        <td>${it.callsToday != null ? it.callsToday : '—'}</td>
+        <td>${fmtAHT(it.ahtSec)}</td>
+        <td class="muted">${it.status || ''}${st ? ' · '+st : ''}</td>
+      </tr>`;
+    }).join('');
+    tbody.innerHTML = rows || `<tr><td colspan="4" class="muted">No DID data yet…</td></tr>`;
+    document.getElementById('didUpdated').textContent = `Updated ${new Date().toLocaleTimeString()}`;
+
+    // click to filter
+    Array.from(tbody.querySelectorAll('tr.clickable')).forEach(tr => {
+      tr.onclick = () => {
+        document.getElementById('filterDid').value = tr.dataset.did || '';
+        // reset event stream so we repopulate with filter applied
+        lastTs = 0;
+        document.getElementById('eventsBody').innerHTML = '';
+      };
+    });
+  } catch(e) {
+    console.error('poll dids failed', e);
+  } finally {
+    setTimeout(pollDIDs, DID_POLL_MS);
+  }
+}
+
+// ADMIN
+async function postAdmin(path, body){
+  const t = tok();
+  if(!t) throw new Error('Missing admin token');
+  const res = await fetch(path, {
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-admin-token':t},
+    body: JSON.stringify(body||{})
+  });
+  if(!res.ok){
+    const txt = await res.text().catch(()=>String(res.status));
+    throw new Error(`HTTP ${res.status} ${txt}`);
+  }
+  try{ return await res.json(); }catch{ return { ok:true }; }
+}
+function msg(text, isErr){
+  const el = document.getElementById('adminMsg');
+  el.textContent = text;
+  el.className = 'status ' + (isErr ? 'error' : 'success');
+}
+async function forceRotateState(){
+  msg('Working…');
+  const st = (document.getElementById('stateInput').value||'').trim().toUpperCase();
+  if(!st){ msg('Add state (e.g. FL)', true); return; }
+  try{
+    const r = await postAdmin('/admin/rotate/check', { state: st });
+    if(r?.rotated) msg(`Rotated ${st}`, false); else msg(`No rotate for ${st}`, false);
+  }catch(e){ msg(e.message||String(e), true); }
+}
+async function forceRotateAll(){
+  msg('Working…');
+  try{
+    const out = await postAdmin('/admin/rotate/force', {});
+    const arr = Array.isArray(out) ? out : [out];
+    const count = arr.filter(r => r?.rotated).length;
+    msg(`Rotate-all done (${count} rotated)`, false);
+  }catch(e){ msg(e.message||String(e), true); }
+}
+
+// wire
+document.getElementById('saveTok').onclick = ()=>{
+  setTok(document.getElementById('adminToken').value.trim());
+  msg('Token saved', false);
+};
+document.getElementById('btnForceState').onclick = forceRotateState;
+document.getElementById('btnForceAll').onclick = forceRotateAll;
+
+for (const id of ['filterDid','filterState','filterPhone']) {
+  document.getElementById(id).addEventListener('change', () => {
+    lastTs = 0; document.getElementById('eventsBody').innerHTML = '';
+  });
+}
+document.querySelectorAll('.filters .btn').forEach(b=>{
+  b.onclick = () => { eventFilter = b.dataset.filter; lastTs=0; document.getElementById('eventsBody').innerHTML=''; };
+});
+
+async function boot(){
+  try {
+    const h = await getJSON('/api/ui-v2/health');
+    document.getElementById('health').textContent = h.ok ? 'online' : 'offline';
+    if (h.ok) document.getElementById('health').classList.add('ok');
+  } catch { document.getElementById('health').textContent = 'offline'; }
+  document.getElementById('adminToken').value = tok();
+  pollDIDs();
+  pollEvents();
+}
+boot();
+</script>
+</body>
+</html>

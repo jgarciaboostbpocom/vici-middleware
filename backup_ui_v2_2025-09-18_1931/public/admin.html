@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Findable Middleware Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 20px; }
+    h1 { margin-bottom: 6px; }
+    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background: #f5f5f5; text-align: left; }
+    input, button, select { padding: 8px; }
+    code { background: #f2f2f2; padding: 2px 6px; border-radius: 4px; }
+    .two { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media(min-width: 1100px) { .two { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>Findable Middleware Admin</h1>
+  <div class="row">
+    <label>Admin Token:</label>
+    <input id="token" type="password" placeholder="x-admin-token" style="min-width:280px;">
+    <button onclick="saveToken()">Use Token</button>
+    <span id="status"></span>
+    <button onclick="refresh()">Refresh</button>
+  </div>
+
+  <h3>Health</h3>
+  <pre id="health"></pre>
+
+  <div class="two">
+    <div>
+      <h3>States & Active DID</h3>
+      <table id="statesTbl">
+        <thead><tr><th>State</th><th>Active DID</th><th>Actions</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="row" style="margin-top:12px;">
+        <select id="stateForForce"></select>
+        <button onclick="forceRotate()">Force Rotate State</button>
+      </div>
+    </div>
+
+    <div>
+      <h3>Switch Log</h3>
+      <table id="switchTbl">
+        <thead><tr><th>Time</th><th>State</th><th>Reason</th><th>Old → New</th><th>Calls/AHT</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <h3>Voicemail Drops</h3>
+      <table id="vmTbl">
+        <thead><tr><th>Time</th><th>State</th><th>DID</th><th>Seconds</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3>DID Pool</h3>
+  <div class="row">
+    <input id="newDid" placeholder="Add DID (e.g., 18005550123)">
+    <select id="newState"></select>
+    <button onclick="addDid()">Add</button>
+
+    <!-- NEW: Import from Vici AC-CID -->
+    <select id="importState">
+      <option value="">(All States)</option>
+    </select>
+    <button onclick="importFromVici()">Import from Vici AC-CID</button>
+    <span id="importMsg"></span>
+  </div>
+  <table id="didsTbl">
+    <thead><tr><th>DID</th><th>State</th><th>Actions</th></tr></thead>
+    <tbody></tbody>
+  </table>
+
+<script>
+  const $ = sel => document.querySelector(sel);
+  const tokenKey = 'mw_admin_token';
+  const STATES = ["AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY","UNASSIGNED"];
+
+  function fillStateSelects() {
+    $('#newState').innerHTML = STATES.map(s => `<option>${s}</option>`).join('');
+    $('#stateForForce').innerHTML = STATES.filter(s=>s!=="UNASSIGNED").map(s => `<option>${s}</option>`).join('');
+    $('#importState').innerHTML = `<option value="">(All States)</option>` + STATES.filter(s=>s!=="UNASSIGNED").map(s => `<option>${s}</option>`).join('');
+  }
+  function headers() {
+    const t = localStorage.getItem(tokenKey) || '';
+    const h = { 'Content-Type': 'application/json' };
+    if (t) h['x-admin-token'] = t;
+    return h;
+  }
+  function saveToken(){ localStorage.setItem(tokenKey, $('#token').value); $('#status').textContent='Token saved'; refresh(); }
+  async function getJson(url){ const r = await fetch(url,{headers:headers()}); if(!r.ok) throw new Error(await r.text()); return r.json(); }
+  async function postJson(url,body={}){ const r=await fetch(url,{method:'POST',headers:headers(),body:JSON.stringify(body)}); if(!r.ok) throw new Error(await r.text()); return r.json(); }
+  async function del(url){ const r=await fetch(url,{method:'DELETE',headers:headers()}); if(!r.ok) throw new Error(await r.text()); return r.json(); }
+
+  async function refresh(){
+    try{
+      const h = await getJson('/health'); $('#health').textContent = JSON.stringify(h,null,2);
+      const d = await getJson('/admin/dids'); const items = d.items||[]; const active = d.active||{};
+      const stBody = $('#statesTbl tbody'); stBody.innerHTML='';
+      const states = Object.keys(active).length? Object.keys(active) : [...new Set(items.map(x=>x.state))];
+      states.forEach(st=>{
+        const tr=document.createElement('tr'); const current=active[st]||'';
+        tr.innerHTML = `<td>${st}</td><td>${current?`<b>${current}</b>`:'<i>none</i>'}</td>
+          <td><input id="set_${st}" placeholder="DID to set" style="width:180px">
+              <button onclick="setActive('${st}')">Set Active</button></td>`;
+        stBody.appendChild(tr);
+      });
+      const didBody = $('#didsTbl tbody'); didBody.innerHTML='';
+      items.forEach(it=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML = `<td>${it.did}</td>
+          <td><select onchange="changeState('${it.did}', this.value)">
+            ${STATES.map(s => `<option ${s===it.state?'selected':''}>${s}</option>`).join('')}</select></td>
+          <td><button onclick="removeDid('${it.did}')">Remove</button></td>`;
+        didBody.appendChild(tr);
+      });
+      const ev = await getJson('/admin/events?limit=200');
+      const es = ev.events||[]; const swBody = $('#switchTbl tbody'); swBody.innerHTML=''; const vmBody=$('#vmTbl tbody'); vmBody.innerHTML='';
+      es.filter(e=>e.type==='switch').reverse().forEach(e=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${e.time}</td><td>${e.state}</td><td>${e.reason}</td><td>${e.oldDid||''} → <b>${e.newDid}</b></td><td>${e.callsToday||''}/${e.aht||''}</td>`;
+        swBody.appendChild(tr);
+      });
+      es.filter(e=>e.type==='vm').reverse().forEach(e=>{
+        const tr=document.createElement('tr'); tr.innerHTML=`<td>${e.time}</td><td>${e.state}</td><td>${e.did}</td><td>${e.seconds}</td>`;
+        vmBody.appendChild(tr);
+      });
+    }catch(e){ $('#health').textContent='Error: '+e.message; }
+  }
+
+  async function addDid(){ const did=$('#newDid').value.trim(); const st=$('#newState').value; if(!did) return; await postJson('/admin/dids',{did,state:st}); $('#newDid').value=''; refresh(); }
+  async function removeDid(did){ await del('/admin/dids/'+encodeURIComponent(did)); refresh(); }
+  async function changeState(did,st){ await postJson('/admin/dids/state',{did,state:st}); refresh(); }
+  async function setActive(st){ const did=document.getElementById('set_'+st).value.trim(); if(!did) return; await postJson('/admin/dids/active',{state:st,did}); refresh(); }
+  async function forceRotate(){ const st=$('#stateForForce').value; await postJson('/admin/rotate/force',{state:st}); refresh(); }
+  async function importFromVici(){ const st=$('#importState').value || undefined; $('#importMsg').textContent='Importing...'; try{
+      const body = st? {state:st} : {};
+      const r = await postJson('/admin/import/accid', body);
+      $('#importMsg').textContent = `Imported ${r.importedDids} DID(s) across ${r.importedStates} state(s)`;
+      refresh();
+    }catch(e){ $('#importMsg').textContent='Error: '+e.message; } }
+
+  fillStateSelects();
+  $('#token').value = localStorage.getItem(tokenKey)||'';
+  refresh();
+  setInterval(refresh, 5000);
+</script>
+</body>
+</html>

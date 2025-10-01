@@ -1,0 +1,27 @@
+import './server';
+import './jobs/scheduler';
+
+// ===== UI v2 (read-only) BEGIN =====
+try {
+  const express = require('express');
+  const path = require('path');
+  const uiEnabled = String(process.env.UI_V2_ENABLED || '').toLowerCase() === 'true';
+  if (uiEnabled) {
+    const uiRouter = require('./uiV2/router').default || require('./uiV2/router');
+    // Mount API
+    // Note: ensure `app` is your Express instance. If your file uses a different name, adjust here.
+    if (typeof app?.use === 'function') {
+      app.use('/api/ui-v2', uiRouter);
+      // Serve static dashboard
+      const uiPath = process.env.UI_V2_PATH || '/ui-v2';
+      const staticDir = path.join(__dirname, '../public/ui-v2');
+      app.use(uiPath, express.static(staticDir));
+      console.log('[ui-v2] mounted at', uiPath, 'static dir:', staticDir);
+    } else {
+      console.warn('[ui-v2] Could not mount: Express app not found as "app".');
+    }
+  }
+} catch (e) {
+  console.warn('[ui-v2] mount skipped:', (e as any)?.message || e);
+}
+// ===== UI v2 (read-only) END =====

@@ -1,0 +1,81 @@
+const fs = require('fs');
+const path = require('path');
+const mysql = require('mysql2/promise');
+
+const UI_DIR = process.env.UI_EVENTS_DIR || path.join(process.cwd(), 'data/ui_events');
+const POLL_MS = Number(process.env.UI_FEED_POLL_MS || 5000);
+
+// Try common env names you already use for Vicidial
+const DB_HOST = process.env.VICI_DB_HOST || '127.0.0.1';
+const DB_PORT = Number(process.env.VICI_DB_PORT || 3306);
+const DB_USER = process.env.VICI_DB_USER || process.env.MYSQL_USER || 'cron';
+const DB_PASS = process.env.VICI_DB_PASSWORD || process.env.VICI_DB_PASS || process.env.MYSQL_PASSWORD || '';
+const DB_NAME = process.env.VICI_DB_DATABASE || process.env.VICI_DB_DB || 'asterisk';
+
+if (!fs.existsSync(UI_DIR)) fs.mkdirSync(UI_DIR, { recursive: true });
+const todayFile = () => {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  return path.join(UI_DIR, `events-${yyyy}-${mm}-${dd}.ndjson`);
+};
+const write = (obj) => {
+  try { fs.appendFileSync(todayFile(), JSON.stringify(obj)+'\n', 'utf8'); }
+  catch(e){ console.error('[ui-feed] write fail', e.message); }
+};
+
+// Keep a tiny in-memory dedupe for recent uniqueids
+const seen = new Map(); // uniqueid -> ts
+const SEEN_TTL = 60 * 60 * 1000; // 1h
+
+async function connect() {
+  return mysql.createPool({
+    host: DB_HOST, port: DB_PORT, user: DB_USER, password: DB_PASS,
+    database: DB_NAME, waitForConnections: true, connectionLimit: 5
+  });
+}
+
+async function poll(pool) {
+  // Pull last minute of activity from vicidial_auto_calls (lightweight)
+  // Covers auto/manual calls that are active/just-started.
+  const [rows] = await pool.query(
+    `SELECT uniqueid, callerid, phone_number, campaign_id, last_call_time
+       FROM vicidial_auto_calls
+      WHERE last_call_time >= NOW() - INTERVAL 60 SECOND
+      ORDER BY last_call_time DESC
+      LIMIT 200`
+  );
+  const now = Date.now();
+
+  for (const r of rows) {
+    const key = String(r.uniqueid || '') + '|' + String(r.phone_number || '');
+    if (!key.trim()) continue;
+
+    const last = seen.get(key) || 0;
+    if (now - last < 30000) continue; // de-dupe within 30s
+    seen.set(key, now);
+
+    const evt = {
+      ts: now,
+      type: 'call_queued',
+      did: String(r.callerid || ''),       // callerid is your displayed DID
+      state: '',                           // optional: leave blank unless you map it
+      leadPhone: String(r.phone_number || ''),
+      campaign: String(r.campaign_id || ''),
+      source: 'vicidial_auto_calls'
+    };
+    write(evt);
+  }
+
+  // prune old seen keys
+  for (const [k, t] of seen) if (now - t > SEEN_TTL) seen.delete(k);
+}
+
+(async () => {
+  console.log('[ui-feed] connecting to Vicidial DB', { DB_HOST, DB_PORT, DB_NAME });
+  const pool = await connect();
+  setInterval(() => poll(pool).catch(e => console.error('[ui-feed] poll', e.message)), POLL_MS);
+  // first run immediately
+  poll(pool).catch(e => console.error('[ui-feed] poll', e.message));
+})();

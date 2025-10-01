@@ -1,0 +1,96 @@
+const fs = require('fs');
+const path = require('path');
+const mysql = require('mysql2/promise');
+
+const UI_DIR = process.env.UI_EVENTS_DIR || path.join(process.cwd(), 'data/ui_events');
+const POLL_MS = Number(process.env.UI_FEED_POLL_MS || 5000);
+
+const DB_HOST = process.env.VICI_DB_HOST || '127.0.0.1';
+const DB_PORT = Number(process.env.VICI_DB_PORT || 3306);
+const DB_USER = process.env.VICI_DB_USER || 'cron';
+const DB_PASS = process.env.VICI_DB_PASSWORD || '';
+const DB_NAME = process.env.VICI_DB_DATABASE || 'asterisk';
+
+if (!fs.existsSync(UI_DIR)) fs.mkdirSync(UI_DIR, { recursive: true });
+const todayFile = () => {
+  const d = new Date();
+  const yyyy = d.getFullYear(), mm = String(d.getMonth()+1).padStart(2,'0'), dd = String(d.getDate()).padStart(2,'0');
+  return path.join(UI_DIR, `events-${yyyy}-${mm}-${dd}.ndjson`);
+};
+const write = (obj) => {
+  try { fs.appendFileSync(todayFile(), JSON.stringify(obj)+'\n', 'utf8'); }
+  catch(e){ console.error('[ui-feed] write fail', e.message); }
+};
+
+const seen = new Map();  // recent dedupe
+const SEEN_TTL = 60*60*1000;
+
+async function connect() {
+  return mysql.createPool({
+    host: DB_HOST, port: DB_PORT, user: DB_USER, password: DB_PASS,
+    database: DB_NAME, waitForConnections: true, connectionLimit: 5
+  });
+}
+
+function processRows(rows) {
+  const now = Date.now();
+  for (const r of rows) {
+    const key = `${r.auto_call_id || ''}|${r.phone_number || ''}`;
+    if (!key.trim()) continue;
+    const last = seen.get(key) || 0;
+    if (now - last < 15000) continue; // 15s de-dupe
+    seen.set(key, now);
+
+    // REAL DID from CDR.src if available, else empty
+    const realDid = String(r.cdr_src || '').replace(/\s+/g,'');
+    write({
+      ts: now,
+      type: 'call_queued',
+      did: realDid,                         // <-- fixed
+      state: '',
+      leadPhone: String(r.phone_number || ''),
+      campaign: String(r.campaign_id || ''),
+      source: 'vicidial_auto_calls'
+    });
+  }
+  for (const [k, t] of seen) if (now - t > SEEN_TTL) seen.delete(k);
+}
+
+async function poll(pool) {
+  // Prefer last_update_time; if not present, fallback to ORDER BY id
+  try {
+    // Try with CDR join to get presented CID (cdr.src)
+    const [rows] = await pool.query(
+      `SELECT vac.auto_call_id, vac.phone_number, vac.campaign_id, vac.uniqueid,
+              cdr.src AS cdr_src
+         FROM vicidial_auto_calls AS vac
+    LEFT JOIN cdr AS cdr ON cdr.uniqueid = vac.uniqueid
+        WHERE vac.last_update_time >= NOW() - INTERVAL 60 SECOND
+        ORDER BY vac.last_update_time DESC
+        LIMIT 200`
+    );
+    processRows(rows);
+  } catch (e) {
+    if (String(e.message||'').includes('Unknown column')) {
+      const [rows] = await pool.query(
+        `SELECT vac.auto_call_id, vac.phone_number, vac.campaign_id, vac.uniqueid,
+                cdr.src AS cdr_src
+           FROM vicidial_auto_calls AS vac
+      LEFT JOIN cdr AS cdr ON cdr.uniqueid = vac.uniqueid
+          ORDER BY vac.auto_call_id DESC
+          LIMIT 50`
+      );
+      processRows(rows);
+    } else {
+      console.error('[ui-feed] poll', e.message);
+    }
+  }
+}
+
+(async () => {
+  console.log('[ui-feed] connecting to Vicidial DB', { DB_HOST, DB_PORT, DB_NAME });
+  const pool = await connect();
+  const tick = async () => { try { await poll(pool); } catch (e) { console.error('[ui-feed] tick', e.message); } };
+  setInterval(tick, POLL_MS);
+  tick();
+})();

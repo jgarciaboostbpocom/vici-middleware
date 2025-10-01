@@ -1,0 +1,952 @@
+[
+  {
+    "type": "switch",
+    "time": "2025-09-10T17:39:40.956Z",
+    "state": "TX",
+    "reason": "FORCED",
+    "oldDid": "2145646678",
+    "newDid": "4098754536"
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T17:41:13.627Z",
+    "state": "TX",
+    "reason": "LOW_AHT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 6,
+    "aht": 75
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T17:49:00.838Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 8,
+    "aht": 91
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T17:52:03.795Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 8,
+    "aht": 104
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T18:11:38.920Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 70,
+    "aht": 104
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T18:29:38.927Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "4098754556",
+    "callsToday": 72,
+    "aht": 105
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T18:47:38.934Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754556",
+    "newDid": "2145646678",
+    "callsToday": 72,
+    "aht": 98
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T18:49:38.935Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 78,
+    "aht": 106
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T18:51:38.936Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 80,
+    "aht": 102
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T18:53:38.937Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 86,
+    "aht": 103
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T18:55:38.938Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 88,
+    "aht": 97
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T18:57:38.941Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 94,
+    "aht": 101
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T18:59:38.944Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 96,
+    "aht": 98
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:01:38.944Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 102,
+    "aht": 101
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:03:38.944Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 104,
+    "aht": 95
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:05:38.944Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 110,
+    "aht": 106
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:07:38.946Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 112,
+    "aht": 97
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:09:38.945Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 118,
+    "aht": 108
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:11:38.948Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 120,
+    "aht": 101
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:13:38.953Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 126,
+    "aht": 106
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:15:38.955Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 128,
+    "aht": 104
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:17:38.960Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 134,
+    "aht": 101
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:19:38.960Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 136,
+    "aht": 107
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:21:38.963Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 142,
+    "aht": 105
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:23:38.962Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 144,
+    "aht": 110
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:25:38.963Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 150,
+    "aht": 102
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:27:38.962Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 152,
+    "aht": 114
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:29:38.962Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 158,
+    "aht": 97
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:31:38.965Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 160,
+    "aht": 116
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:33:38.969Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 166,
+    "aht": 93
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:35:38.970Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 168,
+    "aht": 110
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:37:38.971Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 174,
+    "aht": 92
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:39:38.972Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 176,
+    "aht": 104
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:41:38.974Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 182,
+    "aht": 97
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:43:38.975Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 184,
+    "aht": 104
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:45:38.975Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 190,
+    "aht": 92
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:47:38.978Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 192,
+    "aht": 106
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:49:38.977Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 198,
+    "aht": 91
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:51:38.978Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 200,
+    "aht": 105
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:53:38.982Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 206,
+    "aht": 91
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:55:38.980Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 208,
+    "aht": 101
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:57:38.979Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 214,
+    "aht": 93
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T19:59:38.979Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 216,
+    "aht": 101
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:01:38.980Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 222,
+    "aht": 92
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:03:38.982Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 224,
+    "aht": 107
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:05:38.984Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 230,
+    "aht": 92
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:07:38.985Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 232,
+    "aht": 108
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:09:38.986Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 238,
+    "aht": 96
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:11:38.987Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 240,
+    "aht": 98
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:13:38.990Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 246,
+    "aht": 100
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:15:38.990Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 248,
+    "aht": 100
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:17:38.992Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 254,
+    "aht": 103
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:19:38.992Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 256,
+    "aht": 101
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:21:38.993Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 262,
+    "aht": 99
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:23:38.994Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 264,
+    "aht": 106
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:25:38.994Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 270,
+    "aht": 100
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:27:38.995Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 272,
+    "aht": 104
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:29:38.994Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 278,
+    "aht": 102
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:31:38.994Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 280,
+    "aht": 103
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:33:38.996Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 286,
+    "aht": 96
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:35:38.999Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 288,
+    "aht": 106
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:37:39.003Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 294,
+    "aht": 99
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:39:39.006Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 296,
+    "aht": 113
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:41:39.007Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 302,
+    "aht": 95
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:43:39.012Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 304,
+    "aht": 109
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:45:39.015Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 310,
+    "aht": 97
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:47:39.017Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 312,
+    "aht": 106
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:49:39.021Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 318,
+    "aht": 98
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:51:39.025Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 320,
+    "aht": 106
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:53:39.027Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 326,
+    "aht": 102
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:55:39.031Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 328,
+    "aht": 111
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:57:39.033Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 334,
+    "aht": 103
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T20:59:39.036Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 336,
+    "aht": 109
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T21:01:39.039Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 342,
+    "aht": 103
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T21:03:39.043Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 344,
+    "aht": 100
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T21:05:39.048Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 350,
+    "aht": 103
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T21:07:39.051Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 352,
+    "aht": 96
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T21:09:39.055Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 358,
+    "aht": 102
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T21:11:39.058Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 360,
+    "aht": 94
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T21:13:39.062Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 366,
+    "aht": 102
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T21:15:39.066Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 368,
+    "aht": 93
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T21:17:39.071Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 374,
+    "aht": 102
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T21:19:39.073Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "4098754536",
+    "newDid": "2145646678",
+    "callsToday": 376,
+    "aht": 91
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-10T21:21:39.074Z",
+    "state": "TX",
+    "reason": "CALLS_LIMIT",
+    "oldDid": "2145646678",
+    "newDid": "4098754536",
+    "callsToday": 382,
+    "aht": 100
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-16T00:11:53.891Z",
+    "state": "NY",
+    "reason": "FORCED",
+    "oldDid": "3152345627",
+    "newDid": "3322498918"
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-16T14:28:33.561Z",
+    "state": "NY",
+    "reason": "FORCED",
+    "oldDid": "3322498918",
+    "newDid": "3478686132"
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-18T20:35:41.093Z",
+    "state": "PA",
+    "reason": "FORCED",
+    "oldDid": "2157090283",
+    "newDid": "2232276571"
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-18T20:47:32.574Z",
+    "state": "CA",
+    "reason": "FORCED",
+    "oldDid": "2137841790",
+    "newDid": "2792130365"
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-18T20:53:39.315Z",
+    "state": "FL",
+    "reason": "FORCED",
+    "oldDid": "3056990269",
+    "newDid": "3212524410"
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-18T20:54:02.084Z",
+    "state": "AZ",
+    "reason": "FORCED",
+    "oldDid": "4804855395",
+    "newDid": "5204607228"
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-18T22:02:10.251Z",
+    "state": "TX",
+    "reason": "FORCED",
+    "oldDid": "2145646678",
+    "newDid": "4098754536"
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-18T22:28:22.513Z",
+    "state": "AZ",
+    "reason": "FORCED",
+    "oldDid": "4804855395",
+    "newDid": "5204607228"
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-18T22:58:09.819Z",
+    "state": "AZ",
+    "reason": "FORCED",
+    "oldDid": "4804855395",
+    "newDid": "5204607228"
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-23T19:56:05.549Z",
+    "state": "NJ",
+    "reason": "LOW_AHT",
+    "oldDid": "5512361601",
+    "newDid": "6093160536",
+    "callsToday": 31,
+    "aht": 2
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-23T19:56:05.559Z",
+    "state": "NY",
+    "reason": "LOW_AHT",
+    "oldDid": "3478686132",
+    "newDid": "3152345627",
+    "callsToday": 10,
+    "aht": 5
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-23T19:58:05.549Z",
+    "state": "NY",
+    "reason": "LOW_AHT",
+    "oldDid": "3152345627",
+    "newDid": "3322498918",
+    "callsToday": 1,
+    "aht": 6
+  },
+  {
+    "type": "switch",
+    "time": "2025-09-23T19:58:05.558Z",
+    "state": "OH",
+    "reason": "LOW_AHT",
+    "oldDid": "2165234557",
+    "newDid": "2203998164",
+    "callsToday": 14,
+    "aht": 1
+  }
+]

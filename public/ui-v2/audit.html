@@ -1,0 +1,14 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Audit</title>
+<link rel="stylesheet" href="./style.css"></head><body>
+<!--#include file="_nav.html" -->
+<h2>Audit Trail (last 200)</h2>
+<pre id="log" style="background:#0d1117;color:#9fb; padding:12px;border-radius:8px;white-space:pre-wrap"></pre>
+<script>
+fetch('/api/audit?limit=200').then(r=>r.json()).then(rows=>{
+  const s=(rows||[]).map(x=>
+    `[${x.ts||x.tsIso}] ${x.action} — state=${x.state||'-'} from=${x.from||'-'} to=${x.to||'-'} did=${x.did||'-'} reason=${x.reason||'-'} by=${x.by||'system'} → ${x.result||'ok'}`
+  ).join('\n');
+  document.getElementById('log').textContent = s || 'No events yet.';
+});
+</script>
+</body></html>

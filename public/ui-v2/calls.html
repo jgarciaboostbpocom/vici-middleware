@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Calls Today</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #f4f4f4; }
+  </style>
+</head>
+<body>
+  <h2>Calls Today (AC-CID)</h2>
+  <table id="callsTable">
+    <thead>
+      <tr>
+        <th>Campaign</th>
+        <th>Area Code</th>
+        <th>DID</th>
+        <th>Description</th>
+        <th>Calls Today</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function loadData() {
+      try {
+        const res = await fetch('/api/ops/calls/today');
+        const data = await res.json();
+        const tbody = document.querySelector('#callsTable tbody');
+        tbody.innerHTML = '';
+        data.forEach(row => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${row.campaign_id}</td>
+            <td>${row.areacode}</td>
+            <td>${row.did}</td>
+            <td>${row.description || ''}</td>
+            <td>${row.calls_today}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        console.error('Error loading data', e);
+      }
+    }
+    loadData();
+    setInterval(loadData, 30000); // refresh every 30s
+  </script>
+</body>
+</html>

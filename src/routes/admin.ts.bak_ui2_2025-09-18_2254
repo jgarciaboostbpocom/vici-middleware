@@ -1,0 +1,30 @@
+import { logUiEvent } from '../uiV2/uiEvents';
+import { logUiEvent } from '../uiV2/uiEvents';
+import { Router } from 'express';
+import { rotateStateIfNeeded, rotateAllStatesIfNeeded, forceRotateState } from '../logic/didRotation';
+
+export const adminRouter = Router();
+
+adminRouter.post('/rotate/check', async (req, res) => {
+  const state = (req.query.state as string) || (req.body?.state as string);
+  try {
+const r = await rotateStateIfNeeded(state.toUpperCase());
+try { if (r && (r as any).rotated) { const s = (r as any).state || state.toUpperCase(); logUiEvent('did_rotated', { state: s, fromDid: (r as any).oldDid, toDid: (r as any).newDid, reason: (r as any).reason, callsToday: (r as any).callsToday, aht: (r as any).aht }); } } catch {}
+    if (state) return res.json(r);
+const out = await rotateAllStatesIfNeeded();
+try { const list = Array.isArray(out) ? out : [out]; for (const r of list) { if (r && (r as any).rotated) { logUiEvent('did_rotated', { state: (r as any).state, fromDid: (r as any).oldDid, toDid: (r as any).newDid, reason: (r as any).reason, callsToday: (r as any).callsToday, aht: (r as any).aht }); } } } catch {}
+    return res.json(out);
+  } catch (e:any) {
+    return res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+adminRouter.post('/rotate/force', async (req, res) => {
+  const state = ((req.query.state as string) || (req.body?.state as string) || '').toUpperCase();
+  if (!state) return res.status(400).json({ ok: false, error: 'missing state' });
+  try {
+    return res.json(await forceRotateState(state));
+  } catch (e:any) {
+    return res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});

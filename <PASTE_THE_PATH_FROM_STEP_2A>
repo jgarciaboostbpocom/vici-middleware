@@ -1,0 +1,13 @@
+
+// ===== UI v2 (read-only) BEGIN =====
+import path from 'path';
+import uiRouter from './uiV2/router'; // adjust relative path if this file isn't in src/
+
+if (String(process.env.UI_V2_ENABLED || '').toLowerCase() === 'true') {
+  (<PASTE_THE_VAR_NAME_FROM_STEP_2A> as any).use('/api/ui-v2', uiRouter);
+  const uiPath = process.env.UI_V2_PATH || '/ui-v2';
+  const staticDir = path.join(__dirname, '../../public/ui-v2'); // adjust if path differs
+  (<PASTE_THE_VAR_NAME_FROM_STEP_2A> as any).use(uiPath, require('express').static(staticDir));
+  console.log('[ui-v2] mounted at', uiPath, 'static dir:', staticDir);
+}
+// ===== UI v2 (read-only) END =====

@@ -1,0 +1,93 @@
+const fs = require('fs');
+const path = require('path');
+const mysql = require('mysql2/promise');
+
+const UI_DIR = process.env.UI_EVENTS_DIR || path.join(process.cwd(), 'data/ui_events');
+const POLL_MS = Number(process.env.UI_FEED_POLL_MS || 5000);
+
+const DB_HOST = process.env.VICI_DB_HOST || '127.0.0.1';
+const DB_PORT = Number(process.env.VICI_DB_PORT || 3306);
+const DB_USER = process.env.VICI_DB_USER || 'cron';
+const DB_PASS = process.env.VICI_DB_PASSWORD || '';
+const DB_NAME = process.env.VICI_DB_DATABASE || 'asterisk';
+
+if (!fs.existsSync(UI_DIR)) fs.mkdirSync(UI_DIR, { recursive: true });
+const todayFile = () => {
+  const d = new Date(); const yyyy=d.getFullYear(), mm=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0');
+  return path.join(UI_DIR, `events-${yyyy}-${mm}-${dd}.ndjson`);
+};
+const write = obj => { try { fs.appendFileSync(todayFile(), JSON.stringify(obj)+'\n','utf8'); } catch {} };
+
+const seen = new Map(); const SEEN_TTL = 60*60*1000;
+
+async function connect() {
+  return mysql.createPool({ host:DB_HOST, port:DB_PORT, user:DB_USER, password:DB_PASS, database:DB_NAME, waitForConnections:true, connectionLimit:5 });
+}
+async function colExists(db, table, col) {
+  const [r] = await db.query(`SELECT 1 FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=? AND TABLE_NAME=? AND COLUMN_NAME=? LIMIT 1`, [DB_NAME, table, col]);
+  return r.length>0;
+}
+function normalizeDid(did) {
+  const digits = String(did||'').replace(/\D/g,'');
+  return digits.slice(-10); // show last 10 digits as your CID
+}
+function processRows(rows, maps) {
+  const now = Date.now();
+  for (const r of rows) {
+    const key = `${r.auto_call_id||''}|${r.phone_number||''}`;
+    if (!key.trim()) continue;
+    const last = seen.get(key)||0;
+    if (now - last < 15000) continue;
+    seen.set(key, now);
+
+    const ac = String(r.phone_number||'').replace(/\D/g,'').slice(0,3);
+    const byAc = maps.acCid.get(`${r.campaign_id}|${ac}`) || '';
+    const byDef = maps.defCid.get(r.campaign_id) || '';
+    const did = normalizeDid(byAc || byDef);
+
+    write({
+      ts: now,
+      type:'call_queued',
+      did,
+      state:'',
+      leadPhone:String(r.phone_number||''),
+      campaign:String(r.campaign_id||''),
+      source:'vicidial_auto_calls'
+    });
+  }
+  for (const [k,t] of seen) if (now - t > SEEN_TTL) seen.delete(k);
+}
+async function loadMaps(db, cmpIds) {
+  const defCid=new Map(), acCid=new Map();
+  if (!cmpIds.length) return {defCid,acCid};
+  try {
+    const [r] = await db.query(
+      `SELECT campaign_id, campaign_cid FROM vicidial_campaigns WHERE campaign_id IN (${cmpIds.map(()=>'?').join(',')})`, cmpIds);
+    r.forEach(x => defCid.set(x.campaign_id, x.campaign_cid||''));
+  } catch {}
+  try {
+    const [r] = await db.query(
+      `SELECT campaign_id, areacode, outbound_cid FROM vicidial_campaign_cid_areacodes WHERE campaign_id IN (${cmpIds.map(()=>'?').join(',')})`, cmpIds);
+    r.forEach(x => acCid.set(`${x.campaign_id}|${x.areacode}`, x.outbound_cid||''));
+  } catch {}
+  return {defCid,acCid};
+}
+async function poll(db){
+  const hasUpd = await colExists(db,'vicidial_auto_calls','last_update_time');
+  const [rows] = await db.query(
+    `SELECT vac.auto_call_id, vac.phone_number, vac.campaign_id
+       FROM vicidial_auto_calls vac
+      ${hasUpd ? `WHERE vac.last_update_time >= NOW() - INTERVAL 60 SECOND ORDER BY vac.last_update_time DESC`
+               : `ORDER BY vac.auto_call_id DESC`}
+      LIMIT 200`
+  );
+  const cmp = Array.from(new Set(rows.map(r=>r.campaign_id).filter(Boolean)));
+  const maps = await loadMaps(db, cmp);
+  processRows(rows, maps);
+}
+(async()=>{
+  console.log('[ui-feed] connecting to Vicidial DB', {DB_HOST,DB_PORT,DB_NAME});
+  const db = await connect();
+  const tick = async()=>{ try{ await poll(db);} catch(e){ console.error('[ui-feed] poll', e.message);} };
+  setInterval(tick, POLL_MS); tick();
+})();

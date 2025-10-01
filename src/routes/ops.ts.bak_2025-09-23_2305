@@ -1,0 +1,191 @@
+import express from "express";
+import fs from "fs/promises";
+import path from "path";
+import mysql from "mysql2/promise";
+
+const router = express.Router();
+
+// ---- CONFIG (reads your .env) ----
+const CAMPAIGN_ID = process.env.VICI_CAMPAIGN_ID || "Campaign";
+const CALLS_PER_DID = Number(process.env.CALLS_PER_DID || 70);
+const AHT_MIN_SECONDS = Number(process.env.AHT_MIN_SECONDS || 90);
+const ROTATE_INTERVAL_SECONDS = Number(process.env.ROTATE_INTERVAL_SECONDS || 90);
+
+// Build our own pool so we don't depend on any other file
+const pool = mysql.createPool({
+  host: process.env.DB_HOST || process.env.VICI_DB_HOST || "127.0.0.1",
+  user: process.env.DB_USER || process.env.VICI_DB_USER || "asterisk",
+  password: process.env.DB_PASS || process.env.VICI_DB_PASS || "",
+  database: process.env.DB_NAME || process.env.VICI_DB_NAME || "asterisk",
+  waitForConnections: true,
+  connectionLimit: 10,
+  namedPlaceholders: true
+});
+
+// data files
+const dataDir = path.join(process.cwd(), "data");
+const pausedFile = path.join(dataDir, "paused_dids.json");
+const npaFile = path.join(dataDir, "state_areacodes.json");
+const cidMapFile = path.join(dataDir, "cid_map.json");
+
+async function loadJSON(file: string, fallback: any) {
+  try { return JSON.parse(await fs.readFile(file, "utf-8")); }
+  catch { return fallback; }
+}
+
+function pct(n: number, d: number) { return d ? Math.round((n / d) * 100) : 0; }
+
+// calls today per DID (midnight->now)
+async function callsTodayPerDid(): Promise<Record<string, number>> {
+  const sql = `
+    SELECT outbound_cid AS did, COUNT(*) AS cnt
+    FROM vicidial_log
+    WHERE call_date >= CURDATE()
+    GROUP BY 1
+  `;
+  const [rows] = await pool.query(sql);
+  const map: Record<string, number> = {};
+  for (const r of rows as any[]) map[(r as any).did] = Number((r as any).cnt);
+  return map;
+}
+
+// AHT per DID in the last hour
+async function ahtPerDidLastHour(): Promise<Record<string, number>> {
+  const sql = `
+    SELECT outbound_cid AS did, ROUND(AVG(length_in_sec)) AS aht
+    FROM vicidial_log
+    WHERE call_date >= NOW() - INTERVAL 1 HOUR
+      AND length_in_sec > 0
+    GROUP BY 1
+  `;
+  const [rows] = await pool.query(sql);
+  const map: Record<string, number> = {};
+  for (const r of rows as any[]) map[(r as any).did] = Number((r as any).aht || 0);
+  return map;
+}
+
+// Determine current active DID for a state by majority mapping in cid_areacodes
+async function activeDidForState(state: string, npas: string[]): Promise<string|null> {
+  if (!npas.length) return null;
+  const placeholders = npas.map(()=>"?").join(",");
+  const sql = `
+    SELECT outbound_cid AS did, COUNT(*) AS c
+    FROM vicidial_campaign_cid_areacodes
+    WHERE campaign_id = ? AND areacode IN (${placeholders})
+    GROUP BY 1
+    ORDER BY c DESC
+    LIMIT 1
+  `;
+  const params = [CAMPAIGN_ID, ...npas];
+  const [rows] = await pool.query(sql, params);
+  const list = rows as any[];
+  return list.length ? list[0].did as string : null;
+}
+
+// ---------- ROUTES ----------
+
+// GET /api/ops/state/NJ
+router.get("/state/:state", async (req, res) => {
+  try {
+    const state = String(req.params.state || "").toUpperCase();
+    const npasMap = await loadJSON(npaFile, {});
+    const npas: string[] = npasMap[state] || [];
+
+    const paused = await loadJSON(pausedFile, {});
+    const cidMap = await loadJSON(cidMapFile, {});   // { "<did>": "NJ", ... }
+    const poolForState = Object.entries(cidMap)
+      .filter(([did, st]) => String(st).toUpperCase() === state)
+      .map(([did]) => String(did));
+
+    const activeDid = await activeDidForState(state, npas);
+    const callsMap = await callsTodayPerDid();
+    const ahtMap = await ahtPerDidLastHour();
+
+    const lists = { active: [] as any[], waiting: [] as any[], exhausted: [] as any[], paused: [] as any[] };
+
+    for (const did of poolForState) {
+      const calls = callsMap[did] || 0;
+      const aht = ahtMap[did] || 0;
+      const status = (did === activeDid) ? "ACTIVE"
+        : (paused[did] ? "PAUSED" : (calls >= CALLS_PER_DID ? "EXHAUSTED" : "WAITING"));
+      const item = { did, callsToday: calls, ahtSec: aht, pctToCap: pct(calls, CALLS_PER_DID), status };
+      (lists as any)[status.toLowerCase()].push(item);
+    }
+
+    res.json({
+      state,
+      caps: { CALLS_PER_DID, AHT_MIN_SECONDS, ROTATE_INTERVAL_SECONDS },
+      activeDid,
+      lists
+    });
+  } catch (e:any) {
+    res.status(500).json({ ok:false, error: e.message });
+  }
+});
+
+// GET /api/ops/vm   (latest 200 AMD calls today)
+router.get("/vm", async (_req, res) => {
+  try {
+    const sql = `
+      SELECT call_date AS time, phone_number AS phone, status,
+             length_in_sec AS len, outbound_cid AS did
+      FROM vicidial_log
+      WHERE call_date >= CURDATE()
+        AND status IN ('AA','AM')
+      ORDER BY call_date DESC
+      LIMIT 200
+    `;
+    const [rows] = await pool.query(sql);
+    const data = (rows as any[]).map(r => ({
+      time: r.time,
+      phone: r.phone,
+      did: r.did,
+      status: r.status,
+      len: Number(r.len || 0),
+      drop_ok: Number(r.len || 0) >= 100 && Number(r.len || 0) <= 120
+    }));
+    res.json({ items: data });
+  } catch (e:any) {
+    res.status(500).json({ ok:false, error: e.message });
+  }
+});
+
+// Pause / Resume DID
+router.post("/did/:did/pause", async (req, res) => {
+  const paused = await loadJSON(pausedFile, {});
+  paused[String(req.params.did)] = true;
+  await fs.writeFile(pausedFile, JSON.stringify(paused, null, 2));
+  res.json({ ok:true });
+});
+router.post("/did/:did/resume", async (req, res) => {
+  const paused = await loadJSON(pausedFile, {});
+  delete paused[String(req.params.did)];
+  await fs.writeFile(pausedFile, JSON.stringify(paused, null, 2));
+  res.json({ ok:true });
+});
+
+// Force-activate a DID for a state (update mapping for all NPAs in that state)
+router.post("/state/:state/activate/:did", async (req, res) => {
+  try {
+    const state = String(req.params.state || "").toUpperCase();
+    const did = String(req.params.did || "");
+    const npasMap = await loadJSON(npaFile, {});
+    const npas: string[] = npasMap[state] || [];
+    if (!npas.length) return res.status(400).json({ ok:false, error:"No NPAs for state" });
+
+    const placeholders = npas.map(()=>"?").join(",");
+    const sql = `
+      UPDATE vicidial_campaign_cid_areacodes
+      SET outbound_cid = ?
+      WHERE campaign_id = ?
+        AND areacode IN (${placeholders})
+    `;
+    const params = [did, CAMPAIGN_ID, ...npas];
+    await pool.query(sql, params);
+    res.json({ ok:true });
+  } catch (e:any) {
+    res.status(500).json({ ok:false, error: e.message });
+  }
+});
+
+export default router;

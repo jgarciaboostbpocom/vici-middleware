@@ -1,0 +1,107 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Controls</title>
+<link rel="stylesheet" href="./style.css"></head><body>
+<!--#include file="_nav.html" -->
+<h2>Controls</h2>
+
+<label>State:
+  <select id="state">
+    <option>NJ</option><option>NY</option><option>TX</option>
+  </select>
+</label>
+<button id="load">Load</button>
+
+<div id="cfg" style="margin-top:12px;display:none">
+  <h3>Rotation Settings</h3>
+  <div style="display:grid;grid-template-columns:160px 1fr;gap:8px;max-width:500px">
+    <label>Cap per DID</label><input id="cap" type="number" min="1">
+    <label>Min AHT (sec)</label><input id="aht" type="number" min="0">
+    <label>Rotate every (sec)</label><input id="rotate" type="number" min="30">
+  </div>
+  <button id="saveCfg">Save settings</button>
+</div>
+
+<hr>
+
+<h3>DID Pool</h3>
+<div id="pool"></div>
+
+<script>
+const qs = s=>document.querySelector(s);
+const api = {
+  loadCfg: (state)=>fetch(`/api/admin/config?state=${encodeURIComponent(state)}`).then(r=>r.json()),
+  saveCfg: (state,cfg)=>fetch(`/api/admin/config`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({state,...cfg})}).then(r=>r.json()),
+  listDIDs: (state)=>fetch(`/api/admin/dids?state=${encodeURIComponent(state)}`).then(r=>r.json()),
+  activate: (state,did)=>fetch(`/api/admin/activate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({state,did})}).then(r=>r.json()),
+  pause: (state,did)=>fetch(`/api/admin/pause`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({state,did})}).then(r=>r.json()),
+  forceRotate: (state,reason)=>fetch(`/api/admin/force-rotate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({state,reason})}).then(r=>r.json()),
+};
+
+qs('#load').onclick = async ()=>{
+  const state = qs('#state').value;
+  const [cfg,dids] = await Promise.all([api.loadCfg(state), api.listDIDs(state)]);
+  qs('#cfg').style.display='block';
+  qs('#cap').value = cfg.cap??10;
+  qs('#aht').value = cfg.ahtMinSec??90;
+  qs('#rotate').value = cfg.rotateEverySec??90;
+
+  const box = qs('#pool'); box.innerHTML='';
+  (dids||[]).forEach(row=>{
+    const div=document.createElement('div'); div.style.margin='6px 0';
+    div.innerHTML = `<b>${row.did}</b> — <i>${row.state}</i> — ${row.status||'WAITING'}
+      <button data-act="activate" data-did="${row.did}">Activate</button>
+      <button data-act="pause" data-did="${row.did}">Pause</button>`;
+    box.appendChild(div);
+  });
+  box.onclick = async (e)=>{
+    const b=e.target; if(b.tagName!=='BUTTON')return;
+    const act=b.dataset.act, did=b.dataset.did;
+    if(!confirm(\`Are you sure you want to \${act} \${did} for \${qs('#state').value}?\`)) return;
+    const res = await api[act](qs('#state').value, did);
+    alert(res?.ok? 'OK' : (res?.error || 'Failed'));
+    qs('#load').click();
+  };
+};
+
+qs('#saveCfg').onclick = async ()=>{
+  const state = qs('#state').value;
+  const res = await api.saveCfg(state, {
+    cap: +qs('#cap').value,
+    ahtMinSec: +qs('#aht').value,
+    rotateEverySec: +qs('#rotate').value
+  });
+  alert(res?.ok? 'Saved' : (res?.error || 'Failed'));
+};
+</script>
+<h3>Calls Today (AC-CID)</h3>
+<div id="calls-stamp" style="font-size:12px;color:#666;margin:6px 0;"></div>
+<table id="calls-table" border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Campaign</th><th>Area</th><th>DID</th><th>Description</th><th>Calls Today</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<script>
+(async function callsTodayLoop(){
+  async function load(){
+    try{
+      const r   = await fetch('/api/ops/calls/today');
+      const arr = await r.json();
+      const tb  = document.querySelector('#calls-table tbody');
+      const ts  = document.getElementById('calls-stamp');
+      tb.innerHTML = '';
+      arr.forEach(row=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML = `<td>${row.campaign_id}</td><td>${row.areacode}</td><td>${row.did}</td>
+                        <td>${row.description||''}</td><td>${row.calls_today}</td>`;
+        tb.appendChild(tr);
+      });
+      ts.textContent = 'Last updated: ' + new Date().toLocaleString();
+    }catch(e){ console.error('calls-today error', e); }
+  }
+  load(); setInterval(load,30000);
+})();
+</script>
+
+</body></html>

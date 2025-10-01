@@ -1,0 +1,64 @@
+const fs = require('fs');
+const path = require('path');
+const mysql = require('mysql2/promise');
+
+const UI_DIR = process.env.UI_EVENTS_DIR || path.join(process.cwd(), 'data/ui_events');
+const POLL_MS = Number(process.env.UI_KPI_POLL_MS || 60000);
+const DB_HOST = process.env.VICI_DB_HOST || '127.0.0.1';
+const DB_PORT = Number(process.env.VICI_DB_PORT || 3306);
+const DB_USER = process.env.VICI_DB_USER || 'cron';
+const DB_PASS = process.env.VICI_DB_PASSWORD || '';
+const DB_NAME = process.env.VICI_DB_DATABASE || 'asterisk';
+
+if (!fs.existsSync(UI_DIR)) fs.mkdirSync(UI_DIR, { recursive: true });
+const todayFile = () => {
+  const d = new Date(); const yyyy = d.getFullYear(), mm = String(d.getMonth()+1).padStart(2,'0'), dd = String(d.getDate()).padStart(2,'0');
+  return path.join(UI_DIR, `events-${yyyy}-${mm}-${dd}.ndjson`);
+};
+const write = (obj) => { try { fs.appendFileSync(todayFile(), JSON.stringify(obj)+'\n', 'utf8'); } catch(e){} };
+
+async function db() {
+  return mysql.createPool({ host: DB_HOST, port: DB_PORT, user: DB_USER, password: DB_PASS, database: DB_NAME, waitForConnections: true, connectionLimit: 5 });
+}
+
+async function tableExists(conn, t) {
+  const [r] = await conn.query(`SELECT 1 FROM information_schema.TABLES WHERE TABLE_SCHEMA=? AND TABLE_NAME=? LIMIT 1`, [DB_NAME, t]);
+  return r.length > 0;
+}
+
+async function snapshot(conn) {
+  const hasMap = await tableExists(conn, 'vicidial_campaign_cid_areacodes');
+
+  // Derive DID per call: COALESCE(per-areacode CID, campaign CID)
+  const sql = hasMap
+    ? `SELECT COALESCE(vcca.outbound_cid, vc.campaign_cid) AS did,
+              COUNT(*) AS calls,
+              AVG(IFNULL(vl.talk_sec,0)) AS aht
+         FROM vicidial_log vl
+    LEFT JOIN vicidial_campaigns vc
+           ON vc.campaign_id = vl.campaign_id
+    LEFT JOIN vicidial_campaign_cid_areacodes vcca
+           ON vcca.campaign_id = vl.campaign_id
+          AND vcca.areacode = LEFT(vl.phone_number,3)
+        WHERE vl.call_date >= CURDATE()
+        GROUP BY did`
+    : `SELECT vc.campaign_cid AS did,
+              COUNT(*) AS calls,
+              AVG(IFNULL(vl.talk_sec,0)) AS aht
+         FROM vicidial_log vl
+    LEFT JOIN vicidial_campaigns vc
+           ON vc.campaign_id = vl.campaign_id
+        WHERE vl.call_date >= CURDATE()
+        GROUP BY vc.campaign_cid`;
+
+  const [rows] = await conn.query(sql);
+  const ts = Date.now();
+  rows.forEach(r => write({ ts, type: 'kpi_snapshot', did: String(r.did||''), callsToday: Number(r.calls)||0, ahtSec: Number(r.aht)||0 }));
+}
+
+(async () => {
+  const conn = await db();
+  const tick = async () => { try { await snapshot(conn); } catch(e){ console.error('[ui-kpi] snapshot', e.message); } };
+  setInterval(tick, POLL_MS);
+  tick();
+})();
