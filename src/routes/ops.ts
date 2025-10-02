@@ -52,7 +52,7 @@ async function q_callsToday(): Promise<Record<string, number>> {
   return safe(async () => {
     const sql = `
       SELECT TRIM(v.outbound_cid) AS did, COUNT(*) AS cnt
-      FROM vicidial_dial_log v
+      FROM vicidial_log v
       WHERE v.call_date >= CURDATE()
         AND v.outbound_cid IS NOT NULL
         AND v.outbound_cid <> ''
@@ -163,7 +163,7 @@ async function vmItems() {
   return safe(async () => {
     const sql = `
       SELECT l.call_date AS time,
-             l.phone_number AS phone,
+             l.lead_id AS phone,
              TRIM(d.outbound_cid) AS did,
              l.status,
              l.length_in_sec AS len
@@ -258,7 +258,7 @@ router.get("/api/ops/debug/aht",   async (_req, res) => res.json(await q_aht()))
 router.get("/ui-v2/debug/calls",   async (_req, res) => res.json(await q_callsToday()));
 router.get("/ui-v2/debug/aht",     async (_req, res) => res.json(await q_aht()));
 // --- AC-CID: calls today straight from vicidial_campaign_cid_areacodes ---
-router.get('/calls/today', async (req, res) => {
+router.get('/calls/today-disabled', async (req, res) => {
   try {
     const qCampaign =
       (req.query.campaign_id as string) || process.env.VICI_DEFAULT_CAMPAIGN_ID || '';

@@ -8,6 +8,7 @@ const admin_alias_1 = __importDefault(require("./routes/admin.alias"));
 const ops_2 = __importDefault(require("./routes/ops"));
 const mount_1 = require("./uiV2/mount");
 const express_1 = __importDefault(require("express"));
+const stats_1 = __importDefault(require("./routes/stats"));
 const path_1 = __importDefault(require("path"));
 const config_1 = require("./config");
 const health_1 = require("./routes/health");
@@ -21,6 +22,7 @@ const calls_ac_1 = __importDefault(require("./routes/calls_ac"));
 app.use('/api/ops', calls_ac_1.default); // <-- mount first so it wins for /api/ops/calls/today
 app.use('/api/ops', ops_1.default); // mounts /api/ops/* and /ui-v2/* routes so the UI works
 app.use(express_1.default.json());
+app.use('/api', stats_1.default);
 app.use('/api', admin_alias_1.default);
 app.use("/api/ops", ops_2.default);
 // Admin token auth (header: x-admin-token)
@@ -72,3 +74,4 @@ if (String(process.env.UI_V2_ENABLED || '').toLowerCase() === 'true') {
     console.log('[ui-v2] mounted at', uiPath, 'static dir:', staticDir);
 }
 // ===== UI v2 (read-only) END =====
+app.use('/api', stats_1.default);

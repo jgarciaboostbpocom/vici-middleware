@@ -4,6 +4,7 @@ import ops from "./routes/ops";
 import { mountUIv2 } from './uiV2/mount';
 import { logUiEvent } from './uiV2/uiEvents';
 import express from 'express';
+import stats from './routes/stats';
 import path from 'path';
 import { config } from './config';
 import { healthRouter } from './routes/health';
@@ -18,6 +19,7 @@ import callsAC from './routes/calls_ac';
 app.use('/api/ops', callsAC);   // <-- mount first so it wins for /api/ops/calls/today
 app.use('/api/ops', opsRouter); // mounts /api/ops/* and /ui-v2/* routes so the UI works
 app.use(express.json());
+app.use('/api', stats);
 app.use('/api', adminAlias);
 app.use("/api/ops", ops);
 
@@ -71,3 +73,4 @@ if (String(process.env.UI_V2_ENABLED || '').toLowerCase() === 'true') {
   console.log('[ui-v2] mounted at', uiPath, 'static dir:', staticDir);
 }
 // ===== UI v2 (read-only) END =====
+app.use('/api', stats);
