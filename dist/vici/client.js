@@ -71,7 +71,7 @@ async function fetchLiveCalls() {
     }
     const since = lastPollIso ? lastPollIso : new Date(Date.now() - 60000).toISOString().slice(0, 19).replace('T', ' ');
     const nowIso = isoNow();
-    const [rows] = await (await db).query(`SELECT call_date, length_in_sec, status, phone_number
+    const [rows] = await (await db).query(`SELECT call_date, length_in_sec, length_in_sec, status, phone_number
        FROM vicidial_log
       WHERE call_date > ? AND call_date <= ?
         AND campaign_id = ?
