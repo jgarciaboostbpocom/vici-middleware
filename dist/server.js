@@ -19,7 +19,7 @@ const import_1 = require("./routes/import");
 const logger_1 = require("./logger");
 const app = (0, express_1.default)();
 const calls_ac_1 = __importDefault(require("./routes/calls_ac"));
-/* disabled */ // app.use('/api/ops', calls_ac_1.default); // <-- mount first so it wins for /api/ops/calls/today
+app.use('/api/ops', calls_ac_1.default); // <-- mount first so it wins for /api/ops/calls/today
 app.use('/api/ops', ops_1.default); // mounts /api/ops/* and /ui-v2/* routes so the UI works
 app.use(express_1.default.json());
 app.use('/api', stats_1.default);
