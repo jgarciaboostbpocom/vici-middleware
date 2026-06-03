@@ -1,8 +1,6 @@
 import opsRouter from "./routes/ops";
 import adminAlias from './routes/admin.alias';
-import ops from "./routes/ops";
 import { mountUIv2 } from './uiV2/mount';
-import { logUiEvent } from './uiV2/uiEvents';
 import express from 'express';
 import stats from './routes/stats';
 import path from 'path';
@@ -21,8 +19,6 @@ app.use('/api/ops', opsRouter); // mounts /api/ops/* and /ui-v2/* routes so the 
 app.use(express.json());
 app.use('/api', stats);
 app.use('/api', adminAlias);
-app.use("/api/ops", ops);
-
 
 // Admin token auth (header: x-admin-token)
 const adminAuth = (req: any, res: any, next: any) => {
@@ -38,39 +34,11 @@ app.use('/admin', adminAuth, adminRouter);
 app.use('/admin/dids', adminAuth, didsRouter);
 app.use('/admin/events', adminAuth, eventsRouter);
 app.use('/admin/import', adminAuth, importRouter);
-app.use('/api/ops', opsRouter);
 
 // Serve admin UI
 const ADMIN_HTML = '/opt/vici-mw/public/admin.html';
 app.get('/', (_req, res) => res.sendFile(ADMIN_HTML));
 app.use('/static', express.static(path.join('/opt/vici-mw', 'public')));
 
-// ===== UI v2 (read-only) MOUNT =====
-try {
-  if (String(process.env.UI_V2_ENABLED || "").toLowerCase() === "true") {
-    const uiRouter = require("./uiV2/router").default || require("./uiV2/router");
-    app.use("/api/ui-v2", uiRouter);
-    const uiPath = process.env.UI_V2_PATH || "/ui-v2";
-    const staticDir = require("path").join(__dirname, "../public/ui-v2");
-    app.use(uiPath, require("express").static(staticDir));
-    console.log("[ui-v2] mounted at", uiPath, "dir:", staticDir);
-  }
-} catch (e) { console.warn('[ui-v2] mount skipped'); }
-// ===== UI v2 (read-only) MOUNT END =====
 mountUIv2(app);
 app.listen(config.port, () => logger.info({ port: config.port }, 'Middleware listening'));
-
-// ===== UI v2 (read-only) BEGIN =====
-// import path from 'path';
-import uiRouter from './uiV2/router';
-
-if (String(process.env.UI_V2_ENABLED || '').toLowerCase() === 'true') {
-  app.use('/api/ui-v2', uiRouter);
-  const uiPath = process.env.UI_V2_PATH || '/ui-v2';
-  // __dirname at runtime will be .../dist, so ../public/ui-v2 is correct
-  const staticDir = path.join(__dirname, '../public/ui-v2');
-  app.use(uiPath, require('express').static(staticDir));
-  console.log('[ui-v2] mounted at', uiPath, 'static dir:', staticDir);
-}
-// ===== UI v2 (read-only) END =====
-app.use('/api', stats);
