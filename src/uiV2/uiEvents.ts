@@ -22,6 +22,7 @@ function prevDayFile(): string {
 export function logUiEvent(type: string, details: Record<string, any> = {}): void {
   try {
     const evt = { ts: Date.now(), type, ...details };
+    fs.mkdirSync(EVENTS_DIR, { recursive: true });
     fs.appendFileSync(todayFile(), JSON.stringify(evt) + '\n', { encoding: 'utf8' });
   } catch (e: any) {
     console.error('[ui-events] write-failed', e?.message || e);
