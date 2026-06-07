@@ -30,6 +30,7 @@ export const config = {
   didSelectionV2: {
     enabled: boolEnv('DID_SELECTION_V2_ENABLED', false),
     dryRun: boolEnv('DID_SELECTION_V2_DRY_RUN', true),
+    persistObservations: boolEnv('DID_SELECTION_V2_PERSIST_OBSERVATIONS', false),
   },
   port: Number(process.env.PORT || 3000),
   adminToken: process.env.ADMIN_TOKEN || '',

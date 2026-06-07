@@ -85,6 +85,7 @@ export type CoverageAlert = {
   active: boolean;
   clearedAt?: string | null;
   clearedReason?: string | null;
+  metadata?: Record<string, unknown>;
 };
 
 export type LeadExclusion = {
@@ -97,6 +98,7 @@ export type LeadExclusion = {
   active: boolean;
   clearedAt?: string | null;
   clearedReason?: string | null;
+  metadata?: Record<string, unknown>;
 };
 
 export type DidStoreV2 = {

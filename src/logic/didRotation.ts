@@ -1,12 +1,23 @@
 import { logUiEvent } from '../uiV2/uiEvents';
 import { logger } from '../logger';
 import { memory } from '../storage/memory';
-import { getPool, getStates, getActiveDidForState, loadDidStore, setActiveDidForState } from '../storage/dids';
+import {
+  getPool,
+  getStates,
+  getActiveDidForState,
+  loadDidStore,
+  setActiveDidForState,
+  upsertCoverageAlert,
+  upsertLeadExclusion,
+  type CoverageAlert,
+  type LeadExclusion,
+} from '../storage/dids';
 import { config } from '../config';
 import { updateAcCidForState } from '../vici/client';
 import { addSwitch } from '../storage/events';
 import {
   buildDidSelectionV2DryRunEvent,
+  type DidSelectionV2DryRunEvent,
   type DidSelectionV2DryRunInput,
 } from './didSelectionDryRun';
 
@@ -26,6 +37,10 @@ function didSelectionV2DryRunEnabled(): boolean {
   return config.didSelectionV2.enabled && config.didSelectionV2.dryRun;
 }
 
+function didSelectionV2ObservationPersistenceEnabled(): boolean {
+  return didSelectionV2DryRunEnabled() && config.didSelectionV2.persistObservations;
+}
+
 async function recordDidSelectionV2DryRun(input: DryRunInput): Promise<void> {
   if (!didSelectionV2DryRunEnabled()) return;
 
@@ -33,9 +48,49 @@ async function recordDidSelectionV2DryRun(input: DryRunInput): Promise<void> {
     const store = await loadDidStore();
     const event = buildDidSelectionV2DryRunEvent({ ...input, store });
     logUiEvent('did_selection_v2_dry_run', event);
+    await persistDidSelectionV2Observations(event);
   } catch (err: any) {
     logger.warn({ err: err?.message || err, state: input.state }, 'did-selection-v2-dry-run-failed');
   }
+}
+
+async function persistDidSelectionV2Observations(event: DidSelectionV2DryRunEvent): Promise<void> {
+  if (!didSelectionV2ObservationPersistenceEnabled()) return;
+
+  const metadata = {
+    source: 'did_selection_v2_dry_run',
+    mode: event.mode,
+    state: event.state,
+    strategy: event.strategy,
+    selectedDid: event.selectedDid,
+    currentActiveDid: event.currentActiveDid,
+    currentLogicDid: event.currentLogicDid,
+    currentLogicReason: event.currentLogicReason,
+    fallbackUsed: event.fallbackUsed,
+    leadPhone: event.leadPhone,
+    areaCode: event.areaCode,
+  };
+
+  await Promise.all([
+    ...event.coverageAlerts.map(alert => upsertCoverageAlert(withObservationMetadata(alert, metadata))),
+    ...event.leadExclusions.map(exclusion => upsertLeadExclusion(withObservationMetadata(exclusion, metadata))),
+  ]);
+}
+
+function withObservationMetadata<T extends CoverageAlert | LeadExclusion>(
+  record: T,
+  metadata: Record<string, unknown>,
+): T {
+  return {
+    ...record,
+    active: true,
+    clearedAt: null,
+    clearedReason: null,
+    metadata: {
+      ...(record.metadata || {}),
+      ...metadata,
+    },
+  };
 }
 
 export async function rotateStateIfNeeded(state: string) {
