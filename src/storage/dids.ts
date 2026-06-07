@@ -83,6 +83,8 @@ export type CoverageAlert = {
   fallbackDid?: string | null;
   fallbackState?: string | null;
   active: boolean;
+  clearedAt?: string | null;
+  clearedReason?: string | null;
 };
 
 export type LeadExclusion = {
@@ -94,6 +96,7 @@ export type LeadExclusion = {
   reason: 'MISSING_AREA_COVERAGE' | 'MISSING_STATE_COVERAGE' | 'NO_APPROVED_FALLBACK';
   active: boolean;
   clearedAt?: string | null;
+  clearedReason?: string | null;
 };
 
 export type DidStoreV2 = {
@@ -347,6 +350,92 @@ export async function loadDidStore(): Promise<DidStoreV2> {
 
 export async function saveDidStore(store: DidStoreV2): Promise<void> {
   await writeRawStore(normalizeV2(store));
+}
+
+export async function getCoverageAlerts(): Promise<CoverageAlert[]> {
+  return (await loadDidStore()).coverage.missing;
+}
+
+export async function upsertCoverageAlert(alert: CoverageAlert): Promise<CoverageAlert> {
+  const store = await loadDidStore();
+  const now = new Date().toISOString();
+  const id = String(alert.id || '').trim();
+  const existingIndex = store.coverage.missing.findIndex(item => item.id === id);
+  const existing = existingIndex >= 0 ? store.coverage.missing[existingIndex] : null;
+  const next: CoverageAlert = {
+    ...(existing || {}),
+    ...alert,
+    id,
+    createdAt: alert.createdAt || existing?.createdAt || now,
+    updatedAt: now,
+    active: alert.active ?? existing?.active ?? true,
+    clearedAt: alert.active === false ? alert.clearedAt || existing?.clearedAt || now : alert.clearedAt ?? null,
+    clearedReason: alert.active === false ? alert.clearedReason ?? existing?.clearedReason ?? null : alert.clearedReason ?? null,
+  };
+
+  if (existingIndex >= 0) store.coverage.missing[existingIndex] = next;
+  else store.coverage.missing.push(next);
+
+  await saveDidStore(store);
+  return next;
+}
+
+export async function clearCoverageAlert(id: string, reason?: string): Promise<CoverageAlert | null> {
+  const store = await loadDidStore();
+  const alert = store.coverage.missing.find(item => item.id === String(id || '').trim());
+  if (!alert) return null;
+
+  const now = new Date().toISOString();
+  alert.active = false;
+  alert.updatedAt = now;
+  alert.clearedAt = now;
+  alert.clearedReason = reason || alert.clearedReason || null;
+
+  await saveDidStore(store);
+  return alert;
+}
+
+export async function getLeadExclusions(): Promise<LeadExclusion[]> {
+  return (await loadDidStore()).leadExclusions;
+}
+
+export async function upsertLeadExclusion(exclusion: LeadExclusion): Promise<LeadExclusion> {
+  const store = await loadDidStore();
+  const now = new Date().toISOString();
+  const id = String(exclusion.id || '').trim();
+  const existingIndex = store.leadExclusions.findIndex(item => item.id === id);
+  const existing = existingIndex >= 0 ? store.leadExclusions[existingIndex] : null;
+  const next: LeadExclusion = {
+    ...(existing || {}),
+    ...exclusion,
+    id,
+    createdAt: exclusion.createdAt || existing?.createdAt || now,
+    updatedAt: now,
+    active: exclusion.active ?? existing?.active ?? true,
+    clearedAt: exclusion.active === false ? exclusion.clearedAt || existing?.clearedAt || now : exclusion.clearedAt ?? null,
+    clearedReason: exclusion.active === false ? exclusion.clearedReason ?? existing?.clearedReason ?? null : exclusion.clearedReason ?? null,
+  };
+
+  if (existingIndex >= 0) store.leadExclusions[existingIndex] = next;
+  else store.leadExclusions.push(next);
+
+  await saveDidStore(store);
+  return next;
+}
+
+export async function clearLeadExclusion(id: string, reason?: string): Promise<LeadExclusion | null> {
+  const store = await loadDidStore();
+  const exclusion = store.leadExclusions.find(item => item.id === String(id || '').trim());
+  if (!exclusion) return null;
+
+  const now = new Date().toISOString();
+  exclusion.active = false;
+  exclusion.updatedAt = now;
+  exclusion.clearedAt = now;
+  exclusion.clearedReason = reason || exclusion.clearedReason || null;
+
+  await saveDidStore(store);
+  return exclusion;
 }
 
 export async function getDidInventory(): Promise<DidRecord[]> {

@@ -1,18 +1,26 @@
 import { Router } from 'express';
 import {
   addDid,
+  clearCoverageAlert,
+  clearLeadExclusion,
+  getCoverageAlerts,
   getActiveDidForState,
   getDidByNumber,
   getDidInventory,
   getItems,
+  getLeadExclusions,
   getStates,
   loadDidStore,
   removeDid,
   saveDidStore,
   setActiveDidForState,
   setDidState,
+  upsertCoverageAlert,
+  upsertLeadExclusion,
+  type CoverageAlert,
   type DidRecord,
   type DidStatus,
+  type LeadExclusion,
   type RotationEvent,
 } from '../storage/dids';
 import { memory } from '../storage/memory';
@@ -32,6 +40,8 @@ type JsonResponse = {
 
 const MAX_HISTORY = 100;
 const PATCH_STATUSES = new Set<DidStatus>(['available', 'active', 'spam_risk', 'burned']);
+const COVERAGE_ALERT_REASONS = new Set<CoverageAlert['reason']>(['NO_AREA_DID', 'NO_STATE_DID', 'FALLBACK_USED', 'NO_APPROVED_FALLBACK']);
+const LEAD_EXCLUSION_REASONS = new Set<LeadExclusion['reason']>(['MISSING_AREA_COVERAGE', 'MISSING_STATE_COVERAGE', 'NO_APPROVED_FALLBACK']);
 
 didsRouter.get('/', async (_req, res) => {
   try {
@@ -103,6 +113,76 @@ didsRouter.post('/active', async (req, res) => {
     await setActiveDidForState(state.value, did.value);
     memory.setActiveDid(state.value, did.value);
     res.json({ ok: true, state: state.value, activeDid: did.value, record: toDidHealth(record) });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+didsRouter.get('/coverage/alerts', async (_req, res) => {
+  try {
+    res.json({ ok: true, alerts: await getCoverageAlerts() });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+didsRouter.post('/coverage/alerts', async (req, res) => {
+  const alert = parseCoverageAlert(req.body || {});
+  if (!alert.ok) return sendError(res, 400, alert.error);
+
+  try {
+    res.json({ ok: true, alert: await upsertCoverageAlert(alert.value) });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+didsRouter.post('/coverage/alerts/:id/clear', async (req, res) => {
+  const id = parseRecordId(req.params.id, 'id');
+  if (!id.ok) return sendError(res, 400, id.error);
+
+  const reason = parseReason(req.body?.reason, false);
+  if (!reason.ok) return sendError(res, 400, reason.error);
+
+  try {
+    const alert = await clearCoverageAlert(id.value, reason.value || undefined);
+    if (!alert) return sendError(res, 404, 'coverage alert not found');
+    res.json({ ok: true, alert });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+didsRouter.get('/lead-exclusions', async (_req, res) => {
+  try {
+    res.json({ ok: true, leadExclusions: await getLeadExclusions() });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+didsRouter.post('/lead-exclusions', async (req, res) => {
+  const exclusion = parseLeadExclusion(req.body || {});
+  if (!exclusion.ok) return sendError(res, 400, exclusion.error);
+
+  try {
+    res.json({ ok: true, leadExclusion: await upsertLeadExclusion(exclusion.value) });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+didsRouter.post('/lead-exclusions/:id/clear', async (req, res) => {
+  const id = parseRecordId(req.params.id, 'id');
+  if (!id.ok) return sendError(res, 400, id.error);
+
+  const reason = parseReason(req.body?.reason, false);
+  if (!reason.ok) return sendError(res, 400, reason.error);
+
+  try {
+    const exclusion = await clearLeadExclusion(id.value, reason.value || undefined);
+    if (!exclusion) return sendError(res, 404, 'lead exclusion not found');
+    res.json({ ok: true, leadExclusion: exclusion });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -514,6 +594,98 @@ function parsePatch(body: Record<string, unknown>): ValidationResult<{
   return { ok: true, value: out };
 }
 
+function parseCoverageAlert(input: unknown): ValidationResult<CoverageAlert> {
+  const body = parseObject(input);
+  if (!body.ok) return body;
+
+  const id = parseRecordId(body.value.id, 'id');
+  if (!id.ok) return id;
+
+  const reason = parseCoverageAlertReason(body.value.reason);
+  if (!reason.ok) return reason;
+
+  const active = parseBoolean(body.value.active, 'active', true);
+  if (!active.ok) return active;
+
+  const createdAt = parseOptionalTimestamp(body.value.createdAt, 'createdAt');
+  if (!createdAt.ok) return createdAt;
+
+  const alert: CoverageAlert = {
+    id: id.value,
+    createdAt: createdAt.value || new Date().toISOString(),
+    reason: reason.value,
+    active: active.value,
+  };
+
+  if (has(body.value, 'areaCode')) {
+    const areaCode = parseAreaCode(body.value.areaCode, 'areaCode');
+    if (!areaCode.ok) return areaCode;
+    alert.areaCode = areaCode.value;
+  }
+
+  if (has(body.value, 'state')) {
+    const state = parseState(body.value.state, 'state');
+    if (!state.ok) return state;
+    alert.state = state.value;
+  }
+
+  if (has(body.value, 'fallbackDid')) {
+    const fallbackDid = parseNullableDid(body.value.fallbackDid, 'fallbackDid');
+    if (!fallbackDid.ok) return fallbackDid;
+    alert.fallbackDid = fallbackDid.value;
+  }
+
+  if (has(body.value, 'fallbackState')) {
+    const fallbackState = parseNullableState(body.value.fallbackState, 'fallbackState');
+    if (!fallbackState.ok) return fallbackState;
+    alert.fallbackState = fallbackState.value;
+  }
+
+  return { ok: true, value: alert };
+}
+
+function parseLeadExclusion(input: unknown): ValidationResult<LeadExclusion> {
+  const body = parseObject(input);
+  if (!body.ok) return body;
+
+  const id = parseRecordId(body.value.id, 'id');
+  if (!id.ok) return id;
+
+  const reason = parseLeadExclusionReason(body.value.reason);
+  if (!reason.ok) return reason;
+
+  const active = parseBoolean(body.value.active, 'active', true);
+  if (!active.ok) return active;
+
+  const createdAt = parseOptionalTimestamp(body.value.createdAt, 'createdAt');
+  if (!createdAt.ok) return createdAt;
+
+  const clearedAt = parseOptionalTimestamp(body.value.clearedAt, 'clearedAt');
+  if (!clearedAt.ok) return clearedAt;
+
+  const exclusion: LeadExclusion = {
+    id: id.value,
+    createdAt: createdAt.value || new Date().toISOString(),
+    reason: reason.value,
+    active: active.value,
+    clearedAt: clearedAt.value || null,
+  };
+
+  if (has(body.value, 'areaCode')) {
+    const areaCode = parseAreaCode(body.value.areaCode, 'areaCode');
+    if (!areaCode.ok) return areaCode;
+    exclusion.areaCode = areaCode.value;
+  }
+
+  if (has(body.value, 'state')) {
+    const state = parseState(body.value.state, 'state');
+    if (!state.ok) return state;
+    exclusion.state = state.value;
+  }
+
+  return { ok: true, value: exclusion };
+}
+
 function parseDidNumber(value: unknown, field: string): ValidationResult<string> {
   let digits = String(value || '').replace(/\D/g, '');
   if (digits.length === 11 && digits.startsWith('1')) digits = digits.slice(1);
@@ -521,9 +693,22 @@ function parseDidNumber(value: unknown, field: string): ValidationResult<string>
   return { ok: true, value: digits };
 }
 
+function parseRecordId(value: unknown, field: string): ValidationResult<string> {
+  const id = String(value || '').trim();
+  if (!/^[A-Za-z0-9][A-Za-z0-9:_.-]{0,199}$/.test(id)) {
+    return { ok: false, error: `${field} must be 1-200 characters and contain only letters, numbers, colon, underscore, dash, or dot` };
+  }
+  return { ok: true, value: id };
+}
+
 function parseNullableDid(value: unknown, field: string): ValidationResult<string | null> {
   if (value === null || value === undefined || value === '') return { ok: true, value: null };
   return parseDidNumber(value, field);
+}
+
+function parseNullableState(value: unknown, field: string): ValidationResult<string | null> {
+  if (value === null || value === undefined || value === '') return { ok: true, value: null };
+  return parseState(value, field);
 }
 
 function parseState(value: unknown, field: string): ValidationResult<string> {
@@ -543,6 +728,18 @@ function parsePatchStatus(value: unknown): ValidationResult<DidStatus> {
   const status = String(value || '').trim().toLowerCase() as DidStatus;
   if (PATCH_STATUSES.has(status)) return { ok: true, value: status };
   return { ok: false, error: 'status must be one of available, active, spam_risk, burned; use dedicated endpoints for pause, cooldown, reactivate, or remove' };
+}
+
+function parseCoverageAlertReason(value: unknown): ValidationResult<CoverageAlert['reason']> {
+  const reason = String(value || '').trim().toUpperCase() as CoverageAlert['reason'];
+  if (COVERAGE_ALERT_REASONS.has(reason)) return { ok: true, value: reason };
+  return { ok: false, error: 'reason must be one of NO_AREA_DID, NO_STATE_DID, FALLBACK_USED, NO_APPROVED_FALLBACK' };
+}
+
+function parseLeadExclusionReason(value: unknown): ValidationResult<LeadExclusion['reason']> {
+  const reason = String(value || '').trim().toUpperCase() as LeadExclusion['reason'];
+  if (LEAD_EXCLUSION_REASONS.has(reason)) return { ok: true, value: reason };
+  return { ok: false, error: 'reason must be one of MISSING_AREA_COVERAGE, MISSING_STATE_COVERAGE, NO_APPROVED_FALLBACK' };
 }
 
 function parseReason(value: unknown, required: boolean): ValidationResult<string> {
@@ -581,6 +778,29 @@ function parsePositiveInteger(value: unknown, field: string): ValidationResult<n
   const num = Number(value);
   if (!Number.isInteger(num) || num <= 0) return { ok: false, error: `${field} must be a positive integer` };
   return { ok: true, value: num };
+}
+
+function parseObject(value: unknown): ValidationResult<Record<string, unknown>> {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) return { ok: false, error: 'request body must be an object' };
+  return { ok: true, value: value as Record<string, unknown> };
+}
+
+function parseBoolean(value: unknown, field: string, fallback: boolean): ValidationResult<boolean> {
+  if (value === undefined) return { ok: true, value: fallback };
+  if (typeof value === 'boolean') return { ok: true, value };
+  if (typeof value === 'string') {
+    const normalized = value.trim().toLowerCase();
+    if (['1', 'true', 'yes', 'on'].includes(normalized)) return { ok: true, value: true };
+    if (['0', 'false', 'no', 'off'].includes(normalized)) return { ok: true, value: false };
+  }
+  return { ok: false, error: `${field} must be a boolean` };
+}
+
+function parseOptionalTimestamp(value: unknown, field: string): ValidationResult<string | null> {
+  if (value === undefined || value === null || value === '') return { ok: true, value: null };
+  const date = new Date(String(value));
+  if (!Number.isFinite(date.getTime())) return { ok: false, error: `${field} must be a valid date/time` };
+  return { ok: true, value: date.toISOString() };
 }
 
 function has(obj: Record<string, unknown>, key: string): boolean {
