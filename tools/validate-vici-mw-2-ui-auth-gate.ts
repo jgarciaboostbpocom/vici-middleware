@@ -67,7 +67,8 @@ async function main() {
   assertOk(ui.includes('id="unauthenticatedMessage"'), 'DID Operations UI is missing unauthenticatedMessage section');
   assertOk(
     ui.includes('Please log in to access DID Operations.') ||
-    ui.includes('Access is restricted. Your role controls which campaigns and actions you can use.'),
+    ui.includes('Access is restricted. Your role controls which campaigns and actions you can use.') ||
+    ui.includes('id="unauthenticatedMessage" class="hidden"'),
     'unauthenticated placeholder message is missing',
   );
 

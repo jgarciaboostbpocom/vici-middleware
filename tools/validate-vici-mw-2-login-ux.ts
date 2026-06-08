@@ -35,12 +35,9 @@ async function main() {
   assertOk(ui.includes('class="login-card"'), 'centered login card is missing');
   assertOk(ui.includes('class="login-title">DID Operations</h2>'), 'primary login title is missing');
   assertOk(
-    ui.includes('Sign in to manage DID inventory, campaign rules, alerts, and dry-run observations.'),
+    ui.includes('Sign in to manage DID inventory, campaign rules, alerts, and dry-run observations.') ||
+    ui.includes('Sign in to continue.'),
     'primary login subtitle is missing',
-  );
-  assertOk(
-    ui.includes('Access is restricted. Your role controls which campaigns and actions you can use.'),
-    'restricted access helper text is missing',
   );
   assertOk(!ui.includes('<h2>Authentication Required</h2>'), 'duplicate Authentication Required card still exists');
 
@@ -70,12 +67,15 @@ async function main() {
 
   assertOk(ui.includes('Temporary legacy admin-token fallback'), 'legacy fallback is not labeled temporary');
   assertOk(ui.includes('Use only during migration. Prefer username/password login.'), 'legacy fallback warning is missing');
+  assertOk(ui.includes('id="legacyFallbackPanel" class="legacy-fallback hidden"'), 'legacy fallback is not hidden by default');
+  assertOk(ui.includes('function showLegacyFallback()'), 'legacy fallback query-param gate is missing');
+  assertOk(ui.includes("get('legacy') === '1'"), 'legacy fallback is not gated by legacy=1');
   assertOk(ui.includes("h['x-admin-token'] = token"), 'legacy x-admin-token fallback support is missing');
 
   const renderAuth = functionBlock(ui, 'renderAuth');
-  assertOk(renderAuth.includes("$('#currentRole').classList.toggle('hidden', !authenticated)"), 'role badge is not hidden while unauthenticated');
-  assertOk(renderAuth.includes("$('#currentAuthSource').classList.toggle('hidden', !authenticated)"), 'auth badge is not hidden while unauthenticated');
-  assertOk(renderAuth.includes("$('#logout').classList.toggle('hidden', !authenticated)"), 'logout button is not hidden while unauthenticated');
+  assertOk(renderAuth.includes("$('#authenticatedNavLinks').classList.toggle('hidden', !authenticated)"), 'authenticated nav links are not hidden while unauthenticated');
+  assertOk(renderAuth.includes("$('#authenticatedHeaderControls').classList.toggle('hidden', !authenticated)"), 'header auth controls are not hidden while unauthenticated');
+  assertOk(renderAuth.includes("$('#statusToolbar').classList.toggle('hidden', !authenticated)"), 'status toolbar is not hidden while unauthenticated');
   assertOk(renderAuth.includes("$('#refresh').className = authenticated ? 'primary' : ''"), 'refresh button remains primary while unauthenticated');
 
   const login = functionBlock(ui, 'login');

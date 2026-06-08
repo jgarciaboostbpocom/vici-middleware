@@ -159,6 +159,10 @@ DID Operations hides protected operational data until a session or temporary leg
 
 Phase 6C polishes the unauthenticated DID Operations screen into a focused login view and makes the temporary legacy fallback secondary. This does not change backend authentication, RBAC enforcement, protected endpoint behavior, live Vicidial behavior, scheduler behavior, or selector v2 live status.
 
+## Phase 6D Clean Login Screen
+
+Phase 6D simplifies the unauthenticated DID Operations screen to a login-only view. Authenticated navigation and status controls are hidden before login, and the legacy admin-token fallback is hidden from the normal login flow unless explicitly requested for migration support. Backend RBAC and all protected endpoint enforcement remain unchanged.
+
 ## Admin V2 Endpoints
 
 Admin v2 endpoints are mounted behind session-aware auth, except login and first-user bootstrap:

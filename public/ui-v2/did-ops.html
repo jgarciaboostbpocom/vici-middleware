@@ -65,7 +65,7 @@
       padding: 28px 0 44px;
     }
     .login-card {
-      width: min(520px, 100%);
+      width: min(460px, 100%);
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -341,10 +341,12 @@
 <body>
   <header>
     <h1>DID Operations</h1>
-    <span class="badge info">Admin</span>
-    <a href="/">Legacy Admin</a>
-    <a href="index.html">Dashboard v2</a>
-    <div class="right row">
+    <span id="authenticatedNavLinks" class="row">
+      <span class="badge info">Admin</span>
+      <a href="/">Legacy Admin</a>
+      <a href="index.html">Dashboard v2</a>
+    </span>
+    <div id="authenticatedHeaderControls" class="right row">
       <span id="currentUser" class="badge info">Not signed in</span>
       <span id="currentRole" class="badge info">Role -</span>
       <span id="currentAuthSource" class="badge info">Auth none</span>
@@ -354,7 +356,7 @@
   </header>
 
   <main>
-    <div class="toolbar">
+    <div id="statusToolbar" class="toolbar">
       <span id="status" class="status-line muted">Loading...</span>
       <span id="updated" class="small muted"></span>
     </div>
@@ -362,7 +364,7 @@
     <section id="loginPanel" class="login-shell">
       <div class="login-card">
         <h2 class="login-title">DID Operations</h2>
-        <p class="login-subtitle">Sign in to manage DID inventory, campaign rules, alerts, and dry-run observations.</p>
+        <p class="login-subtitle">Sign in to continue.</p>
         <form class="login-form" onsubmit="event.preventDefault(); login();">
           <label class="field">
             <span class="small muted">Username</span>
@@ -373,10 +375,10 @@
             <input id="loginPassword" type="password" autocomplete="current-password" />
           </label>
           <button id="login" class="primary" type="submit">Login</button>
-          <span id="loginStatus" class="status-line muted">Please sign in.</span>
-          <p id="unauthenticatedMessage" class="small muted login-safety">Access is restricted. Your role controls which campaigns and actions you can use.</p>
+          <span id="loginStatus" class="status-line muted"></span>
+          <span id="unauthenticatedMessage" class="hidden"></span>
         </form>
-        <details class="legacy-fallback">
+        <details id="legacyFallbackPanel" class="legacy-fallback hidden">
           <summary>Temporary legacy admin-token fallback</summary>
           <p class="small muted login-safety">Use only during migration. Prefer username/password login.</p>
           <div class="login-form" style="margin-top:12px">
@@ -674,9 +676,9 @@ function renderAuth() {
   $('#currentAuthSource').textContent = `Auth ${state.auth.authSource || 'none'}`;
   $('#currentAuthSource').className = `badge ${state.auth.authSource === 'session' ? 'ok' : state.auth.authSource === 'admin_token_fallback' ? 'warn' : 'info'}`;
   $('#logout').disabled = !user && !getSessionToken() && !getToken();
-  $('#currentRole').classList.toggle('hidden', !authenticated);
-  $('#currentAuthSource').classList.toggle('hidden', !authenticated);
-  $('#logout').classList.toggle('hidden', !authenticated);
+  $('#authenticatedNavLinks').classList.toggle('hidden', !authenticated);
+  $('#authenticatedHeaderControls').classList.toggle('hidden', !authenticated);
+  $('#statusToolbar').classList.toggle('hidden', !authenticated);
   $('#refresh').className = authenticated ? 'primary' : '';
   renderAuthGate();
 }
@@ -698,13 +700,16 @@ function renderAuthGate() {
     loginPanel.style.display = authenticated ? 'none' : 'block';
     loginPanel.classList.toggle('hidden', authenticated);
   }
+  const legacyFallbackPanel = $('#legacyFallbackPanel');
+  if (legacyFallbackPanel) {
+    legacyFallbackPanel.classList.toggle('hidden', !showLegacyFallback());
+  }
 }
 
 async function loadMe() {
   if (!getSessionToken() && !getToken()) {
     state.auth = { user: null, authSource: 'none', actor: null };
     clearProtectedState();
-    setLoginStatus('Please sign in.', 'muted');
     setStatus('Login required', 'muted');
     renderAuth();
     return;
@@ -773,7 +778,7 @@ async function logout() {
   setSessionToken('');
   state.auth = { user: null, authSource: 'none', actor: null };
   clearProtectedState();
-  setLoginStatus('Please sign in.', 'muted');
+  setLoginStatus('', 'muted');
   renderAuth();
   renderAll();
   setStatus('Login required', 'muted');
@@ -851,6 +856,10 @@ function setStatus(message, kind = 'muted') {
   const el = $('#status');
   el.textContent = message;
   el.className = `status-line ${kind}`;
+}
+
+function showLegacyFallback() {
+  return new URLSearchParams(window.location.search).get('legacy') === '1';
 }
 
 function clearProtectedState() {
