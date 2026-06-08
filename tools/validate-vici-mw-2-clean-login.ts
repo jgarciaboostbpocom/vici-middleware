@@ -39,9 +39,10 @@ async function main() {
   const navStart = ui.indexOf('id="authenticatedNavLinks"');
   const navEnd = ui.indexOf('id="authenticatedHeaderControls"', navStart);
   const navBlock = ui.slice(navStart, navEnd);
-  for (const marker of ['Admin', 'Legacy Admin', 'Dashboard v2']) {
+  for (const marker of ['Vici Middleware 2.0 Admin Panel']) {
     assertOk(navBlock.includes(marker), `authenticated nav wrapper does not contain ${marker}`);
   }
+  assertOk(!navBlock.includes('Legacy Admin') && !navBlock.includes('Dashboard v2'), 'legacy links should not be in the top authenticated nav');
 
   assertOk(ui.includes('id="authenticatedHeaderControls"'), 'authenticated header controls wrapper is missing');
   const headerControlsStart = ui.indexOf('id="authenticatedHeaderControls"');
