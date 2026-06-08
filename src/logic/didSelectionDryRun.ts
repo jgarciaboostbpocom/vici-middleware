@@ -1,22 +1,22 @@
 import type { CampaignRules } from '../storage/tenants';
 import type { CoverageAlert, DidRecord, DidStoreV2, LeadExclusion } from '../storage/dids';
-import { isDidEligible, selectDidForLead, type DidSelectionStrategy } from './didSelection';
+import {
+  getAreaCodeFromPhone,
+  isDidEligible,
+  scoreDidCandidate,
+  selectDidForLead,
+  type DidCandidateScore,
+  type DidSelectionStrategy,
+} from './didSelection';
+import {
+  evaluateDidAgainstCampaignRules,
+  type CampaignRuleReason,
+  type CampaignRulesSnapshot,
+  type DidCampaignRuleEvaluation,
+} from './didCampaignRules';
 
 export type DidSelectionV2DryRunMode = 'scheduled_rotation' | 'forced_rotation';
-
-export type CampaignRulesSnapshot = Pick<
-  CampaignRules,
-  | 'campaignId'
-  | 'dailyCallLimitPerDid'
-  | 'hourlyCallLimitPerDid'
-  | 'ahtThresholdSec'
-  | 'connectionAhtThresholdSec'
-  | 'coolingDurationMinutes'
-  | 'spamReportThreshold'
-  | 'allowNearbyStateFallback'
-  | 'allowedFallbackStates'
-  | 'leadExclusionEnabled'
->;
+export type { CampaignRulesSnapshot } from './didCampaignRules';
 
 export type DidSelectionV2DryRunInput = {
   mode: DidSelectionV2DryRunMode;
@@ -50,6 +50,12 @@ export type DidSelectionV2DryRunEvent = {
   strategy: DidSelectionStrategy;
   fallbackUsed: boolean;
   campaignRules?: CampaignRulesSnapshot;
+  campaignRuleEvaluation?: DidCampaignRuleCandidateEvaluation[];
+  selectedDidCampaignRuleEvaluation?: DidCampaignRuleEvaluation;
+  campaignRuleSummary?: CampaignRuleSummary;
+  wouldSelectUnderCampaignRules?: string | null;
+  wouldSelectUnderCampaignRulesReason?: string | null;
+  wouldDifferUnderCampaignRules?: boolean;
   coverageAlerts: CoverageAlert[];
   leadExclusions: LeadExclusion[];
   currentActiveDid: string | null;
@@ -59,6 +65,35 @@ export type DidSelectionV2DryRunEvent = {
   callsToday?: number;
   aht?: number;
   metadata: Record<string, unknown>;
+};
+
+export type DidCampaignRuleCandidateEvaluation = DidCampaignRuleEvaluation & {
+  did: string;
+  clientId?: string;
+  campaignId?: string;
+  state: string;
+  areaCode: string;
+  strategy: Exclude<DidSelectionStrategy, 'none'>;
+  existingSelectorEligible: boolean;
+  score: DidCandidateScore;
+};
+
+export type CampaignRuleSummary = {
+  candidatesEvaluated: number;
+  campaignRuleEligibleCount: number;
+  campaignRuleBlockedCount: number;
+  campaignRuleWarningCount: number;
+  campaignRuleReasons: CampaignRuleReason[];
+  campaignRuleWarnings: CampaignRuleReason[];
+};
+
+type CampaignRuleDryRunComparison = {
+  candidateEvaluations: DidCampaignRuleCandidateEvaluation[];
+  selectedDidEvaluation?: DidCampaignRuleEvaluation;
+  summary: CampaignRuleSummary;
+  wouldSelectUnderCampaignRules: string | null;
+  wouldSelectUnderCampaignRulesReason: string;
+  wouldDifferUnderCampaignRules: boolean;
 };
 
 export function buildDidSelectionV2DryRunEvent(input: DidSelectionV2DryRunInput): DidSelectionV2DryRunEvent {
@@ -77,12 +112,31 @@ export function buildDidSelectionV2DryRunEvent(input: DidSelectionV2DryRunInput)
   const campaignRules = campaignRulesSnapshot(input.campaignRules, scope.campaignId);
   const coverageAlerts = selected.coverageAlerts.map(alert => scopedObservation(alert, scope));
   const leadExclusions = selected.leadExclusions.map(exclusion => scopedObservation(exclusion, scope));
+  const campaignRuleComparison = campaignRules
+    ? evaluateCampaignRuleDryRunSelection({
+      input,
+      campaignRules,
+      leadPhone,
+      now,
+      selectedDid: selected.did,
+      selectedRecord,
+      fallbackUsed: selected.fallbackUsed,
+      leadExclusionCreated: leadExclusions.length > 0,
+    })
+    : null;
   const metadata = compactObject({
     clientId: scope.clientId,
     campaignId: scope.campaignId,
     selectedDidClientId,
     selectedDidCampaignId,
     campaignRules,
+    campaignRuleSummary: campaignRuleComparison?.summary,
+    campaignRuleReasons: campaignRuleComparison?.summary.campaignRuleReasons,
+    campaignRuleWarnings: campaignRuleComparison?.summary.campaignRuleWarnings,
+    selectedDidCampaignRuleEvaluation: campaignRuleComparison?.selectedDidEvaluation,
+    wouldSelectUnderCampaignRules: campaignRuleComparison?.wouldSelectUnderCampaignRules,
+    wouldSelectUnderCampaignRulesReason: campaignRuleComparison?.wouldSelectUnderCampaignRulesReason,
+    wouldDifferUnderCampaignRules: campaignRuleComparison?.wouldDifferUnderCampaignRules,
   });
 
   return {
@@ -104,6 +158,16 @@ export function buildDidSelectionV2DryRunEvent(input: DidSelectionV2DryRunInput)
     strategy: selected.strategy,
     fallbackUsed: selected.fallbackUsed,
     ...(campaignRules ? { campaignRules } : {}),
+    ...(campaignRuleComparison ? {
+      campaignRuleEvaluation: campaignRuleComparison.candidateEvaluations,
+      ...(campaignRuleComparison.selectedDidEvaluation ? {
+        selectedDidCampaignRuleEvaluation: campaignRuleComparison.selectedDidEvaluation,
+      } : {}),
+      campaignRuleSummary: campaignRuleComparison.summary,
+      wouldSelectUnderCampaignRules: campaignRuleComparison.wouldSelectUnderCampaignRules,
+      wouldSelectUnderCampaignRulesReason: campaignRuleComparison.wouldSelectUnderCampaignRulesReason,
+      wouldDifferUnderCampaignRules: campaignRuleComparison.wouldDifferUnderCampaignRules,
+    } : {}),
     coverageAlerts,
     leadExclusions,
     currentActiveDid: input.currentActiveDid,
@@ -114,6 +178,201 @@ export function buildDidSelectionV2DryRunEvent(input: DidSelectionV2DryRunInput)
     aht: input.aht,
     metadata,
   };
+}
+
+function evaluateCampaignRuleDryRunSelection(args: {
+  input: DidSelectionV2DryRunInput;
+  campaignRules: CampaignRulesSnapshot;
+  leadPhone: string;
+  now: Date;
+  selectedDid: string | null;
+  selectedRecord: DidRecord | null;
+  fallbackUsed: boolean;
+  leadExclusionCreated: boolean;
+}): CampaignRuleDryRunComparison {
+  const groups = campaignRuleCandidateGroups(args.input, args.leadPhone);
+  const candidateEvaluations = groups.flatMap(group => group.records.map(record => campaignRuleCandidateEvaluation({
+    record,
+    strategy: group.strategy,
+    fallbackUsed: group.strategy === 'nearby_state',
+    leadState: args.input.state,
+    campaignRules: args.campaignRules,
+    now: args.now,
+    leadExclusionCreated: args.leadExclusionCreated,
+  })));
+
+  const wouldSelect = chooseUnderCampaignRules(groups, candidateEvaluations);
+  const selectedDidEvaluation = args.selectedRecord
+    ? evaluateDidAgainstCampaignRules({
+      record: args.selectedRecord,
+      campaignRules: args.campaignRules,
+      now: args.now,
+      leadState: args.input.state,
+      fallbackUsed: args.fallbackUsed,
+      fallbackState: args.selectedRecord.state,
+      leadExclusionCreated: args.leadExclusionCreated,
+    })
+    : undefined;
+  const summary = summarizeCampaignRuleEvaluations(candidateEvaluations);
+  const wouldSelectUnderCampaignRules = wouldSelect?.did || null;
+
+  return {
+    candidateEvaluations,
+    selectedDidEvaluation,
+    summary,
+    wouldSelectUnderCampaignRules,
+    wouldSelectUnderCampaignRulesReason: wouldSelectUnderCampaignRules
+      ? 'CAMPAIGN_RULE_ELIGIBLE_CANDIDATE'
+      : 'NO_CAMPAIGN_RULE_ELIGIBLE_DID',
+    wouldDifferUnderCampaignRules: normalizeDid(args.selectedDid) !== normalizeDid(wouldSelectUnderCampaignRules),
+  };
+}
+
+function campaignRuleCandidateEvaluation(args: {
+  record: DidRecord;
+  strategy: Exclude<DidSelectionStrategy, 'none'>;
+  fallbackUsed: boolean;
+  leadState: string;
+  campaignRules: CampaignRulesSnapshot;
+  now: Date;
+  leadExclusionCreated: boolean;
+}): DidCampaignRuleCandidateEvaluation {
+  const evaluation = evaluateDidAgainstCampaignRules({
+    record: args.record,
+    campaignRules: args.campaignRules,
+    now: args.now,
+    leadState: args.leadState,
+    fallbackUsed: args.fallbackUsed,
+    fallbackState: args.record.state,
+    leadExclusionCreated: args.leadExclusionCreated,
+  });
+
+  const out: DidCampaignRuleCandidateEvaluation = {
+    did: args.record.did,
+    state: args.record.state,
+    areaCode: args.record.areaCode,
+    strategy: args.strategy,
+    existingSelectorEligible: isDidEligible(args.record, args.now),
+    score: scoreDidCandidate(args.record, args.now),
+    ...evaluation,
+  };
+  const clientId = normalizeScopeId(args.record.clientId);
+  const campaignId = normalizeScopeId(args.record.campaignId);
+  if (clientId) out.clientId = clientId;
+  if (campaignId) out.campaignId = campaignId;
+  return out;
+}
+
+function chooseUnderCampaignRules(
+  groups: CampaignRuleCandidateGroup[],
+  candidateEvaluations: DidCampaignRuleCandidateEvaluation[],
+): DidCampaignRuleCandidateEvaluation | null {
+  for (const group of groups) {
+    const eligible = candidateEvaluations
+      .filter(item => item.strategy === group.strategy)
+      .filter(item => group.records.some(record => record.did === item.did))
+      .filter(item => item.existingSelectorEligible && item.eligibleUnderCampaignRules);
+    if (!eligible.length) continue;
+
+    eligible.sort((left, right) =>
+      compareScores(left.score, right.score)
+      || left.did.localeCompare(right.did),
+    );
+    return eligible[0] || null;
+  }
+  return null;
+}
+
+type CampaignRuleCandidateGroup = {
+  strategy: Exclude<DidSelectionStrategy, 'none'>;
+  records: DidRecord[];
+};
+
+function campaignRuleCandidateGroups(
+  input: DidSelectionV2DryRunInput,
+  leadPhone: string,
+): CampaignRuleCandidateGroup[] {
+  const inventory = Object.values(input.store.inventory);
+  const areaCode = getAreaCodeFromPhone(leadPhone);
+  const state = normalizeState(input.state);
+  const groups: CampaignRuleCandidateGroup[] = [];
+
+  if (areaCode) {
+    groups.push({
+      strategy: 'area_code',
+      records: inventory.filter(record => record.areaCode === areaCode),
+    });
+  }
+  if (state) {
+    groups.push({
+      strategy: 'state',
+      records: inventory.filter(record => normalizeState(record.state) === state),
+    });
+  }
+
+  for (const nearbyState of normalizeStates(input.store.coverage.nearbyStates[state] || [])) {
+    groups.push({
+      strategy: 'nearby_state',
+      records: inventory.filter(record => normalizeState(record.state) === nearbyState),
+    });
+  }
+
+  return groups.filter(group => group.records.length > 0);
+}
+
+function summarizeCampaignRuleEvaluations(evaluations: DidCampaignRuleCandidateEvaluation[]): CampaignRuleSummary {
+  const uniqueEvaluations = uniqueCampaignRuleEvaluations(evaluations);
+  return {
+    candidatesEvaluated: uniqueEvaluations.length,
+    campaignRuleEligibleCount: uniqueEvaluations.filter(item => item.existingSelectorEligible && item.eligibleUnderCampaignRules).length,
+    campaignRuleBlockedCount: uniqueEvaluations.filter(item => item.existingSelectorEligible && !item.eligibleUnderCampaignRules).length,
+    campaignRuleWarningCount: uniqueEvaluations.filter(item => item.campaignRuleWarnings.length > 0).length,
+    campaignRuleReasons: uniqueReasons(uniqueEvaluations.flatMap(item => item.campaignRuleReasons)),
+    campaignRuleWarnings: uniqueReasons(uniqueEvaluations.flatMap(item => item.campaignRuleWarnings)),
+  };
+}
+
+function uniqueCampaignRuleEvaluations(
+  evaluations: DidCampaignRuleCandidateEvaluation[],
+): DidCampaignRuleCandidateEvaluation[] {
+  const byDid = new Map<string, DidCampaignRuleCandidateEvaluation>();
+  for (const evaluation of evaluations) {
+    const existing = byDid.get(evaluation.did);
+    if (!existing) {
+      byDid.set(evaluation.did, { ...evaluation });
+      continue;
+    }
+
+    existing.existingSelectorEligible = existing.existingSelectorEligible || evaluation.existingSelectorEligible;
+    existing.eligibleUnderCampaignRules = existing.eligibleUnderCampaignRules && evaluation.eligibleUnderCampaignRules;
+    existing.campaignRuleReasons = uniqueReasons([
+      ...existing.campaignRuleReasons,
+      ...evaluation.campaignRuleReasons,
+    ]);
+    existing.campaignRuleWarnings = uniqueReasons([
+      ...existing.campaignRuleWarnings,
+      ...evaluation.campaignRuleWarnings,
+    ]);
+  }
+  return Array.from(byDid.values());
+}
+
+function compareScores(left: DidCandidateScore, right: DidCandidateScore): number {
+  return compareNumber(left.cleanRank, right.cleanRank)
+    || compareNumber(left.callsTodayRatio, right.callsTodayRatio)
+    || compareNumber(left.callsThisHourRatio, right.callsThisHourRatio)
+    || compareNumber(left.lastUsedAtMs, right.lastUsedAtMs)
+    || compareNumber(left.connectionAhtRank, right.connectionAhtRank);
+}
+
+function compareNumber(left: number, right: number): number {
+  if (left < right) return -1;
+  if (left > right) return 1;
+  return 0;
+}
+
+function uniqueReasons(values: CampaignRuleReason[]): CampaignRuleReason[] {
+  return Array.from(new Set(values));
 }
 
 function inferDryRunScope(

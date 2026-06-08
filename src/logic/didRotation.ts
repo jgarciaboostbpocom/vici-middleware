@@ -76,6 +76,13 @@ async function persistDidSelectionV2Observations(event: DidSelectionV2DryRunEven
     selectedDidClientId: event.selectedDidClientId,
     selectedDidCampaignId: event.selectedDidCampaignId,
     campaignRules: event.campaignRules,
+    campaignRuleSummary: event.campaignRuleSummary,
+    campaignRuleReasons: event.campaignRuleSummary?.campaignRuleReasons,
+    campaignRuleWarnings: event.campaignRuleSummary?.campaignRuleWarnings,
+    selectedDidCampaignRuleEvaluation: event.selectedDidCampaignRuleEvaluation,
+    wouldSelectUnderCampaignRules: event.wouldSelectUnderCampaignRules,
+    wouldSelectUnderCampaignRulesReason: event.wouldSelectUnderCampaignRulesReason,
+    wouldDifferUnderCampaignRules: event.wouldDifferUnderCampaignRules,
   };
 
   await Promise.all([

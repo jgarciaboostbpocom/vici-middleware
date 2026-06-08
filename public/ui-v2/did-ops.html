@@ -456,12 +456,17 @@
               <th>Current active DID</th>
               <th>Current logic DID</th>
               <th>Would differ</th>
+              <th>Would select under campaign rules</th>
+              <th>Would differ under campaign rules</th>
+              <th>Rule blocked</th>
+              <th>Rule warnings</th>
+              <th>Selected rule reasons</th>
               <th>Coverage alerts</th>
               <th>Lead exclusions</th>
             </tr>
           </thead>
           <tbody id="dryRunEventsBody">
-            <tr><td colspan="11" class="muted">Loading dry-run events...</td></tr>
+            <tr><td colspan="16" class="muted">Loading dry-run events...</td></tr>
           </tbody>
         </table>
       </div>
@@ -1122,7 +1127,7 @@ function renderLeadExclusions() {
 function renderDryRunEvents() {
   const tbody = $('#dryRunEventsBody');
   if (!state.dryRunEvents.length) {
-    tbody.innerHTML = '<tr><td colspan="11" class="muted">No dry-run events found in the recent event log.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="16" class="muted">No dry-run events found in the recent event log.</td></tr>';
     return;
   }
   tbody.innerHTML = state.dryRunEvents.map(event => `
@@ -1136,10 +1141,24 @@ function renderDryRunEvents() {
       <td>${escapeHtml(event.currentActiveDid || '-')}</td>
       <td>${escapeHtml(event.currentLogicDid || '-')}</td>
       <td>${boolBadge(!!event.wouldDifferFromCurrentLogic)}</td>
+      <td>${escapeHtml(event.wouldSelectUnderCampaignRules || '-')}</td>
+      <td>${event.wouldDifferUnderCampaignRules === undefined ? '<span class="muted">-</span>' : boolBadge(!!event.wouldDifferUnderCampaignRules)}</td>
+      <td>${fmtNum(event.campaignRuleSummary?.campaignRuleBlockedCount)}</td>
+      <td>${fmtNum(event.campaignRuleSummary?.campaignRuleWarningCount)}</td>
+      <td>${escapeHtml(formatCampaignRuleReasons(event.selectedDidCampaignRuleEvaluation))}</td>
       <td>${fmtNum((event.coverageAlerts || []).length)}</td>
       <td>${fmtNum((event.leadExclusions || []).length)}</td>
     </tr>
   `).join('');
+}
+
+function formatCampaignRuleReasons(evaluation) {
+  if (!evaluation) return '-';
+  const reasons = [
+    ...(evaluation.campaignRuleReasons || []),
+    ...(evaluation.campaignRuleWarnings || []),
+  ];
+  return Array.from(new Set(reasons)).join(', ') || '-';
 }
 
 function renderAll() {

@@ -683,6 +683,7 @@ function eventMatchesScope(event: any, scope: DidScope, didsByNumber: Map<string
   const eventDids = [
     event?.did,
     event?.selectedDid,
+    event?.wouldSelectUnderCampaignRules,
     event?.currentActiveDid,
     event?.currentLogicDid,
   ].map(normalizeDidValue).filter(Boolean);

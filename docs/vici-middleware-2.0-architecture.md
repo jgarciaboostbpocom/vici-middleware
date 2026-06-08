@@ -6,7 +6,7 @@ Vici Middleware 2.0 moves the system away from one global Vicidial DID pool. The
 
 `client / tenant -> campaign -> DID pool -> campaign rules -> alerts / exclusions / events -> scoped users`
 
-The Phase 1 foundation adds the storage and API model needed for that hierarchy while preserving current global behavior. Phase 2 adds campaign-aware read filtering and assignment support to the safe DID admin surface and DID Operations UI. Phase 3 carries campaign scope into selector v2 dry-run observation payloads. Phase 4 makes campaign rules editable from DID Operations while keeping those changes local to middleware configuration. No live Vicidial update behavior, scheduler behavior, or selector v2 live behavior is changed in these phases.
+The Phase 1 foundation adds the storage and API model needed for that hierarchy while preserving current global behavior. Phase 2 adds campaign-aware read filtering and assignment support to the safe DID admin surface and DID Operations UI. Phase 3 carries campaign scope into selector v2 dry-run observation payloads. Phase 4 makes campaign rules editable from DID Operations while keeping those changes local to middleware configuration. Phase 5 applies campaign rules to selector v2 dry-run evaluation only. No live Vicidial update behavior, scheduler behavior, or selector v2 live behavior is changed in these phases.
 
 ## Clients / Tenants
 
@@ -80,6 +80,12 @@ Campaign rules are metadata only in this phase. They are available as a snapshot
 Campaign rules are now editable from the DID Operations UI after an operator selects a campaign. The editor saves through `PATCH /admin/v2/campaigns/:campaignId/rules`, so every change remains campaign-scoped and is checked by the existing admin-token/stored-user scope model.
 
 Saving rules updates middleware local configuration only. Rules are not yet enforced in live Vicidial selection, and selector v2 live mode remains disabled. A future phase will apply campaign rules to selector scoring and limits safely after explicit campaign scope can be carried through live selector inputs.
+
+## Phase 5 Campaign Rules Dry-Run Evaluation
+
+Campaign rules are now applied to selector v2 dry-run evaluation only. The existing selected DID remains unchanged, while the dry-run event reports `wouldSelectUnderCampaignRules`, `wouldDifferUnderCampaignRules`, candidate-level rule diagnostics, selected DID rule diagnostics, and campaign rule summary counts.
+
+Dry-run observation metadata carries the campaign rule summary and reasons when persistence is enabled. Live Vicidial behavior remains unchanged: v2 live selection is still disabled, scheduler behavior is unchanged, and rule-aware decisions are not written to Vicidial. A future phase may use this dry-run evidence to safely enable campaign-aware live selection.
 
 ## Campaign Rules
 
