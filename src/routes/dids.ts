@@ -1,5 +1,11 @@
 import { Router } from 'express';
 import {
+  authUserFromRequest,
+  userCanManageDidScope,
+  userCanReadDidScope,
+  userCanWrite,
+} from '../auth/middleware';
+import {
   addDid,
   clearCoverageAlert,
   clearLeadExclusion,
@@ -26,7 +32,6 @@ import {
 import {
   getCampaignById,
   getCampaignRules,
-  getUserByUsername,
   userCanAccessCampaign,
   userCanAccessClient,
   type CampaignRules,
@@ -50,8 +55,9 @@ type JsonResponse = {
 };
 type ActorContext = {
   user: ScopedUser;
-  source: 'stored_user' | 'admin_token_placeholder' | 'unknown_user';
+  source: 'session' | 'admin_token_fallback';
   note: string;
+  temporaryFallback?: boolean;
 };
 type DidScope = {
   clientId: string | null;
@@ -62,21 +68,20 @@ type DidScope = {
   isScoped: boolean;
 };
 type ScopeValidationResult = { ok: true; value: DidScope } | { ok: false; status: number; error: string };
+type DidWriteValidationResult = {
+  ok: true;
+  actor: ActorContext;
+  record: DidRecord;
+} | {
+  ok: false;
+  status: number;
+  error: string;
+};
 
 const MAX_HISTORY = 100;
 const PATCH_STATUSES = new Set<DidStatus>(['available', 'active', 'spam_risk', 'burned']);
 const COVERAGE_ALERT_REASONS = new Set<CoverageAlert['reason']>(['NO_AREA_DID', 'NO_STATE_DID', 'FALLBACK_USED', 'NO_APPROVED_FALLBACK']);
 const LEAD_EXCLUSION_REASONS = new Set<LeadExclusion['reason']>(['MISSING_AREA_COVERAGE', 'MISSING_STATE_COVERAGE', 'NO_APPROVED_FALLBACK']);
-const PLACEHOLDER_USER: ScopedUser = {
-  id: 'admin-token-placeholder',
-  username: 'admin-token-placeholder',
-  role: 'super_admin',
-  assignedClientIds: [],
-  assignedCampaignIds: [],
-  active: true,
-  createdAt: '1970-01-01T00:00:00.000Z',
-  updatedAt: '1970-01-01T00:00:00.000Z',
-};
 
 didsRouter.get('/', async (req, res) => {
   try {
@@ -88,7 +93,7 @@ didsRouter.get('/', async (req, res) => {
       loadDidStore(),
       getDidInventory(),
     ]);
-    const scopedRecords = records.filter(record => recordMatchesScope(record, scope.value));
+    const scopedRecords = await filterRecordsForScope(records, scope.value);
     const scopedDids = new Set(scopedRecords.map(record => record.did));
     const visibleStates = scope.value.isScoped
       ? Array.from(new Set(scopedRecords.map(record => record.state))).sort()
@@ -105,9 +110,9 @@ didsRouter.get('/', async (req, res) => {
       inventory: scopedRecords.map(toDidHealth),
       coverage: {
         ...store.coverage,
-        missing: store.coverage.missing.filter(alert => recordMatchesScope(alert, scope.value)),
+        missing: await filterRecordsForScope(store.coverage.missing, scope.value),
       },
-      leadExclusions: store.leadExclusions.filter(exclusion => recordMatchesScope(exclusion, scope.value)),
+      leadExclusions: await filterRecordsForScope(store.leadExclusions, scope.value),
       ...scopeResponse(scope.value),
     });
   } catch (err: any) {
@@ -123,9 +128,14 @@ didsRouter.post('/', async (req, res) => {
   if (!state.ok) return sendError(res, 400, state.error);
 
   try {
+    const actor = await resolveActor(req);
+    if (actor.user.role !== 'super_admin' || !userCanWrite(actor.user)) {
+      return sendError(res, 403, 'super_admin role required to add global DIDs');
+    }
+
     await addDid(did.value, state.value);
     const record = await getDidByNumber(did.value);
-    res.json({ ok: true, did: did.value, record: record ? toDidHealth(record) : null });
+    res.json({ ok: true, did: did.value, record: record ? toDidHealth(record) : null, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -139,10 +149,14 @@ didsRouter.post('/state', async (req, res) => {
   if (!state.ok) return sendError(res, 400, state.error);
 
   try {
-    await setDidState(did.value, state.value);
     const record = await getDidByNumber(did.value);
     if (!record) return sendError(res, 404, 'DID not found');
-    res.json({ ok: true, record: toDidHealth(record) });
+    const actor = await resolveActor(req);
+    if (!await userCanManageDidScope(actor.user, record)) return sendError(res, 403, 'DID write scope required');
+
+    await setDidState(did.value, state.value);
+    const updated = await getDidByNumber(did.value);
+    res.json({ ok: true, record: updated ? toDidHealth(updated) : null, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -158,10 +172,14 @@ didsRouter.post('/active', async (req, res) => {
   try {
     const record = await getDidByNumber(did.value);
     if (!record) return sendError(res, 404, 'DID not found');
+    const actor = await resolveActor(req);
+    if (actor.user.role !== 'super_admin' || !userCanWrite(actor.user)) {
+      return sendError(res, 403, 'super_admin role required to set global active DID');
+    }
 
     await setActiveDidForState(state.value, did.value);
     memory.setActiveDid(state.value, did.value);
-    res.json({ ok: true, state: state.value, activeDid: did.value, record: toDidHealth(record) });
+    res.json({ ok: true, state: state.value, activeDid: did.value, record: toDidHealth(record), actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -186,8 +204,9 @@ didsRouter.get('/selector-v2/dry-run-events', async (req, res) => {
     const scope = await resolveQueryScope(req);
     if (!scope.ok) return sendError(res, scope.status, scope.error);
 
-    const scanLimit = scope.value.isScoped ? 5000 : Math.min(limit * 5, 5000);
-    const didsByNumber = scope.value.isScoped
+    const needsDidScopeLookup = scope.value.isScoped || scope.value.actor.user.role !== 'super_admin';
+    const scanLimit = needsDidScopeLookup ? 5000 : Math.min(limit * 5, 5000);
+    const didsByNumber = needsDidScopeLookup
       ? new Map((await getDidInventory()).map(record => [record.did, record]))
       : new Map<string, DidRecord>();
     const items = readRecentEvents({ limit: scanLimit })
@@ -206,7 +225,7 @@ didsRouter.get('/coverage/alerts', async (req, res) => {
     const scope = await resolveQueryScope(req);
     if (!scope.ok) return sendError(res, scope.status, scope.error);
 
-    const alerts = (await getCoverageAlerts()).filter(alert => recordMatchesScope(alert, scope.value));
+    const alerts = await filterRecordsForScope(await getCoverageAlerts(), scope.value);
     res.json({ ok: true, alerts, ...scopeResponse(scope.value) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -218,7 +237,10 @@ didsRouter.post('/coverage/alerts', async (req, res) => {
   if (!alert.ok) return sendError(res, 400, alert.error);
 
   try {
-    res.json({ ok: true, alert: await upsertCoverageAlert(alert.value) });
+    const actor = await resolveActor(req);
+    if (!await userCanManageDidScope(actor.user, alert.value)) return sendError(res, 403, 'coverage alert write scope required');
+
+    res.json({ ok: true, alert: await upsertCoverageAlert(alert.value), actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -232,9 +254,14 @@ didsRouter.post('/coverage/alerts/:id/clear', async (req, res) => {
   if (!reason.ok) return sendError(res, 400, reason.error);
 
   try {
+    const existing = (await getCoverageAlerts()).find(alert => alert.id === id.value);
+    if (!existing) return sendError(res, 404, 'coverage alert not found');
+    const actor = await resolveActor(req);
+    if (!await userCanManageDidScope(actor.user, existing)) return sendError(res, 403, 'coverage alert write scope required');
+
     const alert = await clearCoverageAlert(id.value, reason.value || undefined);
     if (!alert) return sendError(res, 404, 'coverage alert not found');
-    res.json({ ok: true, alert });
+    res.json({ ok: true, alert, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -245,7 +272,7 @@ didsRouter.get('/lead-exclusions', async (req, res) => {
     const scope = await resolveQueryScope(req);
     if (!scope.ok) return sendError(res, scope.status, scope.error);
 
-    const leadExclusions = (await getLeadExclusions()).filter(exclusion => recordMatchesScope(exclusion, scope.value));
+    const leadExclusions = await filterRecordsForScope(await getLeadExclusions(), scope.value);
     res.json({ ok: true, leadExclusions, ...scopeResponse(scope.value) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -257,7 +284,10 @@ didsRouter.post('/lead-exclusions', async (req, res) => {
   if (!exclusion.ok) return sendError(res, 400, exclusion.error);
 
   try {
-    res.json({ ok: true, leadExclusion: await upsertLeadExclusion(exclusion.value) });
+    const actor = await resolveActor(req);
+    if (!await userCanManageDidScope(actor.user, exclusion.value)) return sendError(res, 403, 'lead exclusion write scope required');
+
+    res.json({ ok: true, leadExclusion: await upsertLeadExclusion(exclusion.value), actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -271,9 +301,14 @@ didsRouter.post('/lead-exclusions/:id/clear', async (req, res) => {
   if (!reason.ok) return sendError(res, 400, reason.error);
 
   try {
+    const existing = (await getLeadExclusions()).find(exclusion => exclusion.id === id.value);
+    if (!existing) return sendError(res, 404, 'lead exclusion not found');
+    const actor = await resolveActor(req);
+    if (!await userCanManageDidScope(actor.user, existing)) return sendError(res, 403, 'lead exclusion write scope required');
+
     const exclusion = await clearLeadExclusion(id.value, reason.value || undefined);
     if (!exclusion) return sendError(res, 404, 'lead exclusion not found');
-    res.json({ ok: true, leadExclusion: exclusion });
+    res.json({ ok: true, leadExclusion: exclusion, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -286,7 +321,9 @@ didsRouter.get('/:did/history', async (req, res) => {
   try {
     const record = await getDidByNumber(did.value);
     if (!record) return sendError(res, 404, 'DID not found');
-    res.json({ ok: true, did: did.value, history: record.rotation.history });
+    const actor = await resolveActor(req);
+    if (!await userCanReadDidScope(actor.user, record)) return sendError(res, 403, 'DID scope required');
+    res.json({ ok: true, did: did.value, history: record.rotation.history, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -299,7 +336,9 @@ didsRouter.get('/:did', async (req, res) => {
   try {
     const record = await getDidByNumber(did.value);
     if (!record) return sendError(res, 404, 'DID not found');
-    res.json({ ok: true, record: toDidHealth(record) });
+    const actor = await resolveActor(req);
+    if (!await userCanReadDidScope(actor.user, record)) return sendError(res, 403, 'DID scope required');
+    res.json({ ok: true, record: toDidHealth(record), actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -315,6 +354,12 @@ didsRouter.patch('/:did', async (req, res) => {
   try {
     const scope = await resolvePatchScope(req, patch.value);
     if (!scope.ok) return sendError(res, scope.status, scope.error);
+
+    const current = await getDidByNumber(did.value);
+    if (!current) return sendError(res, 404, 'DID not found');
+    if (!await userCanManageDidScope(scope.value.actor.user, current)) {
+      return sendError(res, 403, 'DID write scope required');
+    }
 
     const updated = await mutateDid(did.value, (current, now) => {
       let next = current;
@@ -350,6 +395,9 @@ didsRouter.post('/:did/pause', async (req, res) => {
   if (!reason.ok) return sendError(res, 400, reason.error);
 
   try {
+    const authorized = await resolveDidWrite(req, did.value);
+    if (!authorized.ok) return sendError(res, authorized.status, authorized.error);
+
     const updated = await mutateDid(did.value, (current, now) => {
       const next = {
         ...current,
@@ -368,7 +416,7 @@ didsRouter.post('/:did/pause', async (req, res) => {
     });
 
     if (!updated) return sendError(res, 404, 'DID not found');
-    res.json({ ok: true, record: toDidHealth(updated) });
+    res.json({ ok: true, record: toDidHealth(updated), actor: actorPayload(authorized.actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -385,6 +433,9 @@ didsRouter.post('/:did/cooldown', async (req, res) => {
   if (!until.ok) return sendError(res, 400, until.error);
 
   try {
+    const authorized = await resolveDidWrite(req, did.value);
+    if (!authorized.ok) return sendError(res, authorized.status, authorized.error);
+
     const updated = await mutateDid(did.value, (current, now) => {
       const next = {
         ...current,
@@ -402,7 +453,7 @@ didsRouter.post('/:did/cooldown', async (req, res) => {
     });
 
     if (!updated) return sendError(res, 404, 'DID not found');
-    res.json({ ok: true, coolUntil: until.value, record: toDidHealth(updated) });
+    res.json({ ok: true, coolUntil: until.value, record: toDidHealth(updated), actor: actorPayload(authorized.actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -416,6 +467,9 @@ didsRouter.post('/:did/reactivate', async (req, res) => {
   if (!reason.ok) return sendError(res, 400, reason.error);
 
   try {
+    const authorized = await resolveDidWrite(req, did.value);
+    if (!authorized.ok) return sendError(res, authorized.status, authorized.error);
+
     const updated = await mutateDid(did.value, (current, now) => {
       const next = {
         ...current,
@@ -439,7 +493,7 @@ didsRouter.post('/:did/reactivate', async (req, res) => {
     });
 
     if (!updated) return sendError(res, 404, 'DID not found');
-    res.json({ ok: true, record: toDidHealth(updated) });
+    res.json({ ok: true, record: toDidHealth(updated), actor: actorPayload(authorized.actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -453,6 +507,9 @@ didsRouter.post('/:did/remove', async (req, res) => {
   if (!reason.ok) return sendError(res, 400, reason.error);
 
   try {
+    const authorized = await resolveDidWrite(req, did.value);
+    if (!authorized.ok) return sendError(res, authorized.status, authorized.error);
+
     const updated = await mutateDid(did.value, (current, now) => {
       const next = {
         ...current,
@@ -471,7 +528,7 @@ didsRouter.post('/:did/remove', async (req, res) => {
     });
 
     if (!updated) return sendError(res, 404, 'DID not found');
-    res.json({ ok: true, record: toDidHealth(updated) });
+    res.json({ ok: true, record: toDidHealth(updated), actor: actorPayload(authorized.actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -485,6 +542,9 @@ didsRouter.post('/:did/spam-report', async (req, res) => {
   if (!reason.ok) return sendError(res, 400, reason.error);
 
   try {
+    const authorized = await resolveDidWrite(req, did.value);
+    if (!authorized.ok) return sendError(res, authorized.status, authorized.error);
+
     const updated = await mutateDid(did.value, (current, now) => {
       const shouldPreserveStatus = current.status === 'removed' || current.status === 'burned';
       const next = {
@@ -501,7 +561,7 @@ didsRouter.post('/:did/spam-report', async (req, res) => {
     });
 
     if (!updated) return sendError(res, 404, 'DID not found');
-    res.json({ ok: true, record: toDidHealth(updated) });
+    res.json({ ok: true, record: toDidHealth(updated), actor: actorPayload(authorized.actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -512,8 +572,11 @@ didsRouter.delete('/:did', async (req, res) => {
   if (!did.ok) return sendError(res, 400, did.error);
 
   try {
+    const authorized = await resolveDidWrite(req, did.value);
+    if (!authorized.ok) return sendError(res, authorized.status, authorized.error);
+
     await removeDid(did.value);
-    res.json({ ok: true, did: did.value });
+    res.json({ ok: true, did: did.value, actor: actorPayload(authorized.actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -527,6 +590,18 @@ function toDidHealth(record: DidRecord) {
     eligible: isDidEligible(record, now),
     score: scoreDidCandidate(record, now),
   };
+}
+
+async function resolveDidWrite(req: any, did: string): Promise<DidWriteValidationResult> {
+  const record = await getDidByNumber(did);
+  if (!record) return { ok: false, status: 404, error: 'DID not found' };
+
+  const actor = await resolveActor(req);
+  if (!await userCanManageDidScope(actor.user, record)) {
+    return { ok: false, status: 403, error: 'DID write scope required' };
+  }
+
+  return { ok: true, actor, record };
 }
 
 async function resolveQueryScope(req: any): Promise<ScopeValidationResult> {
@@ -576,13 +651,11 @@ async function resolveScope(
     }
   }
 
-  if (actor.source !== 'admin_token_placeholder') {
-    if (campaignId && !await userCanAccessCampaign(actor.user, campaignId)) {
-      return { ok: false, status: 403, error: 'campaign scope required' };
-    }
-    if (clientId && !userCanAccessClient(actor.user, clientId)) {
-      return { ok: false, status: 403, error: 'client scope required' };
-    }
+  if (campaignId && !await userCanAccessCampaign(actor.user, campaignId)) {
+    return { ok: false, status: 403, error: 'campaign scope required' };
+  }
+  if (clientId && !userCanAccessClient(actor.user, clientId)) {
+    return { ok: false, status: 403, error: 'client scope required' };
   }
 
   return {
@@ -599,38 +672,13 @@ async function resolveScope(
 }
 
 async function resolveActor(req: any): Promise<ActorContext> {
-  const requestedUsername = normalizeUsername(
-    firstHeaderValue(req.headers?.['x-vici-mw-username']) ||
-    firstQueryValue(req.query?.username),
-  );
-
-  if (!requestedUsername) {
-    return {
-      user: PLACEHOLDER_USER,
-      source: 'admin_token_placeholder',
-      note: 'Existing admin token auth does not identify a user yet; authenticated admin requests are treated as a temporary super_admin placeholder for scoped DID admin endpoints.',
-    };
-  }
-
-  const stored = await getUserByUsername(requestedUsername);
-  if (stored) {
-    return {
-      user: stored,
-      source: 'stored_user',
-      note: 'Scope was evaluated using the stored v2 user supplied by x-vici-mw-username or username query.',
-    };
-  }
-
+  const auth = authUserFromRequest(req);
+  if (!auth) throw new Error('authentication required');
   return {
-    user: {
-      ...PLACEHOLDER_USER,
-      id: requestedUsername,
-      username: requestedUsername,
-      role: 'viewer',
-      active: false,
-    },
-    source: 'unknown_user',
-    note: 'Requested v2 username was not found; no scoped access is granted.',
+    user: auth.user,
+    source: auth.authSource,
+    note: auth.note,
+    temporaryFallback: auth.temporaryFallback,
   };
 }
 
@@ -640,7 +688,9 @@ function actorPayload(actor: ActorContext) {
     username: actor.user.username,
     role: actor.user.role,
     active: actor.user.active,
+    authSource: actor.source,
     source: actor.source,
+    temporaryFallback: actor.temporaryFallback || undefined,
     note: actor.note,
   };
 }
@@ -654,23 +704,43 @@ function scopeResponse(scope: DidScope) {
       campaign: scope.campaign,
       campaignRules: scope.campaignRules,
       isScoped: scope.isScoped,
-      rbacStatus: scope.actor.source === 'admin_token_placeholder'
-        ? 'placeholder_admin_token_scope'
-        : 'stored_user_scope',
+      rbacStatus: scope.actor.source === 'admin_token_fallback'
+        ? 'admin_token_fallback_scope'
+        : 'session_user_scope',
     },
     campaign: scope.campaign,
     campaignRules: scope.campaignRules,
   };
 }
 
+async function filterRecordsForScope<T extends { clientId?: string | null; campaignId?: string | null }>(
+  records: T[],
+  scope: DidScope,
+): Promise<T[]> {
+  const out: T[] = [];
+  for (const record of records) {
+    if (scope.campaignId || scope.clientId) {
+      if (recordMatchesScope(record, scope)) out.push(record);
+      continue;
+    }
+
+    if (await userCanReadDidScope(scope.actor.user, record)) out.push(record);
+  }
+  return out;
+}
+
 function recordMatchesScope(record: { clientId?: string | null; campaignId?: string | null }, scope: DidScope): boolean {
   if (scope.campaignId && record.campaignId !== scope.campaignId) return false;
   if (scope.clientId && record.clientId !== scope.clientId) return false;
-  return true;
+  if (scope.campaignId || scope.clientId) return true;
+  if (scope.actor.user.role === 'super_admin') return true;
+  if (record.campaignId && scope.actor.user.assignedCampaignIds.includes(record.campaignId)) return true;
+  if (record.clientId && userCanAccessClient(scope.actor.user, record.clientId)) return true;
+  return false;
 }
 
 function eventMatchesScope(event: any, scope: DidScope, didsByNumber: Map<string, DidRecord>): boolean {
-  if (!scope.isScoped) return true;
+  if (!scope.isScoped && scope.actor.user.role === 'super_admin') return true;
   if (objectMatchesScope(event, scope)) return true;
   if (objectMatchesScope(event?.metadata, scope)) return true;
 
@@ -697,9 +767,10 @@ function eventMatchesScope(event: any, scope: DidScope, didsByNumber: Map<string
 function objectMatchesScope(value: unknown, scope: DidScope): boolean {
   if (typeof value !== 'object' || value === null) return false;
   const record = value as { clientId?: unknown; campaignId?: unknown };
-  if (scope.campaignId && String(record.campaignId || '') !== scope.campaignId) return false;
-  if (scope.clientId && String(record.clientId || '') !== scope.clientId) return false;
-  return true;
+  return recordMatchesScope({
+    clientId: record.clientId === undefined || record.clientId === null ? null : String(record.clientId),
+    campaignId: record.campaignId === undefined || record.campaignId === null ? null : String(record.campaignId),
+  }, scope);
 }
 
 function arrayFromUnknown(value: unknown): unknown[] {

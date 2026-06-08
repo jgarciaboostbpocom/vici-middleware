@@ -1,12 +1,25 @@
 import { Router } from 'express';
+import { validatePasswordPolicy, verifyPassword } from '../auth/passwords';
 import {
+  authUserFromRequest,
+  userCanManageGlobalFoundation as authUserCanManageGlobalFoundation,
+} from '../auth/middleware';
+import { createSession, revokeSession } from '../storage/sessions';
+import {
+  bootstrapSuperAdmin,
   getCampaignById,
   getCampaignRules,
   getCampaigns,
   getCampaignsForClient,
   getClients,
   getUserByUsername,
+  getUserCount,
   getUsers,
+  recordUserLogin,
+  serializeUser,
+  serializeUsers,
+  setUserPassword,
+  updateUser,
   upsertCampaign,
   upsertCampaignRules,
   upsertClient,
@@ -30,8 +43,10 @@ type JsonResponse = {
 
 type ActorContext = {
   user: ScopedUser;
-  source: 'stored_user' | 'admin_token_placeholder' | 'unknown_user';
+  source: 'session' | 'admin_token_fallback';
   note: string;
+  temporaryFallback?: boolean;
+  sessionToken?: string;
 };
 
 const USER_ROLES = new Set<UserRole>(['super_admin', 'internal_admin', 'client_admin', 'viewer']);
@@ -50,16 +65,71 @@ const CAMPAIGN_RULE_PATCH_FIELDS = new Set([
   'notes',
 ]);
 const SENSITIVE_PATCH_FIELDS = new Set(['password', 'passwordHash', 'token', 'secret']);
-const PLACEHOLDER_USER: ScopedUser = {
-  id: 'admin-token-placeholder',
-  username: 'admin-token-placeholder',
-  role: 'super_admin',
-  assignedClientIds: [],
-  assignedCampaignIds: [],
-  active: true,
-  createdAt: '1970-01-01T00:00:00.000Z',
-  updatedAt: '1970-01-01T00:00:00.000Z',
-};
+
+adminV2Router.post('/auth/login', async (req, res) => {
+  const username = parseUsername(req.body?.username, 'username');
+  if (!username.ok) return sendError(res, 400, username.error);
+
+  const password = parsePassword(req.body?.password);
+  if (!password.ok) return sendError(res, 400, password.error);
+
+  try {
+    const user = await getUserByUsername(username.value);
+    if (!user?.active || !user.passwordHash || !await verifyPassword(password.value, user.passwordHash)) {
+      return sendError(res, 401, 'invalid username or password');
+    }
+
+    const updatedUser = await recordUserLogin(user.username) || user;
+    const session = await createSession(updatedUser);
+    res.json({
+      ok: true,
+      sessionToken: session.sessionToken,
+      user: serializeUser(updatedUser),
+      authSource: 'session',
+    });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+adminV2Router.post('/auth/logout', async (req, res) => {
+  try {
+    const actor = await resolveActor(req);
+    const revoked = actor.sessionToken ? await revokeSession(actor.sessionToken) : false;
+    res.json({ ok: true, revoked, actor: actorPayload(actor) });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+adminV2Router.get('/auth/me', async (req, res) => {
+  try {
+    const actor = await resolveActor(req);
+    res.json({ ok: true, user: serializeUser(actor.user), actor: actorPayload(actor), authSource: actor.source });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+adminV2Router.post('/auth/bootstrap-super-admin', async (req, res) => {
+  const username = parseUsername(req.body?.username, 'username');
+  if (!username.ok) return sendError(res, 400, username.error);
+
+  const password = parsePassword(req.body?.password);
+  if (!password.ok) return sendError(res, 400, password.error);
+
+  const policy = validatePasswordPolicy(password.value);
+  if (!policy.ok) return sendError(res, 400, policy.errors.join('; '));
+
+  try {
+    if (await getUserCount() > 0) return sendError(res, 409, 'bootstrap is only allowed when no users exist');
+    const user = await bootstrapSuperAdmin({ username: username.value, password: password.value });
+    res.json({ ok: true, user: serializeUser(user) });
+  } catch (err: any) {
+    const message = err?.message || String(err);
+    sendError(res, message.includes('only allowed when no users exist') ? 409 : 400, message);
+  }
+});
 
 adminV2Router.get('/clients', async (req, res) => {
   try {
@@ -181,7 +251,7 @@ adminV2Router.get('/users', async (req, res) => {
     const users = canManageGlobalFoundation(actor.user)
       ? await getUsers()
       : (await getUsers()).filter(user => user.username === actor.user.username);
-    res.json({ ok: true, users, actor: actorPayload(actor) });
+    res.json({ ok: true, users: serializeUsers(users), actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -196,7 +266,48 @@ adminV2Router.post('/users', async (req, res) => {
     if (!canManageGlobalFoundation(actor.user)) return sendError(res, 403, 'super_admin role required to upsert users');
 
     const user = await upsertUser(parsed.value);
-    res.json({ ok: true, user, actor: actorPayload(actor) });
+    res.json({ ok: true, user: serializeUser(user), actor: actorPayload(actor) });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+adminV2Router.patch('/users/:username', async (req, res) => {
+  const username = parseUsername(req.params.username, 'username');
+  if (!username.ok) return sendError(res, 400, username.error);
+
+  const parsed = parseUserPatch(req.body || {});
+  if (!parsed.ok) return sendError(res, 400, parsed.error);
+
+  try {
+    const actor = await resolveActor(req);
+    if (!canManageGlobalFoundation(actor.user)) return sendError(res, 403, 'super_admin role required to update users');
+
+    const user = await updateUser(username.value, parsed.value);
+    if (!user) return sendError(res, 404, 'user not found');
+    res.json({ ok: true, user: serializeUser(user), actor: actorPayload(actor) });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+adminV2Router.post('/users/:username/password', async (req, res) => {
+  const username = parseUsername(req.params.username, 'username');
+  if (!username.ok) return sendError(res, 400, username.error);
+
+  const password = parsePassword(req.body?.password);
+  if (!password.ok) return sendError(res, 400, password.error);
+
+  const policy = validatePasswordPolicy(password.value);
+  if (!policy.ok) return sendError(res, 400, policy.errors.join('; '));
+
+  try {
+    const actor = await resolveActor(req);
+    if (!canManageGlobalFoundation(actor.user)) return sendError(res, 403, 'super_admin role required to set user passwords');
+
+    const user = await setUserPassword(username.value, password.value);
+    if (!user) return sendError(res, 404, 'user not found');
+    res.json({ ok: true, user: serializeUser(user), actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -226,9 +337,9 @@ adminV2Router.get('/scope/check', async (req, res) => {
         canAccessClient,
         canAccessCampaign,
       },
-      rbacStatus: actor.source === 'admin_token_placeholder'
-        ? 'placeholder_admin_token_scope'
-        : 'stored_user_scope',
+      rbacStatus: actor.source === 'admin_token_fallback'
+        ? 'admin_token_fallback_scope'
+        : 'session_user_scope',
     });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -236,38 +347,14 @@ adminV2Router.get('/scope/check', async (req, res) => {
 });
 
 async function resolveActor(req: any): Promise<ActorContext> {
-  const requestedUsername = normalizeUsername(
-    firstHeaderValue(req.headers?.['x-vici-mw-username']) ||
-    firstQueryValue(req.query?.username),
-  );
-
-  if (!requestedUsername) {
-    return {
-      user: PLACEHOLDER_USER,
-      source: 'admin_token_placeholder',
-      note: 'Existing admin token auth does not identify a user yet; authenticated admin requests are treated as a temporary super_admin placeholder for these foundation endpoints.',
-    };
-  }
-
-  const stored = await getUserByUsername(requestedUsername);
-  if (stored) {
-    return {
-      user: stored,
-      source: 'stored_user',
-      note: 'Scope was evaluated using the stored v2 user supplied by x-vici-mw-username or username query.',
-    };
-  }
-
+  const auth = authUserFromRequest(req);
+  if (!auth) throw new Error('authentication required');
   return {
-    user: {
-      ...PLACEHOLDER_USER,
-      id: requestedUsername,
-      username: requestedUsername,
-      role: 'viewer',
-      active: false,
-    },
-    source: 'unknown_user',
-    note: 'Requested v2 username was not found; no scoped access is granted.',
+    user: auth.user,
+    source: auth.authSource,
+    note: auth.note,
+    temporaryFallback: auth.temporaryFallback,
+    sessionToken: auth.sessionToken,
   };
 }
 
@@ -277,13 +364,15 @@ function actorPayload(actor: ActorContext) {
     username: actor.user.username,
     role: actor.user.role,
     active: actor.user.active,
+    authSource: actor.source,
     source: actor.source,
+    temporaryFallback: actor.temporaryFallback || undefined,
     note: actor.note,
   };
 }
 
 function canManageGlobalFoundation(user: ScopedUser): boolean {
-  return user.active && user.role === 'super_admin';
+  return authUserCanManageGlobalFoundation(user);
 }
 
 function canWriteClient(user: ScopedUser, clientId: string): boolean {
@@ -468,6 +557,54 @@ function parseUser(body: Record<string, unknown>): ValidationResult<Pick<ScopedU
       active: active.value,
     },
   };
+}
+
+function parseUserPatch(body: Record<string, unknown>): ValidationResult<Partial<ScopedUser>> {
+  if (has(body, 'password') || has(body, 'passwordHash') || has(body, 'token') || has(body, 'secret')) {
+    return { ok: false, error: 'user metadata does not accept passwords, tokens, or secrets' };
+  }
+  if (has(body, 'username')) return { ok: false, error: 'username cannot be changed' };
+
+  const out: Partial<ScopedUser> = {};
+
+  if (has(body, 'id')) {
+    const id = optionalId(body.id, 'id');
+    if (!id.ok) return id;
+    if (id.value) out.id = id.value;
+  }
+
+  if (has(body, 'role')) {
+    const role = parseRole(body.role);
+    if (!role.ok) return role;
+    out.role = role.value;
+  }
+
+  if (has(body, 'assignedClientIds')) {
+    const assignedClientIds = parseIdList(body.assignedClientIds, 'assignedClientIds');
+    if (!assignedClientIds.ok) return assignedClientIds;
+    out.assignedClientIds = assignedClientIds.value;
+  }
+
+  if (has(body, 'assignedCampaignIds')) {
+    const assignedCampaignIds = parseIdList(body.assignedCampaignIds, 'assignedCampaignIds');
+    if (!assignedCampaignIds.ok) return assignedCampaignIds;
+    out.assignedCampaignIds = assignedCampaignIds.value;
+  }
+
+  if (has(body, 'active')) {
+    const active = parseBoolean(body.active, 'active');
+    if (!active.ok) return active;
+    out.active = active.value;
+  }
+
+  if (!Object.keys(out).length) return { ok: false, error: 'no supported user metadata fields supplied' };
+  return { ok: true, value: out };
+}
+
+function parsePassword(value: unknown): ValidationResult<string> {
+  if (typeof value !== 'string') return { ok: false, error: 'password is required' };
+  if (!value.trim()) return { ok: false, error: 'password is required' };
+  return { ok: true, value };
 }
 
 function parseId(value: unknown, field: string): ValidationResult<string> {

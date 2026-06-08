@@ -1,4 +1,5 @@
 import { promises as fsp } from 'fs';
+import { hashPassword } from '../auth/passwords';
 
 const DATA_DIR = '/opt/vici-mw/data';
 const FILE = `${DATA_DIR}/vici_mw2.json`;
@@ -47,12 +48,14 @@ export type CampaignRules = {
 export type ScopedUser = {
   id: string;
   username: string;
+  passwordHash?: string;
   role: UserRole;
   assignedClientIds: string[];
   assignedCampaignIds: string[];
   active: boolean;
   createdAt: string;
   updatedAt: string;
+  lastLoginAt?: string | null;
 };
 
 export type ViciMw2Store = {
@@ -64,6 +67,9 @@ export type ViciMw2Store = {
 };
 
 type RawStore = Partial<ViciMw2Store> | null;
+type StoreOptions = { file?: string };
+
+export type PublicScopedUser = Omit<ScopedUser, 'passwordHash'>;
 
 const DEFAULT_DAILY_LIMIT = positiveInteger(process.env.CALLS_PER_DID, 70);
 const DEFAULT_HOURLY_LIMIT = positiveInteger(process.env.CALLS_PER_DID_HOURLY || process.env.HOURLY_CALLS_PER_DID, 20);
@@ -87,13 +93,13 @@ async function readJsonFile<T>(file: string, fallback: T): Promise<T> {
   }
 }
 
-async function writeStore(store: ViciMw2Store): Promise<void> {
+async function writeStore(store: ViciMw2Store, file = FILE): Promise<void> {
   await fsp.mkdir(DATA_DIR, { recursive: true });
-  await fsp.writeFile(FILE, JSON.stringify(normalizeStore(store), null, 2), 'utf-8');
+  await fsp.writeFile(file, JSON.stringify(normalizeStore(store), null, 2), 'utf-8');
 }
 
-async function loadStore(): Promise<ViciMw2Store> {
-  return normalizeStore(await readJsonFile<RawStore>(FILE, null));
+async function loadStore(file = FILE): Promise<ViciMw2Store> {
+  return normalizeStore(await readJsonFile<RawStore>(file, null));
 }
 
 function normalizeStore(raw: RawStore): ViciMw2Store {
@@ -217,6 +223,11 @@ export async function getUserByUsername(username: string): Promise<ScopedUser | 
   return store.users[normalizeUsername(username)] || null;
 }
 
+export async function getUserCount(options: StoreOptions = {}): Promise<number> {
+  const store = await loadStore(options.file);
+  return Object.keys(store.users).length;
+}
+
 export async function upsertUser(user: Pick<ScopedUser, 'username' | 'role'> & Partial<ScopedUser>): Promise<ScopedUser> {
   const store = await loadStore();
   const username = normalizeUsername(user.username);
@@ -227,6 +238,8 @@ export async function upsertUser(user: Pick<ScopedUser, 'username' | 'role'> & P
     ...user,
     id: user.id || existing?.id || username,
     username,
+    passwordHash: existing?.passwordHash,
+    lastLoginAt: existing?.lastLoginAt,
     createdAt: existing?.createdAt || user.createdAt,
     updatedAt: now,
   });
@@ -235,6 +248,106 @@ export async function upsertUser(user: Pick<ScopedUser, 'username' | 'role'> & P
   store.users[normalized.username] = normalized;
   await writeStore(store);
   return normalized;
+}
+
+export async function updateUser(username: string, patch: Partial<ScopedUser>): Promise<ScopedUser | null> {
+  const store = await loadStore();
+  const normalizedUsername = normalizeUsername(username);
+  const existing = store.users[normalizedUsername];
+  if (!existing) return null;
+
+  const now = new Date().toISOString();
+  const normalized = normalizeUser({
+    ...existing,
+    ...patch,
+    id: patch.id || existing.id,
+    username: normalizedUsername,
+    passwordHash: existing.passwordHash,
+    lastLoginAt: existing.lastLoginAt,
+    createdAt: existing.createdAt,
+    updatedAt: now,
+  });
+  if (!normalized) throw new Error('username and role are required');
+
+  store.users[normalized.username] = normalized;
+  await writeStore(store);
+  return normalized;
+}
+
+export async function setUserPassword(username: string, password: string): Promise<ScopedUser | null> {
+  const store = await loadStore();
+  const normalizedUsername = normalizeUsername(username);
+  const existing = store.users[normalizedUsername];
+  if (!existing) return null;
+
+  const now = new Date().toISOString();
+  const normalized = normalizeUser({
+    ...existing,
+    passwordHash: await hashPassword(password),
+    updatedAt: now,
+  });
+  if (!normalized) throw new Error('username and role are required');
+
+  store.users[normalized.username] = normalized;
+  await writeStore(store);
+  return normalized;
+}
+
+export async function recordUserLogin(username: string): Promise<ScopedUser | null> {
+  const store = await loadStore();
+  const normalizedUsername = normalizeUsername(username);
+  const existing = store.users[normalizedUsername];
+  if (!existing) return null;
+
+  const now = new Date().toISOString();
+  const normalized = normalizeUser({
+    ...existing,
+    lastLoginAt: now,
+    updatedAt: now,
+  });
+  if (!normalized) throw new Error('username and role are required');
+
+  store.users[normalized.username] = normalized;
+  await writeStore(store);
+  return normalized;
+}
+
+export async function bootstrapSuperAdmin(input: {
+  username: string;
+  password: string;
+}, options: StoreOptions = {}): Promise<ScopedUser> {
+  const store = await loadStore(options.file);
+  if (Object.keys(store.users).length > 0) {
+    throw new Error('bootstrap is only allowed when no users exist');
+  }
+
+  const username = normalizeUsername(input.username);
+  const now = new Date().toISOString();
+  const normalized = normalizeUser({
+    id: username,
+    username,
+    role: 'super_admin',
+    assignedClientIds: [],
+    assignedCampaignIds: [],
+    active: true,
+    passwordHash: await hashPassword(input.password),
+    createdAt: now,
+    updatedAt: now,
+  });
+  if (!normalized) throw new Error('valid username and password are required');
+
+  store.users[normalized.username] = normalized;
+  await writeStore(store, options.file);
+  return normalized;
+}
+
+export function serializeUser(user: ScopedUser): PublicScopedUser {
+  const { passwordHash: _passwordHash, ...publicUser } = user;
+  return publicUser;
+}
+
+export function serializeUsers(users: ScopedUser[]): PublicScopedUser[] {
+  return users.map(serializeUser);
 }
 
 export function userCanAccessClient(user: ScopedUser | null | undefined, clientId: string): boolean {
@@ -340,12 +453,14 @@ function normalizeUser(input: Partial<ScopedUser>): ScopedUser | null {
   return {
     id: normalizeId(input.id) || username,
     username,
+    passwordHash: normalizePasswordHash(input.passwordHash) || undefined,
     role,
     assignedClientIds: uniqueIds(input.assignedClientIds),
     assignedCampaignIds: uniqueIds(input.assignedCampaignIds),
     active: input.active ?? true,
     createdAt: input.createdAt || now,
     updatedAt: input.updatedAt || now,
+    lastLoginAt: normalizeOptionalTimestamp(input.lastLoginAt),
   };
 }
 
@@ -368,6 +483,17 @@ function normalizeName(value: unknown): string {
 function normalizeOptionalString(value: unknown): string | null {
   const normalized = String(value || '').trim();
   return normalized || null;
+}
+
+function normalizePasswordHash(value: unknown): string | null {
+  const normalized = String(value || '').trim();
+  return normalized.startsWith('scrypt$') ? normalized : null;
+}
+
+function normalizeOptionalTimestamp(value: unknown): string | null {
+  if (value === undefined || value === null || value === '') return null;
+  const date = new Date(String(value));
+  return Number.isFinite(date.getTime()) ? date.toISOString() : null;
 }
 
 function normalizeEntityStatus(value: unknown): EntityStatus {

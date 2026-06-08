@@ -58,6 +58,25 @@
       flex-wrap: wrap;
       margin-bottom: 14px;
     }
+    .auth-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 10px;
+      align-items: end;
+    }
+    .auth-meta {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .legacy-fallback {
+      margin-top: 10px;
+    }
+    .legacy-fallback summary {
+      cursor: pointer;
+      color: var(--muted);
+    }
     input, select, textarea, button {
       font: inherit;
       border: 1px solid var(--border);
@@ -257,6 +276,7 @@
       .summary-grid { grid-template-columns: repeat(3, minmax(140px, 1fr)); }
       .rules-grid { grid-template-columns: repeat(2, minmax(170px, 1fr)); }
       .scope-controls { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
+      .auth-grid { grid-template-columns: repeat(2, minmax(180px, 1fr)); }
     }
     @media (max-width: 720px) {
       main { width: calc(100vw - 16px); }
@@ -264,6 +284,7 @@
       .summary-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
       .rules-grid { grid-template-columns: 1fr; }
       .scope-controls { grid-template-columns: 1fr; }
+      .auth-grid { grid-template-columns: 1fr; }
       .right { margin-left: 0; }
       input, select, textarea { min-width: 160px; width: 100%; }
     }
@@ -276,9 +297,10 @@
     <a href="/">Legacy Admin</a>
     <a href="index.html">Dashboard v2</a>
     <div class="right row">
-      <label class="small muted" for="adminToken">Admin token</label>
-      <input id="adminToken" type="password" placeholder="x-admin-token" />
-      <button id="saveToken">Save</button>
+      <span id="currentUser" class="badge info">Not signed in</span>
+      <span id="currentRole" class="badge info">Role -</span>
+      <span id="currentAuthSource" class="badge info">Auth -</span>
+      <button id="logout">Logout</button>
       <button id="refresh" class="primary">Refresh</button>
     </div>
   </header>
@@ -288,6 +310,37 @@
       <span id="status" class="status-line muted">Loading...</span>
       <span id="updated" class="small muted"></span>
     </div>
+
+    <section id="loginPanel" class="section">
+      <div class="section-head">
+        <h2>Login</h2>
+        <span class="muted small">Session authentication</span>
+      </div>
+      <div class="section-body">
+        <div class="auth-grid">
+          <label class="field">
+            <span class="small muted">Username</span>
+            <input id="loginUsername" type="text" autocomplete="username" />
+          </label>
+          <label class="field">
+            <span class="small muted">Password</span>
+            <input id="loginPassword" type="password" autocomplete="current-password" />
+          </label>
+          <button id="login" class="primary">Login</button>
+          <div class="auth-meta">
+            <span id="loginStatus" class="status-line muted"></span>
+          </div>
+        </div>
+        <details class="legacy-fallback">
+          <summary>Legacy admin-token fallback</summary>
+          <div class="row" style="margin-top:10px">
+            <label class="small muted" for="adminToken">Admin token</label>
+            <input id="adminToken" type="password" placeholder="x-admin-token" />
+            <button id="saveToken">Save fallback token</button>
+          </div>
+        </details>
+      </div>
+    </section>
 
     <div class="notice">
       <strong>Dry-run only: V2 is observing and not changing live Vicidial.</strong>
@@ -474,9 +527,15 @@
   </main>
 
 <script>
+const sessionTokenKey = 'vici_mw_session_token';
 const tokenKey = 'mw_admin_token';
 const altTokenKey = 'adminToken';
 const state = {
+  auth: {
+    user: null,
+    authSource: 'none',
+    actor: null,
+  },
   inventory: [],
   coverageAlerts: [],
   leadExclusions: [],
@@ -491,6 +550,15 @@ const state = {
 
 const $ = selector => document.querySelector(selector);
 
+function getSessionToken() {
+  return localStorage.getItem(sessionTokenKey) || '';
+}
+
+function setSessionToken(value) {
+  if (value) localStorage.setItem(sessionTokenKey, value);
+  else localStorage.removeItem(sessionTokenKey);
+}
+
 function getToken() {
   return localStorage.getItem(tokenKey) || localStorage.getItem(altTokenKey) || '';
 }
@@ -502,6 +570,11 @@ function setToken(value) {
 
 function headers() {
   const h = { 'Content-Type': 'application/json' };
+  const sessionToken = getSessionToken();
+  if (sessionToken) {
+    h.Authorization = `Bearer ${sessionToken}`;
+    return h;
+  }
   const token = getToken();
   if (token) h['x-admin-token'] = token;
   return h;
@@ -514,6 +587,108 @@ async function api(path, options = {}) {
     throw new Error(`HTTP ${res.status}: ${text}`);
   }
   return res.json();
+}
+
+function setLoginStatus(message, kind = 'muted') {
+  const el = $('#loginStatus');
+  if (!el) return;
+  el.textContent = message;
+  el.className = `status-line ${kind}`;
+}
+
+function hasWriteAccess() {
+  return Boolean(state.auth.user && state.auth.user.active !== false && state.auth.user.role !== 'viewer');
+}
+
+function ensureWriteAccess() {
+  if (hasWriteAccess()) return true;
+  alert('Write access requires an active non-viewer user session or temporary admin-token fallback.');
+  return false;
+}
+
+function writeDisabledAttr() {
+  return hasWriteAccess() ? '' : 'disabled';
+}
+
+function renderAuth() {
+  const user = state.auth.user;
+  $('#currentUser').textContent = user ? user.username : 'Not signed in';
+  $('#currentUser').className = `badge ${user ? 'ok' : 'warn'}`;
+  $('#currentRole').textContent = `Role ${user?.role || '-'}`;
+  $('#currentRole').className = `badge ${user?.role === 'viewer' ? 'warn' : 'info'}`;
+  $('#currentAuthSource').textContent = `Auth ${state.auth.authSource || 'none'}`;
+  $('#currentAuthSource').className = `badge ${state.auth.authSource === 'session' ? 'ok' : state.auth.authSource === 'admin_token_fallback' ? 'warn' : 'info'}`;
+  $('#logout').disabled = !user && !getSessionToken() && !getToken();
+  $('#loginPanel').style.display = getSessionToken() ? 'none' : 'block';
+}
+
+async function loadMe() {
+  if (!getSessionToken() && !getToken()) {
+    state.auth = { user: null, authSource: 'none', actor: null };
+    renderAuth();
+    return;
+  }
+
+  try {
+    const data = await api('/admin/v2/auth/me');
+    state.auth = {
+      user: data.user || null,
+      authSource: data.authSource || data.actor?.authSource || 'unknown',
+      actor: data.actor || null,
+    };
+  } catch (err) {
+    if (getSessionToken()) setSessionToken('');
+    state.auth = { user: null, authSource: 'none', actor: null };
+    setLoginStatus(err.message || String(err), 'error');
+  }
+  renderAuth();
+}
+
+async function login() {
+  const username = ($('#loginUsername').value || '').trim();
+  const password = $('#loginPassword').value || '';
+  if (!username || !password.trim()) {
+    setLoginStatus('Username and password are required.', 'error');
+    return;
+  }
+
+  try {
+    setLoginStatus('Logging in...', 'muted');
+    const res = await fetch('/admin/v2/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => String(res.status));
+      throw new Error(`HTTP ${res.status}: ${text}`);
+    }
+    const data = await res.json();
+    setSessionToken(data.sessionToken || '');
+    $('#loginPassword').value = '';
+    state.auth = { user: data.user || null, authSource: 'session', actor: null };
+    renderAuth();
+    setLoginStatus('Logged in.', 'ok');
+    await refreshAll();
+  } catch (err) {
+    setLoginStatus(err.message || String(err), 'error');
+  }
+}
+
+async function logout() {
+  try {
+    if (getSessionToken()) {
+      await api('/admin/v2/auth/logout', { method: 'POST' });
+    }
+  } catch (err) {
+    setLoginStatus(err.message || String(err), 'error');
+  }
+  setSessionToken('');
+  state.auth = { user: null, authSource: 'none', actor: null };
+  renderAuth();
+  await loadMe();
+  if (state.auth.user) await refreshAll();
+  else setStatus('Login required', 'muted');
 }
 
 function scopeParams(extra = {}) {
@@ -695,7 +870,7 @@ function renderCampaignRules() {
         </div>
       </div>
       <div class="rule-actions">
-        <button id="saveCampaignRules" class="primary" type="submit">Save Rules</button>
+        <button id="saveCampaignRules" class="primary" type="submit" ${writeDisabledAttr()}>Save Rules</button>
         <button id="resetCampaignRules" type="button" onclick="resetCampaignRules()">Reset/Reload Rules</button>
         <span id="rulesStatus" class="rules-status muted small"></span>
       </div>
@@ -770,6 +945,7 @@ function collectCampaignRulesPatch() {
 }
 
 async function saveCampaignRules() {
+  if (!ensureWriteAccess()) return;
   if (!state.selectedCampaignId) {
     setRulesStatus('Select a campaign before saving rules.', 'error');
     return;
@@ -846,6 +1022,7 @@ async function loadCampaignRules() {
 }
 
 async function postDidAction(did, path, body) {
+  if (!ensureWriteAccess()) return;
   await api(`/admin/dids/${encodeURIComponent(did)}${path}`, {
     method: 'POST',
     body: JSON.stringify(body || {}),
@@ -853,6 +1030,7 @@ async function postDidAction(did, path, body) {
 }
 
 async function patchDid(did, body) {
+  if (!ensureWriteAccess()) return;
   await api(`/admin/dids/${encodeURIComponent(did)}`, {
     method: 'PATCH',
     body: JSON.stringify(body || {}),
@@ -860,6 +1038,7 @@ async function patchDid(did, body) {
 }
 
 async function assignScopeToDid(did) {
+  if (!ensureWriteAccess()) return;
   const record = state.inventory.find(item => item.did === did) || {};
   if (!state.clients.length) {
     alert('No clients are available.');
@@ -916,6 +1095,7 @@ async function assignScopeToDid(did) {
 }
 
 async function pauseDid(did) {
+  if (!ensureWriteAccess()) return;
   const reason = reasonPrompt('manual pause from DID Operations UI');
   if (!reason || !requireConfirm(`Pause DID ${did}?`)) return;
   await postDidAction(did, '/pause', { reason });
@@ -923,6 +1103,7 @@ async function pauseDid(did) {
 }
 
 async function cooldownDid(did) {
+  if (!ensureWriteAccess()) return;
   const minutesRaw = prompt('Cooldown duration in minutes:', '60');
   if (minutesRaw === null) return;
   const durationMinutes = Number(minutesRaw);
@@ -937,6 +1118,7 @@ async function cooldownDid(did) {
 }
 
 async function reactivateDid(did) {
+  if (!ensureWriteAccess()) return;
   const reason = reasonPrompt('manual reactivation from DID Operations UI');
   if (reason === null) return;
   await postDidAction(did, '/reactivate', { reason: reason || 'manual reactivation from DID Operations UI' });
@@ -944,6 +1126,7 @@ async function reactivateDid(did) {
 }
 
 async function spamReportDid(did) {
+  if (!ensureWriteAccess()) return;
   const reason = reasonPrompt('spam report from DID Operations UI');
   if (!reason || !requireConfirm(`Mark spam report for DID ${did}?`)) return;
   await postDidAction(did, '/spam-report', { reason });
@@ -951,6 +1134,7 @@ async function spamReportDid(did) {
 }
 
 async function removeDidFromRotation(did) {
+  if (!ensureWriteAccess()) return;
   const reason = reasonPrompt('removed from rotation in DID Operations UI');
   if (!reason || !requireConfirm(`Remove DID ${did} from rotation?`)) return;
   await postDidAction(did, '/remove', { reason });
@@ -980,6 +1164,7 @@ function closeHistory() {
 }
 
 async function clearCoverageAlert(id) {
+  if (!ensureWriteAccess()) return;
   const reason = reasonPrompt('cleared from DID Operations UI');
   if (reason === null) return;
   await api(`/admin/dids/coverage/alerts/${encodeURIComponent(id)}/clear`, {
@@ -990,6 +1175,7 @@ async function clearCoverageAlert(id) {
 }
 
 async function clearLeadExclusion(id) {
+  if (!ensureWriteAccess()) return;
   const reason = reasonPrompt('cleared from DID Operations UI');
   if (reason === null) return;
   await api(`/admin/dids/lead-exclusions/${encodeURIComponent(id)}/clear`, {
@@ -1065,12 +1251,12 @@ function renderInventory() {
       <td>${escapeHtml(record.rotation?.currentReason || '-')}</td>
       <td>
         <div class="actions">
-          <button onclick="assignScopeToDid('${jsArg(record.did)}')">Assign scope</button>
-          <button onclick="pauseDid('${jsArg(record.did)}')">Pause</button>
-          <button onclick="cooldownDid('${jsArg(record.did)}')">Cooldown</button>
-          <button onclick="reactivateDid('${jsArg(record.did)}')">Reactivate</button>
-          <button onclick="spamReportDid('${jsArg(record.did)}')">Mark spam report</button>
-          <button class="danger" onclick="removeDidFromRotation('${jsArg(record.did)}')">Remove from rotation</button>
+          <button ${writeDisabledAttr()} onclick="assignScopeToDid('${jsArg(record.did)}')">Assign scope</button>
+          <button ${writeDisabledAttr()} onclick="pauseDid('${jsArg(record.did)}')">Pause</button>
+          <button ${writeDisabledAttr()} onclick="cooldownDid('${jsArg(record.did)}')">Cooldown</button>
+          <button ${writeDisabledAttr()} onclick="reactivateDid('${jsArg(record.did)}')">Reactivate</button>
+          <button ${writeDisabledAttr()} onclick="spamReportDid('${jsArg(record.did)}')">Mark spam report</button>
+          <button ${writeDisabledAttr()} class="danger" onclick="removeDidFromRotation('${jsArg(record.did)}')">Remove from rotation</button>
           <button onclick="showHistory('${jsArg(record.did)}')">View history</button>
         </div>
       </td>
@@ -1097,7 +1283,7 @@ function renderCoverageAlerts() {
       <td>${boolBadge(alert.active)}</td>
       <td>${escapeHtml(fmtDate(alert.createdAt))}</td>
       <td>${escapeHtml(fmtDate(alert.updatedAt))}</td>
-      <td>${alert.active ? `<button onclick="clearCoverageAlert('${jsArg(alert.id)}')">Clear</button>` : '<span class="muted">Cleared</span>'}</td>
+      <td>${alert.active ? `<button ${writeDisabledAttr()} onclick="clearCoverageAlert('${jsArg(alert.id)}')">Clear</button>` : '<span class="muted">Cleared</span>'}</td>
     </tr>
   `).join('');
 }
@@ -1119,7 +1305,7 @@ function renderLeadExclusions() {
       <td>${boolBadge(exclusion.active)}</td>
       <td>${escapeHtml(fmtDate(exclusion.createdAt))}</td>
       <td>${escapeHtml(fmtDate(exclusion.clearedAt))}</td>
-      <td>${exclusion.active ? `<button onclick="clearLeadExclusion('${jsArg(exclusion.id)}')">Clear</button>` : '<span class="muted">Cleared</span>'}</td>
+      <td>${exclusion.active ? `<button ${writeDisabledAttr()} onclick="clearLeadExclusion('${jsArg(exclusion.id)}')">Clear</button>` : '<span class="muted">Cleared</span>'}</td>
     </tr>
   `).join('');
 }
@@ -1174,6 +1360,16 @@ function renderAll() {
 async function refreshAll() {
   setStatus('Loading...', 'muted');
   try {
+    if (!state.auth.user && (getSessionToken() || getToken())) {
+      await loadMe();
+    }
+    if (!state.auth.user) {
+      renderAuth();
+      renderAll();
+      setStatus('Login required', 'muted');
+      return;
+    }
+
     await loadScopeOptions();
     await loadCampaignRules();
     const [dids, coverage, leadExclusions, dryRunStatus, dryRunEvents] = await Promise.all([
@@ -1189,6 +1385,7 @@ async function refreshAll() {
     state.dryRunStatus = dryRunStatus;
     state.dryRunEvents = dryRunEvents.items || [];
     renderAll();
+    renderAuth();
     $('#updated').textContent = `Updated ${new Date().toLocaleString()}`;
     setStatus('Ready', 'ok');
   } catch (err) {
@@ -1198,9 +1395,17 @@ async function refreshAll() {
 
 $('#saveToken').onclick = () => {
   setToken($('#adminToken').value);
-  setStatus('Token saved', 'ok');
-  refreshAll();
+  setStatus('Fallback token saved', 'ok');
+  loadMe().then(refreshAll);
 };
+$('#login').onclick = login;
+$('#logout').onclick = logout;
+$('#loginPassword').addEventListener('keydown', event => {
+  if (event.key === 'Enter') login();
+});
+$('#loginUsername').addEventListener('keydown', event => {
+  if (event.key === 'Enter') login();
+});
 $('#refresh').onclick = refreshAll;
 $('#clientSelect').onchange = () => {
   const nextClientId = $('#clientSelect').value;
@@ -1226,7 +1431,12 @@ $('#clearScope').onclick = () => {
   refreshAll();
 };
 $('#adminToken').value = getToken();
-refreshAll();
+async function boot() {
+  renderAuth();
+  await loadMe();
+  await refreshAll();
+}
+boot();
 </script>
 </body>
 </html>

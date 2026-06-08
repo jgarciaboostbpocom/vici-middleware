@@ -32,6 +32,9 @@ export const config = {
     dryRun: boolEnv('DID_SELECTION_V2_DRY_RUN', true),
     persistObservations: boolEnv('DID_SELECTION_V2_PERSIST_OBSERVATIONS', false),
   },
+  auth: {
+    sessionTtlHours: Number(process.env.VICI_MW_SESSION_TTL_HOURS || process.env.SESSION_TTL_HOURS || 12),
+  },
   port: Number(process.env.PORT || 3000),
   adminToken: process.env.ADMIN_TOKEN || '',
 };

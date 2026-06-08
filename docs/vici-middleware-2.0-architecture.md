@@ -6,7 +6,7 @@ Vici Middleware 2.0 moves the system away from one global Vicidial DID pool. The
 
 `client / tenant -> campaign -> DID pool -> campaign rules -> alerts / exclusions / events -> scoped users`
 
-The Phase 1 foundation adds the storage and API model needed for that hierarchy while preserving current global behavior. Phase 2 adds campaign-aware read filtering and assignment support to the safe DID admin surface and DID Operations UI. Phase 3 carries campaign scope into selector v2 dry-run observation payloads. Phase 4 makes campaign rules editable from DID Operations while keeping those changes local to middleware configuration. Phase 5 applies campaign rules to selector v2 dry-run evaluation only. No live Vicidial update behavior, scheduler behavior, or selector v2 live behavior is changed in these phases.
+The Phase 1 foundation adds the storage and API model needed for that hierarchy while preserving current global behavior. Phase 2 adds campaign-aware read filtering and assignment support to the safe DID admin surface and DID Operations UI. Phase 3 carries campaign scope into selector v2 dry-run observation payloads. Phase 4 makes campaign rules editable from DID Operations while keeping those changes local to middleware configuration. Phase 5 applies campaign rules to selector v2 dry-run evaluation only. Phase 6 replaces the placeholder admin actor with username/password login, hashed session tokens, and backend-enforced RBAC/scope for the admin panel. No live Vicidial update behavior, scheduler behavior, or selector v2 live behavior is changed in these phases.
 
 ## Clients / Tenants
 
@@ -112,7 +112,7 @@ Selector v2 dry-run persistence includes campaign scope when it can be provided 
 
 ## Users And Scopes
 
-Phase 1 adds a user/RBAC foundation, not a login replacement. The current admin token authentication remains unchanged.
+Phase 6 turns the Phase 1 user/RBAC foundation into the admin authentication model.
 
 Roles:
 
@@ -125,26 +125,35 @@ Users have:
 
 - `id`
 - `username`
+- `passwordHash`
 - `role`
 - `assignedClientIds`
 - `assignedCampaignIds`
 - `active`
 - `createdAt`
 - `updatedAt`
+- `lastLoginAt`
 
-No plain-text passwords, tokens, or secrets are stored in this phase.
+No plain-text passwords are stored. Password hashes are created only through the bootstrap or password update paths, and user metadata endpoints reject password, token, and secret fields. Existing users without `passwordHash` still load, but they cannot log in until a super admin sets a password.
 
-## Current Auth Placeholder
+## Phase 6 Login, Sessions, And RBAC
 
-The current backend admin auth validates only `x-admin-token`; it does not identify a real user. The new `/admin/v2` foundation endpoints therefore return an explicit placeholder actor when no v2 username is supplied. That placeholder represents the already-authenticated admin token and is treated as temporary `super_admin`.
+Admin login is available under `/admin/v2/auth`. A successful username/password login returns a random session token. Only a SHA-256 hash of that session token is stored in local JSON session storage, with `createdAt`, `expiresAt`, optional `revokedAt`, and optional `lastSeenAt`. The default session TTL is 12 hours and can be configured with `VICI_MW_SESSION_TTL_HOURS` or `SESSION_TTL_HOURS`.
 
-For validation and early testing, `/admin/v2` can evaluate a stored scoped user when `x-vici-mw-username` or `username` query is supplied. This is not a full login/session system.
+Authenticated admin requests can send either:
 
-Phase 2 applies the same placeholder/stored-user scope model to scoped DID admin reads and DID assignment. The placeholder admin-token actor is allowed for now and returned in response metadata. When `x-vici-mw-username` is supplied, campaign/client access is enforced through `userCanAccessCampaign` and `userCanAccessClient`. Full username/password login replacement remains a future phase.
+- `Authorization: Bearer <sessionToken>`
+- `x-vici-mw-session: <sessionToken>`
+
+`x-admin-token` remains a temporary compatibility fallback only when `ADMIN_TOKEN` is configured. Fallback requests are treated as temporary `super_admin` and responses include `authSource: "admin_token_fallback"`. Session-authenticated responses include `authSource: "session"`.
+
+Bootstrap is available at `POST /admin/v2/auth/bootstrap-super-admin` only while the local user store has zero users. It creates the first `super_admin`; no default credentials are hardcoded. Once any user exists, bootstrap rejects further requests naturally.
+
+Backend routes enforce scope and role permissions. `super_admin` can manage all clients, campaigns, rules, DIDs, users, alerts, exclusions, and events. `internal_admin` and `client_admin` are limited to assigned clients/campaigns. `viewer` can read assigned scope but cannot perform write actions. DID Operations hides or disables write controls for viewers and unauthenticated users, but backend checks remain authoritative.
 
 ## Admin V2 Endpoints
 
-All Phase 1 endpoints are mounted under existing admin auth:
+Admin v2 endpoints are mounted behind session-aware auth, except login and first-user bootstrap:
 
 - `GET /admin/v2/clients`
 - `POST /admin/v2/clients`
@@ -155,10 +164,16 @@ All Phase 1 endpoints are mounted under existing admin auth:
 - `PATCH /admin/v2/campaigns/:campaignId/rules`
 - `GET /admin/v2/users`
 - `POST /admin/v2/users`
+- `PATCH /admin/v2/users/:username`
+- `POST /admin/v2/users/:username/password`
 - `GET /admin/v2/scope/check?campaignId=...`
+- `POST /admin/v2/auth/login`
+- `POST /admin/v2/auth/logout`
+- `GET /admin/v2/auth/me`
+- `POST /admin/v2/auth/bootstrap-super-admin`
 
 These endpoints persist only to local JSON storage and do not touch Vicidial, rotate DIDs, or change active DID behavior.
 
 ## Next Phase
 
-The next phase should carry explicit campaign scope into live-safe rollout controls without enabling v2 live selection prematurely. Full login/password replacement and complete campaign-scoped replacement views are also future work. The current global DID Operations UI should remain available until campaign-scoped replacement views are complete.
+The next phase should carry explicit campaign scope into live-safe rollout controls without enabling v2 live selection prematurely. Complete campaign-scoped replacement views are also future work. The current global DID Operations UI should remain available until campaign-scoped replacement views are complete.

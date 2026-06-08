@@ -12,6 +12,7 @@ import { didsRouter } from './routes/dids';
 import { eventsRouter } from './routes/events';
 import { importRouter } from './routes/import';
 import { logger } from './logger';
+import { requireUserAuth } from './auth/middleware';
 
 const app = express();
 import callsAC from './routes/calls_ac';
@@ -21,13 +22,10 @@ app.use(express.json());
 app.use('/api', stats);
 app.use('/api', adminAlias);
 
-// Admin token auth (header: x-admin-token)
-const adminAuth = (req: any, res: any, next: any) => {
-  if (!config.adminToken) return next();
-  const tok = req.headers['x-admin-token'];
-  if (tok === config.adminToken) return next();
-  return res.status(401).json({ ok: false, error: 'unauthorized' });
-};
+// Session auth with temporary x-admin-token fallback.
+const adminAuth = requireUserAuth({
+  publicPaths: ['/auth/login', '/auth/bootstrap-super-admin'],
+});
 
 // APIs
 app.use('/health', healthRouter);
