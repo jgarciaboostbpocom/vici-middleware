@@ -6,7 +6,7 @@ Vici Middleware 2.0 moves the system away from one global Vicidial DID pool. The
 
 `client / tenant -> campaign -> DID pool -> campaign rules -> alerts / exclusions / events -> scoped users`
 
-The Phase 1 foundation adds the storage and API model needed for that hierarchy while preserving current global behavior. Phase 2 adds campaign-aware read filtering and assignment support to the safe DID admin surface and DID Operations UI. No live Vicidial update behavior, scheduler behavior, or selector v2 live behavior is changed in these phases.
+The Phase 1 foundation adds the storage and API model needed for that hierarchy while preserving current global behavior. Phase 2 adds campaign-aware read filtering and assignment support to the safe DID admin surface and DID Operations UI. Phase 3 carries campaign scope into selector v2 dry-run observation payloads. No live Vicidial update behavior, scheduler behavior, or selector v2 live behavior is changed in these phases.
 
 ## Clients / Tenants
 
@@ -58,6 +58,23 @@ When `campaignId` is supplied, responses include only records assigned to that c
 
 The DID Operations UI now loads `/admin/v2/clients` and `/admin/v2/campaigns`, lets an operator select a campaign, appends `campaignId` to safe DID admin reads, displays campaign rules read-only, and can assign a DID to a client/campaign through `PATCH /admin/dids/:did`.
 
+## Phase 3 Selector Dry-Run Scope
+
+Selector v2 dry-run events can now carry optional `clientId` and `campaignId` values. Scope can come from explicit dry-run input, the selected DID, or a safe inference when every eligible DID in the dry-run pool belongs to the same campaign. If no reliable campaign scope exists, the event remains global/unassigned.
+
+Scoped `did_selection_v2_dry_run` events may include:
+
+- top-level `clientId` and `campaignId`
+- selected DID `clientId` and `campaignId`
+- scoped coverage alerts
+- scoped lead exclusions
+- `metadata.clientId` and `metadata.campaignId`
+- a campaign rules snapshot when rules are supplied for the campaign
+
+When dry-run observation persistence is enabled, persisted coverage alerts and lead exclusions retain the dry-run `clientId` and `campaignId` and include the same values in metadata. Global/unassigned dry-run events and observations remain supported for legacy behavior.
+
+Campaign rules are metadata only in this phase. They are available as a snapshot for analysis and UI visibility, but live selector limits and Vicidial selection/update behavior remain unchanged.
+
 ## Campaign Rules
 
 Each campaign can have independent rules:
@@ -79,7 +96,7 @@ The storage layer creates default rules for new campaigns using the current glob
 
 Coverage alerts and lead exclusions now support optional `clientId` and `campaignId` fields. Existing global alert and exclusion records remain valid.
 
-Future selector persistence should include the campaign scope whenever selector v2 is run for a campaign.
+Selector v2 dry-run persistence includes campaign scope when it can be provided or safely inferred. Future live-safe rollout work should carry explicit campaign scope into selector inputs before enabling any campaign-aware live selection.
 
 ## Users And Scopes
 
@@ -132,4 +149,4 @@ These endpoints persist only to local JSON storage and do not touch Vicidial, ro
 
 ## Next Phase
 
-The next phase should carry campaign scope into selector inputs, persisted dry-run events, and live-safe rollout controls without enabling v2 live selection prematurely. Full login/password replacement and complete campaign-scoped replacement views are also future work. The current global DID Operations UI should remain available until campaign-scoped replacement views are complete.
+The next phase should carry explicit campaign scope into live-safe rollout controls without enabling v2 live selection prematurely. Full login/password replacement and complete campaign-scoped replacement views are also future work. The current global DID Operations UI should remain available until campaign-scoped replacement views are complete.

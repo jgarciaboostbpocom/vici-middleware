@@ -20,6 +20,7 @@ import {
   type DidSelectionV2DryRunEvent,
   type DidSelectionV2DryRunInput,
 } from './didSelectionDryRun';
+import { getCampaignRules } from '../storage/tenants';
 
 type DryRunInput = Omit<DidSelectionV2DryRunInput, 'store'>;
 
@@ -46,7 +47,8 @@ async function recordDidSelectionV2DryRun(input: DryRunInput): Promise<void> {
 
   try {
     const store = await loadDidStore();
-    const event = buildDidSelectionV2DryRunEvent({ ...input, store });
+    const campaignRules = input.campaignRules || (input.campaignId ? await getCampaignRules(input.campaignId) : null);
+    const event = buildDidSelectionV2DryRunEvent({ ...input, store, campaignRules });
     logUiEvent('did_selection_v2_dry_run', event);
     await persistDidSelectionV2Observations(event);
   } catch (err: any) {
@@ -69,20 +71,30 @@ async function persistDidSelectionV2Observations(event: DidSelectionV2DryRunEven
     fallbackUsed: event.fallbackUsed,
     leadPhone: event.leadPhone,
     areaCode: event.areaCode,
+    clientId: event.clientId,
+    campaignId: event.campaignId,
+    selectedDidClientId: event.selectedDidClientId,
+    selectedDidCampaignId: event.selectedDidCampaignId,
+    campaignRules: event.campaignRules,
   };
 
   await Promise.all([
-    ...event.coverageAlerts.map(alert => upsertCoverageAlert(withObservationMetadata(alert, metadata))),
-    ...event.leadExclusions.map(exclusion => upsertLeadExclusion(withObservationMetadata(exclusion, metadata))),
+    ...event.coverageAlerts.map(alert => upsertCoverageAlert(withObservationMetadata(alert, metadata, event))),
+    ...event.leadExclusions.map(exclusion => upsertLeadExclusion(withObservationMetadata(exclusion, metadata, event))),
   ]);
 }
 
 function withObservationMetadata<T extends CoverageAlert | LeadExclusion>(
   record: T,
   metadata: Record<string, unknown>,
+  scope: Pick<DidSelectionV2DryRunEvent, 'clientId' | 'campaignId'>,
 ): T {
+  const clientId = record.clientId || scope.clientId;
+  const campaignId = record.campaignId || scope.campaignId;
   return {
     ...record,
+    ...(clientId ? { clientId } : {}),
+    ...(campaignId ? { campaignId } : {}),
     active: true,
     clearedAt: null,
     clearedReason: null,
