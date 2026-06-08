@@ -7,6 +7,7 @@ import path from 'path';
 import { config } from './config';
 import { healthRouter } from './routes/health';
 import { adminRouter } from './routes/admin';
+import { adminV2Router } from './routes/adminV2';
 import { didsRouter } from './routes/dids';
 import { eventsRouter } from './routes/events';
 import { importRouter } from './routes/import';
@@ -30,6 +31,7 @@ const adminAuth = (req: any, res: any, next: any) => {
 
 // APIs
 app.use('/health', healthRouter);
+app.use('/admin/v2', adminAuth, adminV2Router);
 app.use('/admin', adminAuth, adminRouter);
 app.use('/admin/dids', adminAuth, didsRouter);
 app.use('/admin/events', adminAuth, eventsRouter);

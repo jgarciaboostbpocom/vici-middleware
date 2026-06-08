@@ -249,6 +249,8 @@ didsRouter.patch('/:did', async (req, res) => {
       let next = current;
 
       if (patch.value.state) next = { ...next, state: patch.value.state };
+      if (patch.value.clientId !== undefined) next = { ...next, clientId: patch.value.clientId };
+      if (patch.value.campaignId !== undefined) next = { ...next, campaignId: patch.value.campaignId };
       if (patch.value.areaCode) next = { ...next, areaCode: patch.value.areaCode };
       if (patch.value.status) next = { ...next, status: patch.value.status };
       if (patch.value.notes !== undefined) next = { ...next, notes: patch.value.notes };
@@ -503,6 +505,8 @@ function eventFor(
 
 function parsePatch(body: Record<string, unknown>): ValidationResult<{
   state?: string;
+  clientId?: string;
+  campaignId?: string;
   areaCode?: string;
   status?: DidStatus;
   limits?: Partial<DidRecord['limits']>;
@@ -514,6 +518,8 @@ function parsePatch(body: Record<string, unknown>): ValidationResult<{
   const changedFields: string[] = [];
   const out: {
     state?: string;
+    clientId?: string;
+    campaignId?: string;
     areaCode?: string;
     status?: DidStatus;
     limits?: Partial<DidRecord['limits']>;
@@ -528,6 +534,20 @@ function parsePatch(body: Record<string, unknown>): ValidationResult<{
     if (!state.ok) return state;
     out.state = state.value;
     changedFields.push('state');
+  }
+
+  if (has(body, 'clientId')) {
+    const clientId = parseOptionalRecordId(body.clientId, 'clientId');
+    if (!clientId.ok) return clientId;
+    out.clientId = clientId.value || undefined;
+    changedFields.push('clientId');
+  }
+
+  if (has(body, 'campaignId')) {
+    const campaignId = parseOptionalRecordId(body.campaignId, 'campaignId');
+    if (!campaignId.ok) return campaignId;
+    out.campaignId = campaignId.value || undefined;
+    changedFields.push('campaignId');
   }
 
   if (has(body, 'areaCode')) {
@@ -640,6 +660,18 @@ function parseCoverageAlert(input: unknown): ValidationResult<CoverageAlert> {
     active: active.value,
   };
 
+  if (has(body.value, 'clientId')) {
+    const clientId = parseOptionalRecordId(body.value.clientId, 'clientId');
+    if (!clientId.ok) return clientId;
+    if (clientId.value) alert.clientId = clientId.value;
+  }
+
+  if (has(body.value, 'campaignId')) {
+    const campaignId = parseOptionalRecordId(body.value.campaignId, 'campaignId');
+    if (!campaignId.ok) return campaignId;
+    if (campaignId.value) alert.campaignId = campaignId.value;
+  }
+
   if (has(body.value, 'areaCode')) {
     const areaCode = parseAreaCode(body.value.areaCode, 'areaCode');
     if (!areaCode.ok) return areaCode;
@@ -694,6 +726,18 @@ function parseLeadExclusion(input: unknown): ValidationResult<LeadExclusion> {
     clearedAt: clearedAt.value || null,
   };
 
+  if (has(body.value, 'clientId')) {
+    const clientId = parseOptionalRecordId(body.value.clientId, 'clientId');
+    if (!clientId.ok) return clientId;
+    if (clientId.value) exclusion.clientId = clientId.value;
+  }
+
+  if (has(body.value, 'campaignId')) {
+    const campaignId = parseOptionalRecordId(body.value.campaignId, 'campaignId');
+    if (!campaignId.ok) return campaignId;
+    if (campaignId.value) exclusion.campaignId = campaignId.value;
+  }
+
   if (has(body.value, 'areaCode')) {
     const areaCode = parseAreaCode(body.value.areaCode, 'areaCode');
     if (!areaCode.ok) return areaCode;
@@ -722,6 +766,11 @@ function parseRecordId(value: unknown, field: string): ValidationResult<string> 
     return { ok: false, error: `${field} must be 1-200 characters and contain only letters, numbers, colon, underscore, dash, or dot` };
   }
   return { ok: true, value: id };
+}
+
+function parseOptionalRecordId(value: unknown, field: string): ValidationResult<string | null> {
+  if (value === undefined || value === null || value === '') return { ok: true, value: null };
+  return parseRecordId(value, field);
 }
 
 function parseNullableDid(value: unknown, field: string): ValidationResult<string | null> {

@@ -59,6 +59,8 @@ export type DidRotation = {
 
 export type DidRecord = {
   did: string;
+  clientId?: string;
+  campaignId?: string;
   areaCode: string;
   state: string;
   status: DidStatus;
@@ -75,6 +77,8 @@ export type DidRecord = {
 
 export type CoverageAlert = {
   id: string;
+  clientId?: string;
+  campaignId?: string;
   createdAt: string;
   updatedAt?: string;
   areaCode?: string;
@@ -90,6 +94,8 @@ export type CoverageAlert = {
 
 export type LeadExclusion = {
   id: string;
+  clientId?: string;
+  campaignId?: string;
   createdAt: string;
   updatedAt?: string;
   areaCode?: string;
@@ -143,6 +149,11 @@ function normalizeDid(did: string): string {
 
 function normalizeState(state: string | null | undefined): string {
   return String(state || '').trim().toUpperCase() || 'UNASSIGNED';
+}
+
+function normalizeScopeId(value: string | null | undefined): string | undefined {
+  const normalized = String(value || '').trim();
+  return normalized || undefined;
 }
 
 function deriveAreaCode(did: string): string {
@@ -245,6 +256,8 @@ function createDidRecord(input: Partial<DidRecord> & { did: string; state?: stri
 
   return {
     did,
+    clientId: normalizeScopeId(input.clientId),
+    campaignId: normalizeScopeId(input.campaignId),
     areaCode,
     state: normalizeState(input.state),
     status,
