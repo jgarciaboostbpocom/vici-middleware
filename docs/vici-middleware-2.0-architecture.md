@@ -151,6 +151,10 @@ Bootstrap is available at `POST /admin/v2/auth/bootstrap-super-admin` only while
 
 Backend routes enforce scope and role permissions. `super_admin` can manage all clients, campaigns, rules, DIDs, users, alerts, exclusions, and events. `internal_admin` and `client_admin` are limited to assigned clients/campaigns. `viewer` can read assigned scope but cannot perform write actions. DID Operations hides or disables write controls for viewers and unauthenticated users, but backend checks remain authoritative.
 
+## Phase 6B DID Operations UI Auth Gate
+
+DID Operations hides protected operational data until a session or temporary legacy fallback is authenticated. Logout and auth failure clear the page's in-memory operational state, including inventory, alerts, exclusions, events, and campaign rules, so stale rows are not left visible after access is lost. Backend RBAC remains authoritative; the UI gate is only a privacy and clarity layer. The `x-admin-token` fallback remains temporary compatibility behavior.
+
 ## Admin V2 Endpoints
 
 Admin v2 endpoints are mounted behind session-aware auth, except login and first-user bootstrap:

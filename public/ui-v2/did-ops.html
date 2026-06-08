@@ -266,6 +266,7 @@
       overflow: auto;
     }
     .history.open { display: block; }
+    .hidden { display: none !important; }
     pre {
       margin: 0;
       white-space: pre-wrap;
@@ -299,7 +300,7 @@
     <div class="right row">
       <span id="currentUser" class="badge info">Not signed in</span>
       <span id="currentRole" class="badge info">Role -</span>
-      <span id="currentAuthSource" class="badge info">Auth -</span>
+      <span id="currentAuthSource" class="badge info">Auth none</span>
       <button id="logout">Logout</button>
       <button id="refresh" class="primary">Refresh</button>
     </div>
@@ -342,6 +343,16 @@
       </div>
     </section>
 
+    <section id="unauthenticatedMessage" class="section">
+      <div class="section-head">
+        <h2>Authentication Required</h2>
+      </div>
+      <div class="section-body">
+        <p class="muted">Please log in to access DID Operations.</p>
+      </div>
+    </section>
+
+    <div id="protectedContent">
     <div class="notice">
       <strong>Dry-run only: V2 is observing and not changing live Vicidial.</strong>
       <span>Manual controls update DID store only. This page does not call live Vicidial update routes or scheduler controls.</span>
@@ -524,6 +535,7 @@
         </table>
       </div>
     </section>
+    </div>
   </main>
 
 <script>
@@ -596,6 +608,10 @@ function setLoginStatus(message, kind = 'muted') {
   el.className = `status-line ${kind}`;
 }
 
+function isAuthenticated() {
+  return Boolean(state.auth.user);
+}
+
 function hasWriteAccess() {
   return Boolean(state.auth.user && state.auth.user.active !== false && state.auth.user.role !== 'viewer');
 }
@@ -619,12 +635,32 @@ function renderAuth() {
   $('#currentAuthSource').textContent = `Auth ${state.auth.authSource || 'none'}`;
   $('#currentAuthSource').className = `badge ${state.auth.authSource === 'session' ? 'ok' : state.auth.authSource === 'admin_token_fallback' ? 'warn' : 'info'}`;
   $('#logout').disabled = !user && !getSessionToken() && !getToken();
-  $('#loginPanel').style.display = getSessionToken() ? 'none' : 'block';
+  renderAuthGate();
+}
+
+function renderAuthGate() {
+  const authenticated = isAuthenticated();
+  const protectedContent = $('#protectedContent');
+  const unauthenticatedMessage = $('#unauthenticatedMessage');
+  const loginPanel = $('#loginPanel');
+  if (protectedContent) {
+    protectedContent.style.display = authenticated ? 'block' : 'none';
+    protectedContent.classList.toggle('hidden', !authenticated);
+  }
+  if (unauthenticatedMessage) {
+    unauthenticatedMessage.style.display = authenticated ? 'none' : 'block';
+    unauthenticatedMessage.classList.toggle('hidden', authenticated);
+  }
+  if (loginPanel) {
+    loginPanel.style.display = authenticated ? 'none' : 'block';
+    loginPanel.classList.toggle('hidden', authenticated);
+  }
 }
 
 async function loadMe() {
   if (!getSessionToken() && !getToken()) {
     state.auth = { user: null, authSource: 'none', actor: null };
+    clearProtectedState();
     renderAuth();
     return;
   }
@@ -639,6 +675,7 @@ async function loadMe() {
   } catch (err) {
     if (getSessionToken()) setSessionToken('');
     state.auth = { user: null, authSource: 'none', actor: null };
+    clearProtectedState();
     setLoginStatus(err.message || String(err), 'error');
   }
   renderAuth();
@@ -666,8 +703,13 @@ async function login() {
     const data = await res.json();
     setSessionToken(data.sessionToken || '');
     $('#loginPassword').value = '';
-    state.auth = { user: data.user || null, authSource: 'session', actor: null };
-    renderAuth();
+    await loadMe();
+    if (!isAuthenticated()) {
+      setSessionToken('');
+      clearProtectedState();
+      renderAuth();
+      throw new Error('Login succeeded, but session confirmation failed.');
+    }
     setLoginStatus('Logged in.', 'ok');
     await refreshAll();
   } catch (err) {
@@ -685,10 +727,10 @@ async function logout() {
   }
   setSessionToken('');
   state.auth = { user: null, authSource: 'none', actor: null };
+  clearProtectedState();
   renderAuth();
-  await loadMe();
-  if (state.auth.user) await refreshAll();
-  else setStatus('Login required', 'muted');
+  renderAll();
+  setStatus('Login required', 'muted');
 }
 
 function scopeParams(extra = {}) {
@@ -763,6 +805,16 @@ function setStatus(message, kind = 'muted') {
   const el = $('#status');
   el.textContent = message;
   el.className = `status-line ${kind}`;
+}
+
+function clearProtectedState() {
+  state.inventory = [];
+  state.coverageAlerts = [];
+  state.leadExclusions = [];
+  state.dryRunEvents = [];
+  state.campaignRules = null;
+  state.dryRunStatus = null;
+  closeHistory();
 }
 
 function reasonPrompt(defaultReason) {
@@ -1348,6 +1400,7 @@ function formatCampaignRuleReasons(evaluation) {
 }
 
 function renderAll() {
+  renderAuthGate();
   renderScopeControls();
   renderDryRunStatus();
   renderSummary();
@@ -1360,10 +1413,11 @@ function renderAll() {
 async function refreshAll() {
   setStatus('Loading...', 'muted');
   try {
-    if (!state.auth.user && (getSessionToken() || getToken())) {
+    if (!isAuthenticated()) {
       await loadMe();
     }
-    if (!state.auth.user) {
+    if (!isAuthenticated()) {
+      clearProtectedState();
       renderAuth();
       renderAll();
       setStatus('Login required', 'muted');
