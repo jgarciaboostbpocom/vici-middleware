@@ -23,6 +23,16 @@ import {
   type LeadExclusion,
   type RotationEvent,
 } from '../storage/dids';
+import {
+  getCampaignById,
+  getCampaignRules,
+  getUserByUsername,
+  userCanAccessCampaign,
+  userCanAccessClient,
+  type CampaignRules,
+  type ScopedUser,
+  type ViciCampaign,
+} from '../storage/tenants';
 import { memory } from '../storage/memory';
 import {
   calculateDidEffectiveStatus,
@@ -38,29 +48,67 @@ type JsonResponse = {
   status: (code: number) => JsonResponse;
   json: (body: unknown) => unknown;
 };
+type ActorContext = {
+  user: ScopedUser;
+  source: 'stored_user' | 'admin_token_placeholder' | 'unknown_user';
+  note: string;
+};
+type DidScope = {
+  clientId: string | null;
+  campaignId: string | null;
+  campaign: ViciCampaign | null;
+  campaignRules: CampaignRules | null;
+  actor: ActorContext;
+  isScoped: boolean;
+};
+type ScopeValidationResult = { ok: true; value: DidScope } | { ok: false; status: number; error: string };
 
 const MAX_HISTORY = 100;
 const PATCH_STATUSES = new Set<DidStatus>(['available', 'active', 'spam_risk', 'burned']);
 const COVERAGE_ALERT_REASONS = new Set<CoverageAlert['reason']>(['NO_AREA_DID', 'NO_STATE_DID', 'FALLBACK_USED', 'NO_APPROVED_FALLBACK']);
 const LEAD_EXCLUSION_REASONS = new Set<LeadExclusion['reason']>(['MISSING_AREA_COVERAGE', 'MISSING_STATE_COVERAGE', 'NO_APPROVED_FALLBACK']);
+const PLACEHOLDER_USER: ScopedUser = {
+  id: 'admin-token-placeholder',
+  username: 'admin-token-placeholder',
+  role: 'super_admin',
+  assignedClientIds: [],
+  assignedCampaignIds: [],
+  active: true,
+  createdAt: '1970-01-01T00:00:00.000Z',
+  updatedAt: '1970-01-01T00:00:00.000Z',
+};
 
-didsRouter.get('/', async (_req, res) => {
+didsRouter.get('/', async (req, res) => {
   try {
-    const [items, states, store, records] = await Promise.all([
-      getItems(),
+    const scope = await resolveQueryScope(req);
+    if (!scope.ok) return sendError(res, scope.status, scope.error);
+
+    const [states, store, records] = await Promise.all([
       getStates(),
       loadDidStore(),
       getDidInventory(),
     ]);
+    const scopedRecords = records.filter(record => recordMatchesScope(record, scope.value));
+    const scopedDids = new Set(scopedRecords.map(record => record.did));
+    const visibleStates = scope.value.isScoped
+      ? Array.from(new Set(scopedRecords.map(record => record.state))).sort()
+      : states;
     const active: Record<string, string | null> = {};
-    for (const st of states) active[st] = await getActiveDidForState(st);
+    for (const st of visibleStates) {
+      const activeDid = await getActiveDidForState(st);
+      active[st] = !scope.value.isScoped || (activeDid && scopedDids.has(activeDid)) ? activeDid : null;
+    }
 
     res.json({
-      items,
+      items: scopedRecords.map(({ did, state }) => ({ did, state })),
       active,
-      inventory: records.map(toDidHealth),
-      coverage: store.coverage,
-      leadExclusions: store.leadExclusions,
+      inventory: scopedRecords.map(toDidHealth),
+      coverage: {
+        ...store.coverage,
+        missing: store.coverage.missing.filter(alert => recordMatchesScope(alert, scope.value)),
+      },
+      leadExclusions: store.leadExclusions.filter(exclusion => recordMatchesScope(exclusion, scope.value)),
+      ...scopeResponse(scope.value),
     });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -131,19 +179,35 @@ didsRouter.get('/selector-v2/status', async (_req, res) => {
 });
 
 didsRouter.get('/selector-v2/dry-run-events', async (req, res) => {
-  const requestedLimit = Number(req.query.limit || 100);
-  const limit = Math.max(1, Math.min(Number.isFinite(requestedLimit) ? requestedLimit : 100, 500));
-  const scanLimit = Math.min(limit * 5, 5000);
-  const items = readRecentEvents({ limit: scanLimit })
-    .filter(event => event.type === 'did_selection_v2_dry_run')
-    .slice(0, limit);
+  try {
+    const requestedLimit = Number(req.query.limit || 100);
+    const limit = Math.max(1, Math.min(Number.isFinite(requestedLimit) ? requestedLimit : 100, 500));
 
-  res.json({ ok: true, items, now: Date.now() });
+    const scope = await resolveQueryScope(req);
+    if (!scope.ok) return sendError(res, scope.status, scope.error);
+
+    const scanLimit = scope.value.isScoped ? 5000 : Math.min(limit * 5, 5000);
+    const didsByNumber = scope.value.isScoped
+      ? new Map((await getDidInventory()).map(record => [record.did, record]))
+      : new Map<string, DidRecord>();
+    const items = readRecentEvents({ limit: scanLimit })
+      .filter(event => event.type === 'did_selection_v2_dry_run')
+      .filter(event => eventMatchesScope(event, scope.value, didsByNumber))
+      .slice(0, limit);
+
+    res.json({ ok: true, items, now: Date.now(), ...scopeResponse(scope.value) });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
 });
 
-didsRouter.get('/coverage/alerts', async (_req, res) => {
+didsRouter.get('/coverage/alerts', async (req, res) => {
   try {
-    res.json({ ok: true, alerts: await getCoverageAlerts() });
+    const scope = await resolveQueryScope(req);
+    if (!scope.ok) return sendError(res, scope.status, scope.error);
+
+    const alerts = (await getCoverageAlerts()).filter(alert => recordMatchesScope(alert, scope.value));
+    res.json({ ok: true, alerts, ...scopeResponse(scope.value) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -176,9 +240,13 @@ didsRouter.post('/coverage/alerts/:id/clear', async (req, res) => {
   }
 });
 
-didsRouter.get('/lead-exclusions', async (_req, res) => {
+didsRouter.get('/lead-exclusions', async (req, res) => {
   try {
-    res.json({ ok: true, leadExclusions: await getLeadExclusions() });
+    const scope = await resolveQueryScope(req);
+    if (!scope.ok) return sendError(res, scope.status, scope.error);
+
+    const leadExclusions = (await getLeadExclusions()).filter(exclusion => recordMatchesScope(exclusion, scope.value));
+    res.json({ ok: true, leadExclusions, ...scopeResponse(scope.value) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -245,12 +313,15 @@ didsRouter.patch('/:did', async (req, res) => {
   if (!patch.ok) return sendError(res, 400, patch.error);
 
   try {
+    const scope = await resolvePatchScope(req, patch.value);
+    if (!scope.ok) return sendError(res, scope.status, scope.error);
+
     const updated = await mutateDid(did.value, (current, now) => {
       let next = current;
 
       if (patch.value.state) next = { ...next, state: patch.value.state };
-      if (patch.value.clientId !== undefined) next = { ...next, clientId: patch.value.clientId };
-      if (patch.value.campaignId !== undefined) next = { ...next, campaignId: patch.value.campaignId };
+      if (patch.value.changedFields.includes('clientId')) next = { ...next, clientId: patch.value.clientId || undefined };
+      if (patch.value.changedFields.includes('campaignId')) next = { ...next, campaignId: patch.value.campaignId || undefined };
       if (patch.value.areaCode) next = { ...next, areaCode: patch.value.areaCode };
       if (patch.value.status) next = { ...next, status: patch.value.status };
       if (patch.value.notes !== undefined) next = { ...next, notes: patch.value.notes };
@@ -265,7 +336,7 @@ didsRouter.patch('/:did', async (req, res) => {
     });
 
     if (!updated) return sendError(res, 404, 'DID not found');
-    res.json({ ok: true, record: toDidHealth(updated) });
+    res.json({ ok: true, record: toDidHealth(updated), ...scopeResponse(scope.value) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -458,6 +529,188 @@ function toDidHealth(record: DidRecord) {
   };
 }
 
+async function resolveQueryScope(req: any): Promise<ScopeValidationResult> {
+  const clientId = parseOptionalRecordId(firstQueryValue(req.query?.clientId), 'clientId');
+  if (!clientId.ok) return { ok: false, status: 400, error: clientId.error };
+
+  const campaignId = parseOptionalRecordId(firstQueryValue(req.query?.campaignId), 'campaignId');
+  if (!campaignId.ok) return { ok: false, status: 400, error: campaignId.error };
+
+  return resolveScope(req, {
+    clientId: clientId.value,
+    campaignId: campaignId.value,
+  });
+}
+
+async function resolvePatchScope(
+  req: any,
+  patch: {
+    clientId?: string | null;
+    campaignId?: string | null;
+    changedFields: string[];
+  },
+): Promise<ScopeValidationResult> {
+  return resolveScope(req, {
+    clientId: patch.changedFields.includes('clientId') ? patch.clientId || null : null,
+    campaignId: patch.changedFields.includes('campaignId') ? patch.campaignId || null : null,
+  });
+}
+
+async function resolveScope(
+  req: any,
+  requested: { clientId?: string | null; campaignId?: string | null },
+): Promise<ScopeValidationResult> {
+  const actor = await resolveActor(req);
+  const clientId = requested.clientId || null;
+  const campaignId = requested.campaignId || null;
+  let campaign: ViciCampaign | null = null;
+  let campaignRules: CampaignRules | null = null;
+
+  if (campaignId) {
+    campaign = await getCampaignById(campaignId);
+    if (!campaign) return { ok: false, status: 404, error: 'campaign not found' };
+    campaignRules = await getCampaignRules(campaignId);
+
+    if (clientId && campaign.clientId !== clientId) {
+      return { ok: false, status: 400, error: 'clientId does not match campaign clientId' };
+    }
+  }
+
+  if (actor.source !== 'admin_token_placeholder') {
+    if (campaignId && !await userCanAccessCampaign(actor.user, campaignId)) {
+      return { ok: false, status: 403, error: 'campaign scope required' };
+    }
+    if (clientId && !userCanAccessClient(actor.user, clientId)) {
+      return { ok: false, status: 403, error: 'client scope required' };
+    }
+  }
+
+  return {
+    ok: true,
+    value: {
+      clientId,
+      campaignId,
+      campaign,
+      campaignRules,
+      actor,
+      isScoped: Boolean(clientId || campaignId),
+    },
+  };
+}
+
+async function resolveActor(req: any): Promise<ActorContext> {
+  const requestedUsername = normalizeUsername(
+    firstHeaderValue(req.headers?.['x-vici-mw-username']) ||
+    firstQueryValue(req.query?.username),
+  );
+
+  if (!requestedUsername) {
+    return {
+      user: PLACEHOLDER_USER,
+      source: 'admin_token_placeholder',
+      note: 'Existing admin token auth does not identify a user yet; authenticated admin requests are treated as a temporary super_admin placeholder for scoped DID admin endpoints.',
+    };
+  }
+
+  const stored = await getUserByUsername(requestedUsername);
+  if (stored) {
+    return {
+      user: stored,
+      source: 'stored_user',
+      note: 'Scope was evaluated using the stored v2 user supplied by x-vici-mw-username or username query.',
+    };
+  }
+
+  return {
+    user: {
+      ...PLACEHOLDER_USER,
+      id: requestedUsername,
+      username: requestedUsername,
+      role: 'viewer',
+      active: false,
+    },
+    source: 'unknown_user',
+    note: 'Requested v2 username was not found; no scoped access is granted.',
+  };
+}
+
+function actorPayload(actor: ActorContext) {
+  return {
+    id: actor.user.id,
+    username: actor.user.username,
+    role: actor.user.role,
+    active: actor.user.active,
+    source: actor.source,
+    note: actor.note,
+  };
+}
+
+function scopeResponse(scope: DidScope) {
+  return {
+    actor: actorPayload(scope.actor),
+    scope: {
+      requestedClientId: scope.clientId,
+      requestedCampaignId: scope.campaignId,
+      campaign: scope.campaign,
+      campaignRules: scope.campaignRules,
+      isScoped: scope.isScoped,
+      rbacStatus: scope.actor.source === 'admin_token_placeholder'
+        ? 'placeholder_admin_token_scope'
+        : 'stored_user_scope',
+    },
+    campaign: scope.campaign,
+    campaignRules: scope.campaignRules,
+  };
+}
+
+function recordMatchesScope(record: { clientId?: string | null; campaignId?: string | null }, scope: DidScope): boolean {
+  if (scope.campaignId && record.campaignId !== scope.campaignId) return false;
+  if (scope.clientId && record.clientId !== scope.clientId) return false;
+  return true;
+}
+
+function eventMatchesScope(event: any, scope: DidScope, didsByNumber: Map<string, DidRecord>): boolean {
+  if (!scope.isScoped) return true;
+  if (objectMatchesScope(event, scope)) return true;
+  if (objectMatchesScope(event?.metadata, scope)) return true;
+
+  const nestedRecords = [
+    ...arrayFromUnknown(event?.coverageAlerts),
+    ...arrayFromUnknown(event?.leadExclusions),
+  ];
+  if (nestedRecords.some(record => objectMatchesScope(record, scope))) return true;
+
+  const eventDids = [
+    event?.did,
+    event?.selectedDid,
+    event?.currentActiveDid,
+    event?.currentLogicDid,
+  ].map(normalizeDidValue).filter(Boolean);
+
+  return eventDids.some(did => {
+    const record = didsByNumber.get(did);
+    return record ? recordMatchesScope(record, scope) : false;
+  });
+}
+
+function objectMatchesScope(value: unknown, scope: DidScope): boolean {
+  if (typeof value !== 'object' || value === null) return false;
+  const record = value as { clientId?: unknown; campaignId?: unknown };
+  if (scope.campaignId && String(record.campaignId || '') !== scope.campaignId) return false;
+  if (scope.clientId && String(record.clientId || '') !== scope.clientId) return false;
+  return true;
+}
+
+function arrayFromUnknown(value: unknown): unknown[] {
+  return Array.isArray(value) ? value : [];
+}
+
+function normalizeDidValue(value: unknown): string {
+  let digits = String(value || '').replace(/\D/g, '');
+  if (digits.length === 11 && digits.startsWith('1')) digits = digits.slice(1);
+  return /^\d{10}$/.test(digits) ? digits : '';
+}
+
 async function mutateDid(
   did: string,
   update: (record: DidRecord, now: Date) => DidRecord,
@@ -505,8 +758,8 @@ function eventFor(
 
 function parsePatch(body: Record<string, unknown>): ValidationResult<{
   state?: string;
-  clientId?: string;
-  campaignId?: string;
+  clientId?: string | null;
+  campaignId?: string | null;
   areaCode?: string;
   status?: DidStatus;
   limits?: Partial<DidRecord['limits']>;
@@ -518,8 +771,8 @@ function parsePatch(body: Record<string, unknown>): ValidationResult<{
   const changedFields: string[] = [];
   const out: {
     state?: string;
-    clientId?: string;
-    campaignId?: string;
+    clientId?: string | null;
+    campaignId?: string | null;
     areaCode?: string;
     status?: DidStatus;
     limits?: Partial<DidRecord['limits']>;
@@ -539,14 +792,14 @@ function parsePatch(body: Record<string, unknown>): ValidationResult<{
   if (has(body, 'clientId')) {
     const clientId = parseOptionalRecordId(body.clientId, 'clientId');
     if (!clientId.ok) return clientId;
-    out.clientId = clientId.value || undefined;
+    out.clientId = clientId.value;
     changedFields.push('clientId');
   }
 
   if (has(body, 'campaignId')) {
     const campaignId = parseOptionalRecordId(body.campaignId, 'campaignId');
     if (!campaignId.ok) return campaignId;
-    out.campaignId = campaignId.value || undefined;
+    out.campaignId = campaignId.value;
     changedFields.push('campaignId');
   }
 
@@ -873,6 +1126,20 @@ function parseOptionalTimestamp(value: unknown, field: string): ValidationResult
   const date = new Date(String(value));
   if (!Number.isFinite(date.getTime())) return { ok: false, error: `${field} must be a valid date/time` };
   return { ok: true, value: date.toISOString() };
+}
+
+function normalizeUsername(value: unknown): string {
+  return String(value || '').trim().toLowerCase();
+}
+
+function firstHeaderValue(value: unknown): string {
+  if (Array.isArray(value)) return String(value[0] || '');
+  return String(value || '');
+}
+
+function firstQueryValue(value: unknown): string {
+  if (Array.isArray(value)) return String(value[0] || '');
+  return String(value || '');
 }
 
 function boolEnv(name: string, fallback: boolean): boolean {

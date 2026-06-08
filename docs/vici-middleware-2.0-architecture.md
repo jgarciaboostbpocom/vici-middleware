@@ -6,7 +6,7 @@ Vici Middleware 2.0 moves the system away from one global Vicidial DID pool. The
 
 `client / tenant -> campaign -> DID pool -> campaign rules -> alerts / exclusions / events -> scoped users`
 
-The Phase 1 foundation adds the storage and API model needed for that hierarchy while preserving current global behavior. No live Vicidial update behavior, scheduler behavior, or selector v2 live behavior is changed in this phase.
+The Phase 1 foundation adds the storage and API model needed for that hierarchy while preserving current global behavior. Phase 2 adds campaign-aware read filtering and assignment support to the safe DID admin surface and DID Operations UI. No live Vicidial update behavior, scheduler behavior, or selector v2 live behavior is changed in these phases.
 
 ## Clients / Tenants
 
@@ -35,13 +35,28 @@ A campaign belongs to one client and will eventually own its own DID pool, rules
 - `createdAt`
 - `updatedAt`
 
-The current Vicidial integration still uses the existing global campaign config. A later phase should refactor DID endpoints, selector calls, and UI flows to require or accept `campaignId`.
+The current Vicidial integration still uses the existing global campaign config. Safe DID admin endpoints can now accept optional scope filters, but selector live selection and Vicidial update paths remain global until a later phase.
 
 ## Campaign DID Pools
 
 Phase 1 adds optional `clientId` and `campaignId` fields to DID v2 records. Existing records without those fields remain valid and continue to behave as global/unassigned records.
 
-The next DID refactor should filter DID inventory by `campaignId` before selector scoring and before any admin inventory views. Until that phase, the current global DID Operations UI remains temporary and should be treated as an operational compatibility view.
+Phase 2 filters safe admin inventory views by `clientId` or `campaignId` when those query parameters are supplied. Without a scope filter, `/admin/dids` and the DID Operations UI continue to show the backward-compatible global/unassigned view. The current global DID Operations UI remains temporary as an operational compatibility mode while campaign-scoped replacement workflows are completed.
+
+## Phase 2 DID Operations Scope
+
+The following safe DID admin endpoints now accept optional `clientId` and `campaignId` query parameters:
+
+- `GET /admin/dids`
+- `GET /admin/dids/coverage/alerts`
+- `GET /admin/dids/lead-exclusions`
+- `GET /admin/dids/selector-v2/dry-run-events`
+
+When `campaignId` is supplied, responses include only records assigned to that campaign and return campaign/rule metadata when available. When `clientId` is supplied, responses include only records assigned to that client. Legacy records with no `clientId` or `campaignId` are still returned in the unfiltered global view and are not dropped unless a scope filter is explicitly requested.
+
+`PATCH /admin/dids/:did` can assign or clear `clientId` and `campaignId` in the local DID store. Empty string or `null` clears the corresponding field. This remains a safe admin-store update and does not call live Vicidial update routes.
+
+The DID Operations UI now loads `/admin/v2/clients` and `/admin/v2/campaigns`, lets an operator select a campaign, appends `campaignId` to safe DID admin reads, displays campaign rules read-only, and can assign a DID to a client/campaign through `PATCH /admin/dids/:did`.
 
 ## Campaign Rules
 
@@ -96,6 +111,8 @@ The current backend admin auth validates only `x-admin-token`; it does not ident
 
 For validation and early testing, `/admin/v2` can evaluate a stored scoped user when `x-vici-mw-username` or `username` query is supplied. This is not a full login/session system.
 
+Phase 2 applies the same placeholder/stored-user scope model to scoped DID admin reads and DID assignment. The placeholder admin-token actor is allowed for now and returned in response metadata. When `x-vici-mw-username` is supplied, campaign/client access is enforced through `userCanAccessCampaign` and `userCanAccessClient`. Full username/password login replacement remains a future phase.
+
 ## Admin V2 Endpoints
 
 All Phase 1 endpoints are mounted under existing admin auth:
@@ -115,4 +132,4 @@ These endpoints persist only to local JSON storage and do not touch Vicidial, ro
 
 ## Next Phase
 
-The next phase should refactor DID APIs and UI flows to require or accept `campaignId`, then scope inventory, coverage alerts, lead exclusions, dry-run events, and selector inputs by campaign. The current global DID Operations UI should remain available until campaign-scoped replacement views are complete.
+The next phase should carry campaign scope into selector inputs, persisted dry-run events, and live-safe rollout controls without enabling v2 live selection prematurely. Full login/password replacement and complete campaign-scoped replacement views are also future work. The current global DID Operations UI should remain available until campaign-scoped replacement views are complete.

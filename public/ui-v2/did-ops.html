@@ -58,7 +58,7 @@
       flex-wrap: wrap;
       margin-bottom: 14px;
     }
-    input, button {
+    input, select, button {
       font: inherit;
       border: 1px solid var(--border);
       border-radius: 6px;
@@ -67,6 +67,7 @@
       color: var(--text);
     }
     input { min-width: 210px; }
+    select { min-width: 220px; }
     button {
       cursor: pointer;
       background: #f8fafc;
@@ -109,6 +110,31 @@
       background: #fbfcfe;
     }
     .section-body { padding: 12px 14px; }
+    .scope-controls {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(220px, 1fr)) auto;
+      gap: 10px;
+      align-items: end;
+    }
+    .field {
+      display: grid;
+      gap: 4px;
+    }
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(170px, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .rule-item {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 9px 10px;
+      background: #fbfcfe;
+      min-height: 60px;
+    }
+    .rule-item .label { color: var(--muted); font-size: 12px; }
+    .rule-item .value { font-weight: 700; margin-top: 3px; white-space: normal; word-break: break-word; }
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(9, minmax(120px, 1fr));
@@ -148,7 +174,7 @@
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
-      min-width: 470px;
+      min-width: 560px;
     }
     .actions button { padding: 6px 8px; font-size: 12px; }
     .badge {
@@ -187,13 +213,17 @@
     }
     @media (max-width: 1300px) {
       .summary-grid { grid-template-columns: repeat(3, minmax(140px, 1fr)); }
+      .rules-grid { grid-template-columns: repeat(2, minmax(170px, 1fr)); }
+      .scope-controls { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
     }
     @media (max-width: 720px) {
       main { width: calc(100vw - 16px); }
       header { padding: 12px 10px; }
       .summary-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+      .rules-grid { grid-template-columns: 1fr; }
+      .scope-controls { grid-template-columns: 1fr; }
       .right { margin-left: 0; }
-      input { min-width: 160px; width: 100%; }
+      input, select { min-width: 160px; width: 100%; }
     }
   </style>
 </head>
@@ -224,6 +254,35 @@
 
     <section class="section">
       <div class="section-head">
+        <h2>Scope</h2>
+        <span id="scopeModeLabel" class="badge info">Viewing global/unassigned DID data</span>
+      </div>
+      <div class="section-body">
+        <div class="scope-controls">
+          <label class="field">
+            <span class="small muted">Client</span>
+            <select id="clientSelect">
+              <option value="">Global / all clients</option>
+            </select>
+          </label>
+          <label class="field">
+            <span class="small muted">Campaign</span>
+            <select id="campaignSelect">
+              <option value="">No campaign selected</option>
+            </select>
+          </label>
+          <div class="field">
+            <span class="small muted">Campaign rules</span>
+            <span id="scopeCampaignName" class="muted">No campaign selected</span>
+          </div>
+          <button id="clearScope">Clear scope / Global view</button>
+        </div>
+        <div id="campaignRulesPanel" class="rules-grid"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
         <h2>Dry-run Status</h2>
         <span class="muted small">Non-secret selector v2 flags from the backend.</span>
       </div>
@@ -251,6 +310,8 @@
           <thead>
             <tr>
               <th>DID</th>
+              <th>Client</th>
+              <th>Campaign</th>
               <th>State</th>
               <th>Area code</th>
               <th>Status</th>
@@ -270,7 +331,7 @@
             </tr>
           </thead>
           <tbody id="inventoryBody">
-            <tr><td colspan="17" class="muted">Loading inventory...</td></tr>
+            <tr><td colspan="19" class="muted">Loading inventory...</td></tr>
           </tbody>
         </table>
       </div>
@@ -287,6 +348,8 @@
           <thead>
             <tr>
               <th>ID</th>
+              <th>Client</th>
+              <th>Campaign</th>
               <th>Area code</th>
               <th>State</th>
               <th>Reason</th>
@@ -299,7 +362,7 @@
             </tr>
           </thead>
           <tbody id="coverageBody">
-            <tr><td colspan="10" class="muted">Loading coverage alerts...</td></tr>
+            <tr><td colspan="12" class="muted">Loading coverage alerts...</td></tr>
           </tbody>
         </table>
       </div>
@@ -315,6 +378,8 @@
           <thead>
             <tr>
               <th>ID</th>
+              <th>Client</th>
+              <th>Campaign</th>
               <th>Area code</th>
               <th>State</th>
               <th>Reason</th>
@@ -325,7 +390,7 @@
             </tr>
           </thead>
           <tbody id="leadExclusionBody">
-            <tr><td colspan="8" class="muted">Loading lead exclusions...</td></tr>
+            <tr><td colspan="10" class="muted">Loading lead exclusions...</td></tr>
           </tbody>
         </table>
       </div>
@@ -370,6 +435,11 @@ const state = {
   leadExclusions: [],
   dryRunEvents: [],
   dryRunStatus: null,
+  clients: [],
+  campaigns: [],
+  selectedClientId: '',
+  selectedCampaignId: '',
+  campaignRules: null,
 };
 
 const $ = selector => document.querySelector(selector);
@@ -397,6 +467,27 @@ async function api(path, options = {}) {
     throw new Error(`HTTP ${res.status}: ${text}`);
   }
   return res.json();
+}
+
+function scopeParams(extra = {}) {
+  const params = new URLSearchParams(extra);
+  if (state.selectedCampaignId) {
+    params.set('campaignId', state.selectedCampaignId);
+  }
+  const query = params.toString();
+  return query ? `?${query}` : '';
+}
+
+function scopedAdminPath(path, extra = {}) {
+  return `${path}${scopeParams(extra)}`;
+}
+
+function currentCampaign() {
+  return state.campaigns.find(campaign => campaign.id === state.selectedCampaignId) || null;
+}
+
+function currentClient() {
+  return state.clients.find(client => client.id === state.selectedClientId) || null;
 }
 
 function escapeHtml(value) {
@@ -461,11 +552,177 @@ function requireConfirm(message) {
   return confirm(`${message}\n\nManual controls update DID store only. They do not update live Vicidial.`);
 }
 
+function campaignName(campaign) {
+  if (!campaign) return '';
+  return `${campaign.name || campaign.id} (${campaign.id})`;
+}
+
+function clientName(client) {
+  if (!client) return '';
+  return `${client.name || client.id} (${client.id})`;
+}
+
+function renderScopeControls() {
+  const clientOptions = [
+    '<option value="">Global / all clients</option>',
+    ...state.clients.map(client => `<option value="${escapeHtml(client.id)}">${escapeHtml(clientName(client))}</option>`),
+  ];
+  $('#clientSelect').innerHTML = clientOptions.join('');
+  $('#clientSelect').value = state.selectedClientId;
+
+  const filteredCampaigns = state.selectedClientId
+    ? state.campaigns.filter(campaign => campaign.clientId === state.selectedClientId)
+    : state.campaigns;
+  const campaignOptions = [
+    '<option value="">No campaign selected</option>',
+    ...filteredCampaigns.map(campaign => `<option value="${escapeHtml(campaign.id)}">${escapeHtml(campaignName(campaign))}</option>`),
+  ];
+  $('#campaignSelect').innerHTML = campaignOptions.join('');
+  $('#campaignSelect').value = state.selectedCampaignId;
+
+  const campaign = currentCampaign();
+  const client = currentClient();
+  $('#scopeModeLabel').textContent = state.selectedCampaignId
+    ? 'Viewing campaign-scoped DID data'
+    : 'Viewing global/unassigned DID data';
+  $('#scopeModeLabel').className = `badge ${state.selectedCampaignId ? 'ok' : 'info'}`;
+  $('#scopeCampaignName').textContent = campaign
+    ? `${campaignName(campaign)} / ${clientName(client) || campaign.clientId}`
+    : 'No campaign selected';
+
+  renderCampaignRules();
+}
+
+function renderCampaignRules() {
+  const panel = $('#campaignRulesPanel');
+  if (!state.selectedCampaignId) {
+    panel.innerHTML = '<div class="muted small">No campaign selected.</div>';
+    return;
+  }
+
+  const rules = state.campaignRules;
+  if (!rules) {
+    panel.innerHTML = '<div class="muted small">Campaign rules unavailable.</div>';
+    return;
+  }
+
+  const fields = [
+    ['dailyCallLimitPerDid', rules.dailyCallLimitPerDid],
+    ['hourlyCallLimitPerDid', rules.hourlyCallLimitPerDid],
+    ['ahtThresholdSec', rules.ahtThresholdSec],
+    ['connectionAhtThresholdSec', rules.connectionAhtThresholdSec],
+    ['coolingDurationMinutes', rules.coolingDurationMinutes],
+    ['spamReportThreshold', rules.spamReportThreshold],
+    ['allowNearbyStateFallback', rules.allowNearbyStateFallback ? 'true' : 'false'],
+    ['allowedFallbackStates', (rules.allowedFallbackStates || []).join(', ') || '-'],
+    ['leadExclusionEnabled', rules.leadExclusionEnabled ? 'true' : 'false'],
+  ];
+
+  panel.innerHTML = fields.map(([label, value]) => `
+    <div class="rule-item">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+}
+
+async function loadScopeOptions() {
+  const [clients, campaigns] = await Promise.all([
+    api('/admin/v2/clients'),
+    api('/admin/v2/campaigns'),
+  ]);
+  state.clients = clients.clients || [];
+  state.campaigns = campaigns.campaigns || [];
+
+  if (state.selectedCampaignId) {
+    const campaign = currentCampaign();
+    if (campaign) state.selectedClientId = campaign.clientId;
+    else state.selectedCampaignId = '';
+  }
+  if (state.selectedClientId && !state.clients.some(client => client.id === state.selectedClientId)) {
+    state.selectedClientId = '';
+    state.selectedCampaignId = '';
+  }
+  renderScopeControls();
+}
+
+async function loadCampaignRules() {
+  if (!state.selectedCampaignId) {
+    state.campaignRules = null;
+    return;
+  }
+  const data = await api(`/admin/v2/campaigns/${encodeURIComponent(state.selectedCampaignId)}/rules`);
+  state.campaignRules = data.rules || null;
+}
+
 async function postDidAction(did, path, body) {
   await api(`/admin/dids/${encodeURIComponent(did)}${path}`, {
     method: 'POST',
     body: JSON.stringify(body || {}),
   });
+}
+
+async function patchDid(did, body) {
+  await api(`/admin/dids/${encodeURIComponent(did)}`, {
+    method: 'PATCH',
+    body: JSON.stringify(body || {}),
+  });
+}
+
+async function assignScopeToDid(did) {
+  const record = state.inventory.find(item => item.did === did) || {};
+  if (!state.clients.length) {
+    alert('No clients are available.');
+    return;
+  }
+
+  const clientList = state.clients.map(client => `${client.id} - ${client.name || client.id}`).join('\n');
+  const clientRaw = prompt(`Client ID:\n\n${clientList}\n\nLeave blank to clear client and campaign scope.`, record.clientId || state.selectedClientId || '');
+  if (clientRaw === null) return;
+
+  const clientId = clientRaw.trim();
+  if (!clientId) {
+    if (!requireConfirm(`Clear DID ${did} client and campaign scope?`)) return;
+    await patchDid(did, {
+      clientId: null,
+      campaignId: null,
+      reason: 'assigned to campaign from DID Operations UI',
+    });
+    await refreshAll();
+    return;
+  }
+
+  const client = state.clients.find(item => item.id === clientId);
+  if (!client) {
+    alert('Client ID was not found.');
+    return;
+  }
+
+  const campaigns = state.campaigns.filter(campaign => campaign.clientId === clientId);
+  const campaignList = campaigns.length
+    ? campaigns.map(campaign => `${campaign.id} - ${campaign.name || campaign.id}`).join('\n')
+    : 'No campaigns for this client.';
+  const defaultCampaignId = campaigns.some(campaign => campaign.id === record.campaignId)
+    ? record.campaignId
+    : campaigns.some(campaign => campaign.id === state.selectedCampaignId)
+      ? state.selectedCampaignId
+      : '';
+  const campaignRaw = prompt(`Campaign ID:\n\n${campaignList}\n\nLeave blank for client-only scope.`, defaultCampaignId || '');
+  if (campaignRaw === null) return;
+
+  const campaignId = campaignRaw.trim();
+  if (campaignId && !campaigns.some(campaign => campaign.id === campaignId)) {
+    alert('Campaign ID was not found for the selected client.');
+    return;
+  }
+
+  if (!requireConfirm(`Assign DID ${did} to ${campaignId ? `campaign ${campaignId}` : `client ${clientId}`}?`)) return;
+  await patchDid(did, {
+    clientId,
+    campaignId: campaignId || null,
+    reason: 'assigned to campaign from DID Operations UI',
+  });
+  await refreshAll();
 }
 
 async function pauseDid(did) {
@@ -593,12 +850,14 @@ function renderSummary() {
 function renderInventory() {
   const tbody = $('#inventoryBody');
   if (!state.inventory.length) {
-    tbody.innerHTML = '<tr><td colspan="17" class="muted">No DID inventory found.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="19" class="muted">No DID inventory found.</td></tr>';
     return;
   }
   tbody.innerHTML = state.inventory.map(record => `
     <tr>
       <td><strong>${escapeHtml(record.did)}</strong></td>
+      <td>${escapeHtml(record.clientId || '-')}</td>
+      <td>${escapeHtml(record.campaignId || '-')}</td>
       <td>${escapeHtml(record.state)}</td>
       <td>${escapeHtml(record.areaCode)}</td>
       <td>${statusBadge(record.status)}</td>
@@ -616,6 +875,7 @@ function renderInventory() {
       <td>${escapeHtml(record.rotation?.currentReason || '-')}</td>
       <td>
         <div class="actions">
+          <button onclick="assignScopeToDid('${jsArg(record.did)}')">Assign scope</button>
           <button onclick="pauseDid('${jsArg(record.did)}')">Pause</button>
           <button onclick="cooldownDid('${jsArg(record.did)}')">Cooldown</button>
           <button onclick="reactivateDid('${jsArg(record.did)}')">Reactivate</button>
@@ -631,12 +891,14 @@ function renderInventory() {
 function renderCoverageAlerts() {
   const tbody = $('#coverageBody');
   if (!state.coverageAlerts.length) {
-    tbody.innerHTML = '<tr><td colspan="10" class="muted">No coverage alerts.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="12" class="muted">No coverage alerts.</td></tr>';
     return;
   }
   tbody.innerHTML = state.coverageAlerts.map(alert => `
     <tr>
       <td>${escapeHtml(alert.id)}</td>
+      <td>${escapeHtml(alert.clientId || '-')}</td>
+      <td>${escapeHtml(alert.campaignId || '-')}</td>
       <td>${escapeHtml(alert.areaCode || '-')}</td>
       <td>${escapeHtml(alert.state || '-')}</td>
       <td>${statusBadge(alert.reason)}</td>
@@ -653,12 +915,14 @@ function renderCoverageAlerts() {
 function renderLeadExclusions() {
   const tbody = $('#leadExclusionBody');
   if (!state.leadExclusions.length) {
-    tbody.innerHTML = '<tr><td colspan="8" class="muted">No lead exclusions.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" class="muted">No lead exclusions.</td></tr>';
     return;
   }
   tbody.innerHTML = state.leadExclusions.map(exclusion => `
     <tr>
       <td>${escapeHtml(exclusion.id)}</td>
+      <td>${escapeHtml(exclusion.clientId || '-')}</td>
+      <td>${escapeHtml(exclusion.campaignId || '-')}</td>
       <td>${escapeHtml(exclusion.areaCode || '-')}</td>
       <td>${escapeHtml(exclusion.state || '-')}</td>
       <td>${statusBadge(exclusion.reason)}</td>
@@ -694,6 +958,7 @@ function renderDryRunEvents() {
 }
 
 function renderAll() {
+  renderScopeControls();
   renderDryRunStatus();
   renderSummary();
   renderInventory();
@@ -705,12 +970,14 @@ function renderAll() {
 async function refreshAll() {
   setStatus('Loading...', 'muted');
   try {
+    await loadScopeOptions();
+    await loadCampaignRules();
     const [dids, coverage, leadExclusions, dryRunStatus, dryRunEvents] = await Promise.all([
-      api('/admin/dids'),
-      api('/admin/dids/coverage/alerts'),
-      api('/admin/dids/lead-exclusions'),
+      api(scopedAdminPath('/admin/dids')),
+      api(scopedAdminPath('/admin/dids/coverage/alerts')),
+      api(scopedAdminPath('/admin/dids/lead-exclusions')),
       api('/admin/dids/selector-v2/status'),
-      api('/admin/dids/selector-v2/dry-run-events?limit=100'),
+      api(scopedAdminPath('/admin/dids/selector-v2/dry-run-events', { limit: '100' })),
     ]);
     state.inventory = dids.inventory || [];
     state.coverageAlerts = coverage.alerts || dids.coverage?.missing || [];
@@ -731,6 +998,29 @@ $('#saveToken').onclick = () => {
   refreshAll();
 };
 $('#refresh').onclick = refreshAll;
+$('#clientSelect').onchange = () => {
+  const nextClientId = $('#clientSelect').value;
+  const campaign = currentCampaign();
+  state.selectedClientId = nextClientId;
+  if (!nextClientId || (campaign && campaign.clientId !== nextClientId)) {
+    state.selectedCampaignId = '';
+    state.campaignRules = null;
+  }
+  refreshAll();
+};
+$('#campaignSelect').onchange = () => {
+  state.selectedCampaignId = $('#campaignSelect').value;
+  const campaign = currentCampaign();
+  if (campaign) state.selectedClientId = campaign.clientId;
+  else state.campaignRules = null;
+  refreshAll();
+};
+$('#clearScope').onclick = () => {
+  state.selectedClientId = '';
+  state.selectedCampaignId = '';
+  state.campaignRules = null;
+  refreshAll();
+};
 $('#adminToken').value = getToken();
 refreshAll();
 </script>
