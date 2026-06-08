@@ -171,6 +171,10 @@ The authenticated DID Operations UI now presents as the Vici Middleware 2.0 inte
 
 Phase 7B keeps the same authenticated admin navigation but corrects the desktop layout so the menu renders as a true left sidebar beside the main content. The sidebar only stacks above content on compact screens. Backend behavior, RBAC, protected endpoints, scheduler behavior, and live Vicidial behavior remain unchanged.
 
+## Phase 8 Admin Foundation Modules
+
+The internal admin panel now includes functional Users, Clients, and Campaigns modules in the sidebar UI. Super admins can manage users, assignments, passwords, clients, and campaign metadata from the panel while non-super-admin roles receive read-only views according to backend responses. Backend RBAC remains authoritative, password hashes and secrets are not exposed in the UI, and no live Vicidial behavior changes are introduced.
+
 ## Admin V2 Endpoints
 
 Admin v2 endpoints are mounted behind session-aware auth, except login and first-user bootstrap:

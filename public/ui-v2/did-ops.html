@@ -158,6 +158,31 @@
       display: grid;
       gap: 10px;
     }
+    .admin-form {
+      display: none;
+      gap: 10px;
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfe;
+    }
+    .admin-form.open { display: grid; }
+    .admin-form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .admin-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .admin-table table {
+      min-width: 860px;
+    }
     .settings-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(180px, 1fr));
@@ -390,6 +415,7 @@
     @media (max-width: 1300px) {
       .summary-grid { grid-template-columns: repeat(3, minmax(140px, 1fr)); }
       .rules-grid { grid-template-columns: repeat(2, minmax(170px, 1fr)); }
+      .admin-form-grid { grid-template-columns: repeat(2, minmax(180px, 1fr)); }
       .scope-controls { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
       .auth-grid { grid-template-columns: repeat(2, minmax(180px, 1fr)); }
       .settings-grid { grid-template-columns: repeat(2, minmax(160px, 1fr)); }
@@ -407,6 +433,7 @@
       header { padding: 12px 10px; }
       .summary-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
       .rules-grid { grid-template-columns: 1fr; }
+      .admin-form-grid { grid-template-columns: 1fr; }
       .scope-controls { grid-template-columns: 1fr; }
       .auth-grid { grid-template-columns: 1fr; }
       .right { margin-left: 0; }
@@ -531,9 +558,84 @@
           <section id="view-users" class="app-view" data-view="users">
             <div class="view-title"><h2>Users</h2></div>
             <section class="section">
-              <div class="section-body placeholder" id="usersView">
-                <strong>User management coming next.</strong>
-                <span class="muted">Current user and role are shown in the header.</span>
+              <div class="section-body" id="usersView">
+                <div class="admin-actions">
+                  <button id="newUserButton" class="primary" type="button" onclick="showUserForm()">Create user</button>
+                  <span id="usersStatus" class="status-line muted"></span>
+                </div>
+                <form id="userForm" class="admin-form" onsubmit="event.preventDefault(); saveUserForm();">
+                  <strong id="userFormTitle">Create user</strong>
+                  <div class="admin-form-grid">
+                    <label class="field">
+                      <span class="small muted">Username</span>
+                      <input id="userUsername" type="text" autocomplete="off" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Role</span>
+                      <select id="userRole">
+                        <option value="viewer">viewer</option>
+                        <option value="client_admin">client_admin</option>
+                        <option value="internal_admin">internal_admin</option>
+                        <option value="super_admin">super_admin</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Active</span>
+                      <select id="userActive">
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Assigned client IDs</span>
+                      <input id="userAssignedClients" type="text" placeholder="client-a, client-b" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Assigned campaign IDs</span>
+                      <input id="userAssignedCampaigns" type="text" placeholder="campaign-a, campaign-b" />
+                    </label>
+                  </div>
+                  <div class="rule-actions">
+                    <button class="primary" type="submit">Save user</button>
+                    <button type="button" onclick="hideUserForm()">Cancel</button>
+                  </div>
+                </form>
+                <form id="userPasswordForm" class="admin-form" onsubmit="event.preventDefault(); saveUserPassword();">
+                  <strong>Set/reset password</strong>
+                  <div class="admin-form-grid">
+                    <label class="field">
+                      <span class="small muted">Username</span>
+                      <input id="passwordUsername" type="text" readonly />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">New password</span>
+                      <input id="passwordValue" type="password" autocomplete="new-password" />
+                    </label>
+                  </div>
+                  <div class="small muted">Password must be at least 10 characters and include at least one letter and one number.</div>
+                  <div class="rule-actions">
+                    <button class="primary" type="submit">Set password</button>
+                    <button type="button" onclick="hideUserPasswordForm()">Cancel</button>
+                  </div>
+                </form>
+                <div class="table-wrap admin-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Active</th>
+                        <th>Assigned clients</th>
+                        <th>Assigned campaigns</th>
+                        <th>Last login</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="usersBody">
+                      <tr><td colspan="7" class="muted">Loading users...</td></tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </section>
           </section>
@@ -541,14 +643,132 @@
           <section id="view-clients" class="app-view" data-view="clients">
             <div class="view-title"><h2>Clients</h2></div>
             <section class="section">
-              <div class="section-body placeholder" id="clientsView"></div>
+              <div class="section-body" id="clientsView">
+                <div class="admin-actions">
+                  <button id="newClientButton" class="primary" type="button" onclick="showClientForm()">Create client</button>
+                  <span id="clientsStatus" class="status-line muted"></span>
+                </div>
+                <form id="clientForm" class="admin-form" onsubmit="event.preventDefault(); saveClientForm();">
+                  <strong id="clientFormTitle">Create client</strong>
+                  <div class="admin-form-grid">
+                    <label class="field">
+                      <span class="small muted">Client ID</span>
+                      <input id="clientIdInput" type="text" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Client name</span>
+                      <input id="clientNameInput" type="text" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Status</span>
+                      <select id="clientStatusInput">
+                        <option value="active">active</option>
+                        <option value="inactive">inactive</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="rule-actions">
+                    <button class="primary" type="submit">Save client</button>
+                    <button type="button" onclick="hideClientForm()">Cancel</button>
+                  </div>
+                </form>
+                <div class="table-wrap admin-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Client name</th>
+                        <th>Client ID</th>
+                        <th>Status</th>
+                        <th>Campaigns</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="clientsBody">
+                      <tr><td colspan="5" class="muted">Loading clients...</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </section>
           </section>
 
           <section id="view-campaigns" class="app-view" data-view="campaigns">
             <div class="view-title"><h2>Campaigns</h2></div>
             <section class="section">
-              <div class="section-body placeholder" id="campaignsView"></div>
+              <div class="section-body" id="campaignsView">
+                <div class="admin-actions">
+                  <button id="newCampaignButton" class="primary" type="button" onclick="showCampaignForm()">Create campaign</button>
+                  <span id="campaignsStatus" class="status-line muted"></span>
+                </div>
+                <form id="campaignForm" class="admin-form" onsubmit="event.preventDefault(); saveCampaignForm();">
+                  <strong id="campaignFormTitle">Create campaign</strong>
+                  <div class="admin-form-grid">
+                    <label class="field">
+                      <span class="small muted">Campaign ID</span>
+                      <input id="campaignIdInput" type="text" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Client</span>
+                      <select id="campaignClientInput"></select>
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Campaign name</span>
+                      <input id="campaignNameInput" type="text" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Status</span>
+                      <select id="campaignStatusInput">
+                        <option value="active">active</option>
+                        <option value="inactive">inactive</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Vicidial campaign ID</span>
+                      <input id="campaignVicidialInput" type="text" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">External campaign ID</span>
+                      <input id="campaignExternalInput" type="text" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Allowed states</span>
+                      <input id="campaignStatesInput" type="text" placeholder="NY, NJ" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Allowed area codes</span>
+                      <input id="campaignAreaCodesInput" type="text" placeholder="212, 718" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Fallback states</span>
+                      <input id="campaignFallbackStatesInput" type="text" placeholder="CT, PA" />
+                    </label>
+                  </div>
+                  <div class="rule-actions">
+                    <button class="primary" type="submit">Save campaign</button>
+                    <button type="button" onclick="hideCampaignForm()">Cancel</button>
+                  </div>
+                </form>
+                <div class="table-wrap admin-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Campaign name</th>
+                        <th>Campaign ID</th>
+                        <th>Client</th>
+                        <th>Status</th>
+                        <th>Vicidial/external ID</th>
+                        <th>Allowed states</th>
+                        <th>Area codes</th>
+                        <th>Fallback states</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="campaignsBody">
+                      <tr><td colspan="9" class="muted">Loading campaigns...</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </section>
           </section>
 
@@ -765,12 +985,16 @@ const state = {
   leadExclusions: [],
   dryRunEvents: [],
   dryRunStatus: null,
+  users: [],
   clients: [],
   campaigns: [],
   selectedClientId: '',
   selectedCampaignId: '',
   campaignRules: null,
   activeView: 'dashboard',
+  editingUser: null,
+  editingClientId: null,
+  editingCampaignId: null,
 };
 
 const $ = selector => document.querySelector(selector);
@@ -838,6 +1062,14 @@ function ensureWriteAccess() {
 
 function writeDisabledAttr() {
   return hasWriteAccess() ? '' : 'disabled';
+}
+
+function isSuperAdmin() {
+  return state.auth.user?.role === 'super_admin';
+}
+
+function managementDisabledAttr() {
+  return isSuperAdmin() ? '' : 'disabled';
 }
 
 function viewFromHash() {
@@ -1069,6 +1301,7 @@ function showLegacyFallback() {
 }
 
 function clearProtectedState() {
+  state.users = [];
   state.inventory = [];
   state.coverageAlerts = [];
   state.leadExclusions = [];
@@ -1095,6 +1328,34 @@ function campaignName(campaign) {
 function clientName(client) {
   if (!client) return '';
   return `${client.name || client.id} (${client.id})`;
+}
+
+function listFromInput(selector, transform = value => value) {
+  const raw = ($(selector)?.value || '').trim();
+  if (!raw) return [];
+  return Array.from(new Set(raw.split(',').map(item => transform(item.trim())).filter(Boolean)));
+}
+
+function setModuleStatus(selector, message, kind = 'muted') {
+  const el = $(selector);
+  if (!el) return;
+  el.textContent = message;
+  el.className = `status-line ${kind}`;
+}
+
+function validatePassword(value) {
+  if (!value || value.length < 10) return 'Password must be at least 10 characters.';
+  if (!/[A-Za-z]/.test(value)) return 'Password must include at least one letter.';
+  if (!/[0-9]/.test(value)) return 'Password must include at least one number.';
+  return '';
+}
+
+function ensureSuperAdminAction(message) {
+  if (isSuperAdmin()) return true;
+  setModuleStatus('#usersStatus', message || 'You do not have permission to manage users.', 'error');
+  setModuleStatus('#clientsStatus', message || 'You do not have permission to manage this module.', 'error');
+  setModuleStatus('#campaignsStatus', message || 'You do not have permission to manage this module.', 'error');
+  return false;
 }
 
 function renderScopeControls() {
@@ -1141,38 +1402,316 @@ function renderDashboardScopeStatus() {
   `;
 }
 
-function renderDirectoryViews() {
-  const clientsPanel = $('#clientsView');
-  if (clientsPanel) {
-    clientsPanel.innerHTML = state.clients.length
-      ? `<strong>Client management coming next.</strong>${state.clients.map(client => `
-          <div class="rule-item">
-            <div class="label">Client</div>
-            <div class="value">${escapeHtml(clientName(client))}</div>
-          </div>
-        `).join('')}`
-      : '<strong>Client management coming next.</strong><span class="muted">No visible clients loaded for this user.</span>';
-  }
+function renderAdminCrudViews() {
+  renderUsersView();
+  renderClientsView();
+  renderCampaignsView();
+}
 
-  const campaignsPanel = $('#campaignsView');
-  if (campaignsPanel) {
-    campaignsPanel.innerHTML = state.campaigns.length
-      ? `<strong>Campaign management coming next.</strong>${state.campaigns.map(campaign => `
-          <div class="rule-item">
-            <div class="label">Campaign</div>
-            <div class="value">${escapeHtml(campaignName(campaign))} / ${escapeHtml(campaign.clientId || '-')}</div>
-          </div>
-        `).join('')}`
-      : '<strong>Campaign management coming next.</strong><span class="muted">No visible campaigns loaded for this user.</span>';
-  }
+function renderUsersView() {
+  const canManage = isSuperAdmin();
+  $('#newUserButton').disabled = !canManage;
+  if (!canManage) setModuleStatus('#usersStatus', 'You do not have permission to manage users.', 'muted');
 
-  const usersPanel = $('#usersView');
-  if (usersPanel) {
-    usersPanel.innerHTML = `
-      <strong>User management coming next.</strong>
-      <span>Current user ${escapeHtml(state.auth.user?.username || '-')}</span>
-      <span>Role ${escapeHtml(state.auth.user?.role || '-')}</span>
+  const tbody = $('#usersBody');
+  if (!tbody) return;
+  if (!state.users.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="muted">No users visible.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = state.users.map(user => `
+    <tr>
+      <td><strong>${escapeHtml(user.username)}</strong></td>
+      <td>${statusBadge(user.role)}</td>
+      <td>${boolBadge(user.active !== false)}</td>
+      <td>${fmtNum((user.assignedClientIds || []).length)}</td>
+      <td>${fmtNum((user.assignedCampaignIds || []).length)}</td>
+      <td>${escapeHtml(fmtDate(user.lastLoginAt))}</td>
+      <td>
+        <div class="actions">
+          <button ${managementDisabledAttr()} onclick="editUser('${jsArg(user.username)}')">Edit</button>
+          <button ${managementDisabledAttr()} onclick="toggleUserActive('${jsArg(user.username)}')">${user.active === false ? 'Activate' : 'Deactivate'}</button>
+          <button ${managementDisabledAttr()} onclick="showUserPasswordForm('${jsArg(user.username)}')">Set/reset password</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderClientsView() {
+  const canManage = isSuperAdmin();
+  $('#newClientButton').disabled = !canManage;
+  if (!canManage) setModuleStatus('#clientsStatus', 'You do not have permission to manage clients.', 'muted');
+
+  const tbody = $('#clientsBody');
+  if (!tbody) return;
+  if (!state.clients.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="muted">No clients visible.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = state.clients.map(client => {
+    const campaignCount = state.campaigns.filter(campaign => campaign.clientId === client.id).length;
+    return `
+      <tr>
+        <td><strong>${escapeHtml(client.name || client.id)}</strong></td>
+        <td>${escapeHtml(client.id)}</td>
+        <td>${statusBadge(client.status || 'active')}</td>
+        <td>${fmtNum(campaignCount)}</td>
+        <td><button ${managementDisabledAttr()} onclick="editClient('${jsArg(client.id)}')">Edit</button></td>
+      </tr>
     `;
+  }).join('');
+}
+
+function renderCampaignsView() {
+  const canManage = isSuperAdmin();
+  $('#newCampaignButton').disabled = !canManage;
+  if (!canManage) setModuleStatus('#campaignsStatus', 'You do not have permission to manage campaigns.', 'muted');
+
+  const clientSelect = $('#campaignClientInput');
+  if (clientSelect) {
+    clientSelect.innerHTML = state.clients.map(client => `<option value="${escapeHtml(client.id)}">${escapeHtml(clientName(client))}</option>`).join('');
+  }
+
+  const tbody = $('#campaignsBody');
+  if (!tbody) return;
+  if (!state.campaigns.length) {
+    tbody.innerHTML = '<tr><td colspan="9" class="muted">No campaigns visible.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = state.campaigns.map(campaign => `
+    <tr>
+      <td><strong>${escapeHtml(campaign.name || campaign.id)}</strong></td>
+      <td>${escapeHtml(campaign.id)}</td>
+      <td>${escapeHtml(clientName(state.clients.find(client => client.id === campaign.clientId)) || campaign.clientId || '-')}</td>
+      <td>${statusBadge(campaign.status || 'active')}</td>
+      <td>${escapeHtml([campaign.vicidialCampaignId, campaign.externalCampaignId].filter(Boolean).join(' / ') || '-')}</td>
+      <td>${escapeHtml((campaign.allowedStates || []).join(', ') || '-')}</td>
+      <td>${escapeHtml((campaign.allowedAreaCodes || []).join(', ') || '-')}</td>
+      <td>${escapeHtml((campaign.fallbackStates || []).join(', ') || '-')}</td>
+      <td><button ${managementDisabledAttr()} onclick="editCampaign('${jsArg(campaign.id)}')">Edit</button></td>
+    </tr>
+  `).join('');
+}
+
+function showUserForm(username = '') {
+  if (!ensureSuperAdminAction('You do not have permission to manage users.')) return;
+  const user = username ? state.users.find(item => item.username === username) : null;
+  state.editingUser = user?.username || null;
+  $('#userFormTitle').textContent = user ? `Edit user ${user.username}` : 'Create user';
+  $('#userUsername').value = user?.username || '';
+  $('#userUsername').readOnly = !!user;
+  $('#userRole').value = user?.role || 'viewer';
+  $('#userActive').value = String(user?.active !== false);
+  $('#userAssignedClients').value = (user?.assignedClientIds || []).join(', ');
+  $('#userAssignedCampaigns').value = (user?.assignedCampaignIds || []).join(', ');
+  $('#userForm').classList.add('open');
+  setModuleStatus('#usersStatus', '', 'muted');
+}
+
+function hideUserForm() {
+  state.editingUser = null;
+  $('#userForm').classList.remove('open');
+}
+
+function editUser(username) {
+  showUserForm(username);
+}
+
+async function saveUserForm() {
+  if (!ensureSuperAdminAction('You do not have permission to manage users.')) return;
+  const username = ($('#userUsername').value || '').trim();
+  const body = {
+    role: $('#userRole').value,
+    active: $('#userActive').value === 'true',
+    assignedClientIds: listFromInput('#userAssignedClients'),
+    assignedCampaignIds: listFromInput('#userAssignedCampaigns'),
+  };
+  if (!username) {
+    setModuleStatus('#usersStatus', 'Username is required.', 'error');
+    return;
+  }
+
+  try {
+    setModuleStatus('#usersStatus', 'Saving user...', 'muted');
+    if (state.editingUser) {
+      await api(`/admin/v2/users/${encodeURIComponent(state.editingUser)}`, {
+        method: 'PATCH',
+        body: JSON.stringify(body),
+      });
+    } else {
+      await api('/admin/v2/users', {
+        method: 'POST',
+        body: JSON.stringify({ ...body, username }),
+      });
+    }
+    hideUserForm();
+    await loadUsers();
+    renderUsersView();
+    setModuleStatus('#usersStatus', 'User saved.', 'ok');
+  } catch (err) {
+    setModuleStatus('#usersStatus', err.message || String(err), 'error');
+  }
+}
+
+async function toggleUserActive(username) {
+  if (!ensureSuperAdminAction('You do not have permission to manage users.')) return;
+  const user = state.users.find(item => item.username === username);
+  if (!user) return;
+  try {
+    setModuleStatus('#usersStatus', 'Updating user...', 'muted');
+    await api(`/admin/v2/users/${encodeURIComponent(username)}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ active: user.active === false }),
+    });
+    await loadUsers();
+    renderUsersView();
+    setModuleStatus('#usersStatus', 'User updated.', 'ok');
+  } catch (err) {
+    setModuleStatus('#usersStatus', err.message || String(err), 'error');
+  }
+}
+
+function showUserPasswordForm(username) {
+  if (!ensureSuperAdminAction('You do not have permission to set user passwords.')) return;
+  $('#passwordUsername').value = username || '';
+  $('#passwordValue').value = '';
+  $('#userPasswordForm').classList.add('open');
+  setModuleStatus('#usersStatus', '', 'muted');
+}
+
+function hideUserPasswordForm() {
+  $('#userPasswordForm').classList.remove('open');
+}
+
+async function saveUserPassword() {
+  if (!ensureSuperAdminAction('You do not have permission to set user passwords.')) return;
+  const username = ($('#passwordUsername').value || '').trim();
+  const password = $('#passwordValue').value || '';
+  const validationError = validatePassword(password);
+  if (validationError) {
+    setModuleStatus('#usersStatus', validationError, 'error');
+    return;
+  }
+
+  try {
+    setModuleStatus('#usersStatus', 'Setting password...', 'muted');
+    await api(`/admin/v2/users/${encodeURIComponent(username)}/password`, {
+      method: 'POST',
+      body: JSON.stringify({ password }),
+    });
+    hideUserPasswordForm();
+    $('#passwordValue').value = '';
+    await loadUsers();
+    renderUsersView();
+    setModuleStatus('#usersStatus', 'Password updated.', 'ok');
+  } catch (err) {
+    setModuleStatus('#usersStatus', err.message || String(err), 'error');
+  }
+}
+
+function showClientForm(clientId = '') {
+  if (!ensureSuperAdminAction('You do not have permission to manage clients.')) return;
+  const client = clientId ? state.clients.find(item => item.id === clientId) : null;
+  state.editingClientId = client?.id || null;
+  $('#clientFormTitle').textContent = client ? `Edit client ${client.id}` : 'Create client';
+  $('#clientIdInput').value = client?.id || '';
+  $('#clientIdInput').readOnly = !!client;
+  $('#clientNameInput').value = client?.name || '';
+  $('#clientStatusInput').value = client?.status || 'active';
+  $('#clientForm').classList.add('open');
+  setModuleStatus('#clientsStatus', '', 'muted');
+}
+
+function hideClientForm() {
+  state.editingClientId = null;
+  $('#clientForm').classList.remove('open');
+}
+
+function editClient(clientId) {
+  showClientForm(clientId);
+}
+
+async function saveClientForm() {
+  if (!ensureSuperAdminAction('You do not have permission to manage clients.')) return;
+  const body = {
+    id: ($('#clientIdInput').value || '').trim(),
+    name: ($('#clientNameInput').value || '').trim(),
+    status: $('#clientStatusInput').value,
+  };
+  if (!body.id || !body.name) {
+    setModuleStatus('#clientsStatus', 'Client ID and name are required.', 'error');
+    return;
+  }
+  try {
+    setModuleStatus('#clientsStatus', 'Saving client...', 'muted');
+    await api('/admin/v2/clients', { method: 'POST', body: JSON.stringify(body) });
+    hideClientForm();
+    await loadScopeOptions();
+    await loadCampaignRules();
+    renderAll();
+    setModuleStatus('#clientsStatus', 'Client saved.', 'ok');
+  } catch (err) {
+    setModuleStatus('#clientsStatus', err.message || String(err), 'error');
+  }
+}
+
+function showCampaignForm(campaignId = '') {
+  if (!ensureSuperAdminAction('You do not have permission to manage campaigns.')) return;
+  const campaign = campaignId ? state.campaigns.find(item => item.id === campaignId) : null;
+  state.editingCampaignId = campaign?.id || null;
+  $('#campaignFormTitle').textContent = campaign ? `Edit campaign ${campaign.id}` : 'Create campaign';
+  $('#campaignIdInput').value = campaign?.id || '';
+  $('#campaignIdInput').readOnly = !!campaign;
+  renderCampaignsView();
+  $('#campaignClientInput').value = campaign?.clientId || state.clients[0]?.id || '';
+  $('#campaignNameInput').value = campaign?.name || '';
+  $('#campaignStatusInput').value = campaign?.status || 'active';
+  $('#campaignVicidialInput').value = campaign?.vicidialCampaignId || '';
+  $('#campaignExternalInput').value = campaign?.externalCampaignId || '';
+  $('#campaignStatesInput').value = (campaign?.allowedStates || []).join(', ');
+  $('#campaignAreaCodesInput').value = (campaign?.allowedAreaCodes || []).join(', ');
+  $('#campaignFallbackStatesInput').value = (campaign?.fallbackStates || []).join(', ');
+  $('#campaignForm').classList.add('open');
+  setModuleStatus('#campaignsStatus', '', 'muted');
+}
+
+function hideCampaignForm() {
+  state.editingCampaignId = null;
+  $('#campaignForm').classList.remove('open');
+}
+
+function editCampaign(campaignId) {
+  showCampaignForm(campaignId);
+}
+
+async function saveCampaignForm() {
+  if (!ensureSuperAdminAction('You do not have permission to manage campaigns.')) return;
+  const body = {
+    id: ($('#campaignIdInput').value || '').trim(),
+    clientId: $('#campaignClientInput').value,
+    name: ($('#campaignNameInput').value || '').trim(),
+    status: $('#campaignStatusInput').value,
+    vicidialCampaignId: ($('#campaignVicidialInput').value || '').trim() || null,
+    externalCampaignId: ($('#campaignExternalInput').value || '').trim() || null,
+    allowedStates: listFromInput('#campaignStatesInput', value => value.toUpperCase()),
+    allowedAreaCodes: listFromInput('#campaignAreaCodesInput'),
+    fallbackStates: listFromInput('#campaignFallbackStatesInput', value => value.toUpperCase()),
+  };
+  if (!body.id || !body.clientId || !body.name) {
+    setModuleStatus('#campaignsStatus', 'Campaign ID, client, and name are required.', 'error');
+    return;
+  }
+  try {
+    setModuleStatus('#campaignsStatus', 'Saving campaign...', 'muted');
+    await api('/admin/v2/campaigns', { method: 'POST', body: JSON.stringify(body) });
+    hideCampaignForm();
+    await loadScopeOptions();
+    await loadCampaignRules();
+    renderAll();
+    setModuleStatus('#campaignsStatus', 'Campaign saved.', 'ok');
+  } catch (err) {
+    setModuleStatus('#campaignsStatus', err.message || String(err), 'error');
   }
 }
 
@@ -1392,6 +1931,11 @@ async function loadScopeOptions() {
     state.selectedCampaignId = '';
   }
   renderScopeControls();
+}
+
+async function loadUsers() {
+  const data = await api('/admin/v2/users');
+  state.users = data.users || [];
 }
 
 async function loadCampaignRules() {
@@ -1740,7 +2284,7 @@ function renderAll() {
   renderCoverageAlerts();
   renderLeadExclusions();
   renderDryRunEvents();
-  renderDirectoryViews();
+  renderAdminCrudViews();
   renderSettingsStatus();
 }
 
@@ -1758,7 +2302,10 @@ async function refreshAll() {
       return;
     }
 
-    await loadScopeOptions();
+    await Promise.all([
+      loadScopeOptions(),
+      loadUsers(),
+    ]);
     await loadCampaignRules();
     const [dids, coverage, leadExclusions, dryRunStatus, dryRunEvents] = await Promise.all([
       api(scopedAdminPath('/admin/dids')),
