@@ -175,6 +175,12 @@ Phase 7B keeps the same authenticated admin navigation but corrects the desktop 
 
 The internal admin panel now includes functional Users, Clients, and Campaigns modules in the sidebar UI. Super admins can manage users, assignments, passwords, clients, and campaign metadata from the panel while non-super-admin roles receive read-only views according to backend responses. Backend RBAC remains authoritative, password hashes and secrets are not exposed in the UI, and no live Vicidial behavior changes are introduced.
 
+## Phase 8B Missing Admin Fields
+
+User creation now supports setting the initial password during create, while the separate Set/reset password action remains available for later password changes. DIDs can be added individually or bulk imported into the middleware DID store, and DID scope assignment uses client/campaign dropdowns filtered by the selected client. The Campaign Rules editor exposes all rule fields for the selected campaign.
+
+All Phase 8B changes remain local middleware configuration only. DID create/import and assignment update the middleware DID store, campaign rules save through middleware configuration, and no live Vicidial behavior, scheduler behavior, or selector v2 live behavior is changed.
+
 ## Admin V2 Endpoints
 
 Admin v2 endpoints are mounted behind session-aware auth, except login and first-user bootstrap:

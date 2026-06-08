@@ -594,7 +594,16 @@
                       <span class="small muted">Assigned campaign IDs</span>
                       <input id="userAssignedCampaigns" type="text" placeholder="campaign-a, campaign-b" />
                     </label>
+                    <label class="field" id="createUserPasswordField">
+                      <span class="small muted">New password</span>
+                      <input id="userNewPassword" type="password" autocomplete="new-password" />
+                    </label>
+                    <label class="field" id="createUserConfirmPasswordField">
+                      <span class="small muted">Confirm password</span>
+                      <input id="userConfirmPassword" type="password" autocomplete="new-password" />
+                    </label>
                   </div>
+                  <div id="createUserPasswordHelp" class="small muted">Password is required when creating a user and must be at least 10 characters with at least one letter and one number.</div>
                   <div class="rule-actions">
                     <button class="primary" type="submit">Save user</button>
                     <button type="button" onclick="hideUserForm()">Cancel</button>
@@ -809,6 +818,125 @@
 
     <section class="section">
       <div class="section-head">
+        <h2>DID Admin</h2>
+        <span class="muted small">Creates and assignments update middleware DID store only.</span>
+      </div>
+      <div class="section-body">
+        <div class="admin-actions">
+          <button id="addDidButton" class="primary" type="button" onclick="showDidForm()">Add DID</button>
+          <button id="bulkImportDidsButton" type="button" onclick="showBulkDidForm()">Bulk import DIDs</button>
+          <span id="didsStatus" class="status-line muted"></span>
+        </div>
+        <form id="didForm" class="admin-form" onsubmit="event.preventDefault(); saveDidForm();">
+          <strong>Add DID</strong>
+          <div class="admin-form-grid">
+            <label class="field">
+              <span class="small muted">DID number</span>
+              <input id="didNumberInput" type="text" inputmode="numeric" autocomplete="off" />
+            </label>
+            <label class="field">
+              <span class="small muted">Client</span>
+              <select id="didClientInput"></select>
+            </label>
+            <label class="field">
+              <span class="small muted">Campaign</span>
+              <select id="didCampaignInput"></select>
+            </label>
+            <label class="field">
+              <span class="small muted">State</span>
+              <input id="didStateInput" type="text" maxlength="2" placeholder="TX" />
+            </label>
+            <label class="field">
+              <span class="small muted">Area code</span>
+              <input id="didAreaCodeInput" type="text" inputmode="numeric" maxlength="3" placeholder="210" />
+            </label>
+            <label class="field">
+              <span class="small muted">Status</span>
+              <select id="didStatusInput">
+                <option value="available">available</option>
+                <option value="active">active</option>
+                <option value="spam_risk">spam_risk</option>
+                <option value="burned">burned</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="small muted">Daily limit</span>
+              <input id="didDailyLimitInput" type="number" min="1" step="1" />
+            </label>
+            <label class="field">
+              <span class="small muted">Hourly limit</span>
+              <input id="didHourlyLimitInput" type="number" min="1" step="1" />
+            </label>
+            <label class="field">
+              <span class="small muted">Notes/reason</span>
+              <input id="didNotesInput" type="text" placeholder="added from DID Operations UI" />
+            </label>
+          </div>
+          <div class="rule-actions">
+            <button class="primary" type="submit">Save DID</button>
+            <button type="button" onclick="hideDidForm()">Cancel</button>
+          </div>
+        </form>
+        <form id="bulkDidForm" class="admin-form" onsubmit="event.preventDefault(); saveBulkDidForm();">
+          <strong>Bulk import DIDs</strong>
+          <div class="admin-form-grid">
+            <label class="field">
+              <span class="small muted">Default Client</span>
+              <select id="bulkDidClientInput"></select>
+            </label>
+            <label class="field">
+              <span class="small muted">Default Campaign</span>
+              <select id="bulkDidCampaignInput"></select>
+            </label>
+            <label class="field">
+              <span class="small muted">Default daily limit</span>
+              <input id="bulkDidDailyLimitInput" type="number" min="1" step="1" />
+            </label>
+            <label class="field">
+              <span class="small muted">Default hourly limit</span>
+              <input id="bulkDidHourlyLimitInput" type="number" min="1" step="1" />
+            </label>
+            <label class="field" style="grid-column:1 / -1">
+              <span class="small muted">DIDs</span>
+              <textarea id="bulkDidTextarea" placeholder="2068066152&#10;2102459651, TX, 210&#10;2137841790, CA, 213"></textarea>
+            </label>
+          </div>
+          <div class="row">
+            <span id="bulkDidPreview" class="status-line muted">No rows parsed.</span>
+            <button type="button" onclick="previewBulkDids()">Preview</button>
+          </div>
+          <div class="rule-actions">
+            <button class="primary" type="submit">Import DIDs</button>
+            <button type="button" onclick="hideBulkDidForm()">Cancel</button>
+          </div>
+        </form>
+        <form id="assignDidScopeForm" class="admin-form" onsubmit="event.preventDefault(); saveDidScopeForm();">
+          <strong>Assign DID scope</strong>
+          <div class="admin-form-grid">
+            <label class="field">
+              <span class="small muted">DID number</span>
+              <input id="assignDidNumberInput" type="text" readonly />
+            </label>
+            <label class="field">
+              <span class="small muted">Client</span>
+              <select id="assignDidClientInput"></select>
+            </label>
+            <label class="field">
+              <span class="small muted">Campaign</span>
+              <select id="assignDidCampaignInput"></select>
+            </label>
+          </div>
+          <div class="rule-actions">
+            <button class="primary" type="submit">Save assignment</button>
+            <button type="button" onclick="clearDidScopeForm()">Clear assignment</button>
+            <button type="button" onclick="hideDidScopeForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
         <h2>DID Inventory</h2>
         <span class="muted small">Controls call only safe DID store endpoints.</span>
       </div>
@@ -995,6 +1123,7 @@ const state = {
   editingUser: null,
   editingClientId: null,
   editingCampaignId: null,
+  assigningDid: null,
 };
 
 const $ = selector => document.querySelector(selector);
@@ -1350,6 +1479,14 @@ function validatePassword(value) {
   return '';
 }
 
+function validatePasswordPair(password, confirmPassword, required) {
+  if (!required && !password && !confirmPassword) return '';
+  const validationError = validatePassword(password);
+  if (validationError) return validationError;
+  if (password !== confirmPassword) return 'Password and confirm password must match.';
+  return '';
+}
+
 function ensureSuperAdminAction(message) {
   if (isSuperAdmin()) return true;
   setModuleStatus('#usersStatus', message || 'You do not have permission to manage users.', 'error');
@@ -1505,6 +1642,11 @@ function showUserForm(username = '') {
   $('#userActive').value = String(user?.active !== false);
   $('#userAssignedClients').value = (user?.assignedClientIds || []).join(', ');
   $('#userAssignedCampaigns').value = (user?.assignedCampaignIds || []).join(', ');
+  $('#userNewPassword').value = '';
+  $('#userConfirmPassword').value = '';
+  $('#createUserPasswordField').classList.toggle('hidden', !!user);
+  $('#createUserConfirmPasswordField').classList.toggle('hidden', !!user);
+  $('#createUserPasswordHelp').classList.toggle('hidden', !!user);
   $('#userForm').classList.add('open');
   setModuleStatus('#usersStatus', '', 'muted');
 }
@@ -1531,6 +1673,15 @@ async function saveUserForm() {
     setModuleStatus('#usersStatus', 'Username is required.', 'error');
     return;
   }
+  const createPassword = $('#userNewPassword').value || '';
+  const createConfirmPassword = $('#userConfirmPassword').value || '';
+  if (!state.editingUser) {
+    const passwordError = validatePasswordPair(createPassword, createConfirmPassword, true);
+    if (passwordError) {
+      setModuleStatus('#usersStatus', passwordError, 'error');
+      return;
+    }
+  }
 
   try {
     setModuleStatus('#usersStatus', 'Saving user...', 'muted');
@@ -1544,6 +1695,18 @@ async function saveUserForm() {
         method: 'POST',
         body: JSON.stringify({ ...body, username }),
       });
+      try {
+        await api(`/admin/v2/users/${encodeURIComponent(username)}/password`, {
+          method: 'POST',
+          body: JSON.stringify({ password: createPassword }),
+        });
+      } catch (passwordErr) {
+        hideUserForm();
+        await loadUsers();
+        renderUsersView();
+        setModuleStatus('#usersStatus', `User created, but password setup failed: ${passwordErr.message || String(passwordErr)}. Use Set/reset password.`, 'error');
+        return;
+      }
     }
     hideUserForm();
     await loadUsers();
@@ -1741,14 +1904,14 @@ function renderCampaignRules() {
   const safety = `
     <div class="rules-safety">
       <span class="badge info">Rules are campaign-scoped.</span>
-      <span class="badge info">Saving rules updates middleware configuration only.</span>
+      <span class="badge info">Rules are saved to middleware configuration only. V2 live selection remains disabled.</span>
       <span class="badge warn">This does not change live Vicidial behavior.</span>
       <span class="badge warn">Selector V2 live mode remains disabled.</span>
     </div>
   `;
 
   if (!state.selectedCampaignId) {
-    panel.innerHTML = `${safety}<div class="muted small">Select a campaign to view and edit rules.</div>`;
+    panel.innerHTML = `${safety}<div class="muted small">Select a campaign to edit rules.</div>`;
     return;
   }
 
@@ -1955,6 +2118,235 @@ async function postDidAction(did, path, body) {
   });
 }
 
+function renderDidAdminForms() {
+  const canWrite = hasWriteAccess();
+  const addButton = $('#addDidButton');
+  const bulkButton = $('#bulkImportDidsButton');
+  if (addButton) addButton.disabled = !canWrite;
+  if (bulkButton) bulkButton.disabled = !canWrite;
+
+  populateDidClientSelect('#didClientInput', $('#didClientInput')?.value || state.selectedClientId || '');
+  populateDidCampaignSelect('#didCampaignInput', $('#didClientInput')?.value || '', $('#didCampaignInput')?.value || state.selectedCampaignId || '');
+  populateDidClientSelect('#bulkDidClientInput', $('#bulkDidClientInput')?.value || state.selectedClientId || '');
+  populateDidCampaignSelect('#bulkDidCampaignInput', $('#bulkDidClientInput')?.value || '', $('#bulkDidCampaignInput')?.value || state.selectedCampaignId || '');
+  populateDidClientSelect('#assignDidClientInput', $('#assignDidClientInput')?.value || '');
+  populateDidCampaignSelect('#assignDidCampaignInput', $('#assignDidClientInput')?.value || '', $('#assignDidCampaignInput')?.value || '');
+}
+
+function populateDidClientSelect(selector, selectedValue) {
+  const select = $(selector);
+  if (!select) return;
+  select.innerHTML = [
+    '<option value="">No client / global</option>',
+    ...state.clients.map(client => `<option value="${escapeHtml(client.id)}">${escapeHtml(clientName(client))}</option>`),
+  ].join('');
+  select.value = state.clients.some(client => client.id === selectedValue) ? selectedValue : '';
+}
+
+function populateDidCampaignSelect(selector, clientId, selectedValue) {
+  const select = $(selector);
+  if (!select) return;
+  const campaigns = clientId
+    ? state.campaigns.filter(campaign => campaign.clientId === clientId)
+    : state.campaigns;
+  select.innerHTML = [
+    '<option value="">No campaign</option>',
+    ...campaigns.map(campaign => `<option value="${escapeHtml(campaign.id)}">${escapeHtml(campaignName(campaign))}</option>`),
+  ].join('');
+  select.value = campaigns.some(campaign => campaign.id === selectedValue) ? selectedValue : '';
+}
+
+function integerOptionalFromInput(selector, label) {
+  const raw = ($(selector)?.value || '').trim();
+  if (!raw) return null;
+  if (!/^\d+$/.test(raw)) throw new Error(`${label} must be a positive integer.`);
+  const value = Number(raw);
+  if (!Number.isSafeInteger(value) || value <= 0) throw new Error(`${label} must be a positive integer.`);
+  return value;
+}
+
+function validateDidNumber(value) {
+  const raw = String(value || '').trim();
+  if (!/^\d+$/.test(raw)) throw new Error('DID must contain digits only.');
+  if (!/^\d{10,11}$/.test(raw)) throw new Error('DID must be 10 or 11 digits.');
+  return raw;
+}
+
+function validateOptionalState(value) {
+  const stateCode = String(value || '').trim().toUpperCase();
+  if (!stateCode) return '';
+  if (!/^[A-Z]{2}$/.test(stateCode)) throw new Error('State must be a 2-letter uppercase code.');
+  return stateCode;
+}
+
+function validateOptionalAreaCode(value) {
+  const areaCode = String(value || '').trim();
+  if (!areaCode) return '';
+  if (!/^\d{3}$/.test(areaCode)) throw new Error('Area code must be 3 digits.');
+  return areaCode;
+}
+
+function assertCampaignBelongsToClient(clientId, campaignId) {
+  if (!clientId || !campaignId) return;
+  const campaign = state.campaigns.find(item => item.id === campaignId);
+  if (!campaign || campaign.clientId !== clientId) throw new Error('Campaign must belong to selected client.');
+}
+
+function showDidForm() {
+  if (!ensureWriteAccess()) return;
+  $('#didNumberInput').value = '';
+  $('#didStateInput').value = '';
+  $('#didAreaCodeInput').value = '';
+  $('#didStatusInput').value = 'available';
+  $('#didDailyLimitInput').value = '';
+  $('#didHourlyLimitInput').value = '';
+  $('#didNotesInput').value = 'added from DID Operations UI';
+  populateDidClientSelect('#didClientInput', state.selectedClientId || '');
+  populateDidCampaignSelect('#didCampaignInput', $('#didClientInput').value, state.selectedCampaignId || '');
+  $('#didForm').classList.add('open');
+  setModuleStatus('#didsStatus', '', 'muted');
+}
+
+function hideDidForm() {
+  $('#didForm').classList.remove('open');
+}
+
+function collectDidFormBody() {
+  const did = validateDidNumber($('#didNumberInput').value);
+  const clientId = $('#didClientInput').value || null;
+  const campaignId = $('#didCampaignInput').value || null;
+  assertCampaignBelongsToClient(clientId, campaignId);
+  const stateCode = validateOptionalState($('#didStateInput').value);
+  const areaCode = validateOptionalAreaCode($('#didAreaCodeInput').value);
+  const dailyLimit = integerOptionalFromInput('#didDailyLimitInput', 'Daily limit');
+  const hourlyLimit = integerOptionalFromInput('#didHourlyLimitInput', 'Hourly limit');
+  const body = {
+    did,
+    clientId,
+    campaignId,
+    state: stateCode || undefined,
+    areaCode: areaCode || undefined,
+    status: $('#didStatusInput').value,
+    notes: ($('#didNotesInput').value || '').trim(),
+  };
+  if (dailyLimit !== null) body.dailyLimit = dailyLimit;
+  if (hourlyLimit !== null) body.hourlyLimit = hourlyLimit;
+  return body;
+}
+
+async function saveDidForm() {
+  if (!ensureWriteAccess()) return;
+  let body;
+  try {
+    body = collectDidFormBody();
+  } catch (err) {
+    setModuleStatus('#didsStatus', err.message || String(err), 'error');
+    return;
+  }
+
+  try {
+    setModuleStatus('#didsStatus', 'Saving DID...', 'muted');
+    await api('/admin/dids', { method: 'POST', body: JSON.stringify(body) });
+    hideDidForm();
+    await refreshAll();
+    setModuleStatus('#didsStatus', 'DID saved.', 'ok');
+  } catch (err) {
+    setModuleStatus('#didsStatus', err.message || String(err), 'error');
+  }
+}
+
+function showBulkDidForm() {
+  if (!ensureWriteAccess()) return;
+  populateDidClientSelect('#bulkDidClientInput', state.selectedClientId || '');
+  populateDidCampaignSelect('#bulkDidCampaignInput', $('#bulkDidClientInput').value, state.selectedCampaignId || '');
+  $('#bulkDidDailyLimitInput').value = '';
+  $('#bulkDidHourlyLimitInput').value = '';
+  $('#bulkDidTextarea').value = '';
+  $('#bulkDidPreview').textContent = 'No rows parsed.';
+  $('#bulkDidForm').classList.add('open');
+  setModuleStatus('#didsStatus', '', 'muted');
+}
+
+function hideBulkDidForm() {
+  $('#bulkDidForm').classList.remove('open');
+}
+
+function parseBulkDidRows() {
+  const defaultClientId = $('#bulkDidClientInput').value || null;
+  const defaultCampaignId = $('#bulkDidCampaignInput').value || null;
+  assertCampaignBelongsToClient(defaultClientId, defaultCampaignId);
+  const dailyLimit = integerOptionalFromInput('#bulkDidDailyLimitInput', 'Default daily limit');
+  const hourlyLimit = integerOptionalFromInput('#bulkDidHourlyLimitInput', 'Default hourly limit');
+  const lines = ($('#bulkDidTextarea').value || '').split(/\r?\n/);
+  const valid = [];
+  const invalid = [];
+
+  lines.forEach((line, index) => {
+    const raw = line.trim();
+    if (!raw) return;
+    try {
+      const [didRaw, stateRaw = '', areaCodeRaw = ''] = raw.split(',').map(item => item.trim());
+      const body = {
+        did: validateDidNumber(didRaw),
+        clientId: defaultClientId,
+        campaignId: defaultCampaignId,
+        state: validateOptionalState(stateRaw) || undefined,
+        areaCode: validateOptionalAreaCode(areaCodeRaw) || undefined,
+        status: 'available',
+        notes: 'bulk imported from DID Operations UI',
+      };
+      if (dailyLimit !== null) body.dailyLimit = dailyLimit;
+      if (hourlyLimit !== null) body.hourlyLimit = hourlyLimit;
+      valid.push(body);
+    } catch (err) {
+      invalid.push({ line: index + 1, value: raw, error: err.message || String(err) });
+    }
+  });
+
+  return { valid, invalid };
+}
+
+function previewBulkDids() {
+  try {
+    const parsed = parseBulkDidRows();
+    $('#bulkDidPreview').textContent = `Valid rows: ${parsed.valid.length}; invalid rows: ${parsed.invalid.length}`;
+    $('#bulkDidPreview').className = `status-line ${parsed.invalid.length ? 'error' : 'ok'}`;
+    if (parsed.invalid.length) {
+      setModuleStatus('#didsStatus', `First invalid row ${parsed.invalid[0].line}: ${parsed.invalid[0].error}`, 'error');
+    } else {
+      setModuleStatus('#didsStatus', '', 'muted');
+    }
+    return parsed;
+  } catch (err) {
+    $('#bulkDidPreview').textContent = 'Bulk import defaults are invalid.';
+    $('#bulkDidPreview').className = 'status-line error';
+    setModuleStatus('#didsStatus', err.message || String(err), 'error');
+    return { valid: [], invalid: [{ line: 0, error: err.message || String(err) }] };
+  }
+}
+
+async function saveBulkDidForm() {
+  if (!ensureWriteAccess()) return;
+  const parsed = previewBulkDids();
+  if (!parsed.valid.length || parsed.invalid.length) {
+    setModuleStatus('#didsStatus', parsed.valid.length ? 'Fix invalid rows before importing.' : 'At least one valid DID is required.', 'error');
+    return;
+  }
+
+  try {
+    setModuleStatus('#didsStatus', 'Importing DIDs...', 'muted');
+    await api('/admin/dids/bulk', {
+      method: 'POST',
+      body: JSON.stringify({ items: parsed.valid }),
+    });
+    hideBulkDidForm();
+    await refreshAll();
+    setModuleStatus('#didsStatus', `Imported ${parsed.valid.length} DIDs.`, 'ok');
+  } catch (err) {
+    setModuleStatus('#didsStatus', err.message || String(err), 'error');
+  }
+}
+
 async function patchDid(did, body) {
   if (!ensureWriteAccess()) return;
   await api(`/admin/dids/${encodeURIComponent(did)}`, {
@@ -1963,61 +2355,60 @@ async function patchDid(did, body) {
   });
 }
 
-async function assignScopeToDid(did) {
+function showDidScopeForm(did) {
   if (!ensureWriteAccess()) return;
   const record = state.inventory.find(item => item.did === did) || {};
-  if (!state.clients.length) {
-    alert('No clients are available.');
+  state.assigningDid = did;
+  $('#assignDidNumberInput').value = did;
+  populateDidClientSelect('#assignDidClientInput', record.clientId || state.selectedClientId || '');
+  populateDidCampaignSelect('#assignDidCampaignInput', $('#assignDidClientInput').value, record.campaignId || state.selectedCampaignId || '');
+  $('#assignDidScopeForm').classList.add('open');
+  setModuleStatus('#didsStatus', '', 'muted');
+}
+
+function assignScopeToDid(did) {
+  showDidScopeForm(did);
+}
+
+function hideDidScopeForm() {
+  state.assigningDid = null;
+  $('#assignDidScopeForm').classList.remove('open');
+}
+
+async function saveDidScopeForm() {
+  if (!ensureWriteAccess()) return;
+  const did = $('#assignDidNumberInput').value || state.assigningDid;
+  const clientId = $('#assignDidClientInput').value || null;
+  const campaignId = $('#assignDidCampaignInput').value || null;
+  try {
+    assertCampaignBelongsToClient(clientId, campaignId);
+  } catch (err) {
+    setModuleStatus('#didsStatus', err.message || String(err), 'error');
     return;
   }
 
-  const clientList = state.clients.map(client => `${client.id} - ${client.name || client.id}`).join('\n');
-  const clientRaw = prompt(`Client ID:\n\n${clientList}\n\nLeave blank to clear client and campaign scope.`, record.clientId || state.selectedClientId || '');
-  if (clientRaw === null) return;
-
-  const clientId = clientRaw.trim();
-  if (!clientId) {
-    if (!requireConfirm(`Clear DID ${did} client and campaign scope?`)) return;
-    await patchDid(did, {
-      clientId: null,
-      campaignId: null,
-      reason: 'assigned to campaign from DID Operations UI',
-    });
-    await refreshAll();
-    return;
-  }
-
-  const client = state.clients.find(item => item.id === clientId);
-  if (!client) {
-    alert('Client ID was not found.');
-    return;
-  }
-
-  const campaigns = state.campaigns.filter(campaign => campaign.clientId === clientId);
-  const campaignList = campaigns.length
-    ? campaigns.map(campaign => `${campaign.id} - ${campaign.name || campaign.id}`).join('\n')
-    : 'No campaigns for this client.';
-  const defaultCampaignId = campaigns.some(campaign => campaign.id === record.campaignId)
-    ? record.campaignId
-    : campaigns.some(campaign => campaign.id === state.selectedCampaignId)
-      ? state.selectedCampaignId
-      : '';
-  const campaignRaw = prompt(`Campaign ID:\n\n${campaignList}\n\nLeave blank for client-only scope.`, defaultCampaignId || '');
-  if (campaignRaw === null) return;
-
-  const campaignId = campaignRaw.trim();
-  if (campaignId && !campaigns.some(campaign => campaign.id === campaignId)) {
-    alert('Campaign ID was not found for the selected client.');
-    return;
-  }
-
-  if (!requireConfirm(`Assign DID ${did} to ${campaignId ? `campaign ${campaignId}` : `client ${clientId}`}?`)) return;
   await patchDid(did, {
     clientId,
-    campaignId: campaignId || null,
+    campaignId,
     reason: 'assigned to campaign from DID Operations UI',
   });
+  hideDidScopeForm();
   await refreshAll();
+  setModuleStatus('#didsStatus', 'DID assignment saved.', 'ok');
+}
+
+async function clearDidScopeForm() {
+  if (!ensureWriteAccess()) return;
+  const did = $('#assignDidNumberInput').value || state.assigningDid;
+  if (!requireConfirm(`Clear DID ${did} client and campaign scope?`)) return;
+  await patchDid(did, {
+    clientId: null,
+    campaignId: null,
+    reason: 'cleared campaign assignment from DID Operations UI',
+  });
+  hideDidScopeForm();
+  await refreshAll();
+  setModuleStatus('#didsStatus', 'DID assignment cleared.', 'ok');
 }
 
 async function pauseDid(did) {
@@ -2285,6 +2676,7 @@ function renderAll() {
   renderLeadExclusions();
   renderDryRunEvents();
   renderAdminCrudViews();
+  renderDidAdminForms();
   renderSettingsStatus();
 }
 
@@ -2373,6 +2765,15 @@ $('#clearScope').onclick = () => {
   state.campaignRules = null;
   refreshAll();
 };
+$('#didClientInput').onchange = () => populateDidCampaignSelect('#didCampaignInput', $('#didClientInput').value, '');
+$('#bulkDidClientInput').onchange = () => {
+  populateDidCampaignSelect('#bulkDidCampaignInput', $('#bulkDidClientInput').value, '');
+  previewBulkDids();
+};
+$('#assignDidClientInput').onchange = () => populateDidCampaignSelect('#assignDidCampaignInput', $('#assignDidClientInput').value, '');
+$('#bulkDidTextarea').addEventListener('input', previewBulkDids);
+$('#bulkDidDailyLimitInput').addEventListener('input', previewBulkDids);
+$('#bulkDidHourlyLimitInput').addEventListener('input', previewBulkDids);
 $('#adminToken').value = getToken();
 async function boot() {
   renderAuth();

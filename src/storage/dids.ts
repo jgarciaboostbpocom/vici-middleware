@@ -246,7 +246,9 @@ function coercePausedValue(value: unknown): Pick<DidControls, 'manualPaused' | '
   return { manualPaused: true, pauseReason: null, pausedAt: null };
 }
 
-function createDidRecord(input: Partial<DidRecord> & { did: string; state?: string }): DidRecord {
+type DidRecordInput = Partial<Omit<DidRecord, 'limits'>> & { did: string; state?: string; limits?: Partial<DidLimits> };
+
+function createDidRecord(input: DidRecordInput): DidRecord {
   const did = normalizeDid(input.did);
   const areaCode = input.areaCode || deriveAreaCode(did);
   const controls = { ...defaultControls(), ...(input.controls || {}) };
@@ -465,6 +467,14 @@ export async function getDidByNumber(did: string): Promise<DidRecord | null> {
 export async function upsertDid(record: DidRecord): Promise<DidRecord> {
   const store = await loadDidStore();
   const normalized = createDidRecord(record);
+  store.inventory[normalized.did] = normalized;
+  await saveDidStore(store);
+  return normalized;
+}
+
+export async function upsertDidConfig(input: DidRecordInput): Promise<DidRecord> {
+  const store = await loadDidStore();
+  const normalized = createDidRecord(input);
   store.inventory[normalized.did] = normalized;
   await saveDidStore(store);
   return normalized;

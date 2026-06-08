@@ -6,7 +6,6 @@ import {
   userCanWrite,
 } from '../auth/middleware';
 import {
-  addDid,
   clearCoverageAlert,
   clearLeadExclusion,
   getCoverageAlerts,
@@ -22,6 +21,7 @@ import {
   setActiveDidForState,
   setDidState,
   upsertCoverageAlert,
+  upsertDidConfig,
   upsertLeadExclusion,
   type CoverageAlert,
   type DidRecord,
@@ -77,6 +77,7 @@ type DidWriteValidationResult = {
   status: number;
   error: string;
 };
+type DidConfigInput = Partial<Omit<DidRecord, 'limits'>> & { did: string; limits?: Partial<DidRecord['limits']> };
 
 const MAX_HISTORY = 100;
 const PATCH_STATUSES = new Set<DidStatus>(['available', 'active', 'spam_risk', 'burned']);
@@ -121,21 +122,47 @@ didsRouter.get('/', async (req, res) => {
 });
 
 didsRouter.post('/', async (req, res) => {
-  const did = parseDidNumber(req.body?.did, 'did');
-  if (!did.ok) return sendError(res, 400, did.error);
-
-  const state = parseState(req.body?.state ?? 'UNASSIGNED', 'state');
-  if (!state.ok) return sendError(res, 400, state.error);
+  const parsed = parseDidCreate(req.body || {});
+  if (!parsed.ok) return sendError(res, 400, parsed.error);
 
   try {
-    const actor = await resolveActor(req);
-    if (actor.user.role !== 'super_admin' || !userCanWrite(actor.user)) {
-      return sendError(res, 403, 'super_admin role required to add global DIDs');
+    const scope = await resolveCreateScope(req, parsed.value);
+    if (!scope.ok) return sendError(res, scope.status, scope.error);
+
+    const record = await upsertDidConfig(parsed.value);
+    res.json({ ok: true, did: record.did, record: toDidHealth(record), ...scopeResponse(scope.value) });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+didsRouter.post('/bulk', async (req, res) => {
+  if (!Array.isArray(req.body?.items)) return sendError(res, 400, 'items must be an array');
+  if (req.body.items.length < 1) return sendError(res, 400, 'items must contain at least one DID');
+  if (req.body.items.length > 500) return sendError(res, 400, 'bulk import is limited to 500 DIDs per request');
+
+  const parsedItems: DidConfigInput[] = [];
+  for (let i = 0; i < req.body.items.length; i += 1) {
+    const parsed = parseDidCreate(req.body.items[i] || {});
+    if (!parsed.ok) return sendError(res, 400, `row ${i + 1}: ${parsed.error}`);
+    parsedItems.push(parsed.value);
+  }
+
+  try {
+    const created: DidRecord[] = [];
+    for (const item of parsedItems) {
+      const scope = await resolveCreateScope(req, item);
+      if (!scope.ok) return sendError(res, scope.status, `DID ${item.did}: ${scope.error}`);
+      created.push(await upsertDidConfig(item));
     }
 
-    await addDid(did.value, state.value);
-    const record = await getDidByNumber(did.value);
-    res.json({ ok: true, did: did.value, record: record ? toDidHealth(record) : null, actor: actorPayload(actor) });
+    const actor = await resolveActor(req);
+    res.json({
+      ok: true,
+      count: created.length,
+      records: created.map(toDidHealth),
+      actor: actorPayload(actor),
+    });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -631,6 +658,26 @@ async function resolvePatchScope(
   });
 }
 
+async function resolveCreateScope(
+  req: any,
+  record: { clientId?: string | null; campaignId?: string | null },
+): Promise<ScopeValidationResult> {
+  const scope = await resolveScope(req, {
+    clientId: record.clientId || null,
+    campaignId: record.campaignId || null,
+  });
+  if (!scope.ok) return scope;
+
+  if (!scope.value.clientId && !scope.value.campaignId && scope.value.actor.user.role !== 'super_admin') {
+    return { ok: false, status: 403, error: 'super_admin role required to add global DIDs' };
+  }
+  if (!await userCanManageDidScope(scope.value.actor.user, record)) {
+    return { ok: false, status: 403, error: 'DID write scope required' };
+  }
+
+  return scope;
+}
+
 async function resolveScope(
   req: any,
   requested: { clientId?: string | null; campaignId?: string | null },
@@ -960,6 +1007,79 @@ function parsePatch(body: Record<string, unknown>): ValidationResult<{
 
   if (!changedFields.length) return { ok: false, error: 'no supported DID fields supplied' };
   return { ok: true, value: out };
+}
+
+function parseDidCreate(input: unknown): ValidationResult<DidConfigInput> {
+  const body = parseObject(input);
+  if (!body.ok) return body;
+
+  const did = parseDidNumber(body.value.did, 'did');
+  if (!did.ok) return did;
+
+  const state = parseState(body.value.state ?? 'UNASSIGNED', 'state');
+  if (!state.ok) return state;
+
+  const areaCode = has(body.value, 'areaCode')
+    ? parseAreaCode(body.value.areaCode, 'areaCode')
+    : { ok: true as const, value: did.value.slice(0, 3) };
+  if (!areaCode.ok) return areaCode;
+
+  const status = has(body.value, 'status')
+    ? parsePatchStatus(body.value.status)
+    : { ok: true as const, value: 'available' as DidStatus };
+  if (!status.ok) return status;
+
+  const clientId = parseOptionalRecordId(body.value.clientId, 'clientId');
+  if (!clientId.ok) return clientId;
+
+  const campaignId = parseOptionalRecordId(body.value.campaignId, 'campaignId');
+  if (!campaignId.ok) return campaignId;
+
+  const limits: Partial<DidRecord['limits']> = {};
+  if (has(body.value, 'dailyLimit')) {
+    const daily = parsePositiveInteger(body.value.dailyLimit, 'dailyLimit');
+    if (!daily.ok) return daily;
+    limits.daily = daily.value;
+  }
+  if (has(body.value, 'hourlyLimit')) {
+    const hourly = parsePositiveInteger(body.value.hourlyLimit, 'hourlyLimit');
+    if (!hourly.ok) return hourly;
+    limits.hourly = hourly.value;
+  }
+  if (typeof body.value.limits === 'object' && body.value.limits !== null) {
+    const rawLimits = body.value.limits as Record<string, unknown>;
+    if (has(rawLimits, 'daily')) {
+      const daily = parsePositiveInteger(rawLimits.daily, 'limits.daily');
+      if (!daily.ok) return daily;
+      limits.daily = daily.value;
+    }
+    if (has(rawLimits, 'hourly')) {
+      const hourly = parsePositiveInteger(rawLimits.hourly, 'limits.hourly');
+      if (!hourly.ok) return hourly;
+      limits.hourly = hourly.value;
+    }
+  } else if (has(body.value, 'limits')) {
+    return { ok: false, error: 'limits must be an object' };
+  }
+
+  const notes = has(body.value, 'notes') || has(body.value, 'reason')
+    ? parseReason(body.value.notes ?? body.value.reason, false)
+    : { ok: true as const, value: '' };
+  if (!notes.ok) return notes;
+
+  return {
+    ok: true,
+    value: {
+      did: did.value,
+      state: state.value,
+      areaCode: areaCode.value,
+      status: status.value,
+      clientId: clientId.value || undefined,
+      campaignId: campaignId.value || undefined,
+      limits: Object.keys(limits).length ? limits : undefined,
+      notes: notes.value || '',
+    },
+  };
 }
 
 function parseCoverageAlert(input: unknown): ValidationResult<CoverageAlert> {
