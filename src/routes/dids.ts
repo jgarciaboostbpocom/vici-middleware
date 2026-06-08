@@ -29,6 +29,7 @@ import {
   isDidEligible,
   scoreDidCandidate,
 } from '../logic/didSelection';
+import { readRecentEvents } from '../uiV2/uiEvents';
 
 export const didsRouter = Router();
 
@@ -116,6 +117,28 @@ didsRouter.post('/active', async (req, res) => {
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
+});
+
+didsRouter.get('/selector-v2/status', async (_req, res) => {
+  res.json({
+    ok: true,
+    didSelectionV2: {
+      enabled: boolEnv('DID_SELECTION_V2_ENABLED', false),
+      dryRun: boolEnv('DID_SELECTION_V2_DRY_RUN', true),
+      persistObservations: boolEnv('DID_SELECTION_V2_PERSIST_OBSERVATIONS', false),
+    },
+  });
+});
+
+didsRouter.get('/selector-v2/dry-run-events', async (req, res) => {
+  const requestedLimit = Number(req.query.limit || 100);
+  const limit = Math.max(1, Math.min(Number.isFinite(requestedLimit) ? requestedLimit : 100, 500));
+  const scanLimit = Math.min(limit * 5, 5000);
+  const items = readRecentEvents({ limit: scanLimit })
+    .filter(event => event.type === 'did_selection_v2_dry_run')
+    .slice(0, limit);
+
+  res.json({ ok: true, items, now: Date.now() });
 });
 
 didsRouter.get('/coverage/alerts', async (_req, res) => {
@@ -801,6 +824,12 @@ function parseOptionalTimestamp(value: unknown, field: string): ValidationResult
   const date = new Date(String(value));
   if (!Number.isFinite(date.getTime())) return { ok: false, error: `${field} must be a valid date/time` };
   return { ok: true, value: date.toISOString() };
+}
+
+function boolEnv(name: string, fallback: boolean): boolean {
+  const val = process.env[name];
+  if (val === undefined || val === '') return fallback;
+  return ['1', 'true', 'yes', 'y', 'on'].includes(val.toLowerCase());
 }
 
 function has(obj: Record<string, unknown>, key: string): boolean {

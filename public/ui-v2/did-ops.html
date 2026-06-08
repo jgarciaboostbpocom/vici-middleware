@@ -1,0 +1,738 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DID Operations</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --surface-2: #eef2f6;
+      --text: #17202a;
+      --muted: #667085;
+      --border: #d9dee7;
+      --accent: #1d4ed8;
+      --ok: #0f766e;
+      --warn: #b45309;
+      --bad: #b91c1c;
+      --soft-ok: #d9f5ef;
+      --soft-warn: #fff3d7;
+      --soft-bad: #fee2e2;
+      --soft-info: #e6efff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: 14px;
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    h1 { font-size: 20px; margin: 0; }
+    h2 { font-size: 16px; margin: 0; }
+    a { color: var(--accent); }
+    main {
+      width: min(1800px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 16px 0 28px;
+    }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .right { margin-left: auto; }
+    .muted { color: var(--muted); }
+    .small { font-size: 12px; }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    input, button {
+      font: inherit;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      background: var(--surface);
+      color: var(--text);
+    }
+    input { min-width: 210px; }
+    button {
+      cursor: pointer;
+      background: #f8fafc;
+      white-space: nowrap;
+    }
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    button.danger {
+      background: var(--soft-bad);
+      border-color: #fca5a5;
+      color: var(--bad);
+    }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+    .notice {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-left: 4px solid var(--accent);
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin-bottom: 14px;
+    }
+    .notice strong { display: block; margin-bottom: 2px; }
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .section-head {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      background: #fbfcfe;
+    }
+    .section-body { padding: 12px 14px; }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(9, minmax(120px, 1fr));
+      gap: 10px;
+    }
+    .summary-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 12px;
+      min-height: 82px;
+    }
+    .summary-card .label { color: var(--muted); font-size: 12px; }
+    .summary-card .value { font-size: 26px; font-weight: 700; margin-top: 4px; }
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--border);
+      padding: 9px 8px;
+      text-align: left;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+    th {
+      background: var(--surface-2);
+      font-size: 12px;
+      color: #344054;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    .actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      min-width: 470px;
+    }
+    .actions button { padding: 6px 8px; font-size: 12px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+    .badge.ok { background: var(--soft-ok); color: var(--ok); border-color: #99e6d7; }
+    .badge.warn { background: var(--soft-warn); color: var(--warn); border-color: #f8d777; }
+    .badge.bad { background: var(--soft-bad); color: var(--bad); border-color: #fca5a5; }
+    .badge.info { background: var(--soft-info); color: #1d4ed8; border-color: #bdd1ff; }
+    .status-line { min-height: 20px; }
+    .status-line.error { color: var(--bad); }
+    .status-line.ok { color: var(--ok); }
+    .history {
+      display: none;
+      margin-top: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 10px;
+      max-height: 280px;
+      overflow: auto;
+    }
+    .history.open { display: block; }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 12px;
+    }
+    @media (max-width: 1300px) {
+      .summary-grid { grid-template-columns: repeat(3, minmax(140px, 1fr)); }
+    }
+    @media (max-width: 720px) {
+      main { width: calc(100vw - 16px); }
+      header { padding: 12px 10px; }
+      .summary-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+      .right { margin-left: 0; }
+      input { min-width: 160px; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DID Operations</h1>
+    <span class="badge info">Admin</span>
+    <a href="/">Legacy Admin</a>
+    <a href="index.html">Dashboard v2</a>
+    <div class="right row">
+      <label class="small muted" for="adminToken">Admin token</label>
+      <input id="adminToken" type="password" placeholder="x-admin-token" />
+      <button id="saveToken">Save</button>
+      <button id="refresh" class="primary">Refresh</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <span id="status" class="status-line muted">Loading...</span>
+      <span id="updated" class="small muted"></span>
+    </div>
+
+    <div class="notice">
+      <strong>Dry-run only: V2 is observing and not changing live Vicidial.</strong>
+      <span>Manual controls update DID store only. This page does not call live Vicidial update routes or scheduler controls.</span>
+    </div>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Dry-run Status</h2>
+        <span class="muted small">Non-secret selector v2 flags from the backend.</span>
+      </div>
+      <div class="section-body row" id="dryRunStatus">
+        <span class="muted">Loading status...</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Summary</h2>
+      </div>
+      <div class="section-body">
+        <div class="summary-grid" id="summaryCards"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>DID Inventory</h2>
+        <span class="muted small">Controls call only safe DID store endpoints.</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>DID</th>
+              <th>State</th>
+              <th>Area code</th>
+              <th>Status</th>
+              <th>Effective status</th>
+              <th>Eligible</th>
+              <th>Calls today</th>
+              <th>Calls this hour</th>
+              <th>Daily limit</th>
+              <th>Hourly limit</th>
+              <th>Connected calls</th>
+              <th>AHT</th>
+              <th>Connection AHT</th>
+              <th>Spam reports</th>
+              <th>Last used</th>
+              <th>Current reason</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="inventoryBody">
+            <tr><td colspan="17" class="muted">Loading inventory...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="historyPanel" class="history"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Coverage Alerts</h2>
+        <span class="muted small">Persisted selector v2 missing-coverage observations.</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Area code</th>
+              <th>State</th>
+              <th>Reason</th>
+              <th>Fallback DID</th>
+              <th>Fallback state</th>
+              <th>Active</th>
+              <th>Created at</th>
+              <th>Updated at</th>
+              <th>Clear action</th>
+            </tr>
+          </thead>
+          <tbody id="coverageBody">
+            <tr><td colspan="10" class="muted">Loading coverage alerts...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Lead Exclusions</h2>
+        <span class="muted small">Flags for future exclusion when coverage is missing.</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Area code</th>
+              <th>State</th>
+              <th>Reason</th>
+              <th>Active</th>
+              <th>Created at</th>
+              <th>Cleared at</th>
+              <th>Clear action</th>
+            </tr>
+          </thead>
+          <tbody id="leadExclusionBody">
+            <tr><td colspan="8" class="muted">Loading lead exclusions...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Selector v2 Dry-run Events</h2>
+        <span class="muted small">Recent `did_selection_v2_dry_run` events from the UI event log.</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>State</th>
+              <th>Lead phone / area code</th>
+              <th>Selected DID</th>
+              <th>Strategy</th>
+              <th>Fallback used</th>
+              <th>Current active DID</th>
+              <th>Current logic DID</th>
+              <th>Would differ</th>
+              <th>Coverage alerts</th>
+              <th>Lead exclusions</th>
+            </tr>
+          </thead>
+          <tbody id="dryRunEventsBody">
+            <tr><td colspan="11" class="muted">Loading dry-run events...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+<script>
+const tokenKey = 'mw_admin_token';
+const altTokenKey = 'adminToken';
+const state = {
+  inventory: [],
+  coverageAlerts: [],
+  leadExclusions: [],
+  dryRunEvents: [],
+  dryRunStatus: null,
+};
+
+const $ = selector => document.querySelector(selector);
+
+function getToken() {
+  return localStorage.getItem(tokenKey) || localStorage.getItem(altTokenKey) || '';
+}
+
+function setToken(value) {
+  localStorage.setItem(tokenKey, value || '');
+  localStorage.setItem(altTokenKey, value || '');
+}
+
+function headers() {
+  const h = { 'Content-Type': 'application/json' };
+  const token = getToken();
+  if (token) h['x-admin-token'] = token;
+  return h;
+}
+
+async function api(path, options = {}) {
+  const res = await fetch(path, { ...options, headers: { ...headers(), ...(options.headers || {}) } });
+  if (!res.ok) {
+    const text = await res.text().catch(() => String(res.status));
+    throw new Error(`HTTP ${res.status}: ${text}`);
+  }
+  return res.json();
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[char]));
+}
+
+function jsArg(value) {
+  return escapeHtml(String(value ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'"));
+}
+
+function fmtDate(value) {
+  if (!value) return '-';
+  const date = typeof value === 'number' ? new Date(value) : new Date(String(value));
+  return Number.isFinite(date.getTime()) ? date.toLocaleString() : String(value);
+}
+
+function fmtNum(value) {
+  const n = Number(value || 0);
+  return Number.isFinite(n) ? String(n) : '0';
+}
+
+function fmtSec(value) {
+  const n = Number(value || 0);
+  return Number.isFinite(n) && n > 0 ? `${Math.round(n)}s` : '-';
+}
+
+function boolBadge(value) {
+  return value ? '<span class="badge ok">Yes</span>' : '<span class="badge bad">No</span>';
+}
+
+function statusClass(status) {
+  const normalized = String(status || '').toLowerCase();
+  if (['available', 'active'].includes(normalized)) return 'ok';
+  if (['cooling', 'manual_paused', 'paused', 'spam_risk'].includes(normalized)) return 'warn';
+  if (['burned', 'removed', 'daily_limit_reached', 'hourly_limit_reached'].includes(normalized)) return 'bad';
+  return 'info';
+}
+
+function statusBadge(status) {
+  const text = status || '-';
+  return `<span class="badge ${statusClass(text)}">${escapeHtml(text)}</span>`;
+}
+
+function setStatus(message, kind = 'muted') {
+  const el = $('#status');
+  el.textContent = message;
+  el.className = `status-line ${kind}`;
+}
+
+function reasonPrompt(defaultReason) {
+  const reason = prompt('Reason for audit history:', defaultReason || '');
+  return reason === null ? null : reason.trim();
+}
+
+function requireConfirm(message) {
+  return confirm(`${message}\n\nManual controls update DID store only. They do not update live Vicidial.`);
+}
+
+async function postDidAction(did, path, body) {
+  await api(`/admin/dids/${encodeURIComponent(did)}${path}`, {
+    method: 'POST',
+    body: JSON.stringify(body || {}),
+  });
+}
+
+async function pauseDid(did) {
+  const reason = reasonPrompt('manual pause from DID Operations UI');
+  if (!reason || !requireConfirm(`Pause DID ${did}?`)) return;
+  await postDidAction(did, '/pause', { reason });
+  await refreshAll();
+}
+
+async function cooldownDid(did) {
+  const minutesRaw = prompt('Cooldown duration in minutes:', '60');
+  if (minutesRaw === null) return;
+  const durationMinutes = Number(minutesRaw);
+  if (!Number.isFinite(durationMinutes) || durationMinutes <= 0) {
+    alert('Cooldown duration must be a positive number.');
+    return;
+  }
+  const reason = reasonPrompt('manual cooldown from DID Operations UI');
+  if (!reason || !requireConfirm(`Cooldown DID ${did} for ${durationMinutes} minutes?`)) return;
+  await postDidAction(did, '/cooldown', { durationMinutes, reason });
+  await refreshAll();
+}
+
+async function reactivateDid(did) {
+  const reason = reasonPrompt('manual reactivation from DID Operations UI');
+  if (reason === null) return;
+  await postDidAction(did, '/reactivate', { reason: reason || 'manual reactivation from DID Operations UI' });
+  await refreshAll();
+}
+
+async function spamReportDid(did) {
+  const reason = reasonPrompt('spam report from DID Operations UI');
+  if (!reason || !requireConfirm(`Mark spam report for DID ${did}?`)) return;
+  await postDidAction(did, '/spam-report', { reason });
+  await refreshAll();
+}
+
+async function removeDidFromRotation(did) {
+  const reason = reasonPrompt('removed from rotation in DID Operations UI');
+  if (!reason || !requireConfirm(`Remove DID ${did} from rotation?`)) return;
+  await postDidAction(did, '/remove', { reason });
+  await refreshAll();
+}
+
+async function showHistory(did) {
+  const panel = $('#historyPanel');
+  panel.classList.add('open');
+  panel.innerHTML = `<strong>History for ${escapeHtml(did)}</strong><div class="muted small">Loading...</div>`;
+  try {
+    const data = await api(`/admin/dids/${encodeURIComponent(did)}/history`);
+    const rows = (data.history || []).slice().reverse();
+    panel.innerHTML = `<div class="row"><strong>History for ${escapeHtml(did)}</strong><button onclick="closeHistory()">Close</button></div>` +
+      (rows.length
+        ? `<pre>${escapeHtml(JSON.stringify(rows, null, 2))}</pre>`
+        : '<div class="muted small">No history recorded.</div>');
+  } catch (err) {
+    panel.innerHTML = `<strong>History for ${escapeHtml(did)}</strong><div class="status-line error">${escapeHtml(err.message)}</div>`;
+  }
+}
+
+function closeHistory() {
+  const panel = $('#historyPanel');
+  panel.classList.remove('open');
+  panel.innerHTML = '';
+}
+
+async function clearCoverageAlert(id) {
+  const reason = reasonPrompt('cleared from DID Operations UI');
+  if (reason === null) return;
+  await api(`/admin/dids/coverage/alerts/${encodeURIComponent(id)}/clear`, {
+    method: 'POST',
+    body: JSON.stringify({ reason }),
+  });
+  await refreshAll();
+}
+
+async function clearLeadExclusion(id) {
+  const reason = reasonPrompt('cleared from DID Operations UI');
+  if (reason === null) return;
+  await api(`/admin/dids/lead-exclusions/${encodeURIComponent(id)}/clear`, {
+    method: 'POST',
+    body: JSON.stringify({ reason }),
+  });
+  await refreshAll();
+}
+
+function renderDryRunStatus() {
+  const flags = state.dryRunStatus?.didSelectionV2;
+  if (!flags) {
+    $('#dryRunStatus').innerHTML = '<span class="muted">No selector status returned.</span>';
+    return;
+  }
+  $('#dryRunStatus').innerHTML = `
+    <span>DID_SELECTION_V2_ENABLED ${boolBadge(flags.enabled)}</span>
+    <span>DID_SELECTION_V2_DRY_RUN ${boolBadge(flags.dryRun)}</span>
+    <span>DID_SELECTION_V2_PERSIST_OBSERVATIONS ${boolBadge(flags.persistObservations)}</span>
+    <span class="badge info">Dry-run only</span>
+  `;
+}
+
+function renderSummary() {
+  const rows = state.inventory;
+  const activeAlerts = state.coverageAlerts.filter(item => item.active).length;
+  const activeExclusions = state.leadExclusions.filter(item => item.active).length;
+  const count = predicate => rows.filter(predicate).length;
+  const stats = [
+    ['Total DIDs', rows.length],
+    ['Available', count(r => r.status === 'available' || r.effectiveStatus === 'available')],
+    ['Active', count(r => r.status === 'active')],
+    ['Cooling', count(r => r.status === 'cooling' || r.effectiveStatus === 'cooling')],
+    ['Manual paused', count(r => r.controls?.manualPaused || r.effectiveStatus === 'manual_paused')],
+    ['Spam risk', count(r => r.status === 'spam_risk' || r.effectiveStatus === 'spam_risk')],
+    ['Burned/Removed', count(r => ['burned', 'removed'].includes(r.status) || ['burned', 'removed'].includes(r.effectiveStatus))],
+    ['Coverage alerts', activeAlerts],
+    ['Lead exclusions', activeExclusions],
+  ];
+  $('#summaryCards').innerHTML = stats.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+}
+
+function renderInventory() {
+  const tbody = $('#inventoryBody');
+  if (!state.inventory.length) {
+    tbody.innerHTML = '<tr><td colspan="17" class="muted">No DID inventory found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = state.inventory.map(record => `
+    <tr>
+      <td><strong>${escapeHtml(record.did)}</strong></td>
+      <td>${escapeHtml(record.state)}</td>
+      <td>${escapeHtml(record.areaCode)}</td>
+      <td>${statusBadge(record.status)}</td>
+      <td>${statusBadge(record.effectiveStatus)}</td>
+      <td>${boolBadge(record.eligible)}</td>
+      <td>${fmtNum(record.metrics?.callsToday)}</td>
+      <td>${fmtNum(record.metrics?.callsThisHour)}</td>
+      <td>${fmtNum(record.limits?.daily)}</td>
+      <td>${fmtNum(record.limits?.hourly)}</td>
+      <td>${fmtNum(record.metrics?.connectedCalls)}</td>
+      <td>${fmtSec(record.metrics?.ahtSec)}</td>
+      <td>${fmtSec(record.metrics?.connectionAhtSec)}</td>
+      <td>${fmtNum(record.metrics?.spamReports)}</td>
+      <td>${escapeHtml(fmtDate(record.rotation?.lastUsedAt))}</td>
+      <td>${escapeHtml(record.rotation?.currentReason || '-')}</td>
+      <td>
+        <div class="actions">
+          <button onclick="pauseDid('${jsArg(record.did)}')">Pause</button>
+          <button onclick="cooldownDid('${jsArg(record.did)}')">Cooldown</button>
+          <button onclick="reactivateDid('${jsArg(record.did)}')">Reactivate</button>
+          <button onclick="spamReportDid('${jsArg(record.did)}')">Mark spam report</button>
+          <button class="danger" onclick="removeDidFromRotation('${jsArg(record.did)}')">Remove from rotation</button>
+          <button onclick="showHistory('${jsArg(record.did)}')">View history</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderCoverageAlerts() {
+  const tbody = $('#coverageBody');
+  if (!state.coverageAlerts.length) {
+    tbody.innerHTML = '<tr><td colspan="10" class="muted">No coverage alerts.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = state.coverageAlerts.map(alert => `
+    <tr>
+      <td>${escapeHtml(alert.id)}</td>
+      <td>${escapeHtml(alert.areaCode || '-')}</td>
+      <td>${escapeHtml(alert.state || '-')}</td>
+      <td>${statusBadge(alert.reason)}</td>
+      <td>${escapeHtml(alert.fallbackDid || '-')}</td>
+      <td>${escapeHtml(alert.fallbackState || '-')}</td>
+      <td>${boolBadge(alert.active)}</td>
+      <td>${escapeHtml(fmtDate(alert.createdAt))}</td>
+      <td>${escapeHtml(fmtDate(alert.updatedAt))}</td>
+      <td>${alert.active ? `<button onclick="clearCoverageAlert('${jsArg(alert.id)}')">Clear</button>` : '<span class="muted">Cleared</span>'}</td>
+    </tr>
+  `).join('');
+}
+
+function renderLeadExclusions() {
+  const tbody = $('#leadExclusionBody');
+  if (!state.leadExclusions.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="muted">No lead exclusions.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = state.leadExclusions.map(exclusion => `
+    <tr>
+      <td>${escapeHtml(exclusion.id)}</td>
+      <td>${escapeHtml(exclusion.areaCode || '-')}</td>
+      <td>${escapeHtml(exclusion.state || '-')}</td>
+      <td>${statusBadge(exclusion.reason)}</td>
+      <td>${boolBadge(exclusion.active)}</td>
+      <td>${escapeHtml(fmtDate(exclusion.createdAt))}</td>
+      <td>${escapeHtml(fmtDate(exclusion.clearedAt))}</td>
+      <td>${exclusion.active ? `<button onclick="clearLeadExclusion('${jsArg(exclusion.id)}')">Clear</button>` : '<span class="muted">Cleared</span>'}</td>
+    </tr>
+  `).join('');
+}
+
+function renderDryRunEvents() {
+  const tbody = $('#dryRunEventsBody');
+  if (!state.dryRunEvents.length) {
+    tbody.innerHTML = '<tr><td colspan="11" class="muted">No dry-run events found in the recent event log.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = state.dryRunEvents.map(event => `
+    <tr>
+      <td>${escapeHtml(fmtDate(event.ts))}</td>
+      <td>${escapeHtml(event.state || '-')}</td>
+      <td>${escapeHtml(event.leadPhone || '-')}${event.areaCode ? ` / ${escapeHtml(event.areaCode)}` : ''}</td>
+      <td>${escapeHtml(event.selectedDid || '-')}</td>
+      <td>${statusBadge(event.strategy || 'none')}</td>
+      <td>${boolBadge(!!event.fallbackUsed)}</td>
+      <td>${escapeHtml(event.currentActiveDid || '-')}</td>
+      <td>${escapeHtml(event.currentLogicDid || '-')}</td>
+      <td>${boolBadge(!!event.wouldDifferFromCurrentLogic)}</td>
+      <td>${fmtNum((event.coverageAlerts || []).length)}</td>
+      <td>${fmtNum((event.leadExclusions || []).length)}</td>
+    </tr>
+  `).join('');
+}
+
+function renderAll() {
+  renderDryRunStatus();
+  renderSummary();
+  renderInventory();
+  renderCoverageAlerts();
+  renderLeadExclusions();
+  renderDryRunEvents();
+}
+
+async function refreshAll() {
+  setStatus('Loading...', 'muted');
+  try {
+    const [dids, coverage, leadExclusions, dryRunStatus, dryRunEvents] = await Promise.all([
+      api('/admin/dids'),
+      api('/admin/dids/coverage/alerts'),
+      api('/admin/dids/lead-exclusions'),
+      api('/admin/dids/selector-v2/status'),
+      api('/admin/dids/selector-v2/dry-run-events?limit=100'),
+    ]);
+    state.inventory = dids.inventory || [];
+    state.coverageAlerts = coverage.alerts || dids.coverage?.missing || [];
+    state.leadExclusions = leadExclusions.leadExclusions || dids.leadExclusions || [];
+    state.dryRunStatus = dryRunStatus;
+    state.dryRunEvents = dryRunEvents.items || [];
+    renderAll();
+    $('#updated').textContent = `Updated ${new Date().toLocaleString()}`;
+    setStatus('Ready', 'ok');
+  } catch (err) {
+    setStatus(err.message || String(err), 'error');
+  }
+}
+
+$('#saveToken').onclick = () => {
+  setToken($('#adminToken').value);
+  setStatus('Token saved', 'ok');
+  refreshAll();
+};
+$('#refresh').onclick = refreshAll;
+$('#adminToken').value = getToken();
+refreshAll();
+</script>
+</body>
+</html>
