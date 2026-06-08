@@ -65,7 +65,11 @@ async function main() {
   assertOk(ui.includes('class="hidden"') || ui.includes('.hidden { display: none !important; }'), 'UI hidden class is missing');
   assertOk(ui.includes('id="protectedContent"'), 'DID Operations UI is missing protectedContent container');
   assertOk(ui.includes('id="unauthenticatedMessage"'), 'DID Operations UI is missing unauthenticatedMessage section');
-  assertOk(ui.includes('Please log in to access DID Operations.'), 'unauthenticated placeholder message is missing');
+  assertOk(
+    ui.includes('Please log in to access DID Operations.') ||
+    ui.includes('Access is restricted. Your role controls which campaigns and actions you can use.'),
+    'unauthenticated placeholder message is missing',
+  );
 
   const loginPanelStart = ui.indexOf('id="loginPanel"');
   const protectedStart = ui.indexOf('id="protectedContent"');

@@ -155,6 +155,10 @@ Backend routes enforce scope and role permissions. `super_admin` can manage all 
 
 DID Operations hides protected operational data until a session or temporary legacy fallback is authenticated. Logout and auth failure clear the page's in-memory operational state, including inventory, alerts, exclusions, events, and campaign rules, so stale rows are not left visible after access is lost. Backend RBAC remains authoritative; the UI gate is only a privacy and clarity layer. The `x-admin-token` fallback remains temporary compatibility behavior.
 
+## Phase 6C DID Operations Login UX
+
+Phase 6C polishes the unauthenticated DID Operations screen into a focused login view and makes the temporary legacy fallback secondary. This does not change backend authentication, RBAC enforcement, protected endpoint behavior, live Vicidial behavior, scheduler behavior, or selector v2 live status.
+
 ## Admin V2 Endpoints
 
 Admin v2 endpoints are mounted behind session-aware auth, except login and first-user bootstrap:
