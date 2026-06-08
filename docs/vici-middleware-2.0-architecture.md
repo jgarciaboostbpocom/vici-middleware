@@ -167,6 +167,10 @@ Phase 6D simplifies the unauthenticated DID Operations screen to a login-only vi
 
 The authenticated DID Operations UI now presents as the Vici Middleware 2.0 internal admin panel with left sidebar navigation and a dashboard default view. Existing DID operations are split into focused sections for Dashboard, DIDs, Campaign Rules, Coverage Alerts, Lead Exclusions, Dry-run Events, and Settings, with placeholder views for Users, Clients, and Campaigns. Backend RBAC remains authoritative, viewer write controls stay read-only, and the unauthenticated login screen remains clean and separate from protected content.
 
+## Phase 7B Sidebar Layout Correction
+
+Phase 7B keeps the same authenticated admin navigation but corrects the desktop layout so the menu renders as a true left sidebar beside the main content. The sidebar only stacks above content on compact screens. Backend behavior, RBAC, protected endpoints, scheduler behavior, and live Vicidial behavior remain unchanged.
+
 ## Admin V2 Endpoints
 
 Admin v2 endpoints are mounted behind session-aware auth, except login and first-user bootstrap:

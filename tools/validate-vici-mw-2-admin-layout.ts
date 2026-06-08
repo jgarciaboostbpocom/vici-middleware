@@ -30,6 +30,11 @@ function blockBetween(source: string, startMarker: string, endMarker: string): s
   return source.slice(start, end);
 }
 
+function cssBlock(source: string, selector: string): string {
+  const marker = `${selector} {`;
+  return blockBetween(source, marker, '}');
+}
+
 async function main() {
   const ui = await fsp.readFile(UI_FILE, 'utf-8');
 
@@ -39,6 +44,33 @@ async function main() {
   assertOk(ui.includes('id="adminAppShell" class="app-shell"'), 'authenticated app shell is missing');
   assertOk(ui.includes('id="adminSidebar" class="sidebar"'), 'admin sidebar is missing');
   assertOk(ui.includes('Vici Middleware 2.0 Admin Panel'), 'authenticated admin panel identity is missing');
+
+  const appShellCss = cssBlock(ui, '.app-shell');
+  assertOk(appShellCss.includes('display: grid'), 'app shell is not a grid layout');
+  assertOk(appShellCss.includes('grid-template-columns: 240px minmax(0, 1fr)'), 'app shell is not a 240px left-sidebar layout');
+  assertOk(appShellCss.includes('width: 100%'), 'app shell does not fill available width');
+
+  const sidebarCss = cssBlock(ui, '.sidebar');
+  assertOk(sidebarCss.includes('width: 240px'), 'sidebar does not have a fixed 240px desktop width');
+  assertOk(sidebarCss.includes('position: sticky'), 'sidebar is not sticky on desktop');
+  assertOk(sidebarCss.includes('display: flex'), 'sidebar is not using vertical flex layout');
+  assertOk(sidebarCss.includes('flex-direction: column'), 'sidebar buttons are not stacked vertically on desktop');
+  assertOk(!sidebarCss.includes('grid-template-columns'), 'desktop sidebar should not split buttons into grid columns');
+
+  const sidebarButtonCss = cssBlock(ui, '.sidebar button');
+  assertOk(sidebarButtonCss.includes('width: 100%'), 'sidebar buttons are not full width');
+
+  const appMainCss = cssBlock(ui, '.app-main');
+  assertOk(appMainCss.includes('min-width: 0'), 'app main is missing min-width protection');
+  assertOk(appMainCss.includes('width: 100%'), 'app main does not fill remaining width');
+
+  const mediumMediaStart = ui.indexOf('@media (max-width: 1300px)');
+  const compactMediaStart = ui.indexOf('@media (max-width: 860px)');
+  assertOk(mediumMediaStart >= 0 && compactMediaStart > mediumMediaStart, 'compact sidebar breakpoint is missing');
+  const mediumMedia = ui.slice(mediumMediaStart, compactMediaStart);
+  assertOk(!mediumMedia.includes('.app-shell { grid-template-columns: 1fr; }'), 'sidebar collapses above compact breakpoint');
+  const compactMedia = ui.slice(compactMediaStart, ui.indexOf('@media (max-width: 720px)', compactMediaStart));
+  assertOk(compactMedia.includes('.app-shell { grid-template-columns: 1fr; }'), 'sidebar does not collapse on small screens');
 
   for (const [view, label] of [
     ['dashboard', 'Dashboard'],
@@ -67,6 +99,7 @@ async function main() {
   assertOk(renderAuthGate.includes("protectedContent.style.display = authenticated ? 'block' : 'none'"), 'protectedContent is not hidden while unauthenticated');
   assertOk(renderAuthGate.includes("protectedContent.classList.toggle('hidden', !authenticated)"), 'protectedContent hidden class is not toggled');
   assertOk(ui.includes('id="adminSidebar"') && ui.indexOf('id="adminSidebar"') > ui.indexOf('id="protectedContent"'), 'sidebar should live inside protected content');
+  assertOk(ui.includes('<div class="app-main">') && ui.indexOf('<div class="app-main">') > ui.indexOf('id="adminSidebar"'), 'main content should be beside sidebar after sidebar markup');
 
   const dashboard = blockBetween(ui, 'id="view-dashboard"', 'id="view-users"');
   assertOk(dashboard.includes('id="summaryCards"'), 'dashboard view does not contain summary cards');

@@ -99,15 +99,19 @@
       grid-template-columns: 240px minmax(0, 1fr);
       gap: 16px;
       align-items: start;
+      width: 100%;
     }
     .sidebar {
+      width: 240px;
+      min-height: calc(100vh - 110px);
       position: sticky;
-      top: 14px;
-      background: var(--surface);
+      top: 16px;
+      background: #fbfcfe;
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 10px;
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 6px;
     }
     .sidebar-title {
@@ -123,6 +127,10 @@
       background: transparent;
       color: var(--text);
     }
+    .sidebar button:hover {
+      background: #f3f6fa;
+      border-color: var(--border);
+    }
     .sidebar button.active {
       background: var(--soft-info);
       border-color: #bdd1ff;
@@ -131,6 +139,7 @@
     }
     .app-main {
       min-width: 0;
+      width: 100%;
     }
     .app-view { display: none; }
     .app-view.active { display: block; }
@@ -383,13 +392,15 @@
       .rules-grid { grid-template-columns: repeat(2, minmax(170px, 1fr)); }
       .scope-controls { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
       .auth-grid { grid-template-columns: repeat(2, minmax(180px, 1fr)); }
+      .settings-grid { grid-template-columns: repeat(2, minmax(160px, 1fr)); }
+    }
+    @media (max-width: 860px) {
       .app-shell { grid-template-columns: 1fr; }
       .sidebar {
+        width: 100%;
+        min-height: 0;
         position: static;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-      .sidebar-title { grid-column: 1 / -1; }
-      .settings-grid { grid-template-columns: repeat(2, minmax(160px, 1fr)); }
     }
     @media (max-width: 720px) {
       main { width: calc(100vw - 16px); }
