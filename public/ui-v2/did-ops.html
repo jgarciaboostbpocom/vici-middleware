@@ -58,7 +58,7 @@
       flex-wrap: wrap;
       margin-bottom: 14px;
     }
-    input, select, button {
+    input, select, textarea, button {
       font: inherit;
       border: 1px solid var(--border);
       border-radius: 6px;
@@ -68,6 +68,10 @@
     }
     input { min-width: 210px; }
     select { min-width: 220px; }
+    textarea {
+      min-height: 84px;
+      resize: vertical;
+    }
     button {
       cursor: pointer;
       background: #f8fafc;
@@ -120,11 +124,41 @@
       display: grid;
       gap: 4px;
     }
+    .rules-panel {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .rules-safety {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .rules-form {
+      display: grid;
+      gap: 10px;
+    }
     .rules-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(170px, 1fr));
       gap: 8px;
-      margin-top: 12px;
+    }
+    .rule-field {
+      display: grid;
+      gap: 5px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 9px 10px;
+      background: #fbfcfe;
+    }
+    .rule-field.full { grid-column: 1 / -1; }
+    .rule-field label { font-weight: 700; }
+    .rule-field input,
+    .rule-field select,
+    .rule-field textarea {
+      width: 100%;
+      min-width: 0;
     }
     .rule-item {
       border: 1px solid var(--border);
@@ -135,6 +169,14 @@
     }
     .rule-item .label { color: var(--muted); font-size: 12px; }
     .rule-item .value { font-weight: 700; margin-top: 3px; white-space: normal; word-break: break-word; }
+    .rule-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .rules-status.error { color: var(--bad); }
+    .rules-status.ok { color: var(--ok); }
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(9, minmax(120px, 1fr));
@@ -223,7 +265,7 @@
       .rules-grid { grid-template-columns: 1fr; }
       .scope-controls { grid-template-columns: 1fr; }
       .right { margin-left: 0; }
-      input, select { min-width: 160px; width: 100%; }
+      input, select, textarea { min-width: 160px; width: 100%; }
     }
   </style>
 </head>
@@ -277,7 +319,7 @@
           </div>
           <button id="clearScope">Clear scope / Global view</button>
         </div>
-        <div id="campaignRulesPanel" class="rules-grid"></div>
+        <div id="campaignRulesPanel" class="rules-panel"></div>
       </div>
     </section>
 
@@ -595,35 +637,178 @@ function renderScopeControls() {
 
 function renderCampaignRules() {
   const panel = $('#campaignRulesPanel');
+  const safety = `
+    <div class="rules-safety">
+      <span class="badge info">Rules are campaign-scoped.</span>
+      <span class="badge info">Saving rules updates middleware configuration only.</span>
+      <span class="badge warn">This does not change live Vicidial behavior.</span>
+      <span class="badge warn">Selector V2 live mode remains disabled.</span>
+    </div>
+  `;
+
   if (!state.selectedCampaignId) {
-    panel.innerHTML = '<div class="muted small">No campaign selected.</div>';
+    panel.innerHTML = `${safety}<div class="muted small">Select a campaign to view and edit rules.</div>`;
     return;
   }
 
   const rules = state.campaignRules;
   if (!rules) {
-    panel.innerHTML = '<div class="muted small">Campaign rules unavailable.</div>';
+    panel.innerHTML = `${safety}<div class="muted small">Campaign rules unavailable.</div>`;
     return;
   }
 
-  const fields = [
-    ['dailyCallLimitPerDid', rules.dailyCallLimitPerDid],
-    ['hourlyCallLimitPerDid', rules.hourlyCallLimitPerDid],
-    ['ahtThresholdSec', rules.ahtThresholdSec],
-    ['connectionAhtThresholdSec', rules.connectionAhtThresholdSec],
-    ['coolingDurationMinutes', rules.coolingDurationMinutes],
-    ['spamReportThreshold', rules.spamReportThreshold],
-    ['allowNearbyStateFallback', rules.allowNearbyStateFallback ? 'true' : 'false'],
-    ['allowedFallbackStates', (rules.allowedFallbackStates || []).join(', ') || '-'],
-    ['leadExclusionEnabled', rules.leadExclusionEnabled ? 'true' : 'false'],
-  ];
+  panel.innerHTML = `
+    ${safety}
+    <form id="campaignRulesForm" class="rules-form" onsubmit="event.preventDefault(); saveCampaignRules();">
+      <div class="rules-grid">
+        ${ruleNumberField('ruleDailyCallLimitPerDid', 'Daily call limit per DID', rules.dailyCallLimitPerDid, 1, 'maximum calls allowed per DID per day.')}
+        ${ruleNumberField('ruleHourlyCallLimitPerDid', 'Hourly call limit per DID', rules.hourlyCallLimitPerDid, 1, 'maximum calls allowed per DID per hour.')}
+        ${ruleNumberField('ruleAhtThresholdSec', 'AHT threshold seconds', rules.ahtThresholdSec, 0, 'AHT threshold used for health/risk evaluation.')}
+        ${ruleNumberField('ruleConnectionAhtThresholdSec', 'Connection AHT threshold seconds', rules.connectionAhtThresholdSec, 0, 'connected-call AHT threshold.')}
+        ${ruleNumberField('ruleCoolingDurationMinutes', 'Cooling duration minutes', rules.coolingDurationMinutes, 1, 'rest time after DID is paused/cooled.')}
+        ${ruleNumberField('ruleSpamReportThreshold', 'Spam report threshold', rules.spamReportThreshold, 1, 'spam reports before DID becomes high risk.')}
+        <div class="rule-field">
+          <label for="ruleAllowNearbyStateFallback">Allow nearby state fallback</label>
+          <select id="ruleAllowNearbyStateFallback">
+            ${yesNoOptions(!!rules.allowNearbyStateFallback)}
+          </select>
+        </div>
+        <div class="rule-field">
+          <label for="ruleLeadExclusionEnabled">Lead exclusion enabled</label>
+          <select id="ruleLeadExclusionEnabled">
+            ${yesNoOptions(!!rules.leadExclusionEnabled)}
+          </select>
+        </div>
+        <div class="rule-field full">
+          <label for="ruleAllowedFallbackStates">Allowed fallback states</label>
+          <input id="ruleAllowedFallbackStates" type="text" value="${escapeHtml((rules.allowedFallbackStates || []).join(', '))}" placeholder="NY, NJ, CT" />
+          <span class="small muted">states allowed for fallback when local coverage is missing.</span>
+        </div>
+        <div class="rule-field full">
+          <label for="ruleNotes">Notes</label>
+          <textarea id="ruleNotes" placeholder="Optional campaign rule notes">${escapeHtml(rules.notes || '')}</textarea>
+        </div>
+      </div>
+      <div class="rule-actions">
+        <button id="saveCampaignRules" class="primary" type="submit">Save Rules</button>
+        <button id="resetCampaignRules" type="button" onclick="resetCampaignRules()">Reset/Reload Rules</button>
+        <span id="rulesStatus" class="rules-status muted small"></span>
+      </div>
+    </form>
+  `;
+}
 
-  panel.innerHTML = fields.map(([label, value]) => `
-    <div class="rule-item">
-      <div class="label">${escapeHtml(label)}</div>
-      <div class="value">${escapeHtml(value)}</div>
+function ruleNumberField(id, label, value, min, description) {
+  const numericValue = Number.isFinite(Number(value)) ? String(value) : '';
+  return `
+    <div class="rule-field">
+      <label for="${escapeHtml(id)}">${escapeHtml(label)}</label>
+      <input id="${escapeHtml(id)}" type="number" step="1" min="${min}" value="${escapeHtml(numericValue)}" />
+      <span class="small muted">${escapeHtml(description)}</span>
     </div>
-  `).join('');
+  `;
+}
+
+function yesNoOptions(value) {
+  return `
+    <option value="true" ${value ? 'selected' : ''}>Yes</option>
+    <option value="false" ${!value ? 'selected' : ''}>No</option>
+  `;
+}
+
+function setRulesStatus(message, kind = 'muted') {
+  const el = $('#rulesStatus');
+  if (!el) return;
+  el.textContent = message;
+  el.className = `rules-status ${kind} small`;
+}
+
+function integerFromInput(selector, label, min) {
+  const input = $(selector);
+  if (!input) throw new Error(`${label} field is missing.`);
+  const raw = input.value.trim();
+  if (!raw) throw new Error(`${label} is required.`);
+  if (!/^-?\d+$/.test(raw)) throw new Error(`${label} must be an integer.`);
+  const value = Number(raw);
+  if (!Number.isSafeInteger(value)) throw new Error(`${label} must be an integer.`);
+  if (value < min) {
+    throw new Error(min > 0 ? `${label} must be greater than 0.` : `${label} must be greater than or equal to 0.`);
+  }
+  return value;
+}
+
+function fallbackStatesFromInput() {
+  const raw = ($('#ruleAllowedFallbackStates')?.value || '').trim();
+  if (!raw) return [];
+  const states = raw.split(',').map(item => item.trim()).filter(Boolean);
+  for (const stateCode of states) {
+    if (!/^[A-Z]{2}$/.test(stateCode)) {
+      throw new Error('Allowed fallback states must be two-letter uppercase codes.');
+    }
+  }
+  return Array.from(new Set(states));
+}
+
+function collectCampaignRulesPatch() {
+  return {
+    dailyCallLimitPerDid: integerFromInput('#ruleDailyCallLimitPerDid', 'Daily call limit per DID', 1),
+    hourlyCallLimitPerDid: integerFromInput('#ruleHourlyCallLimitPerDid', 'Hourly call limit per DID', 1),
+    ahtThresholdSec: integerFromInput('#ruleAhtThresholdSec', 'AHT threshold seconds', 0),
+    connectionAhtThresholdSec: integerFromInput('#ruleConnectionAhtThresholdSec', 'Connection AHT threshold seconds', 0),
+    coolingDurationMinutes: integerFromInput('#ruleCoolingDurationMinutes', 'Cooling duration minutes', 1),
+    spamReportThreshold: integerFromInput('#ruleSpamReportThreshold', 'Spam report threshold', 1),
+    allowNearbyStateFallback: $('#ruleAllowNearbyStateFallback').value === 'true',
+    allowedFallbackStates: fallbackStatesFromInput(),
+    leadExclusionEnabled: $('#ruleLeadExclusionEnabled').value === 'true',
+    notes: ($('#ruleNotes')?.value || '').trim(),
+  };
+}
+
+async function saveCampaignRules() {
+  if (!state.selectedCampaignId) {
+    setRulesStatus('Select a campaign before saving rules.', 'error');
+    return;
+  }
+
+  let patch;
+  try {
+    patch = collectCampaignRulesPatch();
+  } catch (err) {
+    const message = err.message || String(err);
+    setRulesStatus(message, 'error');
+    alert(message);
+    return;
+  }
+
+  if (!confirm('Save campaign rules for this campaign?')) return;
+
+  try {
+    setRulesStatus('Saving campaign rules...', 'muted');
+    await api(`/admin/v2/campaigns/${encodeURIComponent(state.selectedCampaignId)}/rules`, {
+      method: 'PATCH',
+      body: JSON.stringify(patch),
+    });
+    await refreshAll();
+    setRulesStatus('Campaign rules saved.', 'ok');
+  } catch (err) {
+    setRulesStatus(err.message || String(err), 'error');
+  }
+}
+
+async function resetCampaignRules() {
+  if (!state.selectedCampaignId) {
+    setRulesStatus('Select a campaign before reloading rules.', 'error');
+    return;
+  }
+
+  try {
+    setRulesStatus('Reloading rules...', 'muted');
+    await loadCampaignRules();
+    renderCampaignRules();
+    setRulesStatus('Rules reloaded.', 'ok');
+  } catch (err) {
+    setRulesStatus(err.message || String(err), 'error');
+  }
 }
 
 async function loadScopeOptions() {

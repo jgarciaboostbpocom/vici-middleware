@@ -6,7 +6,7 @@ Vici Middleware 2.0 moves the system away from one global Vicidial DID pool. The
 
 `client / tenant -> campaign -> DID pool -> campaign rules -> alerts / exclusions / events -> scoped users`
 
-The Phase 1 foundation adds the storage and API model needed for that hierarchy while preserving current global behavior. Phase 2 adds campaign-aware read filtering and assignment support to the safe DID admin surface and DID Operations UI. Phase 3 carries campaign scope into selector v2 dry-run observation payloads. No live Vicidial update behavior, scheduler behavior, or selector v2 live behavior is changed in these phases.
+The Phase 1 foundation adds the storage and API model needed for that hierarchy while preserving current global behavior. Phase 2 adds campaign-aware read filtering and assignment support to the safe DID admin surface and DID Operations UI. Phase 3 carries campaign scope into selector v2 dry-run observation payloads. Phase 4 makes campaign rules editable from DID Operations while keeping those changes local to middleware configuration. No live Vicidial update behavior, scheduler behavior, or selector v2 live behavior is changed in these phases.
 
 ## Clients / Tenants
 
@@ -56,7 +56,7 @@ When `campaignId` is supplied, responses include only records assigned to that c
 
 `PATCH /admin/dids/:did` can assign or clear `clientId` and `campaignId` in the local DID store. Empty string or `null` clears the corresponding field. This remains a safe admin-store update and does not call live Vicidial update routes.
 
-The DID Operations UI now loads `/admin/v2/clients` and `/admin/v2/campaigns`, lets an operator select a campaign, appends `campaignId` to safe DID admin reads, displays campaign rules read-only, and can assign a DID to a client/campaign through `PATCH /admin/dids/:did`.
+The DID Operations UI now loads `/admin/v2/clients` and `/admin/v2/campaigns`, lets an operator select a campaign, appends `campaignId` to safe DID admin reads, displays campaign rules for the selected campaign, and can assign a DID to a client/campaign through `PATCH /admin/dids/:did`.
 
 ## Phase 3 Selector Dry-Run Scope
 
@@ -74,6 +74,12 @@ Scoped `did_selection_v2_dry_run` events may include:
 When dry-run observation persistence is enabled, persisted coverage alerts and lead exclusions retain the dry-run `clientId` and `campaignId` and include the same values in metadata. Global/unassigned dry-run events and observations remain supported for legacy behavior.
 
 Campaign rules are metadata only in this phase. They are available as a snapshot for analysis and UI visibility, but live selector limits and Vicidial selection/update behavior remain unchanged.
+
+## Phase 4 Campaign Rules Editing
+
+Campaign rules are now editable from the DID Operations UI after an operator selects a campaign. The editor saves through `PATCH /admin/v2/campaigns/:campaignId/rules`, so every change remains campaign-scoped and is checked by the existing admin-token/stored-user scope model.
+
+Saving rules updates middleware local configuration only. Rules are not yet enforced in live Vicidial selection, and selector v2 live mode remains disabled. A future phase will apply campaign rules to selector scoring and limits safely after explicit campaign scope can be carried through live selector inputs.
 
 ## Campaign Rules
 

@@ -35,6 +35,21 @@ type ActorContext = {
 };
 
 const USER_ROLES = new Set<UserRole>(['super_admin', 'internal_admin', 'client_admin', 'viewer']);
+const CAMPAIGN_RULE_PATCH_FIELDS = new Set([
+  'dailyCallLimitPerDid',
+  'hourlyCallLimitPerDid',
+  'ahtThresholdSec',
+  'ahtMinSec',
+  'connectionAhtThresholdSec',
+  'connectionAhtMinSec',
+  'coolingDurationMinutes',
+  'spamReportThreshold',
+  'allowNearbyStateFallback',
+  'allowedFallbackStates',
+  'leadExclusionEnabled',
+  'notes',
+]);
+const SENSITIVE_PATCH_FIELDS = new Set(['password', 'passwordHash', 'token', 'secret']);
 const PLACEHOLDER_USER: ScopedUser = {
   id: 'admin-token-placeholder',
   username: 'admin-token-placeholder',
@@ -347,6 +362,15 @@ function parseCampaign(body: Record<string, unknown>): ValidationResult<Pick<Vic
 }
 
 function parseCampaignRulesPatch(body: Record<string, unknown>): ValidationResult<Partial<CampaignRules>> {
+  for (const key of Object.keys(body)) {
+    if (SENSITIVE_PATCH_FIELDS.has(key)) {
+      return { ok: false, error: 'campaign rule patch does not accept passwords, tokens, or secrets' };
+    }
+    if (!CAMPAIGN_RULE_PATCH_FIELDS.has(key)) {
+      return { ok: false, error: `unsupported campaign rule field: ${key}` };
+    }
+  }
+
   const out: Partial<CampaignRules> = {};
 
   const integerFields: Array<[keyof CampaignRules, string, number]> = [
