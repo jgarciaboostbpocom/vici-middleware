@@ -60,6 +60,120 @@ export type OutboundRouteResponse = {
     action: 'use_accid_or_campaign_default';
     allow_call: true;
   };
+  trace?: RouteSimulationTrace;
+};
+
+export type RouteRejectionReason =
+  | 'DID_REMOVED'
+  | 'DID_PAUSED'
+  | 'DID_COOLING'
+  | 'DID_BURNED'
+  | 'DAILY_LIMIT_REACHED'
+  | 'HOURLY_LIMIT_REACHED'
+  | 'CAMPAIGN_RULE_REJECTED'
+  | 'REUSE_PROTECTION_BLOCKED'
+  | 'NOT_IN_SELECTED_STRATEGY'
+  | 'NOT_SELECTED_LOWER_RANK'
+  | 'NO_MATCHING_NPA'
+  | 'NO_MATCHING_STATE'
+  | 'NO_ALLOWED_NEARBY_FALLBACK';
+
+export type RouteMatchedRuleTrace = {
+  strategy: string | null;
+  campaignId: string | null;
+  clientId: string | null;
+  campaignMatchType: string | null;
+  campaignMatchConfidence: string | null;
+  stateMatch: boolean;
+  npaMatch: boolean;
+  nearbyFallback: boolean;
+  allowedStates: string[];
+  allowedNpas: string[];
+  allowedFallbackStates: string[];
+  campaignScoped: boolean;
+  clientScoped: boolean;
+};
+
+export type RouteCandidateTrace = {
+  did: string;
+  state: string;
+  areaCode: string;
+  npa: string;
+  clientId: string | null;
+  campaignId: string | null;
+  status: string;
+  effectiveStatus: string;
+  isSelected: boolean;
+  eligible: boolean;
+  score: {
+    cleanRank: number;
+    callsTodayRatio: number;
+    callsThisHourRatio: number;
+    lastUsedAtMs: number;
+    connectionAhtRank: number;
+  };
+  rank: number | null;
+  matchedReasons: string[];
+  rejectedReasons: RouteRejectionReason[];
+  limits: {
+    daily: number;
+    hourly: number;
+    callsToday: number;
+    callsThisHour: number;
+  };
+  cooldown: {
+    cooling: boolean;
+    coolUntil: string | null;
+    coolReason: string | null;
+  };
+  spamRisk: {
+    status: string;
+    spamReports: number;
+    threshold: number | null;
+    thresholdReached: boolean;
+  };
+  campaignRuleReasons: string[];
+  campaignRuleWarnings: string[];
+  reuseProtection: {
+    checked: boolean;
+    blocked: boolean;
+    reason: string | null;
+    scope: string | null;
+    serviceDate: string | null;
+  };
+};
+
+export type RouteSimulationTrace = {
+  selectedDid: string | null;
+  selectedReason: string | null;
+  matchedClientId: string | null;
+  matchedCampaignId: string | null;
+  matchedRule: RouteMatchedRuleTrace;
+  strategy: string | null;
+  poolType: string | null;
+  candidateCount: number;
+  rejectedCount: number;
+  candidates: RouteCandidateTrace[];
+  rejected: RouteCandidateTrace[];
+  warnings: string[];
+  fallback: {
+    used: boolean;
+    path: string[];
+    reason: string | null;
+  };
+  ruleContext: {
+    leadState: string | null;
+    npa: string | null;
+    allowedStates: string[];
+    allowedNpas: string[];
+    allowedFallbackStates: string[];
+    dailyLimit: number | null;
+    hourlyLimit: number | null;
+    cooldownMinutes: number | null;
+    spamRiskThreshold: number | null;
+    leadExclusionCreated: boolean;
+    reuseProtection: boolean;
+  };
 };
 
 export type InboundRouteRequest = {

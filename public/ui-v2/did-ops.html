@@ -674,6 +674,9 @@
                   </div>
                 </form>
                 <div class="summary-grid" id="routeEngineSimulationCards"></div>
+                <div id="routeEngineTracePanel" class="placeholder" style="margin-top:14px">
+                  <div class="muted small">Run a simulation to view candidate diagnostics.</div>
+                </div>
                 <pre id="routeEngineSimulationOutput">{}</pre>
               </div>
             </section>
@@ -2364,21 +2367,28 @@ function renderRouteEngineEvents() {
 function renderRouteEngineSimulation() {
   const cards = $('#routeEngineSimulationCards');
   const output = $('#routeEngineSimulationOutput');
+  const tracePanel = $('#routeEngineTracePanel');
   if (!cards || !output) return;
   const result = state.routeEngineSimulation;
   if (!result) {
     cards.innerHTML = '';
     output.textContent = '{}';
+    if (tracePanel) tracePanel.innerHTML = '<div class="muted small">Run a simulation to view candidate diagnostics.</div>';
     return;
   }
 
   const simulation = result.simulation || {};
+  const trace = result.trace || {};
   const items = [
     ['Decision', simulation.decision || result.decision || '-'],
     ['Destination', simulation.destination_phone || '-'],
-    ['Selected DID', simulation.selected_did || '-'],
+    ['Selected DID', trace.selectedDid || simulation.selected_did || '-'],
+    ['Reason', trace.selectedReason || result.reason || '-'],
+    ['Client/Campaign', [trace.matchedClientId || result.client_id, trace.matchedCampaignId || result.campaign_id].filter(Boolean).join(' / ') || '-'],
+    ['Strategy/Rule', [trace.strategy || result.strategy, trace.matchedRule?.campaignMatchType].filter(Boolean).join(' / ') || '-'],
     ['Pool', simulation.pool_type || result.pool_type || '-'],
     ['Candidates', fmtNum(simulation.candidate_count ?? result.candidate_count)],
+    ['Rejected', fmtNum(trace.rejectedCount)],
     ['Allow call', result.allow_call ? 'yes' : 'no'],
   ];
   cards.innerHTML = items.map(([label, value]) => `
@@ -2387,7 +2397,90 @@ function renderRouteEngineSimulation() {
       <div class="value" style="font-size:18px">${escapeHtml(value)}</div>
     </div>
   `).join('');
+  renderRouteEngineTrace(tracePanel, trace);
   output.textContent = JSON.stringify(result, null, 2);
+}
+
+function renderRouteEngineTrace(panel, trace) {
+  if (!panel) return;
+  if (!trace || !Array.isArray(trace.candidates)) {
+    panel.innerHTML = '<div class="muted small">No trace returned by simulator.</div>';
+    return;
+  }
+
+  const warnings = Array.isArray(trace.warnings) ? trace.warnings : [];
+  const fallback = trace.fallback || {};
+  const warningHtml = warnings.length || fallback.used
+    ? `<div class="notice">
+        <strong>Warnings / fallback path</strong>
+        <span>${escapeHtml([
+          ...warnings,
+          ...(fallback.path || []),
+          fallback.reason || '',
+        ].filter(Boolean).join(' | ') || 'No warnings.')}</span>
+      </div>`
+    : '';
+
+  const context = trace.ruleContext || {};
+  const contextHtml = `
+    <div class="summary-grid">
+      <div class="summary-card"><div class="label">Lead state / NPA</div><div class="value compact">${escapeHtml([context.leadState, context.npa].filter(Boolean).join(' / ') || '-')}</div></div>
+      <div class="summary-card"><div class="label">Allowed states</div><div class="value compact">${escapeHtml((context.allowedStates || []).join(', ') || '-')}</div></div>
+      <div class="summary-card"><div class="label">Allowed NPAs</div><div class="value compact">${escapeHtml((context.allowedNpas || []).join(', ') || '-')}</div></div>
+      <div class="summary-card"><div class="label">Fallback states</div><div class="value compact">${escapeHtml((context.allowedFallbackStates || []).join(', ') || '-')}</div></div>
+      <div class="summary-card"><div class="label">Daily / hourly limits</div><div class="value compact">${escapeHtml([context.dailyLimit, context.hourlyLimit].map(value => value ?? '-').join(' / '))}</div></div>
+      <div class="summary-card"><div class="label">Spam threshold</div><div class="value compact">${escapeHtml(context.spamRiskThreshold ?? '-')}</div></div>
+    </div>
+  `;
+
+  const rows = trace.candidates.map(candidate => `
+    <tr>
+      <td><strong>${escapeHtml(candidate.did)}</strong></td>
+      <td>${escapeHtml(candidate.state || '-')}</td>
+      <td>${escapeHtml(candidate.npa || candidate.areaCode || '-')}</td>
+      <td>${statusBadge(candidate.effectiveStatus || candidate.status || '-')}</td>
+      <td>${boolBadge(!!candidate.eligible)}</td>
+      <td>${boolBadge(!!candidate.isSelected)}</td>
+      <td>${escapeHtml((candidate.matchedReasons || []).join(', ') || '-')}</td>
+      <td>${escapeHtml((candidate.rejectedReasons || []).join(', ') || '-')}</td>
+    </tr>
+  `).join('');
+
+  panel.innerHTML = `
+    ${warningHtml}
+    <section class="section">
+      <div class="section-head">
+        <h2>Trace Context</h2>
+        <span class="muted small">Diagnostic only. Selection behavior is unchanged.</span>
+      </div>
+      <div class="section-body">${contextHtml}</div>
+    </section>
+    <section class="section">
+      <div class="section-head">
+        <h2>Candidate Trace</h2>
+        <span class="muted small">${fmtNum(trace.candidateCount)} candidates, ${fmtNum(trace.rejectedCount)} rejected.</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>DID</th>
+              <th>State</th>
+              <th>NPA</th>
+              <th>Status</th>
+              <th>Eligible</th>
+              <th>Selected</th>
+              <th>Matched reasons</th>
+              <th>Rejected reasons</th>
+            </tr>
+          </thead>
+          <tbody id="routeEngineTraceCandidatesBody">
+            ${rows || '<tr><td colspan="8" class="muted">No candidate DIDs evaluated.</td></tr>'}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  `;
 }
 
 async function runRouteEngineSimulation() {
