@@ -180,8 +180,8 @@ async function buildSimulationTrace(
   return {
     selectedDid: response.selected_did,
     selectedReason: selectedTrace
-      ? selectedTrace.matchedReasons.join('; ') || response.reason || null
-      : response.reason || null,
+      ? selectedTrace.matchedReasons.join('; ') || maskPhoneLikeText(response.reason) || null
+      : maskPhoneLikeText(response.reason) || null,
     matchedClientId: response.client_id,
     matchedCampaignId: response.campaign_id,
     matchedRule: buildMatchedRuleTrace({
@@ -206,7 +206,7 @@ async function buildSimulationTrace(
     fallback: {
       used: response.fallback_used,
       path: fallbackPath,
-      reason: response.fallback_used ? response.reason || pool.reason : null,
+      reason: response.fallback_used ? maskPhoneLikeText(response.reason || pool.reason) : null,
     },
     ruleContext: {
       leadState,
@@ -313,7 +313,7 @@ async function buildCandidateTrace(input: {
     reuseProtection: {
       checked: Boolean(request.destination_phone),
       blocked: reuse.blocked,
-      reason: reuse.reason,
+      reason: maskPhoneLikeText(reuse.reason),
       scope: reuse.reuseScope || null,
       serviceDate: reuse.serviceDate || null,
     },
