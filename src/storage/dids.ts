@@ -121,7 +121,7 @@ export type DidStoreV2 = {
   leadExclusions: LeadExclusion[];
 };
 
-export type DidItem = { did: string; state: string };
+export type DidItem = Partial<Omit<DidRecord, 'did' | 'state'>> & { did: string; state: string };
 
 type StoreV1 = {
   items?: DidItem[];
@@ -154,6 +154,22 @@ function normalizeState(state: string | null | undefined): string {
 function normalizeScopeId(value: string | null | undefined): string | undefined {
   const normalized = String(value || '').trim();
   return normalized || undefined;
+}
+
+function normalizeStatus(status: string | null | undefined): DidStatus | undefined {
+  const normalized = String(status || '').trim();
+  if (
+    normalized === 'available' ||
+    normalized === 'active' ||
+    normalized === 'cooling' ||
+    normalized === 'paused' ||
+    normalized === 'spam_risk' ||
+    normalized === 'burned' ||
+    normalized === 'removed'
+  ) {
+    return normalized;
+  }
+  return undefined;
 }
 
 function deriveAreaCode(did: string): string {
@@ -250,11 +266,12 @@ type DidRecordInput = Partial<Omit<DidRecord, 'limits'>> & { did: string; state?
 
 function createDidRecord(input: DidRecordInput): DidRecord {
   const did = normalizeDid(input.did);
-  const areaCode = input.areaCode || deriveAreaCode(did);
+  const areaCode = String(input.areaCode || '').replace(/\D/g, '').slice(0, 3) || deriveAreaCode(did);
   const controls = { ...defaultControls(), ...(input.controls || {}) };
   const metrics = { ...defaultMetrics(), ...(input.metrics || {}) };
   const rotation = { ...defaultRotation(), ...(input.rotation || {}) };
-  const status = controls.removed ? 'removed' : controls.manualPaused ? 'paused' : (input.status || 'available');
+  const status = normalizeStatus(input.status)
+    || (controls.removed ? 'removed' : controls.manualPaused ? 'paused' : 'available');
 
   return {
     did,
@@ -323,6 +340,7 @@ async function migrateV1ToV2(raw: StoreV1 | null): Promise<DidStoreV2> {
 
   const inventory: Record<string, DidRecord> = {};
   for (const item of items) {
+    const legacyItem = item as DidItem;
     const did = normalizeDid(item.did);
     if (!did) continue;
 
@@ -332,9 +350,10 @@ async function migrateV1ToV2(raw: StoreV1 | null): Promise<DidStoreV2> {
     const controlsPatch = coercePausedValue(paused[did]);
 
     inventory[did] = createDidRecord({
+      ...legacyItem,
       did,
       state,
-      controls: { ...defaultControls(), ...controlsPatch },
+      controls: { ...defaultControls(), ...controlsPatch, ...(legacyItem.controls || {}) },
     });
   }
 
