@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { authUserFromRequest } from '../auth/middleware';
 import { config } from '../config';
 import { safeRouteEvent } from '../routeEngine/diagnostics';
+import { buildRouteReadinessReport } from '../routeEngine/readiness';
 import { handleRouteSimulation } from '../routeEngine/simulator';
 import { loadDidStore, type DidRecord } from '../storage/dids';
 import { listRouteLogsForDate, type RouteLogRecord } from '../storage/routeStore';
@@ -63,6 +64,32 @@ adminRouteEngineRouter.get('/summary', async (req, res) => {
       },
       recentRouteEvents: scopedLogs.slice(-20).map(safeRouteEvent),
       decisionCountsToday,
+      actor: actorPayload(actor.user),
+    });
+  } catch (err: any) {
+    res.status(500).json({ ok: false, error: err?.message || String(err) });
+  }
+});
+
+adminRouteEngineRouter.get('/readiness', async (req, res) => {
+  try {
+    const actor = authUserFromRequest(req);
+    if (!actor) return res.status(401).json({ ok: false, error: 'authentication required' });
+
+    const [store, todayLogs] = await Promise.all([
+      loadDidStore(),
+      listRouteLogsForDate(),
+    ]);
+    const inventory = Object.values(store.inventory || {});
+    const scopedInventory = await filterDidsForUser(actor.user, inventory);
+    const scopedLogs = await filterLogsForUser(actor.user, todayLogs);
+
+    res.json({
+      ...buildRouteReadinessReport({
+        recentRouteEventCount: scopedLogs.length,
+        scopedInventoryCount: scopedInventory.length,
+        authSource: actor.authSource,
+      }),
       actor: actorPayload(actor.user),
     });
   } catch (err: any) {

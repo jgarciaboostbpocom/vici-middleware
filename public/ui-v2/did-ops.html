@@ -632,6 +632,58 @@
             </section>
             <section class="section">
               <div class="section-head">
+                <h2>Shadow / FastAGI Readiness</h2>
+                <span class="muted small">Read-only operational checklist. No enablement controls are exposed.</span>
+              </div>
+              <div class="section-body">
+                <div class="summary-grid" id="routeReadinessCards"></div>
+                <div class="row" id="routeReadinessBadges" style="margin-top:12px"></div>
+                <div class="section-head" style="margin-top:14px">
+                  <h2>Safety Checklist</h2>
+                  <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Status</th>
+                        <th>Check</th>
+                        <th>Detail</th>
+                      </tr>
+                    </thead>
+                    <tbody id="routeReadinessChecklistBody">
+                      <tr><td colspan="3" class="muted">Loading readiness checklist...</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="section-head" style="margin-top:14px">
+                  <h2>Risk Flags</h2>
+                  <span class="muted small">Read-only warnings; secrets are not displayed.</span>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Severity</th>
+                        <th>Risk</th>
+                        <th>Recommended action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="routeReadinessRisksBody">
+                      <tr><td colspan="3" class="muted">Loading readiness risks...</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="section-head" style="margin-top:14px">
+                  <h2>Recommendations</h2>
+                </div>
+                <div id="routeReadinessRecommendations" class="placeholder">
+                  <div class="muted small">Loading recommendations...</div>
+                </div>
+              </div>
+            </section>
+            <section class="section">
+              <div class="section-head">
                 <h2>Simulator</h2>
                 <span class="muted small">Calls admin-safe route simulation endpoint. Simulator does not set caller ID or call Vicidial/Asterisk.</span>
               </div>
@@ -1391,6 +1443,7 @@ const state = {
   },
   dryRunStatus: null,
   routeEngineSummary: null,
+  routeReadiness: null,
   routeEngineSimulation: null,
   users: [],
   clients: [],
@@ -1719,6 +1772,7 @@ function clearProtectedState() {
   state.campaignRules = null;
   state.dryRunStatus = null;
   state.routeEngineSummary = null;
+  state.routeReadiness = null;
   state.routeEngineSimulation = null;
   closeHistory();
 }
@@ -2419,6 +2473,7 @@ async function resetCampaignRules() {
 
 function renderRouteEngine() {
   renderRouteEngineSummary();
+  renderRouteReadiness();
   renderRouteEngineEvents();
   renderRouteEngineSimulation();
 }
@@ -2449,6 +2504,94 @@ function renderRouteEngineSummary() {
       <div class="value compact">${escapeHtml(value)}</div>
     </div>
   `).join('');
+}
+
+function readinessBadge(text, kind = 'info') {
+  return `<span class="badge ${kind}">${escapeHtml(text)}</span>`;
+}
+
+function readinessStatusBadge(status) {
+  const normalized = String(status || 'unknown').toLowerCase();
+  if (normalized === 'pass') return readinessBadge('pass', 'ok');
+  if (normalized === 'fail') return readinessBadge('fail', 'bad');
+  if (normalized === 'warn') return readinessBadge('warn', 'warn');
+  return readinessBadge(normalized || 'unknown', 'info');
+}
+
+function readinessSeverityBadge(severity) {
+  const normalized = String(severity || 'info').toLowerCase();
+  if (normalized === 'critical') return readinessBadge('critical', 'bad');
+  if (normalized === 'warning') return readinessBadge('warning', 'warn');
+  return readinessBadge(normalized || 'info', 'info');
+}
+
+function renderRouteReadiness() {
+  const cards = $('#routeReadinessCards');
+  const badges = $('#routeReadinessBadges');
+  const checklistBody = $('#routeReadinessChecklistBody');
+  const risksBody = $('#routeReadinessRisksBody');
+  const recommendations = $('#routeReadinessRecommendations');
+  if (!cards || !badges || !checklistBody || !risksBody || !recommendations) return;
+
+  const report = state.routeReadiness;
+  if (!report) {
+    cards.innerHTML = '<div class="muted small">Readiness report not loaded.</div>';
+    badges.innerHTML = '';
+    checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
+    risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
+    recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
+    return;
+  }
+
+  const routeEngine = report.routeEngine || {};
+  const fastAgi = report.fastAgi || {};
+  const criticalCount = (report.risks || []).filter(risk => risk.severity === 'critical').length;
+  const warningCount = (report.risks || []).filter(risk => risk.severity === 'warning').length;
+  const cardsData = [
+    ['Readiness', report.ok ? 'ok' : 'attention'],
+    ['Route mode', routeEngine.mode || '-'],
+    ['FastAGI', fastAgi.enabled ? 'enabled' : 'disabled'],
+    ['Route token configured', routeEngine.routeTokenConfigured ? 'yes' : 'no'],
+    ['Recent events', fmtNum(routeEngine.recentRouteEventCount)],
+    ['Risks', `${criticalCount} critical / ${warningCount} warning`],
+  ];
+  cards.innerHTML = cardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+
+  const mode = String(routeEngine.mode || '');
+  badges.innerHTML = [
+    readinessBadge(mode === 'shadow' ? 'Shadow mode' : `Mode: ${mode || 'unknown'}`, mode === 'live' ? 'bad' : 'ok'),
+    readinessBadge(fastAgi.enabled ? 'FastAGI enabled' : 'FastAGI disabled', fastAgi.enabled ? 'warn' : 'ok'),
+    readinessBadge(routeEngine.liveModeGuarded ? 'Live routing guarded' : 'Live routing active', routeEngine.liveModeGuarded ? 'ok' : 'bad'),
+    readinessBadge(routeEngine.routeTokenExposed ? 'Secrets exposed' : 'Secrets masked', routeEngine.routeTokenExposed ? 'bad' : 'ok'),
+  ].join('');
+
+  const checklist = Array.isArray(report.checklist) ? report.checklist : [];
+  checklistBody.innerHTML = checklist.length ? checklist.map(item => `
+    <tr>
+      <td>${readinessStatusBadge(item.status)}</td>
+      <td><strong>${escapeHtml(item.label || item.id || '-')}</strong></td>
+      <td>${escapeHtml(item.detail || '-')}</td>
+    </tr>
+  `).join('') : '<tr><td colspan="3" class="muted">No checklist items returned.</td></tr>';
+
+  const risks = Array.isArray(report.risks) ? report.risks : [];
+  risksBody.innerHTML = risks.length ? risks.map(risk => `
+    <tr>
+      <td>${readinessSeverityBadge(risk.severity)}</td>
+      <td><strong>${escapeHtml(risk.message || risk.id || '-')}</strong></td>
+      <td>${escapeHtml(risk.recommendedAction || '-')}</td>
+    </tr>
+  `).join('') : '<tr><td colspan="3" class="muted">No readiness risks returned.</td></tr>';
+
+  const recs = Array.isArray(report.recommendations) ? report.recommendations : [];
+  recommendations.innerHTML = recs.length
+    ? `<ul>${recs.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
+    : '<div class="muted small">No recommendations returned.</div>';
 }
 
 function renderRouteEngineEvents() {
@@ -3412,7 +3555,7 @@ async function refreshAll() {
       loadUsers(),
     ]);
     await loadCampaignRules();
-    const [dids, inventoryAlerts, coverage, leadExclusions, dryRunStatus, dryRunEvents, routeEngineSummary, auditLogs] = await Promise.all([
+    const [dids, inventoryAlerts, coverage, leadExclusions, dryRunStatus, dryRunEvents, routeEngineSummary, routeReadiness, auditLogs] = await Promise.all([
       api(scopedAdminPath('/admin/dids')),
       api('/admin/v2/inventory-alerts?limit=500'),
       api(scopedAdminPath('/admin/dids/coverage/alerts')),
@@ -3420,6 +3563,7 @@ async function refreshAll() {
       api('/admin/dids/selector-v2/status'),
       api(scopedAdminPath('/admin/dids/selector-v2/dry-run-events', { limit: '100' })),
       api('/admin/v2/route-engine/summary'),
+      api('/admin/v2/route-engine/readiness'),
       api('/admin/v2/audit-logs?limit=100'),
     ]);
     state.inventory = dids.inventory || [];
@@ -3429,6 +3573,7 @@ async function refreshAll() {
     state.dryRunStatus = dryRunStatus;
     state.dryRunEvents = dryRunEvents.items || [];
     state.routeEngineSummary = routeEngineSummary;
+    state.routeReadiness = routeReadiness;
     state.auditLogs = auditLogs.events || [];
     renderAll();
     renderAuth();
