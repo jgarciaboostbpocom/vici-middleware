@@ -684,6 +684,15 @@
                   <div class="muted small">Loading provider DID acceptance status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Rollback Readiness</h2>
+                  <span class="muted small">Read-only operator checklist. This does not execute rollback or restart services.</span>
+                </div>
+                <div class="summary-grid" id="rollbackReadinessCards"></div>
+                <div class="row" id="rollbackReadinessBadges" style="margin-top:12px"></div>
+                <div id="rollbackReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading rollback readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2588,10 +2597,13 @@ function renderRouteReadiness() {
   const providerDidAcceptanceCards = $('#providerDidAcceptanceCards');
   const providerDidAcceptanceBadges = $('#providerDidAcceptanceBadges');
   const providerDidAcceptanceDetails = $('#providerDidAcceptanceDetails');
+  const rollbackReadinessCards = $('#rollbackReadinessCards');
+  const rollbackReadinessBadges = $('#rollbackReadinessBadges');
+  const rollbackReadinessDetails = $('#rollbackReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2612,6 +2624,9 @@ function renderRouteReadiness() {
     providerDidAcceptanceCards.innerHTML = '<div class="muted small">Provider DID acceptance status not loaded.</div>';
     providerDidAcceptanceBadges.innerHTML = '';
     providerDidAcceptanceDetails.innerHTML = '<div class="muted small">Provider DID acceptance details not loaded.</div>';
+    rollbackReadinessCards.innerHTML = '<div class="muted small">Rollback readiness status not loaded.</div>';
+    rollbackReadinessBadges.innerHTML = '';
+    rollbackReadinessDetails.innerHTML = '<div class="muted small">Rollback readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -2936,6 +2951,78 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${acceptanceNextSteps.length ? `<ul>${acceptanceNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const rollbackReadiness = report.rollbackReadiness || {};
+  const rollbackCardsData = [
+    ['Current state', rollbackReadiness.currentState || 'not_ready'],
+    ['Rollback approved', rollbackReadiness.rollbackApproved ? 'yes' : 'no'],
+    ['Rollback mode', rollbackReadiness.rollbackMode || 'read_only'],
+    ['Operator checklist', rollbackReadiness.operatorChecklistStatus || 'missing'],
+    ['FastAGI disable procedure', rollbackReadiness.fastAgiDisableProcedureStatus || 'documented_pending_approval'],
+    ['Route engine shadow procedure', rollbackReadiness.routeEngineShadowProcedureStatus || 'documented_pending_approval'],
+    ['FastAGI port closed verification', rollbackReadiness.fastAgiPortClosedVerificationStatus || 'documented_pending_approval'],
+    ['Asterisk dialplan restore procedure', rollbackReadiness.asteriskDialplanRestoreProcedureStatus || 'documented_pending_approval'],
+    ['Caller ID disable verification', rollbackReadiness.callerIdDisableVerificationStatus || 'documented_pending_approval'],
+    ['Log verification', rollbackReadiness.logVerificationStatus || 'documented_pending_approval'],
+    ['Service restart approval', rollbackReadiness.serviceRestartApprovalStatus || 'not_approved'],
+    ['Emergency contact', rollbackReadiness.emergencyContactStatus || 'missing'],
+    ['Pilot allowed', rollbackReadiness.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', rollbackReadiness.liveAllowed ? 'yes' : 'no'],
+  ];
+  rollbackReadinessCards.innerHTML = rollbackCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  rollbackReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only', 'info'),
+    readinessBadge('Rollback not approved', 'bad'),
+    readinessBadge('Manual only', 'warn'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const rollbackChecklistItems = Array.isArray(rollbackReadiness.checklistItems) ? rollbackReadiness.checklistItems : [];
+  const rollbackBlockers = Array.isArray(rollbackReadiness.rollbackBlockers) ? rollbackReadiness.rollbackBlockers : [];
+  const manualVerificationCommands = Array.isArray(rollbackReadiness.manualVerificationCommands) ? rollbackReadiness.manualVerificationCommands : [];
+  const rollbackNextSteps = Array.isArray(rollbackReadiness.nextSteps) ? rollbackReadiness.nextSteps : [];
+  rollbackReadinessDetails.innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Checklist item</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rollbackChecklistItems.length ? rollbackChecklistItems.map(item => `
+            <tr>
+              <td>${readinessStatusBadge(item.status === 'blocked' ? 'fail' : item.status === 'required' ? 'warn' : 'pass')}</td>
+              <td><strong>${escapeHtml(item.label || item.id || '-')}</strong></td>
+              <td>${escapeHtml(item.detail || '-')}</td>
+            </tr>
+          `).join('') : '<tr><td colspan="3" class="muted">No rollback readiness checklist items returned.</td></tr>'}
+        </tbody>
+      </table>
+    </div>
+    <div class="summary-grid" style="margin-top:12px">
+      <div>
+        <strong>Rollback blockers</strong>
+        ${rollbackBlockers.length ? `<ul>${rollbackBlockers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No rollback blockers returned.</div>'}
+      </div>
+      <div>
+        <strong>Manual verification commands</strong>
+        ${manualVerificationCommands.length ? `<ul>${manualVerificationCommands.map(item => `<li><code>${escapeHtml(item)}</code></li>`).join('')}</ul>` : '<div class="muted small">No manual verification commands returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${rollbackNextSteps.length ? `<ul>${rollbackNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;

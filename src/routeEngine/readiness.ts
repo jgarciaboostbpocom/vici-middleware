@@ -152,6 +152,34 @@ export type ProviderDidAcceptanceReadiness = {
   nextSteps: string[];
 };
 
+export type RollbackReadinessChecklistItem = {
+  id: string;
+  label: string;
+  status: 'pass' | 'blocked' | 'required';
+  detail: string;
+};
+
+export type RollbackReadiness = {
+  currentState: 'not_ready';
+  rollbackApproved: false;
+  rollbackMode: 'read_only';
+  operatorChecklistStatus: 'missing';
+  fastAgiDisableProcedureStatus: 'documented_pending_approval';
+  routeEngineShadowProcedureStatus: 'documented_pending_approval';
+  fastAgiPortClosedVerificationStatus: 'documented_pending_approval';
+  asteriskDialplanRestoreProcedureStatus: 'documented_pending_approval';
+  callerIdDisableVerificationStatus: 'documented_pending_approval';
+  logVerificationStatus: 'documented_pending_approval';
+  serviceRestartApprovalStatus: 'not_approved';
+  emergencyContactStatus: 'missing';
+  liveAllowed: false;
+  pilotAllowed: false;
+  rollbackBlockers: string[];
+  checklistItems: RollbackReadinessChecklistItem[];
+  manualVerificationCommands: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -176,6 +204,7 @@ export type RouteReadinessReport = {
   liveApprovalGate: LiveApprovalGateReadiness;
   campaignPilotReadiness: CampaignPilotReadiness;
   providerDidAcceptanceReadiness: ProviderDidAcceptanceReadiness;
+  rollbackReadiness: RollbackReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -686,6 +715,143 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const rollbackReadiness: RollbackReadiness = {
+    currentState: 'not_ready',
+    rollbackApproved: false,
+    rollbackMode: 'read_only',
+    operatorChecklistStatus: 'missing',
+    fastAgiDisableProcedureStatus: 'documented_pending_approval',
+    routeEngineShadowProcedureStatus: 'documented_pending_approval',
+    fastAgiPortClosedVerificationStatus: 'documented_pending_approval',
+    asteriskDialplanRestoreProcedureStatus: 'documented_pending_approval',
+    callerIdDisableVerificationStatus: 'documented_pending_approval',
+    logVerificationStatus: 'documented_pending_approval',
+    serviceRestartApprovalStatus: 'not_approved',
+    emergencyContactStatus: 'missing',
+    liveAllowed: false,
+    pilotAllowed: false,
+    rollbackBlockers: [
+      'Rollback checklist not approved',
+      'Emergency contact missing',
+      'Operator approval missing',
+      'Asterisk restore procedure not approved',
+      'FastAGI disable procedure not approved',
+      'Route engine shadow procedure not approved',
+      'Post-rollback verification not approved',
+      'Provider escalation path missing',
+      'Live approval gate closed',
+      'Production preflight not ready',
+    ],
+    checklistItems: [
+      {
+        id: 'confirm-route-engine-shadow',
+        label: 'Confirm route engine is shadow',
+        status: mode === 'shadow' ? 'pass' : 'blocked',
+        detail: `Configured route engine mode is ${mode}.`,
+      },
+      {
+        id: 'confirm-fastagi-disabled',
+        label: 'Confirm FastAGI is disabled',
+        status: fastAgiEnabled ? 'blocked' : 'pass',
+        detail: fastAgiEnabled ? 'FastAGI is enabled in this process.' : 'FastAGI is disabled in this process.',
+      },
+      {
+        id: 'confirm-fastagi-port-4573-closed',
+        label: 'Confirm FastAGI port 4573 is closed',
+        status: 'required',
+        detail: 'Port closure must be manually verified by an operator; this report does not inspect sockets.',
+      },
+      {
+        id: 'confirm-no-live-caller-id-endpoint',
+        label: 'Confirm no live caller ID endpoint is exposed',
+        status: liveCallerIdContract.liveEndpointExposed ? 'blocked' : 'pass',
+        detail: 'No Asterisk-callable live route endpoint is reported by readiness.',
+      },
+      {
+        id: 'confirm-no-callerid-set-in-active-dialplan',
+        label: 'Confirm no Set(CALLERID(num)=...) in active Asterisk dialplan',
+        status: 'required',
+        detail: 'Asterisk dialplan inspection is Vicibox-only and must be performed manually outside middleware.',
+      },
+      {
+        id: 'confirm-asterisk-dialplan-backup-path-known',
+        label: 'Confirm Asterisk dialplan backup path is known',
+        status: 'required',
+        detail: 'The rollback owner must document the Vicibox dialplan backup path before any future pilot/live test.',
+      },
+      {
+        id: 'confirm-asterisk-dialplan-restore-command-documented',
+        label: 'Confirm Asterisk dialplan restore command is documented',
+        status: 'required',
+        detail: 'Restore procedure must be documented and approved, but never executed by this app.',
+      },
+      {
+        id: 'confirm-asterisk-dialplan-reload-command-documented',
+        label: 'Confirm Asterisk dialplan reload command is documented',
+        status: 'required',
+        detail: 'Reload procedure must be documented as Vicibox-only and not run from middleware.',
+      },
+      {
+        id: 'confirm-pm2-rollback-restart-command-documented',
+        label: 'Confirm PM2 rollback/restart command is documented but not executed',
+        status: 'required',
+        detail: 'PM2/service commands are manual-only and must not be executed by the app.',
+      },
+      {
+        id: 'confirm-logs-to-inspect-documented',
+        label: 'Confirm logs to inspect are documented',
+        status: 'required',
+        detail: 'Operators must document middleware, FastAGI, Asterisk, Vicidial, and provider/carrier logs to inspect.',
+      },
+      {
+        id: 'confirm-operator-approval-required',
+        label: 'Confirm operator approval is required',
+        status: 'required',
+        detail: 'Manual operator approval is required before any rollback procedure can be considered approved.',
+      },
+      {
+        id: 'confirm-rollback-owner-emergency-contact-required',
+        label: 'Confirm rollback owner/emergency contact is required',
+        status: 'required',
+        detail: 'Emergency contact is missing and must be documented before any future pilot/live test.',
+      },
+      {
+        id: 'confirm-provider-carrier-escalation-path-required',
+        label: 'Confirm provider/carrier escalation path is required',
+        status: 'required',
+        detail: 'Provider/carrier escalation path is missing and must be documented before any future pilot/live test.',
+      },
+      {
+        id: 'confirm-post-rollback-verification-required',
+        label: 'Confirm post-rollback verification is required',
+        status: 'required',
+        detail: 'Post-rollback verification must be documented and approved before any future pilot/live test.',
+      },
+      {
+        id: 'confirm-no-automatic-rollback-execution-exists',
+        label: 'Confirm no automatic rollback execution exists',
+        status: 'pass',
+        detail: 'Readiness reports rollback planning status only and exposes no rollback execution controls.',
+      },
+    ],
+    manualVerificationCommands: [
+      "Middleware manual check: pm2 env 0 | egrep 'ROUTE_ENGINE_MODE|FASTAGI_ENABLED|FASTAGI_PORT'",
+      'Middleware manual check: ss -lntp | grep \':4573\' || echo "FastAGI port closed"',
+      'Middleware manual check: git status -sb',
+      'Middleware manual check: git log --oneline origin/main..main',
+      'Vicibox only, do not run from middleware: asterisk -rx "dialplan show vicidial-auto-external"',
+      'Vicibox only, do not run from middleware: asterisk -rx "dialplan reload"',
+      'Manual only, not executed by app: pm2 restart 0 --update-env',
+    ],
+    nextSteps: [
+      'Document the rollback owner, emergency contact, and provider/carrier escalation path.',
+      'Approve FastAGI disable, route engine shadow, FastAGI port closure, and caller ID disable verification procedures.',
+      'Document Asterisk dialplan backup, restore, and reload procedures as Vicibox-only manual operations.',
+      'Document middleware and telephony logs to inspect before and after rollback.',
+      'Keep rollback unapproved, pilot blocked, live approval gate closed, and production preflight not ready until a future approved phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -809,6 +975,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Provider DID acceptance readiness is read-only, not ready, planning-only, and does not approve DIDs.',
     },
+    {
+      id: 'rollback-readiness-read-only',
+      label: 'Rollback readiness read-only',
+      status: 'pass',
+      detail: 'Rollback readiness is read-only, not approved, and exposes no rollback execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -905,6 +1077,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     liveApprovalGate,
     campaignPilotReadiness,
     providerDidAcceptanceReadiness,
+    rollbackReadiness,
     checklist,
     risks,
     recommendations: [
@@ -915,6 +1088,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat the live approval gate as read-only blocker visibility; it does not approve, open, or enable live caller ID.',
       'Treat campaign pilot readiness as read-only planning visibility; it does not approve or enable a pilot.',
       'Treat provider DID acceptance readiness as read-only planning visibility; it does not approve DIDs.',
+      'Treat rollback readiness as read-only planning visibility; it does not execute rollback or restart services.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

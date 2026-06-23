@@ -128,6 +128,8 @@ Campaign pilot readiness has been added as read-only planning/status. `candidate
 
 Provider DID acceptance readiness has been added as read-only planning/status. `candidateProvider` is `NobelBiz`, `candidateCampaignId` is `TESTCAMP`, `candidateClientId` is `Test`, `acceptanceAllowed` remains `false`, `approvedDidCount` remains `0`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [provider-did-acceptance-readiness.md](provider-did-acceptance-readiness.md).
 
+Rollback readiness has been added as read-only planning/status. `rollbackApproved` remains `false`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [rollback-readiness.md](rollback-readiness.md).
+
 ## DID/Campaign State
 
 - `TESTCAMP` exists.
