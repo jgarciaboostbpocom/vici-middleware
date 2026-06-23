@@ -120,6 +120,8 @@ The next required artifact is an approval checklist and live variable contract b
 
 FastAGI live caller ID contract: planning document only. No runtime behavior changed, and the exact live variable mechanism is still open. See [fastagi-live-caller-id-contract.md](fastagi-live-caller-id-contract.md).
 
+Production preflight readiness has been added as a read-only planning/status panel. It reports `liveAllowed=false`, keeps production live blocked, and does not change runtime behavior. See [production-preflight-readiness.md](production-preflight-readiness.md).
+
 ## DID/Campaign State
 
 - `TESTCAMP` exists.

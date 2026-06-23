@@ -50,6 +50,27 @@ export type LiveCallerIdContractReadiness = {
   nextRequiredArtifacts: string[];
 };
 
+export type ProductionPreflightItem = {
+  id: string;
+  label: string;
+  status: 'pass' | 'blocked' | 'required' | 'not_applicable';
+  detail: string;
+};
+
+export type ProductionPreflightReadiness = {
+  currentState: 'not_ready';
+  liveAllowed: false;
+  approvalRequired: true;
+  deploymentActionRequired: false;
+  runtimeChangeRequired: false;
+  asteriskChangeRequired: false;
+  manualOperatorApproval: 'required';
+  preflightItems: ProductionPreflightItem[];
+  blockingItems: string[];
+  warnings: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -70,6 +91,7 @@ export type RouteReadinessReport = {
   routeEngine: RouteEngineReadiness;
   fastAgi: FastAgiReadiness;
   liveCallerIdContract: LiveCallerIdContractReadiness;
+  productionPreflight: ProductionPreflightReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -137,6 +159,130 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     disabledByDefault: true,
     startupGatedByConfig: true,
     stagingOnlySafe: !liveMode && !fastAgiEnabled,
+  };
+
+  const productionPreflight: ProductionPreflightReadiness = {
+    currentState: 'not_ready',
+    liveAllowed: false,
+    approvalRequired: true,
+    deploymentActionRequired: false,
+    runtimeChangeRequired: false,
+    asteriskChangeRequired: false,
+    manualOperatorApproval: 'required',
+    preflightItems: [
+      {
+        id: 'route-engine-still-shadow',
+        label: 'Route engine still shadow',
+        status: mode === 'shadow' ? 'pass' : 'blocked',
+        detail: `Configured route engine mode is ${mode}. Production live remains blocked.`,
+      },
+      {
+        id: 'fastagi-disabled',
+        label: 'FastAGI disabled',
+        status: fastAgiEnabled ? 'blocked' : 'pass',
+        detail: fastAgiEnabled ? 'FastAGI is enabled in this process.' : 'FastAGI is disabled in this process.',
+      },
+      {
+        id: 'fastagi-port-remains-closed',
+        label: 'FastAGI port should remain closed unless approved shadow/live test',
+        status: 'required',
+        detail: 'Source readiness does not open or verify sockets; operators must keep port 4573 closed unless a test is approved.',
+      },
+      {
+        id: 'live-contract-documented',
+        label: 'Live caller ID contract documented',
+        status: liveCallerIdContract.contractDocumented ? 'pass' : 'blocked',
+        detail: 'The live caller ID contract is documented as planning-only.',
+      },
+      {
+        id: 'live-contract-source-present',
+        label: 'Live contract source module present',
+        status: liveCallerIdContract.contractModulePresent ? 'pass' : 'blocked',
+        detail: 'The inactive source contract module is present for future implementation planning.',
+      },
+      {
+        id: 'live-endpoint-not-exposed',
+        label: 'Live endpoint not exposed',
+        status: liveCallerIdContract.liveEndpointExposed ? 'blocked' : 'pass',
+        detail: 'No Asterisk-callable live endpoint is exposed by the readiness report.',
+      },
+      {
+        id: 'caller-id-application-disabled',
+        label: 'Caller ID application disabled',
+        status: liveCallerIdContract.callerIdApplicationEnabled ? 'blocked' : 'pass',
+        detail: 'Caller ID application remains disabled and planning-only.',
+      },
+      {
+        id: 'provider-acceptance-required',
+        label: 'Provider caller ID acceptance evidence required',
+        status: 'required',
+        detail: 'Provider acceptance evidence must be collected before any future live caller ID test.',
+      },
+      {
+        id: 'campaign-pilot-approval-required',
+        label: 'Campaign-level pilot approval required',
+        status: 'required',
+        detail: 'Any future live test requires explicit campaign/client pilot approval.',
+      },
+      {
+        id: 'rollback-plan-required',
+        label: 'Rollback plan required',
+        status: 'required',
+        detail: 'A tested operator rollback checklist is required before live caller ID can be considered.',
+      },
+      {
+        id: 'asterisk-dialplan-change-not-applied',
+        label: 'Asterisk dialplan change not applied',
+        status: 'pass',
+        detail: 'This middleware source readiness report does not apply or approve Asterisk dialplan changes.',
+      },
+      {
+        id: 'tokens-server-side',
+        label: 'Token/secrets must remain server-side',
+        status: 'pass',
+        detail: 'Readiness exposes booleans only and does not include raw token or secret values.',
+      },
+      {
+        id: 'admin-readiness-ui-read-only',
+        label: 'Admin readiness UI is read-only',
+        status: 'pass',
+        detail: 'The readiness UI reports state and does not provide save, enable, or restart controls.',
+      },
+      {
+        id: 'restricted-users-no-global-live',
+        label: 'Restricted users cannot enable global live behavior',
+        status: 'pass',
+        detail: 'No global live enablement control is exposed in this readiness surface.',
+      },
+      {
+        id: 'runtime-data-excluded-from-commits',
+        label: 'Runtime data is excluded from commits',
+        status: 'required',
+        detail: 'Operators must keep runtime data out of commits; this report does not read or write runtime data.',
+      },
+    ],
+    blockingItems: [
+      'No live approval',
+      'No provider acceptance evidence',
+      'No approved campaign-level live flag',
+      'No approved rollback checklist',
+      'No live endpoint intentionally exposed',
+      'No Asterisk dialplan change approved',
+      'FastAGI disabled',
+      'Route engine shadow',
+    ],
+    warnings: [
+      'Production live caller ID is not approved by this report.',
+      'Source readiness cannot verify deployed dist artifacts, sockets, carrier behavior, or Asterisk state.',
+      'Any future live test must keep tokens and secrets server-side.',
+    ],
+    nextSteps: [
+      'Collect provider caller ID acceptance evidence.',
+      'Prepare campaign-level pilot approval for a single scoped campaign/client.',
+      'Prepare an operator rollback checklist.',
+      'Prepare an approved Asterisk change plan without applying it from middleware.',
+      'Keep route engine shadow, FastAGI disabled, and live caller ID disabled until approval.',
+    ],
   };
 
   const checklist: ReadinessChecklistItem[] = [
@@ -336,12 +482,14 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     routeEngine,
     fastAgi,
     liveCallerIdContract,
+    productionPreflight,
     checklist,
     risks,
     recommendations: [
       'Keep route engine in disabled, fallback_only, or shadow mode until staging validation is complete.',
       'Keep FastAGI disabled unless an approved shadow-mode staging test explicitly requires it.',
       'Keep live caller ID contract status planning-only until the required artifacts are complete and approved.',
+      'Treat production preflight as read-only blocker visibility; it does not approve or enable live caller ID.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
