@@ -112,6 +112,12 @@ The test produced route events with source `asterisk-fastagi-shadow`, campaign `
 
 Detailed handoff and rollback notes are in [asterisk-fastagi-shadow-validation.md](asterisk-fastagi-shadow-validation.md).
 
+## Live Caller ID Cutover Status
+
+Live caller ID cutover is planning only. Live caller ID is not enabled, no `Set(CALLERID(num)=...)` has been added, and FastAGI remains disabled outside controlled tests.
+
+The next required artifact is an approval checklist and live variable contract before any live caller ID application is considered. The planning document is [live-caller-id-cutover-plan.md](live-caller-id-cutover-plan.md).
+
 ## DID/Campaign State
 
 - `TESTCAMP` exists.
