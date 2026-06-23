@@ -2,9 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loadDidStore = loadDidStore;
 exports.saveDidStore = saveDidStore;
+exports.getCoverageAlerts = getCoverageAlerts;
+exports.upsertCoverageAlert = upsertCoverageAlert;
+exports.clearCoverageAlert = clearCoverageAlert;
+exports.getLeadExclusions = getLeadExclusions;
+exports.upsertLeadExclusion = upsertLeadExclusion;
+exports.clearLeadExclusion = clearLeadExclusion;
 exports.getDidInventory = getDidInventory;
 exports.getDidByNumber = getDidByNumber;
 exports.upsertDid = upsertDid;
+exports.upsertDidConfig = upsertDidConfig;
 exports.updateDidControls = updateDidControls;
 exports.appendDidRotationEvent = appendDidRotationEvent;
 exports.getActiveDidByState = getActiveDidByState;
@@ -39,6 +46,23 @@ function normalizeDid(did) {
 }
 function normalizeState(state) {
     return String(state || '').trim().toUpperCase() || 'UNASSIGNED';
+}
+function normalizeScopeId(value) {
+    const normalized = String(value || '').trim();
+    return normalized || undefined;
+}
+function normalizeStatus(status) {
+    const normalized = String(status || '').trim();
+    if (normalized === 'available' ||
+        normalized === 'active' ||
+        normalized === 'cooling' ||
+        normalized === 'paused' ||
+        normalized === 'spam_risk' ||
+        normalized === 'burned' ||
+        normalized === 'removed') {
+        return normalized;
+    }
+    return undefined;
 }
 function deriveAreaCode(did) {
     return normalizeDid(did).slice(0, 3);
@@ -122,13 +146,16 @@ function coercePausedValue(value) {
 }
 function createDidRecord(input) {
     const did = normalizeDid(input.did);
-    const areaCode = input.areaCode || deriveAreaCode(did);
+    const areaCode = String(input.areaCode || '').replace(/\D/g, '').slice(0, 3) || deriveAreaCode(did);
     const controls = { ...defaultControls(), ...(input.controls || {}) };
     const metrics = { ...defaultMetrics(), ...(input.metrics || {}) };
     const rotation = { ...defaultRotation(), ...(input.rotation || {}) };
-    const status = controls.removed ? 'removed' : controls.manualPaused ? 'paused' : (input.status || 'available');
+    const status = normalizeStatus(input.status)
+        || (controls.removed ? 'removed' : controls.manualPaused ? 'paused' : 'available');
     return {
         did,
+        clientId: normalizeScopeId(input.clientId),
+        campaignId: normalizeScopeId(input.campaignId),
         areaCode,
         state: normalizeState(input.state),
         status,
@@ -188,6 +215,7 @@ async function migrateV1ToV2(raw) {
             : didPoolFromEnv();
     const inventory = {};
     for (const item of items) {
+        const legacyItem = item;
         const did = normalizeDid(item.did);
         if (!did)
             continue;
@@ -196,9 +224,10 @@ async function migrateV1ToV2(raw) {
         const state = existingState !== 'UNASSIGNED' ? existingState : fallbackState;
         const controlsPatch = coercePausedValue(paused[did]);
         inventory[did] = createDidRecord({
+            ...legacyItem,
             did,
             state,
-            controls: { ...defaultControls(), ...controlsPatch },
+            controls: { ...defaultControls(), ...controlsPatch, ...(legacyItem.controls || {}) },
         });
     }
     const byState = {};
@@ -230,6 +259,84 @@ async function loadDidStore() {
 async function saveDidStore(store) {
     await writeRawStore(normalizeV2(store));
 }
+async function getCoverageAlerts() {
+    return (await loadDidStore()).coverage.missing;
+}
+async function upsertCoverageAlert(alert) {
+    const store = await loadDidStore();
+    const now = new Date().toISOString();
+    const id = String(alert.id || '').trim();
+    const existingIndex = store.coverage.missing.findIndex(item => item.id === id);
+    const existing = existingIndex >= 0 ? store.coverage.missing[existingIndex] : null;
+    const next = {
+        ...(existing || {}),
+        ...alert,
+        id,
+        createdAt: alert.createdAt || existing?.createdAt || now,
+        updatedAt: now,
+        active: alert.active ?? existing?.active ?? true,
+        clearedAt: alert.active === false ? alert.clearedAt || existing?.clearedAt || now : alert.clearedAt ?? null,
+        clearedReason: alert.active === false ? alert.clearedReason ?? existing?.clearedReason ?? null : alert.clearedReason ?? null,
+    };
+    if (existingIndex >= 0)
+        store.coverage.missing[existingIndex] = next;
+    else
+        store.coverage.missing.push(next);
+    await saveDidStore(store);
+    return next;
+}
+async function clearCoverageAlert(id, reason) {
+    const store = await loadDidStore();
+    const alert = store.coverage.missing.find(item => item.id === String(id || '').trim());
+    if (!alert)
+        return null;
+    const now = new Date().toISOString();
+    alert.active = false;
+    alert.updatedAt = now;
+    alert.clearedAt = now;
+    alert.clearedReason = reason || alert.clearedReason || null;
+    await saveDidStore(store);
+    return alert;
+}
+async function getLeadExclusions() {
+    return (await loadDidStore()).leadExclusions;
+}
+async function upsertLeadExclusion(exclusion) {
+    const store = await loadDidStore();
+    const now = new Date().toISOString();
+    const id = String(exclusion.id || '').trim();
+    const existingIndex = store.leadExclusions.findIndex(item => item.id === id);
+    const existing = existingIndex >= 0 ? store.leadExclusions[existingIndex] : null;
+    const next = {
+        ...(existing || {}),
+        ...exclusion,
+        id,
+        createdAt: exclusion.createdAt || existing?.createdAt || now,
+        updatedAt: now,
+        active: exclusion.active ?? existing?.active ?? true,
+        clearedAt: exclusion.active === false ? exclusion.clearedAt || existing?.clearedAt || now : exclusion.clearedAt ?? null,
+        clearedReason: exclusion.active === false ? exclusion.clearedReason ?? existing?.clearedReason ?? null : exclusion.clearedReason ?? null,
+    };
+    if (existingIndex >= 0)
+        store.leadExclusions[existingIndex] = next;
+    else
+        store.leadExclusions.push(next);
+    await saveDidStore(store);
+    return next;
+}
+async function clearLeadExclusion(id, reason) {
+    const store = await loadDidStore();
+    const exclusion = store.leadExclusions.find(item => item.id === String(id || '').trim());
+    if (!exclusion)
+        return null;
+    const now = new Date().toISOString();
+    exclusion.active = false;
+    exclusion.updatedAt = now;
+    exclusion.clearedAt = now;
+    exclusion.clearedReason = reason || exclusion.clearedReason || null;
+    await saveDidStore(store);
+    return exclusion;
+}
 async function getDidInventory() {
     return Object.values((await loadDidStore()).inventory);
 }
@@ -240,6 +347,13 @@ async function getDidByNumber(did) {
 async function upsertDid(record) {
     const store = await loadDidStore();
     const normalized = createDidRecord(record);
+    store.inventory[normalized.did] = normalized;
+    await saveDidStore(store);
+    return normalized;
+}
+async function upsertDidConfig(input) {
+    const store = await loadDidStore();
+    const normalized = createDidRecord(input);
     store.inventory[normalized.did] = normalized;
     await saveDidStore(store);
     return normalized;

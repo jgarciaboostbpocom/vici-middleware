@@ -26,6 +26,7 @@ function prevDayFile() {
 function logUiEvent(type, details = {}) {
     try {
         const evt = { ts: Date.now(), type, ...details };
+        fs_1.default.mkdirSync(EVENTS_DIR, { recursive: true });
         fs_1.default.appendFileSync(todayFile(), JSON.stringify(evt) + '\n', { encoding: 'utf8' });
     }
     catch (e) {
