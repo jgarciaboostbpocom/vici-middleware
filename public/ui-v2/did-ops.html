@@ -538,7 +538,7 @@
           <button type="button" data-view="campaigns">Campaigns</button>
           <button type="button" data-view="dids">DIDs</button>
           <button type="button" data-view="rules">Campaign Rules</button>
-          <button type="button" data-view="alerts">Coverage Alerts</button>
+          <button type="button" data-view="alerts">Inventory Alerts</button>
           <button type="button" data-view="exclusions">Lead Exclusions</button>
           <button type="button" data-view="dry-run">Dry-run Events</button>
           <button type="button" data-view="audit-logs">Audit Logs</button>
@@ -1102,7 +1102,81 @@
           </section>
 
           <section id="view-alerts" class="app-view" data-view="alerts">
-            <div class="view-title"><h2>Coverage Alerts</h2></div>
+            <div class="view-title"><h2>Inventory Alerts</h2></div>
+    <section class="section">
+      <div class="section-head">
+        <h2>DID Exhaustion Diagnostics</h2>
+        <span class="muted small">Read-only alerts generated from current DID inventory and campaign rules.</span>
+      </div>
+      <div class="section-body">
+        <div class="summary-grid" id="inventoryAlertSummaryCards"></div>
+        <div class="audit-filters" style="margin-top:12px">
+          <label class="field">
+            <span class="small muted">Client</span>
+            <select id="inventoryAlertClientFilter"></select>
+          </label>
+          <label class="field">
+            <span class="small muted">Campaign</span>
+            <select id="inventoryAlertCampaignFilter"></select>
+          </label>
+          <label class="field">
+            <span class="small muted">State</span>
+            <input id="inventoryAlertStateFilter" type="text" maxlength="10" placeholder="TX" />
+          </label>
+          <label class="field">
+            <span class="small muted">NPA</span>
+            <input id="inventoryAlertNpaFilter" type="text" inputmode="numeric" maxlength="3" placeholder="214" />
+          </label>
+          <label class="field">
+            <span class="small muted">Severity</span>
+            <select id="inventoryAlertSeverityFilter">
+              <option value="">All severities</option>
+              <option value="critical">critical</option>
+              <option value="warning">warning</option>
+              <option value="info">info</option>
+            </select>
+          </label>
+          <label class="field">
+            <span class="small muted">Type</span>
+            <select id="inventoryAlertTypeFilter">
+              <option value="">All alert types</option>
+              <option value="NO_ELIGIBLE_DID">NO_ELIGIBLE_DID</option>
+              <option value="LOW_ELIGIBLE_DID_INVENTORY">LOW_ELIGIBLE_DID_INVENTORY</option>
+              <option value="LOW_LOCAL_NPA_COVERAGE">LOW_LOCAL_NPA_COVERAGE</option>
+              <option value="LOW_STATE_COVERAGE">LOW_STATE_COVERAGE</option>
+              <option value="HIGH_RESTING_OR_COOLING_RATIO">HIGH_RESTING_OR_COOLING_RATIO</option>
+              <option value="HIGH_PAUSED_OR_REMOVED_RATIO">HIGH_PAUSED_OR_REMOVED_RATIO</option>
+              <option value="SPAM_RISK_INVENTORY_PRESSURE">SPAM_RISK_INVENTORY_PRESSURE</option>
+              <option value="DAILY_LIMIT_EXHAUSTION">DAILY_LIMIT_EXHAUSTION</option>
+              <option value="HOURLY_LIMIT_EXHAUSTION">HOURLY_LIMIT_EXHAUSTION</option>
+            </select>
+          </label>
+          <button type="button" onclick="applyInventoryAlertFilters()">Apply</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Severity</th>
+                <th>Alert type</th>
+                <th>Client</th>
+                <th>Campaign</th>
+                <th>State</th>
+                <th>NPA</th>
+                <th>Eligible</th>
+                <th>Total</th>
+                <th>Threshold</th>
+                <th>Message</th>
+                <th>Recommended action</th>
+              </tr>
+            </thead>
+            <tbody id="inventoryAlertsBody">
+              <tr><td colspan="11" class="muted">Loading inventory alerts...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
     <section class="section">
       <div class="section-head">
         <h2>Coverage Alerts</h2>
@@ -1295,6 +1369,15 @@ const state = {
     actor: null,
   },
   inventory: [],
+  inventoryAlerts: [],
+  inventoryAlertFilters: {
+    clientId: '',
+    campaignId: '',
+    state: '',
+    npa: '',
+    severity: '',
+    type: '',
+  },
   coverageAlerts: [],
   leadExclusions: [],
   dryRunEvents: [],
@@ -1628,6 +1711,7 @@ function showLegacyFallback() {
 function clearProtectedState() {
   state.users = [];
   state.inventory = [];
+  state.inventoryAlerts = [];
   state.coverageAlerts = [];
   state.leadExclusions = [];
   state.dryRunEvents = [];
@@ -1766,6 +1850,34 @@ function renderAuditFilters() {
   if (action) action.value = state.auditFilters.action || '';
   if (resourceType) resourceType.value = state.auditFilters.resourceType || '';
   if (limit) limit.value = String(state.auditFilters.limit || 100);
+}
+
+function renderInventoryAlertFilters() {
+  const clientSelect = $('#inventoryAlertClientFilter');
+  const campaignSelect = $('#inventoryAlertCampaignFilter');
+  if (!clientSelect || !campaignSelect) return;
+
+  clientSelect.innerHTML = [
+    '<option value="">All visible clients</option>',
+    ...state.clients.map(client => `<option value="${escapeHtml(client.id)}">${escapeHtml(clientName(client))}</option>`),
+  ].join('');
+  clientSelect.value = state.inventoryAlertFilters.clientId || '';
+
+  const campaigns = state.inventoryAlertFilters.clientId
+    ? state.campaigns.filter(campaign => campaign.clientId === state.inventoryAlertFilters.clientId)
+    : state.campaigns;
+  campaignSelect.innerHTML = [
+    '<option value="">All visible campaigns</option>',
+    ...campaigns.map(campaign => `<option value="${escapeHtml(campaign.id)}">${escapeHtml(campaignName(campaign))}</option>`),
+  ].join('');
+  campaignSelect.value = campaigns.some(campaign => campaign.id === state.inventoryAlertFilters.campaignId)
+    ? state.inventoryAlertFilters.campaignId
+    : '';
+
+  $('#inventoryAlertStateFilter').value = state.inventoryAlertFilters.state || '';
+  $('#inventoryAlertNpaFilter').value = state.inventoryAlertFilters.npa || '';
+  $('#inventoryAlertSeverityFilter').value = state.inventoryAlertFilters.severity || '';
+  $('#inventoryAlertTypeFilter').value = state.inventoryAlertFilters.type || '';
 }
 
 function renderAdminCrudViews() {
@@ -2544,6 +2656,19 @@ async function loadUsers() {
   state.users = data.users || [];
 }
 
+async function loadInventoryAlerts() {
+  const params = new URLSearchParams();
+  if (state.inventoryAlertFilters.clientId) params.set('clientId', state.inventoryAlertFilters.clientId);
+  if (state.inventoryAlertFilters.campaignId) params.set('campaignId', state.inventoryAlertFilters.campaignId);
+  if (state.inventoryAlertFilters.state) params.set('state', state.inventoryAlertFilters.state);
+  if (state.inventoryAlertFilters.npa) params.set('npa', state.inventoryAlertFilters.npa);
+  if (state.inventoryAlertFilters.severity) params.set('severity', state.inventoryAlertFilters.severity);
+  if (state.inventoryAlertFilters.type) params.set('type', state.inventoryAlertFilters.type);
+  params.set('limit', '500');
+  const data = await api(`/admin/v2/inventory-alerts?${params.toString()}`);
+  state.inventoryAlerts = data.alerts || [];
+}
+
 async function loadAuditLogs() {
   const params = new URLSearchParams();
   if (state.auditFilters.action) params.set('action', state.auditFilters.action);
@@ -3038,6 +3163,66 @@ function renderInventory() {
   `).join('');
 }
 
+function renderInventoryAlerts() {
+  renderInventoryAlertFilters();
+  renderInventoryAlertSummary();
+  const tbody = $('#inventoryAlertsBody');
+  if (!tbody) return;
+  if (!state.inventoryAlerts.length) {
+    tbody.innerHTML = '<tr><td colspan="11" class="muted">No inventory exhaustion alerts for the current filters.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = state.inventoryAlerts.map(alert => `
+    <tr>
+      <td>${statusBadge(alert.severity || '-')}</td>
+      <td>${escapeHtml(alert.type || '-')}</td>
+      <td>${escapeHtml(alert.clientId || '-')}</td>
+      <td>${escapeHtml(alert.campaignId || '-')}</td>
+      <td>${escapeHtml(alert.state || '-')}</td>
+      <td>${escapeHtml(alert.npa || alert.areaCode || '-')}</td>
+      <td>${fmtNum(alert.eligibleCount)}</td>
+      <td>${fmtNum(alert.totalCount)}</td>
+      <td>${escapeHtml(alert.threshold ?? '-')}</td>
+      <td>${escapeHtml(alert.message || '-')}</td>
+      <td>${escapeHtml(alert.recommendedAction || '-')}</td>
+    </tr>
+  `).join('');
+}
+
+function renderInventoryAlertSummary() {
+  const panel = $('#inventoryAlertSummaryCards');
+  if (!panel) return;
+  const alerts = state.inventoryAlerts || [];
+  const count = predicate => alerts.filter(predicate).length;
+  const items = [
+    ['Critical alerts', count(alert => alert.severity === 'critical')],
+    ['Warning alerts', count(alert => alert.severity === 'warning')],
+    ['No eligible DID scopes', count(alert => alert.type === 'NO_ELIGIBLE_DID')],
+    ['Low inventory scopes', count(alert => ['LOW_ELIGIBLE_DID_INVENTORY', 'LOW_LOCAL_NPA_COVERAGE', 'LOW_STATE_COVERAGE'].includes(alert.type))],
+    ['Spam-risk pressure', count(alert => alert.type === 'SPAM_RISK_INVENTORY_PRESSURE')],
+    ['Daily/hourly exhaustion', count(alert => ['DAILY_LIMIT_EXHAUSTION', 'HOURLY_LIMIT_EXHAUSTION'].includes(alert.type))],
+  ];
+  panel.innerHTML = items.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+}
+
+async function applyInventoryAlertFilters() {
+  state.inventoryAlertFilters = {
+    clientId: $('#inventoryAlertClientFilter')?.value || '',
+    campaignId: $('#inventoryAlertCampaignFilter')?.value || '',
+    state: ($('#inventoryAlertStateFilter')?.value || '').trim().toUpperCase(),
+    npa: ($('#inventoryAlertNpaFilter')?.value || '').replace(/\D/g, '').slice(0, 3),
+    severity: $('#inventoryAlertSeverityFilter')?.value || '',
+    type: $('#inventoryAlertTypeFilter')?.value || '',
+  };
+  await loadInventoryAlerts();
+  renderInventoryAlerts();
+}
+
 function renderCoverageAlerts() {
   const tbody = $('#coverageBody');
   if (!state.coverageAlerts.length) {
@@ -3197,6 +3382,7 @@ function renderAll() {
   renderDryRunStatus();
   renderSummary();
   renderInventory();
+  renderInventoryAlerts();
   renderCoverageAlerts();
   renderLeadExclusions();
   renderDryRunEvents();
@@ -3226,8 +3412,9 @@ async function refreshAll() {
       loadUsers(),
     ]);
     await loadCampaignRules();
-    const [dids, coverage, leadExclusions, dryRunStatus, dryRunEvents, routeEngineSummary, auditLogs] = await Promise.all([
+    const [dids, inventoryAlerts, coverage, leadExclusions, dryRunStatus, dryRunEvents, routeEngineSummary, auditLogs] = await Promise.all([
       api(scopedAdminPath('/admin/dids')),
+      api('/admin/v2/inventory-alerts?limit=500'),
       api(scopedAdminPath('/admin/dids/coverage/alerts')),
       api(scopedAdminPath('/admin/dids/lead-exclusions')),
       api('/admin/dids/selector-v2/status'),
@@ -3236,6 +3423,7 @@ async function refreshAll() {
       api('/admin/v2/audit-logs?limit=100'),
     ]);
     state.inventory = dids.inventory || [];
+    state.inventoryAlerts = inventoryAlerts.alerts || [];
     state.coverageAlerts = coverage.alerts || dids.coverage?.missing || [];
     state.leadExclusions = leadExclusions.leadExclusions || dids.leadExclusions || [];
     state.dryRunStatus = dryRunStatus;
@@ -3302,6 +3490,11 @@ $('#bulkDidClientInput').onchange = () => {
   previewBulkDids();
 };
 $('#assignDidClientInput').onchange = () => populateDidCampaignSelect('#assignDidCampaignInput', $('#assignDidClientInput').value, '');
+$('#inventoryAlertClientFilter').onchange = () => {
+  state.inventoryAlertFilters.clientId = $('#inventoryAlertClientFilter').value || '';
+  state.inventoryAlertFilters.campaignId = '';
+  renderInventoryAlertFilters();
+};
 $('#auditClientFilter').onchange = () => {
   state.auditFilters.clientId = $('#auditClientFilter').value || '';
   state.auditFilters.campaignId = '';

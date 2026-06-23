@@ -14,6 +14,11 @@ import {
   normalizeAuditLimit,
 } from '../storage/adminAudit';
 import {
+  listInventoryAlertsForUser,
+  type InventoryAlertSeverity,
+  type InventoryAlertType,
+} from '../routeEngine/inventoryAlerts';
+import {
   bootstrapSuperAdmin,
   getCampaignById,
   getCampaignRules,
@@ -165,6 +170,49 @@ adminV2Router.get('/audit-logs', async (req, res) => {
       ok: true,
       events,
       limit: normalizeAuditLimit(firstQueryValue(req.query.limit)),
+      actor: actorPayload(actor),
+    });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
+adminV2Router.get('/inventory-alerts', async (req, res) => {
+  const severity = parseInventoryAlertSeverity(firstQueryValue(req.query.severity));
+  if (!severity.ok) return sendError(res, 400, severity.error);
+
+  const type = parseInventoryAlertType(firstQueryValue(req.query.type));
+  if (!type.ok) return sendError(res, 400, type.error);
+
+  const clientId = optionalId(firstQueryValue(req.query.clientId), 'clientId');
+  if (!clientId.ok) return sendError(res, 400, clientId.error);
+
+  const campaignId = optionalId(firstQueryValue(req.query.campaignId), 'campaignId');
+  if (!campaignId.ok) return sendError(res, 400, campaignId.error);
+
+  const state = parseOptionalStateFilter(firstQueryValue(req.query.state));
+  if (!state.ok) return sendError(res, 400, state.error);
+
+  const npa = parseOptionalNpaFilter(firstQueryValue(req.query.npa));
+  if (!npa.ok) return sendError(res, 400, npa.error);
+
+  try {
+    const actor = await resolveActor(req);
+    const alerts = await listInventoryAlertsForUser(actor.user, {
+      clientId: clientId.value,
+      campaignId: campaignId.value,
+      state: state.value,
+      npa: npa.value,
+      severity: severity.value,
+      type: type.value,
+      limit: normalizeInventoryAlertLimit(firstQueryValue(req.query.limit)),
+    });
+
+    res.json({
+      ok: true,
+      alerts,
+      count: alerts.length,
+      generatedAt: new Date().toISOString(),
       actor: actorPayload(actor),
     });
   } catch (err: any) {
@@ -849,6 +897,54 @@ function firstQueryValue(value: unknown): string {
 function optionalFilter(value: unknown): string | null {
   const normalized = String(value || '').trim();
   return normalized || null;
+}
+
+function parseInventoryAlertSeverity(value: unknown): ValidationResult<InventoryAlertSeverity | null> {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (!normalized) return { ok: true, value: null };
+  if (normalized === 'info' || normalized === 'warning' || normalized === 'critical') {
+    return { ok: true, value: normalized };
+  }
+  return { ok: false, error: 'severity must be one of info, warning, or critical' };
+}
+
+function parseInventoryAlertType(value: unknown): ValidationResult<InventoryAlertType | null> {
+  const normalized = String(value || '').trim().toUpperCase() as InventoryAlertType;
+  if (!normalized) return { ok: true, value: null };
+  const allowed: InventoryAlertType[] = [
+    'NO_ELIGIBLE_DID',
+    'LOW_ELIGIBLE_DID_INVENTORY',
+    'LOW_LOCAL_NPA_COVERAGE',
+    'LOW_STATE_COVERAGE',
+    'HIGH_RESTING_OR_COOLING_RATIO',
+    'HIGH_PAUSED_OR_REMOVED_RATIO',
+    'SPAM_RISK_INVENTORY_PRESSURE',
+    'DAILY_LIMIT_EXHAUSTION',
+    'HOURLY_LIMIT_EXHAUSTION',
+  ];
+  return allowed.includes(normalized)
+    ? { ok: true, value: normalized }
+    : { ok: false, error: `type must be one of ${allowed.join(', ')}` };
+}
+
+function parseOptionalStateFilter(value: unknown): ValidationResult<string | null> {
+  const normalized = String(value || '').trim().toUpperCase();
+  if (!normalized) return { ok: true, value: null };
+  if (/^[A-Z]{2}$/.test(normalized) || normalized === 'UNASSIGNED') return { ok: true, value: normalized };
+  return { ok: false, error: 'state must be a two-letter code or UNASSIGNED' };
+}
+
+function parseOptionalNpaFilter(value: unknown): ValidationResult<string | null> {
+  const normalized = String(value || '').replace(/\D/g, '').slice(0, 3);
+  if (!normalized) return { ok: true, value: null };
+  if (/^[2-9]\d{2}$/.test(normalized)) return { ok: true, value: normalized };
+  return { ok: false, error: 'npa must be a valid 3-digit area code' };
+}
+
+function normalizeInventoryAlertLimit(value: unknown): number {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric) || numeric <= 0) return 100;
+  return Math.max(1, Math.min(Math.floor(numeric), 500));
 }
 
 function has(obj: Record<string, unknown>, key: string): boolean {
