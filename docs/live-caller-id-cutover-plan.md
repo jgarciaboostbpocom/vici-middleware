@@ -91,6 +91,8 @@ A future live middleware response must provide:
 
 The response must not expose route tokens, admin tokens, session tokens, API secrets, authorization headers, password fields, password hashes, or internal secret values.
 
+The next required contract artifact is [fastagi-live-caller-id-contract.md](fastagi-live-caller-id-contract.md). It defines the proposed future FastAGI request, middleware response, Asterisk channel variables, safe apply rules, and failure behavior. It is planning-only and not active runtime behavior.
+
 ## Safe Failure Behavior
 
 - If middleware is unreachable, Asterisk must not hang production unexpectedly.

@@ -118,6 +118,8 @@ Live caller ID cutover is planning only. Live caller ID is not enabled, no `Set(
 
 The next required artifact is an approval checklist and live variable contract before any live caller ID application is considered. The planning document is [live-caller-id-cutover-plan.md](live-caller-id-cutover-plan.md).
 
+FastAGI live caller ID contract: planning document only. No runtime behavior changed, and the exact live variable mechanism is still open. See [fastagi-live-caller-id-contract.md](fastagi-live-caller-id-contract.md).
+
 ## DID/Campaign State
 
 - `TESTCAMP` exists.
