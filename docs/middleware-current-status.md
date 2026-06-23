@@ -130,6 +130,8 @@ Provider DID acceptance readiness has been added as read-only planning/status. `
 
 Rollback readiness has been added as read-only planning/status. `rollbackApproved` remains `false`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [rollback-readiness.md](rollback-readiness.md).
 
+Asterisk change plan readiness has been added as read-only planning/status. `changePlanApproved` remains `false`, `targetContext` is `vicidial-auto-external`, `setCallerIdStatus` remains `not_allowed`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [asterisk-change-plan-readiness.md](asterisk-change-plan-readiness.md).
+
 ## DID/Campaign State
 
 - `TESTCAMP` exists.

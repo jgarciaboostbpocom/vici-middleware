@@ -180,6 +180,37 @@ export type RollbackReadiness = {
   nextSteps: string[];
 };
 
+export type AsteriskChangePlanReadinessChecklistItem = {
+  id: string;
+  label: string;
+  status: 'pass' | 'blocked' | 'required';
+  detail: string;
+};
+
+export type AsteriskChangePlanReadiness = {
+  currentState: 'not_ready';
+  changePlanApproved: false;
+  changePlanMode: 'read_only';
+  targetServer: 'Vicibox';
+  targetContext: 'vicidial-auto-external';
+  targetPurpose: 'future_fastagi_shadow_or_live_caller_id_plan';
+  dialplanBackupStatus: 'missing';
+  dialplanDiffStatus: 'missing';
+  shadowFastAgiLineStatus: 'documented_pending_approval';
+  liveCallerIdLineStatus: 'not_approved';
+  setCallerIdStatus: 'not_allowed';
+  dialplanReloadApprovalStatus: 'not_approved';
+  rollbackPlanStatus: 'documented_pending_approval';
+  operatorApprovalStatus: 'missing';
+  liveAllowed: false;
+  pilotAllowed: false;
+  asteriskChangeBlockers: string[];
+  checklistItems: AsteriskChangePlanReadinessChecklistItem[];
+  manualInspectionCommands: string[];
+  plannedDialplanNotes: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -205,6 +236,7 @@ export type RouteReadinessReport = {
   campaignPilotReadiness: CampaignPilotReadiness;
   providerDidAcceptanceReadiness: ProviderDidAcceptanceReadiness;
   rollbackReadiness: RollbackReadiness;
+  asteriskChangePlanReadiness: AsteriskChangePlanReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -852,6 +884,159 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const asteriskChangePlanReadiness: AsteriskChangePlanReadiness = {
+    currentState: 'not_ready',
+    changePlanApproved: false,
+    changePlanMode: 'read_only',
+    targetServer: 'Vicibox',
+    targetContext: 'vicidial-auto-external',
+    targetPurpose: 'future_fastagi_shadow_or_live_caller_id_plan',
+    dialplanBackupStatus: 'missing',
+    dialplanDiffStatus: 'missing',
+    shadowFastAgiLineStatus: 'documented_pending_approval',
+    liveCallerIdLineStatus: 'not_approved',
+    setCallerIdStatus: 'not_allowed',
+    dialplanReloadApprovalStatus: 'not_approved',
+    rollbackPlanStatus: 'documented_pending_approval',
+    operatorApprovalStatus: 'missing',
+    liveAllowed: false,
+    pilotAllowed: false,
+    asteriskChangeBlockers: [
+      'Asterisk change plan not approved',
+      'Dialplan backup missing',
+      'Dialplan diff missing',
+      'Operator approval missing',
+      'Dialplan reload not approved',
+      'Live caller ID line not approved',
+      'Rollback plan not approved',
+      'Provider DID acceptance not approved',
+      'Campaign pilot not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+    ],
+    checklistItems: [
+      {
+        id: 'confirm-target-server-vicibox-only',
+        label: 'Confirm target server is Vicibox only',
+        status: 'pass',
+        detail: 'The planning target is Vicibox; middleware must not apply Asterisk changes.',
+      },
+      {
+        id: 'confirm-target-context-vicidial-auto-external',
+        label: 'Confirm target context is vicidial-auto-external',
+        status: 'pass',
+        detail: 'The planning target context is vicidial-auto-external.',
+      },
+      {
+        id: 'confirm-middleware-server-must-not-run-asterisk-commands',
+        label: 'Confirm middleware server must not run asterisk commands',
+        status: 'pass',
+        detail: 'Asterisk commands are Vicibox-only manual inspection commands and are not executed by middleware.',
+      },
+      {
+        id: 'confirm-dialplan-backup-required-before-change',
+        label: 'Confirm dialplan backup required before any change',
+        status: 'required',
+        detail: 'A Vicibox dialplan backup is missing and must be captured before any future approved change.',
+      },
+      {
+        id: 'confirm-dialplan-diff-required-before-change',
+        label: 'Confirm dialplan diff required before any change',
+        status: 'required',
+        detail: 'A reviewed dialplan diff is missing and must be prepared before any future approved change.',
+      },
+      {
+        id: 'confirm-shadow-fastagi-line-documented-only',
+        label: 'Confirm shadow FastAGI line is documented only',
+        status: 'required',
+        detail: 'The shadow FastAGI line is documented pending approval and must not be applied by this phase.',
+      },
+      {
+        id: 'confirm-live-caller-id-line-not-approved',
+        label: 'Confirm live caller ID line is not approved',
+        status: 'blocked',
+        detail: 'Live caller ID dialplan behavior is not approved.',
+      },
+      {
+        id: 'confirm-set-callerid-not-allowed',
+        label: 'Confirm Set(CALLERID(num)=...) is not allowed in this phase',
+        status: 'blocked',
+        detail: 'Caller ID setting remains forbidden until a separate future approved live phase.',
+      },
+      {
+        id: 'confirm-dialplan-reload-not-approved',
+        label: 'Confirm dialplan reload is not approved',
+        status: 'blocked',
+        detail: 'Dialplan reload remains unapproved and must not be run by middleware.',
+      },
+      {
+        id: 'confirm-rollback-plan-required',
+        label: 'Confirm rollback plan required',
+        status: 'required',
+        detail: 'Rollback planning is documented pending approval and remains required.',
+      },
+      {
+        id: 'confirm-operator-approval-required',
+        label: 'Confirm operator approval required',
+        status: 'required',
+        detail: 'Operator approval is missing and required before any future Asterisk plan can proceed.',
+      },
+      {
+        id: 'confirm-provider-did-acceptance-required',
+        label: 'Confirm provider DID acceptance required',
+        status: 'required',
+        detail: 'Provider DID acceptance remains unapproved and approvedDidCount remains zero.',
+      },
+      {
+        id: 'confirm-campaign-pilot-approval-required',
+        label: 'Confirm campaign pilot approval required',
+        status: 'required',
+        detail: 'Campaign pilot approval remains missing and pilotAllowed remains false.',
+      },
+      {
+        id: 'confirm-live-approval-gate-remains-closed',
+        label: 'Confirm live approval gate remains closed',
+        status: 'pass',
+        detail: 'The live approval gate remains closed and read-only.',
+      },
+      {
+        id: 'confirm-production-preflight-remains-not-ready',
+        label: 'Confirm production preflight remains not ready',
+        status: 'pass',
+        detail: 'Production preflight remains not ready and liveAllowed remains false.',
+      },
+      {
+        id: 'confirm-no-automatic-asterisk-execution-exists',
+        label: 'Confirm no automatic Asterisk execution exists',
+        status: 'pass',
+        detail: 'Readiness exposes planning status only and provides no Asterisk execution controls.',
+      },
+    ],
+    manualInspectionCommands: [
+      'Vicibox only: asterisk -rx "dialplan show vicidial-auto-external"',
+      'Vicibox only: grep -R "Set(CALLERID(num)" /etc/asterisk',
+      'Vicibox only: grep -R "AGI(agi://134.199.192.180:4573" /etc/asterisk',
+      'Vicibox only: cp /etc/asterisk/extensions.conf /etc/asterisk/extensions.conf.bak-YYYYMMDD-HHMMSS',
+      'Vicibox only: asterisk -rx "dialplan reload"',
+      'Middleware only: ss -lntp | grep \':4573\' || echo "FastAGI port closed"',
+      'Middleware only: pm2 env 0 | egrep \'ROUTE_ENGINE_MODE|FASTAGI_ENABLED|FASTAGI_PORT\'',
+    ],
+    plannedDialplanNotes: [
+      'Shadow FastAGI can only be considered in a future approved staging/pilot phase',
+      'Live caller ID application is not approved',
+      'Any Set(CALLERID(num)=...) instruction remains forbidden in this phase',
+      'Asterisk commands are Vicibox-only and must not be run from middleware',
+      'The middleware must remain the decision owner; Asterisk only carries the call path and may apply caller ID only in a future approved live phase',
+    ],
+    nextSteps: [
+      'Obtain explicit Asterisk change plan approval before any staging, pilot, or live dialplan work.',
+      'Capture a Vicibox dialplan backup and reviewed diff outside middleware before any future approved change.',
+      'Keep live caller ID line, caller ID setting, and dialplan reload unapproved in this phase.',
+      'Complete rollback, provider DID acceptance, campaign pilot, live approval gate, and production preflight approvals.',
+      'Keep route engine shadow, FastAGI disabled, and live caller ID disabled until a future approved phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -981,6 +1166,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Rollback readiness is read-only, not approved, and exposes no rollback execution controls.',
     },
+    {
+      id: 'asterisk-change-plan-readiness-read-only',
+      label: 'Asterisk change plan readiness read-only',
+      status: 'pass',
+      detail: 'Asterisk change plan readiness is read-only, not approved, and exposes no Asterisk execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -1078,6 +1269,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     campaignPilotReadiness,
     providerDidAcceptanceReadiness,
     rollbackReadiness,
+    asteriskChangePlanReadiness,
     checklist,
     risks,
     recommendations: [
@@ -1089,6 +1281,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat campaign pilot readiness as read-only planning visibility; it does not approve or enable a pilot.',
       'Treat provider DID acceptance readiness as read-only planning visibility; it does not approve DIDs.',
       'Treat rollback readiness as read-only planning visibility; it does not execute rollback or restart services.',
+      'Treat Asterisk change plan readiness as read-only planning visibility; it does not execute Asterisk commands or approve dialplan changes.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
