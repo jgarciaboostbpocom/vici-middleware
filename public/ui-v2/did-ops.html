@@ -639,6 +639,15 @@
                 <div class="summary-grid" id="routeReadinessCards"></div>
                 <div class="row" id="routeReadinessBadges" style="margin-top:12px"></div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Live Caller ID Contract</h2>
+                  <span class="muted small">Read-only planning status. No enablement controls are exposed.</span>
+                </div>
+                <div class="summary-grid" id="liveCallerIdContractCards"></div>
+                <div class="row" id="liveCallerIdContractBadges" style="margin-top:12px"></div>
+                <div id="liveCallerIdContractDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading live caller ID contract status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2528,15 +2537,21 @@ function readinessSeverityBadge(severity) {
 function renderRouteReadiness() {
   const cards = $('#routeReadinessCards');
   const badges = $('#routeReadinessBadges');
+  const liveContractCards = $('#liveCallerIdContractCards');
+  const liveContractBadges = $('#liveCallerIdContractBadges');
+  const liveContractDetails = $('#liveCallerIdContractDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
     cards.innerHTML = '<div class="muted small">Readiness report not loaded.</div>';
     badges.innerHTML = '';
+    liveContractCards.innerHTML = '<div class="muted small">Live caller ID contract status not loaded.</div>';
+    liveContractBadges.innerHTML = '';
+    liveContractDetails.innerHTML = '<div class="muted small">Live caller ID contract details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -2569,6 +2584,43 @@ function renderRouteReadiness() {
     readinessBadge(routeEngine.liveModeGuarded ? 'Live routing guarded' : 'Live routing active', routeEngine.liveModeGuarded ? 'ok' : 'bad'),
     readinessBadge(routeEngine.routeTokenExposed ? 'Secrets exposed' : 'Secrets masked', routeEngine.routeTokenExposed ? 'bad' : 'ok'),
   ].join('');
+
+  const liveContract = report.liveCallerIdContract || {};
+  const liveContractCardsData = [
+    ['Contract documented', liveContract.contractDocumented ? 'yes' : 'no'],
+    ['Source contract present', liveContract.contractModulePresent ? 'yes' : 'no'],
+    ['Current state', liveContract.currentState || 'planning_only'],
+    ['Live endpoint exposed', liveContract.liveEndpointExposed ? 'yes' : 'no'],
+    ['Caller ID application enabled', liveContract.callerIdApplicationEnabled ? 'yes' : 'no'],
+    ['Approval status', liveContract.requiredApprovalStatus || 'not_approved'],
+  ];
+  liveContractCards.innerHTML = liveContractCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  liveContractBadges.innerHTML = [
+    readinessBadge('Planning only', 'info'),
+    readinessBadge('Live caller ID disabled', liveContract.callerIdApplicationEnabled ? 'bad' : 'ok'),
+    readinessBadge('No live endpoint', liveContract.liveEndpointExposed ? 'bad' : 'ok'),
+    readinessBadge('Approval required', 'warn'),
+  ].join('');
+
+  const variables = liveContract.variables || {};
+  const nextArtifacts = Array.isArray(liveContract.nextRequiredArtifacts) ? liveContract.nextRequiredArtifacts : [];
+  liveContractDetails.innerHTML = `
+    <div class="row">
+      <span class="badge info">${escapeHtml(variables.selectedDid || 'VICI_MW_SELECTED_DID')}</span>
+      <span class="badge info">${escapeHtml(variables.safeToApplyCallerId || 'VICI_MW_SAFE_TO_APPLY_CALLER_ID')}</span>
+    </div>
+    <div style="margin-top:10px">
+      <strong>Next required artifacts</strong>
+      ${nextArtifacts.length
+        ? `<ul>${nextArtifacts.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
+        : '<div class="muted small">No next required artifacts returned.</div>'}
+    </div>
+  `;
 
   const checklist = Array.isArray(report.checklist) ? report.checklist : [];
   checklistBody.innerHTML = checklist.length ? checklist.map(item => `

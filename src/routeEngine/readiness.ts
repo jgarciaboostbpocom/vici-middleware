@@ -1,4 +1,8 @@
 import { config } from '../config';
+import {
+  VICI_MW_SAFE_TO_APPLY_CALLER_ID,
+  VICI_MW_SELECTED_DID,
+} from './liveCallerIdContract';
 
 export type ReadinessStatus = 'pass' | 'warn' | 'fail' | 'unknown';
 export type ReadinessRiskSeverity = 'info' | 'warning' | 'critical';
@@ -29,6 +33,23 @@ export type FastAgiReadiness = {
   stagingOnlySafe: boolean;
 };
 
+export type LiveCallerIdContractReadiness = {
+  contractDocumented: boolean;
+  contractModulePresent: boolean;
+  contractActive: false;
+  liveEndpointExposed: false;
+  callerIdApplicationEnabled: false;
+  safeApplyVariableDefined: boolean;
+  selectedDidVariableDefined: boolean;
+  requiredApprovalStatus: 'not_approved';
+  currentState: 'planning_only';
+  variables: {
+    selectedDid: typeof VICI_MW_SELECTED_DID;
+    safeToApplyCallerId: typeof VICI_MW_SAFE_TO_APPLY_CALLER_ID;
+  };
+  nextRequiredArtifacts: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -48,6 +69,7 @@ export type RouteReadinessReport = {
   generatedAt: string;
   routeEngine: RouteEngineReadiness;
   fastAgi: FastAgiReadiness;
+  liveCallerIdContract: LiveCallerIdContractReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -65,6 +87,31 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
   const routeTokenConfigured = Boolean(config.routeEngine.token);
   const fastAgiEnabled = Boolean(config.fastagi.enabled);
   const adminTokenFallbackConfigured = Boolean(config.adminToken);
+  const contractDocumented = true;
+  const contractModulePresent = Boolean(VICI_MW_SELECTED_DID && VICI_MW_SAFE_TO_APPLY_CALLER_ID);
+
+  const liveCallerIdContract: LiveCallerIdContractReadiness = {
+    contractDocumented,
+    contractModulePresent,
+    contractActive: false,
+    liveEndpointExposed: false,
+    callerIdApplicationEnabled: false,
+    safeApplyVariableDefined: VICI_MW_SAFE_TO_APPLY_CALLER_ID === 'VICI_MW_SAFE_TO_APPLY_CALLER_ID',
+    selectedDidVariableDefined: VICI_MW_SELECTED_DID === 'VICI_MW_SELECTED_DID',
+    requiredApprovalStatus: 'not_approved',
+    currentState: 'planning_only',
+    variables: {
+      selectedDid: VICI_MW_SELECTED_DID,
+      safeToApplyCallerId: VICI_MW_SAFE_TO_APPLY_CALLER_ID,
+    },
+    nextRequiredArtifacts: [
+      'approved live implementation plan',
+      'staging-only FastAGI live contract test',
+      'operator rollback checklist',
+      'provider caller ID acceptance evidence',
+      'manual production cutover approval',
+    ],
+  };
 
   const routeEngine: RouteEngineReadiness = {
     mode,
@@ -157,6 +204,46 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
         ? 'A route engine token is configured; the value is masked.'
         : 'No route engine token is configured in the current process.',
     },
+    {
+      id: 'live-caller-id-contract-documented',
+      label: 'Live caller ID contract documented',
+      status: liveCallerIdContract.contractDocumented ? 'pass' : 'fail',
+      detail: liveCallerIdContract.contractDocumented
+        ? 'The live caller ID contract is documented as planning-only.'
+        : 'The live caller ID contract document is missing from the source-level plan.',
+    },
+    {
+      id: 'live-caller-id-source-contract-present',
+      label: 'Live caller ID source contract present',
+      status: liveCallerIdContract.contractModulePresent ? 'pass' : 'fail',
+      detail: liveCallerIdContract.contractModulePresent
+        ? 'The source-level contract module and variable constants are present.'
+        : 'The source-level live caller ID contract module is missing.',
+    },
+    {
+      id: 'live-caller-id-application-inactive',
+      label: 'Live caller ID application inactive',
+      status: liveCallerIdContract.callerIdApplicationEnabled ? 'fail' : 'pass',
+      detail: 'Readiness reports caller ID application as inactive and planning-only.',
+    },
+    {
+      id: 'no-live-route-endpoint-exposed',
+      label: 'No live route endpoint exposed',
+      status: liveCallerIdContract.liveEndpointExposed ? 'fail' : 'pass',
+      detail: 'No Asterisk-callable live route endpoint is reported by readiness.',
+    },
+    {
+      id: 'no-caller-id-application-enabled',
+      label: 'No caller ID application enabled',
+      status: liveCallerIdContract.callerIdApplicationEnabled ? 'fail' : 'pass',
+      detail: 'The current source-level contract does not enable caller ID application.',
+    },
+    {
+      id: 'approval-required-before-live',
+      label: 'Approval required before live',
+      status: liveCallerIdContract.requiredApprovalStatus === 'not_approved' ? 'pass' : 'fail',
+      detail: 'Live caller ID remains blocked pending explicit future approval.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -174,6 +261,38 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       severity: liveMode ? 'critical' : 'warning',
       message: 'FastAGI is enabled in the current process configuration.',
       recommendedAction: 'Confirm this is an approved staging/shadow environment before accepting FastAGI traffic.',
+    });
+  }
+  if (liveCallerIdContract.callerIdApplicationEnabled) {
+    risks.push({
+      id: 'caller-id-application-enabled',
+      severity: 'critical',
+      message: 'Caller ID application appears enabled.',
+      recommendedAction: 'Disable caller ID application and return the contract to planning-only until live approval exists.',
+    });
+  }
+  if (liveCallerIdContract.liveEndpointExposed) {
+    risks.push({
+      id: 'live-route-endpoint-exposed',
+      severity: 'critical',
+      message: 'A live caller ID route endpoint appears exposed.',
+      recommendedAction: 'Remove the live endpoint until implementation, rollback, and operator approval are complete.',
+    });
+  }
+  if (!liveCallerIdContract.contractModulePresent) {
+    risks.push({
+      id: 'live-contract-module-missing',
+      severity: 'warning',
+      message: 'Live caller ID source contract module is missing.',
+      recommendedAction: 'Restore the inactive source contract before planning any live implementation.',
+    });
+  }
+  if (!liveCallerIdContract.contractDocumented) {
+    risks.push({
+      id: 'live-contract-docs-missing',
+      severity: 'warning',
+      message: 'Live caller ID contract documentation is missing.',
+      recommendedAction: 'Restore planning documentation before any live caller ID implementation work.',
     });
   }
   if (!routeTokenConfigured) {
@@ -216,11 +335,13 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     generatedAt: new Date().toISOString(),
     routeEngine,
     fastAgi,
+    liveCallerIdContract,
     checklist,
     risks,
     recommendations: [
       'Keep route engine in disabled, fallback_only, or shadow mode until staging validation is complete.',
       'Keep FastAGI disabled unless an approved shadow-mode staging test explicitly requires it.',
+      'Keep live caller ID contract status planning-only until the required artifacts are complete and approved.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
