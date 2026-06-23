@@ -2,9 +2,9 @@
 
 ## Executive Summary
 
-The Vicidial Middleware route engine is ready for Vicidial/Asterisk staging connectivity testing in shadow mode. HTTP diagnostics are available on port `3000`, the route engine token is configured in PM2, campaign `TESTCAMP` resolves to client `Test`, and `TESTCAMP` has 6 TX DIDs in the v2 DID inventory.
+The Vicidial Middleware route engine has passed Vicidial/Asterisk staging FastAGI shadow validation in shadow mode. HTTP diagnostics are available on port `3000`, the route engine token is configured in PM2, campaign `TESTCAMP` resolves to client `Test`, and `TESTCAMP` has 6 TX DIDs in the v2 DID inventory.
 
-FastAGI is implemented and has passed local middleware-hosted testing, but it is currently disabled. It must remain disabled except during an approved staging test window. No live caller ID changes have been made, no production Vicidial/Asterisk systems have been touched, and live routing must not be enabled yet.
+FastAGI is implemented and has passed local middleware-hosted testing plus real Asterisk/Vicidial shadow insertion validation, but it is currently disabled. It must remain disabled except during an approved staging test window. No live caller ID changes have been made, no production Vicidial/Asterisk systems have been touched, and live routing must not be enabled yet.
 
 ## Current Runtime State
 
@@ -16,6 +16,7 @@ FastAGI is implemented and has passed local middleware-hosted testing, but it is
 - Do not print, paste, screenshot, or share `ROUTE_ENGINE_TOKEN`.
 - `ss -lntp` should currently show `:3000`.
 - `ss -lntp` should currently not show `:4573`.
+- Current safe state: FastAGI disabled, port `4573` closed, route engine shadow, Vicidial outbound restored, live caller ID not enabled.
 
 Recover the route token from PM2 into the current shell without printing it:
 
@@ -77,8 +78,39 @@ FastAGI local validation already completed:
 
 - Local AGI mocked stdin wrapper test passed.
 - Middleware-hosted FastAGI local test passed.
+- FastAGI real Asterisk shadow validation: PASS.
+- Real outbound carrier shadow insertion validation: PASS.
+- Outbound carrier patch rollback: PASS.
 
 No caller ID is changed by the current shadow implementation.
+
+## Real Asterisk FastAGI Shadow Validation
+
+Real Asterisk/Vicidial staging validation was completed against:
+
+- middleware public IP: `134.199.192.180`
+- Vicibox/Vicidial test server: `45.33.97.144`
+- isolated context: `[vici-mw-fastagi-shadow-test]`
+- real outbound context: `[vicidial-auto-external]`
+- real carrier pattern: `_31XXXXXXXXXX`
+- real carrier: `Nobel Biz Outbound`
+- original real outbound dial: `Dial(SIP/29741${EXTEN:1}@nobel,,tTo)`
+
+Validation results:
+
+- FastAGI real Asterisk shadow validation: PASS.
+- Real outbound carrier shadow insertion validation: PASS.
+- Outbound carrier patch rollback: PASS.
+
+The controlled test temporarily inserted this shadow-only FastAGI line before the real carrier dial:
+
+```asterisk
+AGI(agi://134.199.192.180:4573/route-outbound-shadow,${EXTEN:2},TESTCAMP,sim-lead,sim-list,asterisk-outbound-shadow,manual,TX)
+```
+
+The test produced route events with source `asterisk-fastagi-shadow`, campaign `TESTCAMP`, client `Test`, decision `shadow_selected`, and populated `selected_did`. The outbound carrier block was restored afterward, Asterisk dialplan was reloaded, FastAGI was disabled, and port `4573` was confirmed closed.
+
+Detailed handoff and rollback notes are in [asterisk-fastagi-shadow-validation.md](asterisk-fastagi-shadow-validation.md).
 
 ## DID/Campaign State
 
