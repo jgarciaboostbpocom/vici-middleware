@@ -126,6 +126,8 @@ Live approval gate has been added as read-only planning/status. `approvalState` 
 
 Campaign pilot readiness has been added as read-only planning/status. `candidateCampaignId` is `TESTCAMP`, `candidateClientId` is `Test`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [campaign-pilot-readiness.md](campaign-pilot-readiness.md).
 
+Provider DID acceptance readiness has been added as read-only planning/status. `candidateProvider` is `NobelBiz`, `candidateCampaignId` is `TESTCAMP`, `candidateClientId` is `Test`, `acceptanceAllowed` remains `false`, `approvedDidCount` remains `0`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [provider-did-acceptance-readiness.md](provider-did-acceptance-readiness.md).
+
 ## DID/Campaign State
 
 - `TESTCAMP` exists.

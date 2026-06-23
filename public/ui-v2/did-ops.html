@@ -675,6 +675,15 @@
                   <div class="muted small">Loading campaign pilot readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Provider DID Acceptance</h2>
+                  <span class="muted small">Read-only provider DID planning status. This does not approve DIDs or enable live behavior.</span>
+                </div>
+                <div class="summary-grid" id="providerDidAcceptanceCards"></div>
+                <div class="row" id="providerDidAcceptanceBadges" style="margin-top:12px"></div>
+                <div id="providerDidAcceptanceDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading provider DID acceptance status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2576,10 +2585,13 @@ function renderRouteReadiness() {
   const campaignPilotReadinessCards = $('#campaignPilotReadinessCards');
   const campaignPilotReadinessBadges = $('#campaignPilotReadinessBadges');
   const campaignPilotReadinessDetails = $('#campaignPilotReadinessDetails');
+  const providerDidAcceptanceCards = $('#providerDidAcceptanceCards');
+  const providerDidAcceptanceBadges = $('#providerDidAcceptanceBadges');
+  const providerDidAcceptanceDetails = $('#providerDidAcceptanceDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2597,6 +2609,9 @@ function renderRouteReadiness() {
     campaignPilotReadinessCards.innerHTML = '<div class="muted small">Campaign pilot readiness status not loaded.</div>';
     campaignPilotReadinessBadges.innerHTML = '';
     campaignPilotReadinessDetails.innerHTML = '<div class="muted small">Campaign pilot readiness details not loaded.</div>';
+    providerDidAcceptanceCards.innerHTML = '<div class="muted small">Provider DID acceptance status not loaded.</div>';
+    providerDidAcceptanceBadges.innerHTML = '';
+    providerDidAcceptanceDetails.innerHTML = '<div class="muted small">Provider DID acceptance details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -2849,6 +2864,78 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${pilotNextSteps.length ? `<ul>${pilotNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const providerDidAcceptance = report.providerDidAcceptanceReadiness || {};
+  const providerDidAcceptanceCardsData = [
+    ['Current state', providerDidAcceptance.currentState || 'not_ready'],
+    ['Acceptance allowed', providerDidAcceptance.acceptanceAllowed ? 'yes' : 'no'],
+    ['Acceptance mode', providerDidAcceptance.acceptanceMode || 'read_only'],
+    ['Candidate provider', providerDidAcceptance.candidateProvider || 'NobelBiz'],
+    ['Candidate campaign', providerDidAcceptance.candidateCampaignId || 'TESTCAMP'],
+    ['Candidate client', providerDidAcceptance.candidateClientId || 'Test'],
+    ['Candidate status', providerDidAcceptance.candidateStatus || 'planning_only'],
+    ['Provider evidence', providerDidAcceptance.providerEvidenceStatus || 'missing'],
+    ['DID ownership evidence', providerDidAcceptance.didOwnershipEvidenceStatus || 'missing'],
+    ['Caller ID acceptance', providerDidAcceptance.callerIdAcceptanceStatus || 'missing'],
+    ['NANP formatting', providerDidAcceptance.nanpFormattingStatus || 'pending_review'],
+    ['Blocked/burned/paused review', providerDidAcceptance.blockedBurnedPausedReviewStatus || 'missing'],
+    ['Compliance review', providerDidAcceptance.complianceReviewStatus || 'missing'],
+    ['Carrier rejection behavior', providerDidAcceptance.carrierRejectionBehaviorStatus || 'unknown'],
+    ['Approved DID count', providerDidAcceptance.approvedDidCount ?? 0],
+    ['Rejected DID count', providerDidAcceptance.rejectedDidCount ?? 0],
+    ['Pending DID count', providerDidAcceptance.pendingDidCount ?? 0],
+    ['Pilot allowed', providerDidAcceptance.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', providerDidAcceptance.liveAllowed ? 'yes' : 'no'],
+  ];
+  providerDidAcceptanceCards.innerHTML = providerDidAcceptanceCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  providerDidAcceptanceBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only', 'info'),
+    readinessBadge('Provider evidence missing', 'warn'),
+    readinessBadge('No approved DIDs', 'bad'),
+    readinessBadge('Approval required', 'warn'),
+  ].join('');
+
+  const providerReadinessItems = Array.isArray(providerDidAcceptance.readinessItems) ? providerDidAcceptance.readinessItems : [];
+  const acceptanceBlockers = Array.isArray(providerDidAcceptance.acceptanceBlockers) ? providerDidAcceptance.acceptanceBlockers : [];
+  const acceptanceNextSteps = Array.isArray(providerDidAcceptance.nextSteps) ? providerDidAcceptance.nextSteps : [];
+  providerDidAcceptanceDetails.innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Readiness item</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${providerReadinessItems.length ? providerReadinessItems.map(item => `
+            <tr>
+              <td>${readinessStatusBadge(item.status === 'blocked' ? 'fail' : item.status === 'required' ? 'warn' : 'pass')}</td>
+              <td><strong>${escapeHtml(item.label || item.id || '-')}</strong></td>
+              <td>${escapeHtml(item.detail || '-')}</td>
+            </tr>
+          `).join('') : '<tr><td colspan="3" class="muted">No provider DID acceptance readiness items returned.</td></tr>'}
+        </tbody>
+      </table>
+    </div>
+    <div class="summary-grid" style="margin-top:12px">
+      <div>
+        <strong>Acceptance blockers</strong>
+        ${acceptanceBlockers.length ? `<ul>${acceptanceBlockers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No acceptance blockers returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${acceptanceNextSteps.length ? `<ul>${acceptanceNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;

@@ -120,6 +120,38 @@ export type CampaignPilotReadiness = {
   nextSteps: string[];
 };
 
+export type ProviderDidAcceptanceReadinessItem = {
+  id: string;
+  label: string;
+  status: 'pass' | 'blocked' | 'required';
+  detail: string;
+};
+
+export type ProviderDidAcceptanceReadiness = {
+  currentState: 'not_ready';
+  acceptanceAllowed: false;
+  acceptanceMode: 'read_only';
+  candidateProvider: 'NobelBiz';
+  candidateCampaignId: 'TESTCAMP';
+  candidateClientId: 'Test';
+  candidateStatus: 'planning_only';
+  providerEvidenceStatus: 'missing';
+  didOwnershipEvidenceStatus: 'missing';
+  callerIdAcceptanceStatus: 'missing';
+  nanpFormattingStatus: 'pending_review';
+  blockedBurnedPausedReviewStatus: 'missing';
+  complianceReviewStatus: 'missing';
+  carrierRejectionBehaviorStatus: 'unknown';
+  approvedDidCount: 0;
+  rejectedDidCount: 0;
+  pendingDidCount: 0;
+  liveAllowed: false;
+  pilotAllowed: false;
+  acceptanceBlockers: string[];
+  readinessItems: ProviderDidAcceptanceReadinessItem[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -143,6 +175,7 @@ export type RouteReadinessReport = {
   productionPreflight: ProductionPreflightReadiness;
   liveApprovalGate: LiveApprovalGateReadiness;
   campaignPilotReadiness: CampaignPilotReadiness;
+  providerDidAcceptanceReadiness: ProviderDidAcceptanceReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -517,6 +550,142 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const providerDidAcceptanceReadiness: ProviderDidAcceptanceReadiness = {
+    currentState: 'not_ready',
+    acceptanceAllowed: false,
+    acceptanceMode: 'read_only',
+    candidateProvider: 'NobelBiz',
+    candidateCampaignId: 'TESTCAMP',
+    candidateClientId: 'Test',
+    candidateStatus: 'planning_only',
+    providerEvidenceStatus: 'missing',
+    didOwnershipEvidenceStatus: 'missing',
+    callerIdAcceptanceStatus: 'missing',
+    nanpFormattingStatus: 'pending_review',
+    blockedBurnedPausedReviewStatus: 'missing',
+    complianceReviewStatus: 'missing',
+    carrierRejectionBehaviorStatus: 'unknown',
+    approvedDidCount: 0,
+    rejectedDidCount: 0,
+    pendingDidCount: 0,
+    liveAllowed: false,
+    pilotAllowed: false,
+    acceptanceBlockers: [
+      'Provider acceptance evidence missing',
+      'DID ownership evidence missing',
+      'Caller ID acceptance per DID missing',
+      'NANP/E.164 formatting review incomplete',
+      'Blocked/burned/paused DID review missing',
+      'Compliance/legal review missing',
+      'Carrier rejection behavior unknown',
+      'No approved DIDs for pilot',
+      'Campaign pilot not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+      'Live caller ID disabled',
+    ],
+    readinessItems: [
+      {
+        id: 'candidate-provider-identified',
+        label: 'Candidate provider identified',
+        status: 'pass',
+        detail: 'NobelBiz is identified as the planning-only provider candidate.',
+      },
+      {
+        id: 'candidate-campaign-identified',
+        label: 'Candidate campaign identified',
+        status: 'pass',
+        detail: 'TESTCAMP is identified as the planning-only campaign candidate.',
+      },
+      {
+        id: 'candidate-client-identified',
+        label: 'Candidate client identified',
+        status: 'pass',
+        detail: 'Test is identified as the planning-only client candidate.',
+      },
+      {
+        id: 'provider-caller-id-acceptance-evidence-required',
+        label: 'Provider caller ID acceptance evidence required',
+        status: 'required',
+        detail: 'Provider evidence is missing and must be manually reviewed before any DID is accepted.',
+      },
+      {
+        id: 'did-ownership-authorization-evidence-required',
+        label: 'DID ownership/authorization evidence required',
+        status: 'required',
+        detail: 'DID ownership or authorization evidence is missing for the candidate scope.',
+      },
+      {
+        id: 'caller-id-acceptance-per-did-required',
+        label: 'Caller ID acceptance per DID required',
+        status: 'required',
+        detail: 'Each DID requires explicit caller ID acceptance evidence before any pilot use.',
+      },
+      {
+        id: 'nanp-e164-formatting-review-required',
+        label: 'NANP/E.164 formatting review required',
+        status: 'required',
+        detail: 'NANP and E.164 formatting review is pending for candidate DIDs.',
+      },
+      {
+        id: 'blocked-burned-paused-did-review-required',
+        label: 'Blocked/burned/paused DID review required',
+        status: 'required',
+        detail: 'Blocked, burned, paused, or otherwise unsafe DID status must be manually reviewed.',
+      },
+      {
+        id: 'compliance-legal-review-required',
+        label: 'Compliance/legal review required',
+        status: 'required',
+        detail: 'Compliance and legal review is missing for the provider DID acceptance plan.',
+      },
+      {
+        id: 'carrier-rejection-behavior-review-required',
+        label: 'Carrier rejection behavior review required',
+        status: 'required',
+        detail: 'Carrier rejection behavior is unknown and must be reviewed before any future pilot.',
+      },
+      {
+        id: 'approved-did-count-remains-zero',
+        label: 'Approved DID count remains zero',
+        status: 'blocked',
+        detail: 'No DIDs are approved by this read-only readiness report.',
+      },
+      {
+        id: 'campaign-pilot-remains-blocked',
+        label: 'Campaign pilot remains blocked',
+        status: 'blocked',
+        detail: 'Campaign pilot readiness remains blocked and pilotAllowed remains false.',
+      },
+      {
+        id: 'live-approval-gate-remains-closed',
+        label: 'Live approval gate remains closed',
+        status: 'blocked',
+        detail: 'Live approval gate remains closed and read-only.',
+      },
+      {
+        id: 'production-preflight-remains-not-ready',
+        label: 'Production preflight remains not ready',
+        status: 'blocked',
+        detail: 'Production preflight remains not ready and liveAllowed remains false.',
+      },
+      {
+        id: 'live-caller-id-remains-disabled',
+        label: 'Live caller ID remains disabled',
+        status: liveCallerIdContract.callerIdApplicationEnabled ? 'blocked' : 'pass',
+        detail: 'Caller ID application remains disabled and planning-only.',
+      },
+    ],
+    nextSteps: [
+      'Collect NobelBiz caller ID acceptance evidence for the TESTCAMP/Test planning scope.',
+      'Collect DID ownership or authorization evidence for each candidate DID.',
+      'Review each DID for caller ID acceptance, NANP/E.164 formatting, and blocked/burned/paused status.',
+      'Document compliance/legal review and expected carrier rejection behavior.',
+      'Keep approved DID count at zero until a future manually reviewed and approved phase.',
+      'Keep campaign pilot blocked, live approval gate closed, production preflight not ready, and live caller ID disabled.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -634,6 +803,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Campaign pilot readiness is read-only, not ready, planning-only, and does not enable pilot or live behavior.',
     },
+    {
+      id: 'provider-did-acceptance-readiness-read-only',
+      label: 'Provider DID acceptance readiness read-only',
+      status: 'pass',
+      detail: 'Provider DID acceptance readiness is read-only, not ready, planning-only, and does not approve DIDs.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -729,6 +904,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     productionPreflight,
     liveApprovalGate,
     campaignPilotReadiness,
+    providerDidAcceptanceReadiness,
     checklist,
     risks,
     recommendations: [
@@ -738,6 +914,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat production preflight as read-only blocker visibility; it does not approve or enable live caller ID.',
       'Treat the live approval gate as read-only blocker visibility; it does not approve, open, or enable live caller ID.',
       'Treat campaign pilot readiness as read-only planning visibility; it does not approve or enable a pilot.',
+      'Treat provider DID acceptance readiness as read-only planning visibility; it does not approve DIDs.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
