@@ -6,6 +6,14 @@ import {
 } from '../auth/middleware';
 import { createSession, revokeSession } from '../storage/sessions';
 import {
+  appendAdminAuditEvent,
+  auditRequestMetadata,
+  buildAuditActor,
+  getChangedFields,
+  listAdminAuditEvents,
+  normalizeAuditLimit,
+} from '../storage/adminAudit';
+import {
   bootstrapSuperAdmin,
   getCampaignById,
   getCampaignRules,
@@ -141,6 +149,29 @@ adminV2Router.get('/clients', async (req, res) => {
   }
 });
 
+adminV2Router.get('/audit-logs', async (req, res) => {
+  try {
+    const actor = await resolveActor(req);
+    const events = await listAdminAuditEvents({
+      action: optionalFilter(firstQueryValue(req.query.action)),
+      resourceType: optionalFilter(firstQueryValue(req.query.resourceType)),
+      clientId: optionalFilter(firstQueryValue(req.query.clientId)),
+      campaignId: optionalFilter(firstQueryValue(req.query.campaignId)),
+      actorUserId: optionalFilter(firstQueryValue(req.query.actorUserId)),
+      limit: normalizeAuditLimit(firstQueryValue(req.query.limit)),
+    }, actor.user);
+
+    res.json({
+      ok: true,
+      events,
+      limit: normalizeAuditLimit(firstQueryValue(req.query.limit)),
+      actor: actorPayload(actor),
+    });
+  } catch (err: any) {
+    sendError(res, 500, err?.message || String(err));
+  }
+});
+
 adminV2Router.post('/clients', async (req, res) => {
   const parsed = parseClient(req.body || {});
   if (!parsed.ok) return sendError(res, 400, parsed.error);
@@ -149,7 +180,21 @@ adminV2Router.post('/clients', async (req, res) => {
     const actor = await resolveActor(req);
     if (!canManageGlobalFoundation(actor.user)) return sendError(res, 403, 'super_admin role required to upsert clients');
 
+    const before = (await getClients()).find(item => item.id === parsed.value.id) || null;
     const client = await upsertClient(parsed.value);
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: before ? 'client.update' : 'client.create',
+      resourceType: 'client',
+      resourceId: client.id,
+      resourceLabel: client.name,
+      clientId: client.id,
+      before,
+      after: client,
+      changedFields: getChangedFields(before, client),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, client, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -183,8 +228,23 @@ adminV2Router.post('/campaigns', async (req, res) => {
     const client = (await getClients()).find(item => item.id === parsed.value.clientId);
     if (!client) return sendError(res, 404, 'client not found');
 
+    const before = await getCampaignById(parsed.value.id);
     const campaign = await upsertCampaign(parsed.value);
     const rules = await getCampaignRules(campaign.id);
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: before ? 'campaign.update' : 'campaign.create',
+      resourceType: 'campaign',
+      resourceId: campaign.id,
+      resourceLabel: campaign.name,
+      clientId: campaign.clientId,
+      campaignId: campaign.id,
+      before,
+      after: campaign,
+      changedFields: getChangedFields(before, campaign),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, campaign, rules, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -239,6 +299,20 @@ adminV2Router.patch('/campaigns/:campaignId/rules', async (req, res) => {
 
     const existing = await getCampaignRules(campaignId.value);
     const rules = await upsertCampaignRules(campaignId.value, { ...(existing || {}), ...patch.value });
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: 'campaign_rules.update',
+      resourceType: 'campaign_rules',
+      resourceId: campaignId.value,
+      resourceLabel: campaign.name,
+      clientId: campaign.clientId,
+      campaignId: campaign.id,
+      before: existing,
+      after: rules,
+      changedFields: getChangedFields(existing, rules),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, rules, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -265,7 +339,21 @@ adminV2Router.post('/users', async (req, res) => {
     const actor = await resolveActor(req);
     if (!canManageGlobalFoundation(actor.user)) return sendError(res, 403, 'super_admin role required to upsert users');
 
+    const before = await getUserByUsername(parsed.value.username);
     const user = await upsertUser(parsed.value);
+    const after = serializeUser(user);
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: before ? 'user.update' : 'user.create',
+      resourceType: 'user',
+      resourceId: user.id,
+      resourceLabel: user.username,
+      before: before ? serializeUser(before) : null,
+      after,
+      changedFields: getChangedFields(before ? serializeUser(before) : null, after),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, user: serializeUser(user), actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -283,8 +371,24 @@ adminV2Router.patch('/users/:username', async (req, res) => {
     const actor = await resolveActor(req);
     if (!canManageGlobalFoundation(actor.user)) return sendError(res, 403, 'super_admin role required to update users');
 
+    const before = await getUserByUsername(username.value);
     const user = await updateUser(username.value, parsed.value);
     if (!user) return sendError(res, 404, 'user not found');
+    const beforePublic = before ? serializeUser(before) : null;
+    const afterPublic = serializeUser(user);
+    const activeChanged = before ? before.active !== user.active : false;
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: activeChanged ? (user.active ? 'user.enable' : 'user.disable') : 'user.update',
+      resourceType: 'user',
+      resourceId: user.id,
+      resourceLabel: user.username,
+      before: beforePublic,
+      after: afterPublic,
+      changedFields: getChangedFields(beforePublic, afterPublic),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, user: serializeUser(user), actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -307,6 +411,18 @@ adminV2Router.post('/users/:username/password', async (req, res) => {
 
     const user = await setUserPassword(username.value, password.value);
     if (!user) return sendError(res, 404, 'user not found');
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: 'user.password_reset',
+      resourceType: 'user',
+      resourceId: user.id,
+      resourceLabel: user.username,
+      before: { password: '[REDACTED]' },
+      after: { password: '[REDACTED]', updatedAt: user.updatedAt },
+      changedFields: ['password'],
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, user: serializeUser(user), actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -728,6 +844,11 @@ function firstHeaderValue(value: unknown): string {
 function firstQueryValue(value: unknown): string {
   if (Array.isArray(value)) return String(value[0] || '');
   return String(value || '');
+}
+
+function optionalFilter(value: unknown): string | null {
+  const normalized = String(value || '').trim();
+  return normalized || null;
 }
 
 function has(obj: Record<string, unknown>, key: string): boolean {

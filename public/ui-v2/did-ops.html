@@ -356,6 +356,24 @@
     }
     .summary-card .value.compact { font-size: 16px; font-weight: 600; }
     .table-wrap { overflow-x: auto; }
+    .audit-filters {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(150px, 1fr)) auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 12px;
+    }
+    .audit-details {
+      display: none;
+      margin-top: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 10px;
+      max-height: 360px;
+      overflow: auto;
+    }
+    .audit-details.open { display: block; }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -426,6 +444,7 @@
       .scope-controls { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
       .auth-grid { grid-template-columns: repeat(2, minmax(180px, 1fr)); }
       .settings-grid { grid-template-columns: repeat(2, minmax(160px, 1fr)); }
+      .audit-filters { grid-template-columns: repeat(2, minmax(160px, 1fr)); }
     }
     @media (max-width: 860px) {
       .app-shell { grid-template-columns: 1fr; }
@@ -448,6 +467,7 @@
       .login-card { padding: 20px; }
       .sidebar { grid-template-columns: 1fr; }
       .settings-grid { grid-template-columns: 1fr; }
+      .audit-filters { grid-template-columns: 1fr; }
       input, select, textarea { min-width: 160px; width: 100%; }
     }
   </style>
@@ -521,6 +541,7 @@
           <button type="button" data-view="alerts">Coverage Alerts</button>
           <button type="button" data-view="exclusions">Lead Exclusions</button>
           <button type="button" data-view="dry-run">Dry-run Events</button>
+          <button type="button" data-view="audit-logs">Audit Logs</button>
           <button type="button" data-view="settings">Settings</button>
         </aside>
 
@@ -1178,6 +1199,65 @@
     </section>
           </section>
 
+          <section id="view-audit-logs" class="app-view" data-view="audit-logs">
+            <div class="view-title">
+              <h2>Audit Logs</h2>
+              <span id="auditLogsStatus" class="status-line muted"></span>
+            </div>
+            <section class="section">
+              <div class="section-head">
+                <h2>Admin Audit Trail</h2>
+                <span class="muted small">Append-only admin mutation events scoped to your role.</span>
+              </div>
+              <div class="section-body">
+                <div class="audit-filters">
+                  <label class="field">
+                    <span class="small muted">Action</span>
+                    <input id="auditActionFilter" type="text" placeholder="did.pause" />
+                  </label>
+                  <label class="field">
+                    <span class="small muted">Resource type</span>
+                    <input id="auditResourceTypeFilter" type="text" placeholder="did" />
+                  </label>
+                  <label class="field">
+                    <span class="small muted">Client</span>
+                    <select id="auditClientFilter"></select>
+                  </label>
+                  <label class="field">
+                    <span class="small muted">Campaign</span>
+                    <select id="auditCampaignFilter"></select>
+                  </label>
+                  <label class="field">
+                    <span class="small muted">Limit</span>
+                    <input id="auditLimitFilter" type="number" min="1" max="500" step="1" value="100" />
+                  </label>
+                  <button type="button" onclick="applyAuditFilters()">Apply</button>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Timestamp</th>
+                        <th>Actor</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                        <th>Resource type</th>
+                        <th>Resource label/id</th>
+                        <th>Client/campaign</th>
+                        <th>Changed fields</th>
+                        <th>Details</th>
+                      </tr>
+                    </thead>
+                    <tbody id="auditLogsBody">
+                      <tr><td colspan="9" class="muted">Loading audit logs...</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div id="auditDetailsPanel" class="audit-details"></div>
+              </div>
+            </section>
+          </section>
+
           <section id="view-settings" class="app-view" data-view="settings">
             <div class="view-title"><h2>Settings</h2></div>
             <section class="section">
@@ -1215,6 +1295,14 @@ const state = {
   coverageAlerts: [],
   leadExclusions: [],
   dryRunEvents: [],
+  auditLogs: [],
+  auditFilters: {
+    action: '',
+    resourceType: '',
+    clientId: '',
+    campaignId: '',
+    limit: 100,
+  },
   dryRunStatus: null,
   routeEngineSummary: null,
   routeEngineSimulation: null,
@@ -1232,7 +1320,7 @@ const state = {
 };
 
 const $ = selector => document.querySelector(selector);
-const validViews = new Set(['dashboard', 'route-engine', 'users', 'clients', 'campaigns', 'dids', 'rules', 'alerts', 'exclusions', 'dry-run', 'settings']);
+const validViews = new Set(['dashboard', 'route-engine', 'users', 'clients', 'campaigns', 'dids', 'rules', 'alerts', 'exclusions', 'dry-run', 'audit-logs', 'settings']);
 
 function getSessionToken() {
   return localStorage.getItem(sessionTokenKey) || '';
@@ -1540,6 +1628,7 @@ function clearProtectedState() {
   state.coverageAlerts = [];
   state.leadExclusions = [];
   state.dryRunEvents = [];
+  state.auditLogs = [];
   state.campaignRules = null;
   state.dryRunStatus = null;
   state.routeEngineSummary = null;
@@ -1644,6 +1733,36 @@ function renderDashboardScopeStatus() {
     <span>Client ${escapeHtml(client ? clientName(client) : state.selectedClientId || '-')}</span>
     <span>Campaign ${escapeHtml(campaign ? campaignName(campaign) : state.selectedCampaignId || '-')}</span>
   `;
+}
+
+function renderAuditFilters() {
+  const clientSelect = $('#auditClientFilter');
+  const campaignSelect = $('#auditCampaignFilter');
+  if (!clientSelect || !campaignSelect) return;
+
+  clientSelect.innerHTML = [
+    '<option value="">All visible clients</option>',
+    ...state.clients.map(client => `<option value="${escapeHtml(client.id)}">${escapeHtml(clientName(client))}</option>`),
+  ].join('');
+  clientSelect.value = state.auditFilters.clientId || '';
+
+  const filteredCampaigns = state.auditFilters.clientId
+    ? state.campaigns.filter(campaign => campaign.clientId === state.auditFilters.clientId)
+    : state.campaigns;
+  campaignSelect.innerHTML = [
+    '<option value="">All visible campaigns</option>',
+    ...filteredCampaigns.map(campaign => `<option value="${escapeHtml(campaign.id)}">${escapeHtml(campaignName(campaign))}</option>`),
+  ].join('');
+  campaignSelect.value = filteredCampaigns.some(campaign => campaign.id === state.auditFilters.campaignId)
+    ? state.auditFilters.campaignId
+    : '';
+
+  const action = $('#auditActionFilter');
+  const resourceType = $('#auditResourceTypeFilter');
+  const limit = $('#auditLimitFilter');
+  if (action) action.value = state.auditFilters.action || '';
+  if (resourceType) resourceType.value = state.auditFilters.resourceType || '';
+  if (limit) limit.value = String(state.auditFilters.limit || 100);
 }
 
 function renderAdminCrudViews() {
@@ -2332,6 +2451,20 @@ async function loadUsers() {
   state.users = data.users || [];
 }
 
+async function loadAuditLogs() {
+  const params = new URLSearchParams();
+  if (state.auditFilters.action) params.set('action', state.auditFilters.action);
+  if (state.auditFilters.resourceType) params.set('resourceType', state.auditFilters.resourceType);
+  if (state.auditFilters.clientId) params.set('clientId', state.auditFilters.clientId);
+  if (state.auditFilters.campaignId) params.set('campaignId', state.auditFilters.campaignId);
+  params.set('limit', String(state.auditFilters.limit || 100));
+  const query = params.toString();
+  setModuleStatus('#auditLogsStatus', 'Loading audit logs...', 'muted');
+  const data = await api(`/admin/v2/audit-logs${query ? `?${query}` : ''}`);
+  state.auditLogs = data.events || [];
+  setModuleStatus('#auditLogsStatus', `${state.auditLogs.length} events loaded.`, 'ok');
+}
+
 async function loadCampaignRules() {
   if (!state.selectedCampaignId) {
     state.campaignRules = null;
@@ -2895,6 +3028,74 @@ function formatCampaignRuleReasons(evaluation) {
   return Array.from(new Set(reasons)).join(', ') || '-';
 }
 
+function renderAuditLogs() {
+  renderAuditFilters();
+  const tbody = $('#auditLogsBody');
+  if (!tbody) return;
+  if (!state.auditLogs.length) {
+    tbody.innerHTML = '<tr><td colspan="9" class="muted">No audit events visible for your scope.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = state.auditLogs.map(event => `
+    <tr>
+      <td>${escapeHtml(fmtDate(event.timestamp))}</td>
+      <td>${escapeHtml(event.actorUsername || event.actorUserId || '-')}</td>
+      <td>${statusBadge(event.actorRole || '-')}</td>
+      <td>${escapeHtml(event.action || '-')}</td>
+      <td>${escapeHtml(event.resourceType || '-')}</td>
+      <td>${escapeHtml(event.resourceLabel || event.resourceId || '-')}</td>
+      <td>${escapeHtml([event.clientId, event.campaignId].filter(Boolean).join(' / ') || '-')}</td>
+      <td>${escapeHtml((event.changedFields || []).join(', ') || '-')}</td>
+      <td><button type="button" onclick="showAuditDetails('${jsArg(event.id)}')">View</button></td>
+    </tr>
+  `).join('');
+}
+
+function showAuditDetails(id) {
+  const panel = $('#auditDetailsPanel');
+  if (!panel) return;
+  const event = state.auditLogs.find(item => item.id === id);
+  if (!event) {
+    panel.classList.remove('open');
+    panel.innerHTML = '';
+    return;
+  }
+  panel.classList.add('open');
+  panel.innerHTML = `
+    <div class="row">
+      <strong>${escapeHtml(event.action || 'Audit event')}</strong>
+      <span class="badge ${event.status === 'failure' ? 'bad' : 'ok'}">${escapeHtml(event.status || 'success')}</span>
+      <button type="button" onclick="closeAuditDetails()">Close</button>
+    </div>
+    <pre>${escapeHtml(JSON.stringify(event, null, 2))}</pre>
+  `;
+}
+
+function closeAuditDetails() {
+  const panel = $('#auditDetailsPanel');
+  if (!panel) return;
+  panel.classList.remove('open');
+  panel.innerHTML = '';
+}
+
+async function applyAuditFilters() {
+  const limit = Number(($('#auditLimitFilter')?.value || '100').trim());
+  state.auditFilters = {
+    action: ($('#auditActionFilter')?.value || '').trim(),
+    resourceType: ($('#auditResourceTypeFilter')?.value || '').trim(),
+    clientId: $('#auditClientFilter')?.value || '',
+    campaignId: $('#auditCampaignFilter')?.value || '',
+    limit: Number.isFinite(limit) && limit > 0 ? Math.min(Math.floor(limit), 500) : 100,
+  };
+  if (state.auditFilters.clientId && state.auditFilters.campaignId) {
+    const campaign = state.campaigns.find(item => item.id === state.auditFilters.campaignId);
+    if (campaign && campaign.clientId !== state.auditFilters.clientId) state.auditFilters.campaignId = '';
+  }
+  await loadAuditLogs();
+  renderAuditLogs();
+}
+
 function renderAll() {
   renderAuthGate();
   renderSidebar();
@@ -2906,6 +3107,7 @@ function renderAll() {
   renderCoverageAlerts();
   renderLeadExclusions();
   renderDryRunEvents();
+  renderAuditLogs();
   renderAdminCrudViews();
   renderDidAdminForms();
   renderSettingsStatus();
@@ -2931,13 +3133,14 @@ async function refreshAll() {
       loadUsers(),
     ]);
     await loadCampaignRules();
-    const [dids, coverage, leadExclusions, dryRunStatus, dryRunEvents, routeEngineSummary] = await Promise.all([
+    const [dids, coverage, leadExclusions, dryRunStatus, dryRunEvents, routeEngineSummary, auditLogs] = await Promise.all([
       api(scopedAdminPath('/admin/dids')),
       api(scopedAdminPath('/admin/dids/coverage/alerts')),
       api(scopedAdminPath('/admin/dids/lead-exclusions')),
       api('/admin/dids/selector-v2/status'),
       api(scopedAdminPath('/admin/dids/selector-v2/dry-run-events', { limit: '100' })),
       api('/admin/v2/route-engine/summary'),
+      api('/admin/v2/audit-logs?limit=100'),
     ]);
     state.inventory = dids.inventory || [];
     state.coverageAlerts = coverage.alerts || dids.coverage?.missing || [];
@@ -2945,6 +3148,7 @@ async function refreshAll() {
     state.dryRunStatus = dryRunStatus;
     state.dryRunEvents = dryRunEvents.items || [];
     state.routeEngineSummary = routeEngineSummary;
+    state.auditLogs = auditLogs.events || [];
     renderAll();
     renderAuth();
     $('#updated').textContent = `Updated ${new Date().toLocaleString()}`;
@@ -3005,6 +3209,11 @@ $('#bulkDidClientInput').onchange = () => {
   previewBulkDids();
 };
 $('#assignDidClientInput').onchange = () => populateDidCampaignSelect('#assignDidCampaignInput', $('#assignDidClientInput').value, '');
+$('#auditClientFilter').onchange = () => {
+  state.auditFilters.clientId = $('#auditClientFilter').value || '';
+  state.auditFilters.campaignId = '';
+  renderAuditFilters();
+};
 $('#bulkDidTextarea').addEventListener('input', previewBulkDids);
 $('#bulkDidDailyLimitInput').addEventListener('input', previewBulkDids);
 $('#bulkDidHourlyLimitInput').addEventListener('input', previewBulkDids);

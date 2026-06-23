@@ -45,6 +45,12 @@ import {
   scoreDidCandidate,
 } from '../logic/didSelection';
 import { readRecentEvents } from '../uiV2/uiEvents';
+import {
+  appendAdminAuditEvent,
+  auditRequestMetadata,
+  buildAuditActor,
+  getChangedFields,
+} from '../storage/adminAudit';
 
 export const didsRouter = Router();
 
@@ -129,7 +135,22 @@ didsRouter.post('/', async (req, res) => {
     const scope = await resolveCreateScope(req, parsed.value);
     if (!scope.ok) return sendError(res, scope.status, scope.error);
 
+    const before = await getDidByNumber(parsed.value.did);
     const record = await upsertDidConfig(parsed.value);
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(scope.value.actor),
+      action: before ? 'did.update' : 'did.create',
+      resourceType: 'did',
+      resourceId: record.did,
+      resourceLabel: record.did,
+      clientId: record.clientId || null,
+      campaignId: record.campaignId || null,
+      before,
+      after: record,
+      changedFields: getChangedFields(before, record),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, did: record.did, record: toDidHealth(record), ...scopeResponse(scope.value) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -157,6 +178,29 @@ didsRouter.post('/bulk', async (req, res) => {
     }
 
     const actor = await resolveActor(req);
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: 'did.bulk_import',
+      resourceType: 'did_bulk',
+      resourceId: `bulk:${created.length}`,
+      resourceLabel: `${created.length} DIDs`,
+      clientId: commonValue(created.map(record => record.clientId || null)),
+      campaignId: commonValue(created.map(record => record.campaignId || null)),
+      after: {
+        count: created.length,
+        dids: created.map(record => ({
+          did: record.did,
+          clientId: record.clientId || null,
+          campaignId: record.campaignId || null,
+          state: record.state,
+          areaCode: record.areaCode,
+          status: record.status,
+        })),
+      },
+      changedFields: ['items'],
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({
       ok: true,
       count: created.length,
@@ -183,6 +227,20 @@ didsRouter.post('/state', async (req, res) => {
 
     await setDidState(did.value, state.value);
     const updated = await getDidByNumber(did.value);
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: 'did.state_update',
+      resourceType: 'did',
+      resourceId: did.value,
+      resourceLabel: did.value,
+      clientId: record.clientId || null,
+      campaignId: record.campaignId || null,
+      before: record,
+      after: updated,
+      changedFields: getChangedFields(record, updated),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, record: updated ? toDidHealth(updated) : null, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -206,6 +264,19 @@ didsRouter.post('/active', async (req, res) => {
 
     await setActiveDidForState(state.value, did.value);
     memory.setActiveDid(state.value, did.value);
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: 'did.active_set',
+      resourceType: 'did_active_state',
+      resourceId: state.value,
+      resourceLabel: `${state.value} -> ${did.value}`,
+      clientId: record.clientId || null,
+      campaignId: record.campaignId || null,
+      after: { state: state.value, activeDid: did.value, record },
+      changedFields: ['activeDid'],
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, state: state.value, activeDid: did.value, record: toDidHealth(record), actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -267,7 +338,21 @@ didsRouter.post('/coverage/alerts', async (req, res) => {
     const actor = await resolveActor(req);
     if (!await userCanManageDidScope(actor.user, alert.value)) return sendError(res, 403, 'coverage alert write scope required');
 
-    res.json({ ok: true, alert: await upsertCoverageAlert(alert.value), actor: actorPayload(actor) });
+    const saved = await upsertCoverageAlert(alert.value);
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: 'coverage_alert.upsert',
+      resourceType: 'coverage_alert',
+      resourceId: saved.id,
+      resourceLabel: saved.reason,
+      clientId: saved.clientId || null,
+      campaignId: saved.campaignId || null,
+      after: saved,
+      changedFields: getChangedFields(null, saved),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
+    res.json({ ok: true, alert: saved, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -288,6 +373,20 @@ didsRouter.post('/coverage/alerts/:id/clear', async (req, res) => {
 
     const alert = await clearCoverageAlert(id.value, reason.value || undefined);
     if (!alert) return sendError(res, 404, 'coverage alert not found');
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: 'coverage_alert.clear',
+      resourceType: 'coverage_alert',
+      resourceId: alert.id,
+      resourceLabel: alert.reason,
+      clientId: alert.clientId || null,
+      campaignId: alert.campaignId || null,
+      before: existing,
+      after: alert,
+      changedFields: getChangedFields(existing, alert),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, alert, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -314,7 +413,21 @@ didsRouter.post('/lead-exclusions', async (req, res) => {
     const actor = await resolveActor(req);
     if (!await userCanManageDidScope(actor.user, exclusion.value)) return sendError(res, 403, 'lead exclusion write scope required');
 
-    res.json({ ok: true, leadExclusion: await upsertLeadExclusion(exclusion.value), actor: actorPayload(actor) });
+    const saved = await upsertLeadExclusion(exclusion.value);
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: 'lead_exclusion.create',
+      resourceType: 'lead_exclusion',
+      resourceId: saved.id,
+      resourceLabel: saved.reason,
+      clientId: saved.clientId || null,
+      campaignId: saved.campaignId || null,
+      after: saved,
+      changedFields: getChangedFields(null, saved),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
+    res.json({ ok: true, leadExclusion: saved, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
   }
@@ -335,6 +448,20 @@ didsRouter.post('/lead-exclusions/:id/clear', async (req, res) => {
 
     const exclusion = await clearLeadExclusion(id.value, reason.value || undefined);
     if (!exclusion) return sendError(res, 404, 'lead exclusion not found');
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(actor),
+      action: 'lead_exclusion.remove',
+      resourceType: 'lead_exclusion',
+      resourceId: exclusion.id,
+      resourceLabel: exclusion.reason,
+      clientId: exclusion.clientId || null,
+      campaignId: exclusion.campaignId || null,
+      before: existing,
+      after: exclusion,
+      changedFields: getChangedFields(existing, exclusion),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, leadExclusion: exclusion, actor: actorPayload(actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -408,6 +535,20 @@ didsRouter.patch('/:did', async (req, res) => {
     });
 
     if (!updated) return sendError(res, 404, 'DID not found');
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(scope.value.actor),
+      action: 'did.update',
+      resourceType: 'did',
+      resourceId: updated.did,
+      resourceLabel: updated.did,
+      clientId: updated.clientId || null,
+      campaignId: updated.campaignId || null,
+      before: current,
+      after: updated,
+      changedFields: getChangedFields(current, updated),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, record: toDidHealth(updated), ...scopeResponse(scope.value) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -443,6 +584,20 @@ didsRouter.post('/:did/pause', async (req, res) => {
     });
 
     if (!updated) return sendError(res, 404, 'DID not found');
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(authorized.actor),
+      action: 'did.pause',
+      resourceType: 'did',
+      resourceId: updated.did,
+      resourceLabel: updated.did,
+      clientId: updated.clientId || null,
+      campaignId: updated.campaignId || null,
+      before: authorized.record,
+      after: updated,
+      changedFields: getChangedFields(authorized.record, updated),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, record: toDidHealth(updated), actor: actorPayload(authorized.actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -480,6 +635,20 @@ didsRouter.post('/:did/cooldown', async (req, res) => {
     });
 
     if (!updated) return sendError(res, 404, 'DID not found');
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(authorized.actor),
+      action: 'did.cooldown',
+      resourceType: 'did',
+      resourceId: updated.did,
+      resourceLabel: updated.did,
+      clientId: updated.clientId || null,
+      campaignId: updated.campaignId || null,
+      before: authorized.record,
+      after: updated,
+      changedFields: getChangedFields(authorized.record, updated),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, coolUntil: until.value, record: toDidHealth(updated), actor: actorPayload(authorized.actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -520,6 +689,20 @@ didsRouter.post('/:did/reactivate', async (req, res) => {
     });
 
     if (!updated) return sendError(res, 404, 'DID not found');
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(authorized.actor),
+      action: 'did.reactivate',
+      resourceType: 'did',
+      resourceId: updated.did,
+      resourceLabel: updated.did,
+      clientId: updated.clientId || null,
+      campaignId: updated.campaignId || null,
+      before: authorized.record,
+      after: updated,
+      changedFields: getChangedFields(authorized.record, updated),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, record: toDidHealth(updated), actor: actorPayload(authorized.actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -555,6 +738,20 @@ didsRouter.post('/:did/remove', async (req, res) => {
     });
 
     if (!updated) return sendError(res, 404, 'DID not found');
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(authorized.actor),
+      action: 'did.remove',
+      resourceType: 'did',
+      resourceId: updated.did,
+      resourceLabel: updated.did,
+      clientId: updated.clientId || null,
+      campaignId: updated.campaignId || null,
+      before: authorized.record,
+      after: updated,
+      changedFields: getChangedFields(authorized.record, updated),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, record: toDidHealth(updated), actor: actorPayload(authorized.actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -588,6 +785,20 @@ didsRouter.post('/:did/spam-report', async (req, res) => {
     });
 
     if (!updated) return sendError(res, 404, 'DID not found');
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(authorized.actor),
+      action: 'did.spam_report',
+      resourceType: 'did',
+      resourceId: updated.did,
+      resourceLabel: updated.did,
+      clientId: updated.clientId || null,
+      campaignId: updated.campaignId || null,
+      before: authorized.record,
+      after: updated,
+      changedFields: getChangedFields(authorized.record, updated),
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, record: toDidHealth(updated), actor: actorPayload(authorized.actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -603,6 +814,19 @@ didsRouter.delete('/:did', async (req, res) => {
     if (!authorized.ok) return sendError(res, authorized.status, authorized.error);
 
     await removeDid(did.value);
+    await appendAdminAuditEvent({
+      actor: buildAuditActor(authorized.actor),
+      action: 'did.delete',
+      resourceType: 'did',
+      resourceId: did.value,
+      resourceLabel: did.value,
+      clientId: authorized.record.clientId || null,
+      campaignId: authorized.record.campaignId || null,
+      before: authorized.record,
+      changedFields: ['deleted'],
+      status: 'success',
+      ...auditRequestMetadata(req),
+    });
     res.json({ ok: true, did: did.value, actor: actorPayload(authorized.actor) });
   } catch (err: any) {
     sendError(res, 500, err?.message || String(err));
@@ -822,6 +1046,11 @@ function objectMatchesScope(value: unknown, scope: DidScope): boolean {
 
 function arrayFromUnknown(value: unknown): unknown[] {
   return Array.isArray(value) ? value : [];
+}
+
+function commonValue(values: Array<string | null>): string | null {
+  const unique = Array.from(new Set(values.filter(Boolean)));
+  return unique.length === 1 ? unique[0] : null;
 }
 
 function normalizeDidValue(value: unknown): string {
