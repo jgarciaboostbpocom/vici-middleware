@@ -92,6 +92,34 @@ export type LiveApprovalGateReadiness = {
   nextSteps: string[];
 };
 
+export type CampaignPilotReadinessItem = {
+  id: string;
+  label: string;
+  status: 'pass' | 'blocked' | 'required';
+  detail: string;
+};
+
+export type CampaignPilotReadiness = {
+  currentState: 'not_ready';
+  pilotAllowed: false;
+  pilotMode: 'read_only';
+  candidateCampaignId: 'TESTCAMP';
+  candidateClientId: 'Test';
+  candidateStatus: 'planning_only';
+  campaignScopeApproved: false;
+  didInventoryApproved: false;
+  allowedStatesApproved: false;
+  rateLimitsApproved: false;
+  fallbackPolicyApproved: false;
+  monitoringApproved: false;
+  rollbackApproved: false;
+  approvalGateOpen: false;
+  liveAllowed: false;
+  pilotBlockers: string[];
+  readinessItems: CampaignPilotReadinessItem[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -114,6 +142,7 @@ export type RouteReadinessReport = {
   liveCallerIdContract: LiveCallerIdContractReadiness;
   productionPreflight: ProductionPreflightReadiness;
   liveApprovalGate: LiveApprovalGateReadiness;
+  campaignPilotReadiness: CampaignPilotReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -358,6 +387,136 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const campaignPilotReadiness: CampaignPilotReadiness = {
+    currentState: 'not_ready',
+    pilotAllowed: false,
+    pilotMode: 'read_only',
+    candidateCampaignId: 'TESTCAMP',
+    candidateClientId: 'Test',
+    candidateStatus: 'planning_only',
+    campaignScopeApproved: false,
+    didInventoryApproved: false,
+    allowedStatesApproved: false,
+    rateLimitsApproved: false,
+    fallbackPolicyApproved: false,
+    monitoringApproved: false,
+    rollbackApproved: false,
+    approvalGateOpen: false,
+    liveAllowed: false,
+    pilotBlockers: [
+      'Campaign pilot not approved',
+      'DID inventory not approved for pilot',
+      'Allowed state/NPA policy not approved',
+      'Rate limits not approved',
+      'Fallback policy not approved',
+      'Monitoring not approved',
+      'Rollback not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+      'FastAGI disabled',
+      'Route engine shadow',
+    ],
+    readinessItems: [
+      {
+        id: 'candidate-campaign-identified',
+        label: 'Candidate campaign identified',
+        status: 'pass',
+        detail: 'TESTCAMP is identified as the planning-only campaign pilot candidate.',
+      },
+      {
+        id: 'candidate-client-identified',
+        label: 'Candidate client identified',
+        status: 'pass',
+        detail: 'Test is identified as the planning-only client pilot candidate.',
+      },
+      {
+        id: 'campaign-scope-approval-required',
+        label: 'Campaign scope approval required',
+        status: 'required',
+        detail: 'Explicit campaign/client scoped approval is required before any pilot can be considered.',
+      },
+      {
+        id: 'did-inventory-approval-required',
+        label: 'DID inventory approval required',
+        status: 'required',
+        detail: 'Pilot DID inventory must be manually reviewed and approved for the candidate campaign/client.',
+      },
+      {
+        id: 'allowed-states-npa-rules-approval-required',
+        label: 'Allowed states/NPA rules approval required',
+        status: 'required',
+        detail: 'Allowed state and NPA policy must be approved for the pilot scope.',
+      },
+      {
+        id: 'daily-hourly-did-limits-approval-required',
+        label: 'Daily/hourly DID limits approval required',
+        status: 'required',
+        detail: 'Daily and hourly DID limits must be approved before any live caller ID pilot.',
+      },
+      {
+        id: 'fallback-policy-approval-required',
+        label: 'Fallback policy approval required',
+        status: 'required',
+        detail: 'Fallback behavior must be approved for route misses, timeouts, and blocked DID selection.',
+      },
+      {
+        id: 'monitoring-alerting-approval-required',
+        label: 'Monitoring/alerting approval required',
+        status: 'required',
+        detail: 'Pilot monitoring and alerting must be approved before any live caller ID test.',
+      },
+      {
+        id: 'rollback-approval-required',
+        label: 'Rollback approval required',
+        status: 'required',
+        detail: 'A manual rollback plan must be reviewed and approved before any pilot.',
+      },
+      {
+        id: 'live-approval-gate-remains-closed',
+        label: 'Live approval gate remains closed',
+        status: 'blocked',
+        detail: 'Live approval gate is closed and read-only; it does not approve pilot behavior.',
+      },
+      {
+        id: 'production-preflight-remains-not-ready',
+        label: 'Production preflight remains not ready',
+        status: 'blocked',
+        detail: 'Production preflight remains not ready and liveAllowed remains false.',
+      },
+      {
+        id: 'route-engine-remains-shadow',
+        label: 'Route engine remains shadow',
+        status: mode === 'shadow' ? 'pass' : 'blocked',
+        detail: `Configured route engine mode is ${mode}.`,
+      },
+      {
+        id: 'fastagi-remains-disabled',
+        label: 'FastAGI remains disabled',
+        status: fastAgiEnabled ? 'blocked' : 'pass',
+        detail: fastAgiEnabled ? 'FastAGI is enabled in this process.' : 'FastAGI is disabled in this process.',
+      },
+      {
+        id: 'live-caller-id-remains-disabled',
+        label: 'Live caller ID remains disabled',
+        status: liveCallerIdContract.callerIdApplicationEnabled ? 'blocked' : 'pass',
+        detail: 'Caller ID application remains disabled and planning-only.',
+      },
+      {
+        id: 'asterisk-dialplan-change-not-applied',
+        label: 'Asterisk dialplan change not applied',
+        status: 'pass',
+        detail: 'This readiness report does not apply or approve Asterisk dialplan changes.',
+      },
+    ],
+    nextSteps: [
+      'Document the TESTCAMP/Test pilot scope without enabling live behavior.',
+      'Review DID inventory, allowed states/NPA policy, rate limits, and fallback policy for the pilot scope.',
+      'Prepare monitoring, alerting, and rollback materials for manual review.',
+      'Keep the live approval gate closed and production preflight not ready until a future approved phase.',
+      'Keep route engine shadow, FastAGI disabled, and live caller ID disabled.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -469,6 +628,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Live approval gate is read-only, not approved, closed, and does not enable live behavior.',
     },
+    {
+      id: 'campaign-pilot-readiness-read-only',
+      label: 'Campaign pilot readiness read-only',
+      status: 'pass',
+      detail: 'Campaign pilot readiness is read-only, not ready, planning-only, and does not enable pilot or live behavior.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -563,6 +728,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     liveCallerIdContract,
     productionPreflight,
     liveApprovalGate,
+    campaignPilotReadiness,
     checklist,
     risks,
     recommendations: [
@@ -571,6 +737,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Keep live caller ID contract status planning-only until the required artifacts are complete and approved.',
       'Treat production preflight as read-only blocker visibility; it does not approve or enable live caller ID.',
       'Treat the live approval gate as read-only blocker visibility; it does not approve, open, or enable live caller ID.',
+      'Treat campaign pilot readiness as read-only planning visibility; it does not approve or enable a pilot.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

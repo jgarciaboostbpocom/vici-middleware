@@ -124,6 +124,8 @@ Production preflight readiness has been added as a read-only planning/status pan
 
 Live approval gate has been added as read-only planning/status. `approvalState` remains `not_approved`, `gateOpen` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [live-approval-gate.md](live-approval-gate.md).
 
+Campaign pilot readiness has been added as read-only planning/status. `candidateCampaignId` is `TESTCAMP`, `candidateClientId` is `Test`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [campaign-pilot-readiness.md](campaign-pilot-readiness.md).
+
 ## DID/Campaign State
 
 - `TESTCAMP` exists.
