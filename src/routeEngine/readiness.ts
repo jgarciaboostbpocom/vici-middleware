@@ -71,6 +71,27 @@ export type ProductionPreflightReadiness = {
   nextSteps: string[];
 };
 
+export type LiveApprovalGateReadiness = {
+  approvalState: 'not_approved';
+  liveAllowed: false;
+  gateOpen: false;
+  gateMode: 'read_only';
+  providerEvidence: 'missing';
+  didOwnershipAuthorization: 'missing';
+  campaignPilotApproval: 'missing';
+  campaignLiveFlagDesignApproval: 'missing';
+  rollbackChecklist: 'missing';
+  asteriskChangeApproval: 'missing';
+  operatorApproval: 'missing';
+  complianceApproval: 'missing';
+  securityApproval: 'missing';
+  monitoringAlertingApproval: 'missing';
+  requiredApprovals: string[];
+  missingApprovals: string[];
+  blockingReasons: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -92,6 +113,7 @@ export type RouteReadinessReport = {
   fastAgi: FastAgiReadiness;
   liveCallerIdContract: LiveCallerIdContractReadiness;
   productionPreflight: ProductionPreflightReadiness;
+  liveApprovalGate: LiveApprovalGateReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -285,6 +307,57 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const liveApprovalGateRequiredApprovals = [
+    'Provider caller ID acceptance evidence',
+    'DID ownership/authorization evidence',
+    'Campaign/client pilot approval',
+    'Campaign-level live flag design approval',
+    'Rollback checklist approval',
+    'Asterisk dialplan change approval',
+    'Operator cutover approval',
+    'Security/token handling approval',
+    'Compliance/legal approval',
+    'Monitoring/alerting approval',
+  ];
+
+  const liveApprovalGate: LiveApprovalGateReadiness = {
+    approvalState: 'not_approved',
+    liveAllowed: false,
+    gateOpen: false,
+    gateMode: 'read_only',
+    providerEvidence: 'missing',
+    didOwnershipAuthorization: 'missing',
+    campaignPilotApproval: 'missing',
+    campaignLiveFlagDesignApproval: 'missing',
+    rollbackChecklist: 'missing',
+    asteriskChangeApproval: 'missing',
+    operatorApproval: 'missing',
+    complianceApproval: 'missing',
+    securityApproval: 'missing',
+    monitoringAlertingApproval: 'missing',
+    requiredApprovals: liveApprovalGateRequiredApprovals,
+    missingApprovals: liveApprovalGateRequiredApprovals,
+    blockingReasons: [
+      'Live approval gate is not approved',
+      'Provider evidence missing',
+      'Campaign pilot approval missing',
+      'Rollback checklist missing',
+      'Asterisk change approval missing',
+      'Operator approval missing',
+      'Route engine is not approved for live',
+      'FastAGI remains disabled',
+      'Live endpoint remains intentionally absent',
+    ],
+    nextSteps: [
+      'Collect provider caller ID acceptance evidence for the exact carrier/account and caller ID set.',
+      'Document DID ownership/authorization for the campaign/client scope.',
+      'Obtain explicit campaign/client pilot approval and campaign-level live flag design approval.',
+      'Prepare rollback checklist and Asterisk dialplan change approval without applying changes.',
+      'Complete operator, security/token handling, compliance/legal, and monitoring/alerting approvals.',
+      'Keep route engine shadow, FastAGI disabled, and live endpoint absent until a future approved phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -390,6 +463,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: liveCallerIdContract.requiredApprovalStatus === 'not_approved' ? 'pass' : 'fail',
       detail: 'Live caller ID remains blocked pending explicit future approval.',
     },
+    {
+      id: 'live-approval-gate-read-only',
+      label: 'Live approval gate read-only',
+      status: 'pass',
+      detail: 'Live approval gate is read-only, not approved, closed, and does not enable live behavior.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -483,6 +562,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     fastAgi,
     liveCallerIdContract,
     productionPreflight,
+    liveApprovalGate,
     checklist,
     risks,
     recommendations: [
@@ -490,6 +570,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Keep FastAGI disabled unless an approved shadow-mode staging test explicitly requires it.',
       'Keep live caller ID contract status planning-only until the required artifacts are complete and approved.',
       'Treat production preflight as read-only blocker visibility; it does not approve or enable live caller ID.',
+      'Treat the live approval gate as read-only blocker visibility; it does not approve, open, or enable live caller ID.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

@@ -657,6 +657,15 @@
                   <div class="muted small">Loading production preflight status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Live Approval Gate</h2>
+                  <span class="muted small">Read-only approval status. This does not approve or enable live behavior.</span>
+                </div>
+                <div class="summary-grid" id="liveApprovalGateCards"></div>
+                <div class="row" id="liveApprovalGateBadges" style="margin-top:12px"></div>
+                <div id="liveApprovalGateDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading live approval gate status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2552,10 +2561,13 @@ function renderRouteReadiness() {
   const productionPreflightCards = $('#productionPreflightCards');
   const productionPreflightBadges = $('#productionPreflightBadges');
   const productionPreflightDetails = $('#productionPreflightDetails');
+  const liveApprovalGateCards = $('#liveApprovalGateCards');
+  const liveApprovalGateBadges = $('#liveApprovalGateBadges');
+  const liveApprovalGateDetails = $('#liveApprovalGateDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2567,6 +2579,9 @@ function renderRouteReadiness() {
     productionPreflightCards.innerHTML = '<div class="muted small">Production preflight status not loaded.</div>';
     productionPreflightBadges.innerHTML = '';
     productionPreflightDetails.innerHTML = '<div class="muted small">Production preflight details not loaded.</div>';
+    liveApprovalGateCards.innerHTML = '<div class="muted small">Live approval gate status not loaded.</div>';
+    liveApprovalGateBadges.innerHTML = '';
+    liveApprovalGateDetails.innerHTML = '<div class="muted small">Live approval gate details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -2698,6 +2713,59 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${preflightNextSteps.length ? `<ul>${preflightNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const liveApprovalGate = report.liveApprovalGate || {};
+  const liveApprovalGateCardsData = [
+    ['Approval state', liveApprovalGate.approvalState || 'not_approved'],
+    ['Live allowed', liveApprovalGate.liveAllowed ? 'yes' : 'no'],
+    ['Gate open', liveApprovalGate.gateOpen ? 'yes' : 'no'],
+    ['Gate mode', liveApprovalGate.gateMode || 'read_only'],
+    ['Provider evidence', liveApprovalGate.providerEvidence || 'missing'],
+    ['Campaign pilot approval', liveApprovalGate.campaignPilotApproval || 'missing'],
+    ['Rollback checklist', liveApprovalGate.rollbackChecklist || 'missing'],
+    ['Asterisk change approval', liveApprovalGate.asteriskChangeApproval || 'missing'],
+    ['Operator approval', liveApprovalGate.operatorApproval || 'missing'],
+    ['Compliance approval', liveApprovalGate.complianceApproval || 'missing'],
+    ['Security approval', liveApprovalGate.securityApproval || 'missing'],
+  ];
+  liveApprovalGateCards.innerHTML = liveApprovalGateCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  liveApprovalGateBadges.innerHTML = [
+    readinessBadge('Not approved', 'bad'),
+    readinessBadge('Gate closed', 'bad'),
+    readinessBadge('Read-only', 'info'),
+    readinessBadge('Live blocked', 'bad'),
+    readinessBadge('Missing approvals', 'warn'),
+  ].join('');
+
+  const requiredApprovals = Array.isArray(liveApprovalGate.requiredApprovals) ? liveApprovalGate.requiredApprovals : [];
+  const missingApprovals = Array.isArray(liveApprovalGate.missingApprovals) ? liveApprovalGate.missingApprovals : [];
+  const blockingReasons = Array.isArray(liveApprovalGate.blockingReasons) ? liveApprovalGate.blockingReasons : [];
+  const gateNextSteps = Array.isArray(liveApprovalGate.nextSteps) ? liveApprovalGate.nextSteps : [];
+  liveApprovalGateDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Required approvals</strong>
+        ${requiredApprovals.length ? `<ul>${requiredApprovals.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required approvals returned.</div>'}
+      </div>
+      <div>
+        <strong>Missing approvals</strong>
+        ${missingApprovals.length ? `<ul>${missingApprovals.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No missing approvals returned.</div>'}
+      </div>
+      <div>
+        <strong>Blocking reasons</strong>
+        ${blockingReasons.length ? `<ul>${blockingReasons.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No blocking reasons returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${gateNextSteps.length ? `<ul>${gateNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;
