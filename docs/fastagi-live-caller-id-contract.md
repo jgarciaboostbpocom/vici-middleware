@@ -6,6 +6,12 @@ This document is a future contract proposal for FastAGI live caller ID applicati
 
 Current middleware behavior remains shadow/read-only for caller ID decisions. Any live caller ID use requires a separate approval checklist, a final implementation plan, validated rollback, and manual operator approval.
 
+## Source-level Contract Module
+
+`src/routeEngine/liveCallerIdContract.ts` is an inactive/planning-only source contract for a future live caller ID implementation. It defines TypeScript types, proposed AGI variable constants, and pure validation helpers only.
+
+The module is not wired into runtime live routing, does not expose a live route endpoint, does not enable FastAGI or caller ID changes, and does not call Asterisk or modify runtime state.
+
 ## Current State
 
 - Route engine is shadow mode only.
