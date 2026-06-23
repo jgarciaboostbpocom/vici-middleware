@@ -336,7 +336,7 @@
     .rules-status.ok { color: var(--ok); }
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(9, minmax(120px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 10px;
     }
     .summary-card {
@@ -347,7 +347,14 @@
       min-height: 82px;
     }
     .summary-card .label { color: var(--muted); font-size: 12px; }
-    .summary-card .value { font-size: 26px; font-weight: 700; margin-top: 4px; }
+    .summary-card .value {
+      font-size: 26px;
+      font-weight: 700;
+      margin-top: 4px;
+      overflow-wrap: anywhere;
+      line-height: 1.2;
+    }
+    .summary-card .value.compact { font-size: 16px; font-weight: 600; }
     .table-wrap { overflow-x: auto; }
     table {
       width: 100%;
@@ -505,6 +512,7 @@
             <span class="small muted">Admin Panel</span>
           </div>
           <button type="button" data-view="dashboard">Dashboard</button>
+          <button type="button" data-view="route-engine">Route Engine</button>
           <button type="button" data-view="users">Users</button>
           <button type="button" data-view="clients">Clients</button>
           <button type="button" data-view="campaigns">Campaigns</button>
@@ -551,6 +559,101 @@
               </div>
               <div class="section-body">
                 <div class="summary-grid" id="summaryCards"></div>
+              </div>
+            </section>
+          </section>
+
+          <section id="view-route-engine" class="app-view" data-view="route-engine">
+            <div class="view-title">
+              <h2>Route Engine</h2>
+              <div class="row">
+                <span class="badge info">Admin session auth</span>
+                <span class="badge warn">Shadow only</span>
+              </div>
+            </div>
+            <div class="notice">
+              <strong>Route engine admin view uses your admin session.</strong>
+              <span>This page never asks for or exposes the route engine token. Simulations do not set caller ID and do not call Vicidial/Asterisk.</span>
+            </div>
+            <section class="section">
+              <div class="section-head">
+                <h2>Route Engine Dashboard</h2>
+                <span class="muted small">Safe diagnostics scoped to your admin access.</span>
+              </div>
+              <div class="section-body">
+                <div class="summary-grid" id="routeEngineSummaryCards"></div>
+                <div class="section-head" style="margin-top:14px">
+                  <h2>Recent Route Events</h2>
+                  <span class="muted small">Phone and DID values are masked.</span>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Created</th>
+                        <th>Source</th>
+                        <th>Decision</th>
+                        <th>Campaign</th>
+                        <th>Client</th>
+                        <th>Destination</th>
+                        <th>Selected DID</th>
+                        <th>Pool</th>
+                        <th>Candidates</th>
+                        <th>Reuse blocked</th>
+                      </tr>
+                    </thead>
+                    <tbody id="routeEngineEventsBody">
+                      <tr><td colspan="10" class="muted">Loading route events...</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+            <section class="section">
+              <div class="section-head">
+                <h2>Simulator</h2>
+                <span class="muted small">Calls admin-safe route simulation endpoint. Simulator does not set caller ID or call Vicidial/Asterisk.</span>
+              </div>
+              <div class="section-body">
+                <form id="routeEngineSimulatorForm" class="admin-form open" onsubmit="event.preventDefault(); runRouteEngineSimulation();">
+                  <div class="admin-form-grid">
+                    <label class="field">
+                      <span class="small muted">Campaign ID</span>
+                      <input id="routeSimCampaignId" type="text" value="TESTCAMP" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Client ID optional</span>
+                      <input id="routeSimClientId" type="text" placeholder="Test" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Destination phone</span>
+                      <input id="routeSimDestinationPhone" type="text" inputmode="numeric" value="2145551212" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Lead state</span>
+                      <input id="routeSimLeadState" type="text" maxlength="2" value="TX" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Agent ID</span>
+                      <input id="routeSimAgentId" type="text" value="test-agent" />
+                    </label>
+                    <label class="field">
+                      <span class="small muted">Call type</span>
+                      <select id="routeSimCallType">
+                        <option value="manual">manual</option>
+                        <option value="auto_dialer">auto_dialer</option>
+                        <option value="preview">preview</option>
+                        <option value="callback">callback</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="rule-actions">
+                    <button class="primary" type="submit">Run Simulation</button>
+                    <span id="routeEngineSimulatorStatus" class="status-line muted"></span>
+                  </div>
+                </form>
+                <div class="summary-grid" id="routeEngineSimulationCards"></div>
+                <pre id="routeEngineSimulationOutput">{}</pre>
               </div>
             </section>
           </section>
@@ -1113,6 +1216,8 @@ const state = {
   leadExclusions: [],
   dryRunEvents: [],
   dryRunStatus: null,
+  routeEngineSummary: null,
+  routeEngineSimulation: null,
   users: [],
   clients: [],
   campaigns: [],
@@ -1127,7 +1232,7 @@ const state = {
 };
 
 const $ = selector => document.querySelector(selector);
-const validViews = new Set(['dashboard', 'users', 'clients', 'campaigns', 'dids', 'rules', 'alerts', 'exclusions', 'dry-run', 'settings']);
+const validViews = new Set(['dashboard', 'route-engine', 'users', 'clients', 'campaigns', 'dids', 'rules', 'alerts', 'exclusions', 'dry-run', 'settings']);
 
 function getSessionToken() {
   return localStorage.getItem(sessionTokenKey) || '';
@@ -1194,7 +1299,7 @@ function writeDisabledAttr() {
 }
 
 function isSuperAdmin() {
-  return state.auth.user?.role === 'super_admin';
+  return String(state.auth.user?.role || '').trim().toLowerCase() === 'super_admin';
 }
 
 function managementDisabledAttr() {
@@ -1437,6 +1542,8 @@ function clearProtectedState() {
   state.dryRunEvents = [];
   state.campaignRules = null;
   state.dryRunStatus = null;
+  state.routeEngineSummary = null;
+  state.routeEngineSimulation = null;
   closeHistory();
 }
 
@@ -1548,7 +1655,7 @@ function renderAdminCrudViews() {
 function renderUsersView() {
   const canManage = isSuperAdmin();
   $('#newUserButton').disabled = !canManage;
-  if (!canManage) setModuleStatus('#usersStatus', 'You do not have permission to manage users.', 'muted');
+  setModuleStatus('#usersStatus', canManage ? '' : 'You do not have permission to manage users.', 'muted');
 
   const tbody = $('#usersBody');
   if (!tbody) return;
@@ -1578,7 +1685,7 @@ function renderUsersView() {
 function renderClientsView() {
   const canManage = isSuperAdmin();
   $('#newClientButton').disabled = !canManage;
-  if (!canManage) setModuleStatus('#clientsStatus', 'You do not have permission to manage clients.', 'muted');
+  setModuleStatus('#clientsStatus', canManage ? '' : 'You do not have permission to manage clients.', 'muted');
 
   const tbody = $('#clientsBody');
   if (!tbody) return;
@@ -1603,7 +1710,7 @@ function renderClientsView() {
 function renderCampaignsView() {
   const canManage = isSuperAdmin();
   $('#newCampaignButton').disabled = !canManage;
-  if (!canManage) setModuleStatus('#campaignsStatus', 'You do not have permission to manage campaigns.', 'muted');
+  setModuleStatus('#campaignsStatus', canManage ? '' : 'You do not have permission to manage campaigns.', 'muted');
 
   const clientSelect = $('#campaignClientInput');
   if (clientSelect) {
@@ -2073,6 +2180,130 @@ async function resetCampaignRules() {
     setRulesStatus('Rules reloaded.', 'ok');
   } catch (err) {
     setRulesStatus(err.message || String(err), 'error');
+  }
+}
+
+function renderRouteEngine() {
+  renderRouteEngineSummary();
+  renderRouteEngineEvents();
+  renderRouteEngineSimulation();
+}
+
+function renderRouteEngineSummary() {
+  const panel = $('#routeEngineSummaryCards');
+  if (!panel) return;
+  const summary = state.routeEngineSummary;
+  if (!summary) {
+    panel.innerHTML = '<div class="muted small">Route engine summary not loaded.</div>';
+    return;
+  }
+
+  const didStore = summary.didStore || {};
+  const fastagi = summary.fastagi || {};
+  const decisionCounts = summary.decisionCountsToday || {};
+  const cards = [
+    ['Route mode', summary.routeEngineMode || '-'],
+    ['FastAGI', `${fastagi.enabled ? 'enabled' : 'disabled'} :${fastagi.port || '-'}`],
+    ['Scoped DIDs', fmtNum(didStore.totalInventoryCount)],
+    ['TESTCAMP DIDs', fmtNum(didStore.testCampCount)],
+    ['Decisions today', Object.entries(decisionCounts).map(([key, value]) => `${key}: ${value}`).join(', ') || 'none'],
+    ['Token exposed', summary.safety?.rawRouteTokenExposed ? 'yes' : 'no'],
+  ];
+  panel.innerHTML = cards.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+}
+
+function renderRouteEngineEvents() {
+  const tbody = $('#routeEngineEventsBody');
+  if (!tbody) return;
+  const events = state.routeEngineSummary?.recentRouteEvents || [];
+  if (!events.length) {
+    tbody.innerHTML = '<tr><td colspan="10" class="muted">No route events visible for your scope.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = events.map(event => `
+    <tr>
+      <td>${escapeHtml(fmtDate(event.created_at))}</td>
+      <td>${escapeHtml(event.source || '-')}</td>
+      <td>${statusBadge(event.decision || '-')}</td>
+      <td>${escapeHtml(event.campaign_id || '-')}</td>
+      <td>${escapeHtml(event.client_id || '-')}</td>
+      <td>${escapeHtml(event.destination_phone || '-')}</td>
+      <td>${escapeHtml(event.selected_did || '-')}</td>
+      <td>${escapeHtml(event.pool_type || '-')}</td>
+      <td>${fmtNum(event.candidate_count)}</td>
+      <td>${boolBadge(!!event.reuse_blocked)}</td>
+    </tr>
+  `).join('');
+}
+
+function renderRouteEngineSimulation() {
+  const cards = $('#routeEngineSimulationCards');
+  const output = $('#routeEngineSimulationOutput');
+  if (!cards || !output) return;
+  const result = state.routeEngineSimulation;
+  if (!result) {
+    cards.innerHTML = '';
+    output.textContent = '{}';
+    return;
+  }
+
+  const simulation = result.simulation || {};
+  const items = [
+    ['Decision', simulation.decision || result.decision || '-'],
+    ['Destination', simulation.destination_phone || '-'],
+    ['Selected DID', simulation.selected_did || '-'],
+    ['Pool', simulation.pool_type || result.pool_type || '-'],
+    ['Candidates', fmtNum(simulation.candidate_count ?? result.candidate_count)],
+    ['Allow call', result.allow_call ? 'yes' : 'no'],
+  ];
+  cards.innerHTML = items.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value" style="font-size:18px">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  output.textContent = JSON.stringify(result, null, 2);
+}
+
+async function runRouteEngineSimulation() {
+  const campaignId = ($('#routeSimCampaignId')?.value || '').trim();
+  const clientId = ($('#routeSimClientId')?.value || '').trim();
+  const destinationPhone = ($('#routeSimDestinationPhone')?.value || '').trim();
+  const leadState = ($('#routeSimLeadState')?.value || '').trim().toUpperCase();
+  const agentId = ($('#routeSimAgentId')?.value || '').trim();
+  const callType = ($('#routeSimCallType')?.value || 'manual').trim();
+  if (!destinationPhone) {
+    setModuleStatus('#routeEngineSimulatorStatus', 'Destination phone is required.', 'error');
+    return;
+  }
+
+  try {
+    setModuleStatus('#routeEngineSimulatorStatus', 'Running simulation...', 'muted');
+    const body = {
+      campaign_id: campaignId || undefined,
+      client_id: clientId || undefined,
+      destination_phone: destinationPhone,
+      lead_state: leadState || undefined,
+      agent_id: agentId || undefined,
+      call_type: callType || 'manual',
+    };
+    state.routeEngineSimulation = await api('/admin/v2/route-engine/simulate', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+    renderRouteEngineSimulation();
+    setModuleStatus('#routeEngineSimulatorStatus', 'Simulation complete.', 'ok');
+    state.routeEngineSummary = await api('/admin/v2/route-engine/summary');
+    renderRouteEngineSummary();
+    renderRouteEngineEvents();
+  } catch (err) {
+    setModuleStatus('#routeEngineSimulatorStatus', err.message || String(err), 'error');
   }
 }
 
@@ -2678,6 +2909,7 @@ function renderAll() {
   renderAdminCrudViews();
   renderDidAdminForms();
   renderSettingsStatus();
+  renderRouteEngine();
 }
 
 async function refreshAll() {
@@ -2699,18 +2931,20 @@ async function refreshAll() {
       loadUsers(),
     ]);
     await loadCampaignRules();
-    const [dids, coverage, leadExclusions, dryRunStatus, dryRunEvents] = await Promise.all([
+    const [dids, coverage, leadExclusions, dryRunStatus, dryRunEvents, routeEngineSummary] = await Promise.all([
       api(scopedAdminPath('/admin/dids')),
       api(scopedAdminPath('/admin/dids/coverage/alerts')),
       api(scopedAdminPath('/admin/dids/lead-exclusions')),
       api('/admin/dids/selector-v2/status'),
       api(scopedAdminPath('/admin/dids/selector-v2/dry-run-events', { limit: '100' })),
+      api('/admin/v2/route-engine/summary'),
     ]);
     state.inventory = dids.inventory || [];
     state.coverageAlerts = coverage.alerts || dids.coverage?.missing || [];
     state.leadExclusions = leadExclusions.leadExclusions || dids.leadExclusions || [];
     state.dryRunStatus = dryRunStatus;
     state.dryRunEvents = dryRunEvents.items || [];
+    state.routeEngineSummary = routeEngineSummary;
     renderAll();
     renderAuth();
     $('#updated').textContent = `Updated ${new Date().toLocaleString()}`;

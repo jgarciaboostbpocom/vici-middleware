@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Route Engine Simulator</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;background:#f7f8fb;color:#172033}
+    header{padding:16px 20px;border-bottom:1px solid #d8deea;background:#fff}
+    main{max-width:1180px;margin:0 auto;padding:18px 20px;display:grid;gap:14px}
+    section{background:#fff;border:1px solid #d8deea;border-radius:8px;padding:14px}
+    label{display:grid;gap:5px;font-size:12px;color:#4e5d78}
+    input,button{font:inherit}
+    input{border:1px solid #c8d1e1;border-radius:6px;padding:8px;color:#172033}
+    button{border:1px solid #2f5f9f;background:#24558f;color:#fff;border-radius:6px;padding:8px 12px;cursor:pointer}
+    button.secondary{background:#fff;color:#24558f}
+    button:disabled{opacity:.6;cursor:not-allowed}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+    .row{display:flex;gap:8px;align-items:end;flex-wrap:wrap}
+    .metric{border:1px solid #e1e6ef;border-radius:8px;padding:10px;background:#fbfcfe}
+    .metric strong{display:block;font-size:12px;color:#4e5d78;margin-bottom:4px}
+    pre{white-space:pre-wrap;word-break:break-word;background:#111827;color:#e5e7eb;border-radius:8px;padding:12px;overflow:auto}
+    .muted{color:#66748c;font-size:12px}
+    .error{color:#a83232}
+  </style>
+</head>
+<body>
+  <header>
+    <h2 style="margin:0">Route Engine Simulator</h2>
+    <div class="muted">Token stays in this page only. It is not stored.</div>
+  </header>
+  <main>
+    <section>
+      <div class="grid">
+        <label>Route token
+          <input id="token" type="password" autocomplete="off" placeholder="Paste token for this browser session" />
+        </label>
+        <label>Campaign
+          <input id="campaign_id" value="TESTCAMP" />
+        </label>
+        <label>Destination
+          <input id="destination_phone" value="2145551212" />
+        </label>
+        <label>Lead state
+          <input id="lead_state" value="TX" />
+        </label>
+        <label>Agent
+          <input id="agent_id" value="test-agent" />
+        </label>
+        <label>Call type
+          <input id="call_type" value="manual" />
+        </label>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button id="loadDiagnostics" class="secondary">Load Diagnostics</button>
+        <button id="simulate">Run Simulation</button>
+        <span id="status" class="muted"></span>
+      </div>
+    </section>
+
+    <section>
+      <h3 style="margin-top:0">Diagnostics</h3>
+      <div class="grid">
+        <div class="metric"><strong>Route mode</strong><span id="routeMode">-</span></div>
+        <div class="metric"><strong>FastAGI</strong><span id="fastagi">-</span></div>
+        <div class="metric"><strong>TESTCAMP DIDs</strong><span id="testCamp">-</span></div>
+        <div class="metric"><strong>Decision counts</strong><span id="decisionCounts">-</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h3 style="margin-top:0">Simulation Result</h3>
+      <div class="grid">
+        <div class="metric"><strong>Decision</strong><span id="simDecision">-</span></div>
+        <div class="metric"><strong>Destination</strong><span id="simDestination">-</span></div>
+        <div class="metric"><strong>Selected DID</strong><span id="simDid">-</span></div>
+        <div class="metric"><strong>Pool</strong><span id="simPool">-</span></div>
+      </div>
+      <pre id="output">{}</pre>
+    </section>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+
+    function token() {
+      return $('token').value.trim();
+    }
+
+    function setStatus(message, isError) {
+      $('status').textContent = message || '';
+      $('status').className = isError ? 'error' : 'muted';
+    }
+
+    async function request(path, options) {
+      if (!token()) throw new Error('Route token is required');
+      const res = await fetch(path, {
+        ...options,
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${token()}`,
+          ...(options && options.headers ? options.headers : {}),
+        },
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(body.error || `HTTP ${res.status}`);
+      return body;
+    }
+
+    async function loadDiagnostics() {
+      setStatus('Loading diagnostics...');
+      const body = await request('/route/diagnostics', { method: 'GET' });
+      $('routeMode').textContent = body.routeEngineMode || '-';
+      $('fastagi').textContent = body.fastagi ? `${body.fastagi.enabled ? 'enabled' : 'disabled'} :${body.fastagi.port}` : '-';
+      $('testCamp').textContent = body.didStore && body.didStore.testCampCount !== undefined ? body.didStore.testCampCount : '-';
+      $('decisionCounts').textContent = JSON.stringify(body.decisionCountsToday || {});
+      setStatus('Diagnostics loaded');
+    }
+
+    async function simulate() {
+      setStatus('Running simulation...');
+      const body = await request('/route/simulate', {
+        method: 'POST',
+        body: JSON.stringify({
+          campaign_id: $('campaign_id').value.trim(),
+          destination_phone: $('destination_phone').value.trim(),
+          lead_state: $('lead_state').value.trim(),
+          agent_id: $('agent_id').value.trim(),
+          call_type: $('call_type').value.trim(),
+        }),
+      });
+      const summary = body.simulation || {};
+      const safeOutput = {
+        ok: body.ok,
+        route_id: body.route_id,
+        mode: body.mode,
+        decision: body.decision,
+        strategy: body.strategy,
+        client_id: body.client_id,
+        campaign_id: body.campaign_id,
+        fallback_used: body.fallback_used,
+        reason: body.reason,
+        campaign_match_type: body.campaign_match_type,
+        campaign_match_confidence: body.campaign_match_confidence,
+        pool_type: body.pool_type,
+        candidate_count: body.candidate_count,
+        resolver_warnings: body.resolver_warnings || [],
+        allow_call: body.allow_call,
+        on_failure: body.on_failure,
+        simulation: summary,
+      };
+      $('simDecision').textContent = summary.decision || body.decision || '-';
+      $('simDestination').textContent = summary.destination_phone || '-';
+      $('simDid').textContent = summary.selected_did || '-';
+      $('simPool').textContent = summary.pool_type || body.pool_type || '-';
+      $('output').textContent = JSON.stringify(safeOutput, null, 2);
+      setStatus('Simulation complete');
+    }
+
+    $('loadDiagnostics').addEventListener('click', () => {
+      loadDiagnostics().catch(err => setStatus(err.message, true));
+    });
+    $('simulate').addEventListener('click', () => {
+      simulate().catch(err => setStatus(err.message, true));
+    });
+  </script>
+</body>
+</html>
