@@ -702,6 +702,15 @@
                   <div class="muted small">Loading Asterisk change plan status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Staging Dry Run</h2>
+                  <span class="muted small">Read-only staging planning status. This does not execute calls or dry runs.</span>
+                </div>
+                <div class="summary-grid" id="stagingDryRunCards"></div>
+                <div class="row" id="stagingDryRunBadges" style="margin-top:12px"></div>
+                <div id="stagingDryRunDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading staging dry run status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2612,10 +2621,13 @@ function renderRouteReadiness() {
   const asteriskChangePlanCards = $('#asteriskChangePlanCards');
   const asteriskChangePlanBadges = $('#asteriskChangePlanBadges');
   const asteriskChangePlanDetails = $('#asteriskChangePlanDetails');
+  const stagingDryRunCards = $('#stagingDryRunCards');
+  const stagingDryRunBadges = $('#stagingDryRunBadges');
+  const stagingDryRunDetails = $('#stagingDryRunDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2642,6 +2654,9 @@ function renderRouteReadiness() {
     asteriskChangePlanCards.innerHTML = '<div class="muted small">Asterisk change plan status not loaded.</div>';
     asteriskChangePlanBadges.innerHTML = '';
     asteriskChangePlanDetails.innerHTML = '<div class="muted small">Asterisk change plan details not loaded.</div>';
+    stagingDryRunCards.innerHTML = '<div class="muted small">Staging dry run status not loaded.</div>';
+    stagingDryRunBadges.innerHTML = '';
+    stagingDryRunDetails.innerHTML = '<div class="muted small">Staging dry run details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -3117,6 +3132,94 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${asteriskNextSteps.length ? `<ul>${asteriskNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const stagingDryRun = report.stagingDryRunReadiness || {};
+  const stagingDryRunCardsData = [
+    ['Current state', stagingDryRun.currentState || 'not_ready'],
+    ['Dry run approved', stagingDryRun.dryRunApproved ? 'yes' : 'no'],
+    ['Dry run mode', stagingDryRun.dryRunMode || 'read_only'],
+    ['Target environment', stagingDryRun.targetEnvironment || 'staging'],
+    ['Candidate campaign', stagingDryRun.candidateCampaignId || 'TESTCAMP'],
+    ['Candidate client', stagingDryRun.candidateClientId || 'Test'],
+    ['Candidate provider', stagingDryRun.candidateProvider || 'NobelBiz'],
+    ['Test call execution', stagingDryRun.testCallExecutionStatus || 'not_allowed'],
+    ['Simulator validation', stagingDryRun.simulatorValidationStatus || 'required'],
+    ['FastAGI shadow validation', stagingDryRun.fastAgiShadowValidationStatus || 'required'],
+    ['Route trace validation', stagingDryRun.routeTraceValidationStatus || 'required'],
+    ['DID selection validation', stagingDryRun.didSelectionValidationStatus || 'required'],
+    ['Fallback validation', stagingDryRun.fallbackValidationStatus || 'required'],
+    ['Log review', stagingDryRun.logReviewStatus || 'required'],
+    ['Rollback validation', stagingDryRun.rollbackValidationStatus || 'required'],
+    ['Asterisk change plan', stagingDryRun.asteriskChangePlanStatus || 'not_approved'],
+    ['Live approval gate', stagingDryRun.liveApprovalGateStatus || 'closed'],
+    ['Production preflight', stagingDryRun.productionPreflightStatus || 'not_ready'],
+    ['Pilot allowed', stagingDryRun.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', stagingDryRun.liveAllowed ? 'yes' : 'no'],
+  ];
+  stagingDryRunCards.innerHTML = stagingDryRunCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  stagingDryRunBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only', 'info'),
+    readinessBadge('Dry run not approved', 'bad'),
+    readinessBadge('No call execution', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const stagingChecklistItems = Array.isArray(stagingDryRun.checklistItems) ? stagingDryRun.checklistItems : [];
+  const dryRunBlockers = Array.isArray(stagingDryRun.dryRunBlockers) ? stagingDryRun.dryRunBlockers : [];
+  const proposedStagingChecks = Array.isArray(stagingDryRun.proposedStagingChecks) ? stagingDryRun.proposedStagingChecks : [];
+  const requiredLogsToReview = Array.isArray(stagingDryRun.requiredLogsToReview) ? stagingDryRun.requiredLogsToReview : [];
+  const stagingManualCommands = Array.isArray(stagingDryRun.manualVerificationCommands) ? stagingDryRun.manualVerificationCommands : [];
+  const stagingNextSteps = Array.isArray(stagingDryRun.nextSteps) ? stagingDryRun.nextSteps : [];
+  stagingDryRunDetails.innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Checklist item</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${stagingChecklistItems.length ? stagingChecklistItems.map(item => `
+            <tr>
+              <td>${readinessStatusBadge(item.status === 'blocked' ? 'fail' : item.status === 'required' ? 'warn' : 'pass')}</td>
+              <td><strong>${escapeHtml(item.label || item.id || '-')}</strong></td>
+              <td>${escapeHtml(item.detail || '-')}</td>
+            </tr>
+          `).join('') : '<tr><td colspan="3" class="muted">No staging dry run checklist items returned.</td></tr>'}
+        </tbody>
+      </table>
+    </div>
+    <div class="summary-grid" style="margin-top:12px">
+      <div>
+        <strong>Dry run blockers</strong>
+        ${dryRunBlockers.length ? `<ul>${dryRunBlockers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No dry run blockers returned.</div>'}
+      </div>
+      <div>
+        <strong>Proposed staging checks</strong>
+        ${proposedStagingChecks.length ? `<ul>${proposedStagingChecks.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No proposed staging checks returned.</div>'}
+      </div>
+      <div>
+        <strong>Required logs to review</strong>
+        ${requiredLogsToReview.length ? `<ul>${requiredLogsToReview.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required logs returned.</div>'}
+      </div>
+      <div>
+        <strong>Manual verification commands</strong>
+        ${stagingManualCommands.length ? `<ul>${stagingManualCommands.map(item => `<li><code>${escapeHtml(item)}</code></li>`).join('')}</ul>` : '<div class="muted small">No manual verification commands returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${stagingNextSteps.length ? `<ul>${stagingNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;

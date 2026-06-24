@@ -132,6 +132,8 @@ Rollback readiness has been added as read-only planning/status. `rollbackApprove
 
 Asterisk change plan readiness has been added as read-only planning/status. `changePlanApproved` remains `false`, `targetContext` is `vicidial-auto-external`, `setCallerIdStatus` remains `not_allowed`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [asterisk-change-plan-readiness.md](asterisk-change-plan-readiness.md).
 
+Staging dry run readiness has been added as read-only planning/status. `dryRunApproved` remains `false`, `testCallExecutionStatus` remains `not_allowed`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [staging-dry-run-readiness.md](staging-dry-run-readiness.md).
+
 ## DID/Campaign State
 
 - `TESTCAMP` exists.

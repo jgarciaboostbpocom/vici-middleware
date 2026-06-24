@@ -211,6 +211,42 @@ export type AsteriskChangePlanReadiness = {
   nextSteps: string[];
 };
 
+export type StagingDryRunReadinessChecklistItem = {
+  id: string;
+  label: string;
+  status: 'pass' | 'blocked' | 'required';
+  detail: string;
+};
+
+export type StagingDryRunReadiness = {
+  currentState: 'not_ready';
+  dryRunApproved: false;
+  dryRunMode: 'read_only';
+  targetEnvironment: 'staging';
+  candidateCampaignId: 'TESTCAMP';
+  candidateClientId: 'Test';
+  candidateProvider: 'NobelBiz';
+  testCallExecutionStatus: 'not_allowed';
+  simulatorValidationStatus: 'required';
+  fastAgiShadowValidationStatus: 'required';
+  routeTraceValidationStatus: 'required';
+  didSelectionValidationStatus: 'required';
+  fallbackValidationStatus: 'required';
+  logReviewStatus: 'required';
+  rollbackValidationStatus: 'required';
+  asteriskChangePlanStatus: 'not_approved';
+  liveApprovalGateStatus: 'closed';
+  productionPreflightStatus: 'not_ready';
+  liveAllowed: false;
+  pilotAllowed: false;
+  dryRunBlockers: string[];
+  checklistItems: StagingDryRunReadinessChecklistItem[];
+  proposedStagingChecks: string[];
+  requiredLogsToReview: string[];
+  manualVerificationCommands: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -237,6 +273,7 @@ export type RouteReadinessReport = {
   providerDidAcceptanceReadiness: ProviderDidAcceptanceReadiness;
   rollbackReadiness: RollbackReadiness;
   asteriskChangePlanReadiness: AsteriskChangePlanReadiness;
+  stagingDryRunReadiness: StagingDryRunReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -1037,6 +1074,193 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const stagingDryRunReadiness: StagingDryRunReadiness = {
+    currentState: 'not_ready',
+    dryRunApproved: false,
+    dryRunMode: 'read_only',
+    targetEnvironment: 'staging',
+    candidateCampaignId: 'TESTCAMP',
+    candidateClientId: 'Test',
+    candidateProvider: 'NobelBiz',
+    testCallExecutionStatus: 'not_allowed',
+    simulatorValidationStatus: 'required',
+    fastAgiShadowValidationStatus: 'required',
+    routeTraceValidationStatus: 'required',
+    didSelectionValidationStatus: 'required',
+    fallbackValidationStatus: 'required',
+    logReviewStatus: 'required',
+    rollbackValidationStatus: 'required',
+    asteriskChangePlanStatus: 'not_approved',
+    liveApprovalGateStatus: 'closed',
+    productionPreflightStatus: 'not_ready',
+    liveAllowed: false,
+    pilotAllowed: false,
+    dryRunBlockers: [
+      'Staging dry run not approved',
+      'Test call execution not allowed',
+      'Simulator validation missing',
+      'FastAGI shadow validation missing',
+      'Route trace validation missing',
+      'DID selection validation missing',
+      'Fallback validation missing',
+      'Log review missing',
+      'Rollback validation missing',
+      'Asterisk change plan not approved',
+      'Provider DID acceptance not approved',
+      'Campaign pilot not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+    ],
+    checklistItems: [
+      {
+        id: 'confirm-dry-run-read-only-planning-only',
+        label: 'Confirm dry run is read-only planning only',
+        status: 'pass',
+        detail: 'Staging dry run readiness reports planning status only and does not execute a dry run.',
+      },
+      {
+        id: 'confirm-no-calls-executed',
+        label: 'Confirm no calls are executed',
+        status: 'pass',
+        detail: 'Test call execution is not allowed by this readiness report.',
+      },
+      {
+        id: 'confirm-route-engine-remains-shadow',
+        label: 'Confirm route engine remains shadow',
+        status: mode === 'shadow' ? 'pass' : 'blocked',
+        detail: `Configured route engine mode is ${mode}.`,
+      },
+      {
+        id: 'confirm-fastagi-remains-disabled',
+        label: 'Confirm FastAGI remains disabled',
+        status: fastAgiEnabled ? 'blocked' : 'pass',
+        detail: fastAgiEnabled ? 'FastAGI is enabled in this process.' : 'FastAGI is disabled in this process.',
+      },
+      {
+        id: 'confirm-fastagi-port-4573-remains-closed',
+        label: 'Confirm FastAGI port 4573 remains closed',
+        status: 'required',
+        detail: 'Port closure must be manually verified by an operator; this report does not inspect sockets.',
+      },
+      {
+        id: 'confirm-simulator-validation-required',
+        label: 'Confirm simulator validation required',
+        status: 'required',
+        detail: 'Simulator validation is required before any future approved staging dry run.',
+      },
+      {
+        id: 'confirm-route-trace-validation-required',
+        label: 'Confirm route trace validation required',
+        status: 'required',
+        detail: 'Route trace reason details must be reviewed before any future approved staging dry run.',
+      },
+      {
+        id: 'confirm-did-selection-validation-required',
+        label: 'Confirm DID selection validation required',
+        status: 'required',
+        detail: 'DID selection behavior must be reviewed for the TESTCAMP/Test planning scope.',
+      },
+      {
+        id: 'confirm-fallback-behavior-validation-required',
+        label: 'Confirm fallback behavior validation required',
+        status: 'required',
+        detail: 'Fallback behavior for missing inventory and rejected candidates remains required.',
+      },
+      {
+        id: 'confirm-log-review-required',
+        label: 'Confirm log review required',
+        status: 'required',
+        detail: 'Operators must review middleware traces, audit logs, inventory alerts, and approved future staging logs.',
+      },
+      {
+        id: 'confirm-rollback-readiness-required',
+        label: 'Confirm rollback readiness required',
+        status: 'required',
+        detail: 'Rollback readiness remains unapproved and must be approved before any future staging dry run.',
+      },
+      {
+        id: 'confirm-provider-did-acceptance-required',
+        label: 'Confirm provider DID acceptance required',
+        status: 'required',
+        detail: 'Provider DID acceptance remains unapproved and approvedDidCount remains zero.',
+      },
+      {
+        id: 'confirm-campaign-pilot-approval-required',
+        label: 'Confirm campaign pilot approval required',
+        status: 'required',
+        detail: 'Campaign pilot approval remains missing and pilotAllowed remains false.',
+      },
+      {
+        id: 'confirm-asterisk-change-plan-approval-required',
+        label: 'Confirm Asterisk change plan approval required',
+        status: 'required',
+        detail: 'Asterisk change plan approval remains missing and middleware does not apply dialplan changes.',
+      },
+      {
+        id: 'confirm-live-approval-gate-remains-closed',
+        label: 'Confirm live approval gate remains closed',
+        status: 'pass',
+        detail: 'Live approval gate remains closed, read-only, and liveAllowed remains false.',
+      },
+      {
+        id: 'confirm-production-preflight-remains-not-ready',
+        label: 'Confirm production preflight remains not ready',
+        status: 'pass',
+        detail: 'Production preflight remains not ready and does not approve live behavior.',
+      },
+      {
+        id: 'confirm-no-automatic-dry-run-execution-exists',
+        label: 'Confirm no automatic dry-run execution exists',
+        status: 'pass',
+        detail: 'Readiness exposes planning status only and provides no dry-run, call, command, restart, reload, or approval controls.',
+      },
+    ],
+    proposedStagingChecks: [
+      'Run simulator against TESTCAMP/Test cases',
+      'Verify selected DID remains masked in UI/log summaries',
+      'Verify route trace reason details explain selected DID/fallback',
+      'Verify fallback behavior for missing inventory',
+      'Verify blocked DID behavior',
+      'Verify allowed states/NPA behavior',
+      'Verify rate-limit behavior',
+      'Verify no caller ID is applied',
+      'Verify no live endpoint is exposed',
+      'Verify no FastAGI port is listening unless a future approved shadow test explicitly enables it',
+    ],
+    requiredLogsToReview: [
+      'Route engine NDJSON traces',
+      'Admin audit logs',
+      'Inventory alert logs',
+      'Middleware application logs',
+      'Future staging FastAGI logs only if explicitly approved later',
+      'Future Vicibox Asterisk CLI logs only if explicitly approved later',
+    ],
+    manualVerificationCommands: [
+      'Middleware only: npx tsc -p . --noEmit',
+      'Middleware only: node scripts/validate-staging-dry-run-readiness.js',
+      'Middleware only: node scripts/validate-asterisk-change-plan-readiness.js',
+      'Middleware only: node scripts/validate-rollback-readiness.js',
+      'Middleware only: node scripts/validate-provider-did-acceptance-readiness.js',
+      'Middleware only: node scripts/validate-campaign-pilot-readiness.js',
+      'Middleware only: node scripts/validate-live-approval-gate-readiness.js',
+      'Middleware only: node scripts/validate-production-preflight-readiness.js',
+      'Middleware only: node scripts/validate-live-contract-readiness-panel.js',
+      'Middleware only: node scripts/validate-live-caller-id-contract-module.js',
+      'Middleware only: ss -lntp | grep \':4573\' || echo "FastAGI port closed"',
+      'Middleware only: pm2 env 0 | egrep \'ROUTE_ENGINE_MODE|FASTAGI_ENABLED|FASTAGI_PORT\'',
+      'Middleware only: git status -sb',
+      'Middleware only: git log --oneline origin/main..main',
+      'Vicibox only, future approved test only: asterisk -rx "dialplan show vicidial-auto-external"',
+    ],
+    nextSteps: [
+      'Keep staging dry run unapproved and read-only until a future explicit manual approval exists.',
+      'Complete simulator, FastAGI shadow, route trace, DID selection, fallback, log review, and rollback validation planning.',
+      'Collect provider DID acceptance, campaign pilot, Asterisk change plan, live approval gate, and production preflight approvals before any future staging dry run.',
+      'Keep route engine shadow, FastAGI disabled, FastAGI port closed, live endpoint absent, and live caller ID disabled.',
+      'Do not execute calls, dry runs, command controls, Asterisk commands, dialplan reloads, or service restarts from this readiness phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -1172,6 +1396,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Asterisk change plan readiness is read-only, not approved, and exposes no Asterisk execution controls.',
     },
+    {
+      id: 'staging-dry-run-readiness-read-only',
+      label: 'Staging dry run readiness read-only',
+      status: 'pass',
+      detail: 'Staging dry run readiness is read-only, not approved, and exposes no dry-run or call execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -1270,6 +1500,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     providerDidAcceptanceReadiness,
     rollbackReadiness,
     asteriskChangePlanReadiness,
+    stagingDryRunReadiness,
     checklist,
     risks,
     recommendations: [
@@ -1282,6 +1513,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat provider DID acceptance readiness as read-only planning visibility; it does not approve DIDs.',
       'Treat rollback readiness as read-only planning visibility; it does not execute rollback or restart services.',
       'Treat Asterisk change plan readiness as read-only planning visibility; it does not execute Asterisk commands or approve dialplan changes.',
+      'Treat staging dry run readiness as read-only planning visibility; it does not execute dry runs, calls, or command controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
