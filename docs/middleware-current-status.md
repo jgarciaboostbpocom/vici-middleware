@@ -134,6 +134,8 @@ Asterisk change plan readiness has been added as read-only planning/status. `cha
 
 Staging dry run readiness has been added as read-only planning/status. `dryRunApproved` remains `false`, `testCallExecutionStatus` remains `not_allowed`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [staging-dry-run-readiness.md](staging-dry-run-readiness.md).
 
+AI voice integration contract has been added as read-only planning/status. `aiVoiceApproved` remains `false`, `aiExecutionAllowed` remains `false`, `inboundAllowed` remains `false`, `outboundAllowed` remains `false`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [ai-voice-integration-contract.md](ai-voice-integration-contract.md).
+
 ## DID/Campaign State
 
 - `TESTCAMP` exists.

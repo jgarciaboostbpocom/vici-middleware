@@ -247,6 +247,48 @@ export type StagingDryRunReadiness = {
   nextSteps: string[];
 };
 
+export type AiVoiceIntegrationContractItem = {
+  id: string;
+  label: string;
+  status: 'pass' | 'blocked' | 'required';
+  detail: string;
+};
+
+export type AiVoiceIntegrationContractReadiness = {
+  currentState: 'not_ready';
+  aiVoiceApproved: false;
+  aiVoiceMode: 'read_only_contract';
+  aiProviderStatus: 'not_selected';
+  aiProviderConnectionStatus: 'not_connected';
+  inboundAiAnswerStatus: 'not_implemented';
+  outboundAiCallStatus: 'not_implemented';
+  transferToAgentStatus: 'contract_only';
+  transferToQueueStatus: 'contract_only';
+  recordingDisclosureStatus: 'required';
+  consentComplianceStatus: 'required';
+  piiHandlingStatus: 'required';
+  callLoggingStatus: 'required';
+  failoverToHumanStatus: 'required';
+  emergencyStopStatus: 'required';
+  latencyBudgetStatus: 'required';
+  promptGovernanceStatus: 'required';
+  escalationRulesStatus: 'required';
+  allowedUseCasesStatus: 'required';
+  blockedUseCasesStatus: 'required';
+  aiExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  aiVoiceBlockers: string[];
+  contractItems: AiVoiceIntegrationContractItem[];
+  proposedCallFlowNotes: string[];
+  requiredApprovals: string[];
+  requiredLogsToReview: string[];
+  futureIntegrationBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -274,6 +316,7 @@ export type RouteReadinessReport = {
   rollbackReadiness: RollbackReadiness;
   asteriskChangePlanReadiness: AsteriskChangePlanReadiness;
   stagingDryRunReadiness: StagingDryRunReadiness;
+  aiVoiceIntegrationContractReadiness: AiVoiceIntegrationContractReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -1261,6 +1304,253 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const aiVoiceIntegrationContractReadiness: AiVoiceIntegrationContractReadiness = {
+    currentState: 'not_ready',
+    aiVoiceApproved: false,
+    aiVoiceMode: 'read_only_contract',
+    aiProviderStatus: 'not_selected',
+    aiProviderConnectionStatus: 'not_connected',
+    inboundAiAnswerStatus: 'not_implemented',
+    outboundAiCallStatus: 'not_implemented',
+    transferToAgentStatus: 'contract_only',
+    transferToQueueStatus: 'contract_only',
+    recordingDisclosureStatus: 'required',
+    consentComplianceStatus: 'required',
+    piiHandlingStatus: 'required',
+    callLoggingStatus: 'required',
+    failoverToHumanStatus: 'required',
+    emergencyStopStatus: 'required',
+    latencyBudgetStatus: 'required',
+    promptGovernanceStatus: 'required',
+    escalationRulesStatus: 'required',
+    allowedUseCasesStatus: 'required',
+    blockedUseCasesStatus: 'required',
+    aiExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    aiVoiceBlockers: [
+      'AI voice not approved',
+      'AI provider not selected',
+      'AI provider not connected',
+      'Inbound AI answer flow not implemented',
+      'Outbound AI call flow not implemented',
+      'AI execution endpoint not allowed',
+      'Recording disclosure not approved',
+      'Consent/compliance not approved',
+      'PII handling not approved',
+      'Call logging not approved',
+      'Failover-to-human not approved',
+      'Emergency stop not approved',
+      'Latency budget not approved',
+      'Prompt governance not approved',
+      'Escalation rules not approved',
+      'Allowed/blocked use cases not approved',
+      'Staging dry run not approved',
+      'Campaign pilot not approved',
+      'Provider DID acceptance not approved',
+      'Asterisk change plan not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+    ],
+    contractItems: [
+      {
+        id: 'confirm-ai-voice-read-only-contract-only',
+        label: 'Confirm AI voice is read-only contract only',
+        status: 'pass',
+        detail: 'AI voice readiness documents a future contract only and does not enable AI voice.',
+      },
+      {
+        id: 'confirm-no-ai-provider-selected',
+        label: 'Confirm no AI provider is selected',
+        status: 'pass',
+        detail: 'AI provider status is not_selected.',
+      },
+      {
+        id: 'confirm-no-ai-provider-connected',
+        label: 'Confirm no AI provider is connected',
+        status: 'pass',
+        detail: 'AI provider connection status is not_connected.',
+      },
+      {
+        id: 'confirm-no-inbound-ai-answer-flow-exists',
+        label: 'Confirm no inbound AI answer flow exists',
+        status: 'pass',
+        detail: 'Inbound AI answer flow is not implemented.',
+      },
+      {
+        id: 'confirm-no-outbound-ai-call-flow-exists',
+        label: 'Confirm no outbound AI call flow exists',
+        status: 'pass',
+        detail: 'Outbound AI call flow is not implemented.',
+      },
+      {
+        id: 'confirm-no-ai-execution-endpoint-exists',
+        label: 'Confirm no AI execution endpoint exists',
+        status: 'pass',
+        detail: 'AI execution is not allowed and no execution endpoint is exposed by this readiness contract.',
+      },
+      {
+        id: 'confirm-no-calls-are-executed',
+        label: 'Confirm no calls are executed',
+        status: 'pass',
+        detail: 'This readiness contract does not execute calls, AI requests, webhooks, or provider commands.',
+      },
+      {
+        id: 'confirm-transfer-to-agent-contract-only',
+        label: 'Confirm transfer-to-agent is contract-only',
+        status: 'required',
+        detail: 'Transfer to human agent is contract-only and requires future approval.',
+      },
+      {
+        id: 'confirm-transfer-to-queue-contract-only',
+        label: 'Confirm transfer-to-queue is contract-only',
+        status: 'required',
+        detail: 'Transfer to queue is contract-only and requires future approval.',
+      },
+      {
+        id: 'confirm-recording-disclosure-required',
+        label: 'Confirm recording disclosure is required',
+        status: 'required',
+        detail: 'Recording disclosure must be reviewed and approved before any future AI voice test.',
+      },
+      {
+        id: 'confirm-consent-compliance-review-required',
+        label: 'Confirm consent/compliance review is required',
+        status: 'required',
+        detail: 'Consent, compliance, and legal review remain required.',
+      },
+      {
+        id: 'confirm-pii-handling-review-required',
+        label: 'Confirm PII handling review is required',
+        status: 'required',
+        detail: 'PII handling review is required before AI receives any approved call context.',
+      },
+      {
+        id: 'confirm-call-logging-review-required',
+        label: 'Confirm call logging review is required',
+        status: 'required',
+        detail: 'Call logging and monitoring review remain required.',
+      },
+      {
+        id: 'confirm-failover-to-human-required',
+        label: 'Confirm failover-to-human is required',
+        status: 'required',
+        detail: 'Future AI must fail over to a human agent or queue on error, timeout, or policy block.',
+      },
+      {
+        id: 'confirm-emergency-stop-required',
+        label: 'Confirm emergency stop is required',
+        status: 'required',
+        detail: 'Emergency stop behavior must be approved before any future AI voice test.',
+      },
+      {
+        id: 'confirm-latency-budget-required',
+        label: 'Confirm latency budget is required',
+        status: 'required',
+        detail: 'Latency budget must be approved before AI receives or handles call audio.',
+      },
+      {
+        id: 'confirm-prompt-governance-required',
+        label: 'Confirm prompt governance is required',
+        status: 'required',
+        detail: 'Prompt governance remains required before any future AI voice use case.',
+      },
+      {
+        id: 'confirm-escalation-rules-required',
+        label: 'Confirm escalation rules are required',
+        status: 'required',
+        detail: 'Escalation and transfer rules must be approved before any future AI voice test.',
+      },
+      {
+        id: 'confirm-allowed-use-cases-required',
+        label: 'Confirm allowed use cases are required',
+        status: 'required',
+        detail: 'Allowed AI use cases must be campaign/client scoped and approved.',
+      },
+      {
+        id: 'confirm-blocked-use-cases-required',
+        label: 'Confirm blocked use cases are required',
+        status: 'required',
+        detail: 'Blocked AI use cases must be documented and approved.',
+      },
+      {
+        id: 'confirm-staging-dry-run-remains-not-approved',
+        label: 'Confirm staging dry run remains not approved',
+        status: 'blocked',
+        detail: 'Staging dry run approval remains false and test call execution is not allowed.',
+      },
+      {
+        id: 'confirm-live-approval-gate-remains-closed',
+        label: 'Confirm live approval gate remains closed',
+        status: 'blocked',
+        detail: 'Live approval gate remains closed and liveAllowed remains false.',
+      },
+      {
+        id: 'confirm-production-preflight-remains-not-ready',
+        label: 'Confirm production preflight remains not ready',
+        status: 'blocked',
+        detail: 'Production preflight remains not ready and does not approve live behavior.',
+      },
+    ],
+    proposedCallFlowNotes: [
+      'Future inbound AI flow would require Asterisk/Vicidial routing approval before AI receives audio',
+      'Future outbound AI flow would require campaign/client approval before AI places or handles calls',
+      'AI must not own DID selection; middleware route engine remains DID/routing decision owner',
+      'AI may only receive call context approved for the campaign/client scope',
+      'AI must support transfer to human agent/queue as a required safety path',
+      'AI must support immediate stop/failover behavior before any live test',
+      'AI must log decisions without exposing secrets or unnecessary PII',
+      'AI provider credentials must never be exposed to browser/UI/logs',
+      'No AI call execution exists in this phase',
+    ],
+    requiredApprovals: [
+      'AI provider selection approval',
+      'AI provider security review',
+      'Data processing / PII handling approval',
+      'Recording disclosure approval',
+      'Consent/compliance/legal approval',
+      'Campaign/client AI use-case approval',
+      'Allowed and blocked use-case approval',
+      'Prompt governance approval',
+      'Escalation and transfer-to-human approval',
+      'Failover/emergency stop approval',
+      'Logging/monitoring approval',
+      'Staging dry run approval',
+      'Rollback approval',
+      'Asterisk/Vicidial routing approval',
+    ],
+    requiredLogsToReview: [
+      'Future AI interaction logs only after explicit approval',
+      'Future AI transfer/escalation logs only after explicit approval',
+      'Route engine NDJSON traces',
+      'Admin audit logs',
+      'Middleware application logs',
+      'Future FastAGI logs only after explicit approval',
+      'Future Asterisk/Vicidial logs only after explicit approval',
+    ],
+    futureIntegrationBoundaries: [
+      'AI does not choose or rotate DIDs',
+      'AI does not apply caller ID',
+      'AI does not bypass route engine approval',
+      'AI does not receive secrets from browser/UI',
+      'AI does not execute calls in this phase',
+      'AI does not answer inbound calls in this phase',
+      'AI does not place outbound calls in this phase',
+      'AI must fail over to human/queue on error, timeout, or policy block',
+      'AI must be campaign/client scoped',
+      'AI must be disabled by default',
+    ],
+    nextSteps: [
+      'Keep AI voice unapproved, disconnected, and disabled until a future explicit manual approval exists.',
+      'Document provider selection, security, PII handling, recording disclosure, compliance, prompt governance, and use-case boundaries.',
+      'Document transfer, escalation, failover, emergency stop, logging, monitoring, and latency requirements.',
+      'Complete staging dry run, rollback, Asterisk/Vicidial routing, campaign/client, provider DID acceptance, live approval gate, and production preflight approvals before any future AI voice test.',
+      'Do not execute calls, AI requests, webhooks, provider commands, route changes, FastAGI changes, or Asterisk/Vicidial changes from this readiness phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -1402,6 +1692,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Staging dry run readiness is read-only, not approved, and exposes no dry-run or call execution controls.',
     },
+    {
+      id: 'ai-voice-integration-contract-read-only',
+      label: 'AI voice integration contract read-only',
+      status: 'pass',
+      detail: 'AI voice integration contract is read-only, not approved, disconnected, and exposes no AI execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -1501,6 +1797,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     rollbackReadiness,
     asteriskChangePlanReadiness,
     stagingDryRunReadiness,
+    aiVoiceIntegrationContractReadiness,
     checklist,
     risks,
     recommendations: [
@@ -1514,6 +1811,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat rollback readiness as read-only planning visibility; it does not execute rollback or restart services.',
       'Treat Asterisk change plan readiness as read-only planning visibility; it does not execute Asterisk commands or approve dialplan changes.',
       'Treat staging dry run readiness as read-only planning visibility; it does not execute dry runs, calls, or command controls.',
+      'Treat AI voice integration contract as read-only planning visibility; it does not connect providers, execute calls, or answer calls with AI.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
