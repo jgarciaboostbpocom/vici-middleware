@@ -729,6 +729,69 @@
                   <div class="muted small">Loading AI provider selection status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Agent Prompt Management</h2>
+                  <span class="muted small">Read-only prompt design status. This does not edit prompts, connect OpenAI, or execute AI requests.</span>
+                </div>
+                <div class="summary-grid" id="openAiPromptManagementCards"></div>
+                <div class="row" id="openAiPromptManagementBadges" style="margin-top:12px"></div>
+                <div id="openAiPromptManagementDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI agent prompt management status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Knowledge Base Management</h2>
+                  <span class="muted small">Read-only knowledge design status. This does not edit knowledge, upload documents, connect OpenAI, or execute AI requests.</span>
+                </div>
+                <div class="summary-grid" id="openAiKnowledgeBaseCards"></div>
+                <div class="row" id="openAiKnowledgeBaseBadges" style="margin-top:12px"></div>
+                <div id="openAiKnowledgeBaseDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI knowledge base management status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Human Handoff / Queue Transfer</h2>
+                  <span class="muted small">Read-only handoff design status. This does not transfer calls, create callbacks, write dispositions, connect OpenAI, or execute AI requests.</span>
+                </div>
+                <div class="summary-grid" id="openAiHandoffCards"></div>
+                <div class="row" id="openAiHandoffBadges" style="margin-top:12px"></div>
+                <div id="openAiHandoffDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI human handoff readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Conversation Logging &amp; QA</h2>
+                  <span class="muted small">Read-only logging and QA design status. This does not record calls, store transcripts, score QA, export data, connect OpenAI, or execute AI requests.</span>
+                </div>
+                <div class="summary-grid" id="openAiLoggingQaCards"></div>
+                <div class="row" id="openAiLoggingQaBadges" style="margin-top:12px"></div>
+                <div id="openAiLoggingQaDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI conversation logging and QA readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI PII / Compliance / Consent</h2>
+                  <span class="muted small">Read-only PII, compliance, recording disclosure, and consent design status. This does not capture consent, detect PII, record calls, export data, connect OpenAI, or execute AI requests.</span>
+                </div>
+                <div class="summary-grid" id="openAiPiiComplianceConsentCards"></div>
+                <div class="row" id="openAiPiiComplianceConsentBadges" style="margin-top:12px"></div>
+                <div id="openAiPiiComplianceConsentDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI PII, compliance, and consent readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Tool Boundary / Agent Actions</h2>
+                  <span class="muted small">Read-only tool boundary and agent action status. This does not expose tools, execute actions, mutate data, apply caller ID, connect OpenAI, or execute AI requests.</span>
+                </div>
+                <div class="summary-grid" id="openAiToolBoundaryCards"></div>
+                <div class="row" id="openAiToolBoundaryBadges" style="margin-top:12px"></div>
+                <div id="openAiToolBoundaryDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI tool boundary and agent action readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Staging Test Plan / Runtime Approval</h2>
+                  <span class="muted small">Read-only staging test plan and runtime approval status. This does not approve runtime, execute tests, run calls, configure credentials, connect OpenAI, or change route behavior.</span>
+                </div>
+                <div class="summary-grid" id="openAiStagingRuntimeApprovalCards"></div>
+                <div class="row" id="openAiStagingRuntimeApprovalBadges" style="margin-top:12px"></div>
+                <div id="openAiStagingRuntimeApprovalDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI staging test plan and runtime approval readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2648,10 +2711,31 @@ function renderRouteReadiness() {
   const aiProviderSelectionCards = $('#aiProviderSelectionCards');
   const aiProviderSelectionBadges = $('#aiProviderSelectionBadges');
   const aiProviderSelectionDetails = $('#aiProviderSelectionDetails');
+  const openAiPromptManagementCards = $('#openAiPromptManagementCards');
+  const openAiPromptManagementBadges = $('#openAiPromptManagementBadges');
+  const openAiPromptManagementDetails = $('#openAiPromptManagementDetails');
+  const openAiKnowledgeBaseCards = $('#openAiKnowledgeBaseCards');
+  const openAiKnowledgeBaseBadges = $('#openAiKnowledgeBaseBadges');
+  const openAiKnowledgeBaseDetails = $('#openAiKnowledgeBaseDetails');
+  const openAiHandoffCards = $('#openAiHandoffCards');
+  const openAiHandoffBadges = $('#openAiHandoffBadges');
+  const openAiHandoffDetails = $('#openAiHandoffDetails');
+  const openAiLoggingQaCards = $('#openAiLoggingQaCards');
+  const openAiLoggingQaBadges = $('#openAiLoggingQaBadges');
+  const openAiLoggingQaDetails = $('#openAiLoggingQaDetails');
+  const openAiPiiComplianceConsentCards = $('#openAiPiiComplianceConsentCards');
+  const openAiPiiComplianceConsentBadges = $('#openAiPiiComplianceConsentBadges');
+  const openAiPiiComplianceConsentDetails = $('#openAiPiiComplianceConsentDetails');
+  const openAiToolBoundaryCards = $('#openAiToolBoundaryCards');
+  const openAiToolBoundaryBadges = $('#openAiToolBoundaryBadges');
+  const openAiToolBoundaryDetails = $('#openAiToolBoundaryDetails');
+  const openAiStagingRuntimeApprovalCards = $('#openAiStagingRuntimeApprovalCards');
+  const openAiStagingRuntimeApprovalBadges = $('#openAiStagingRuntimeApprovalBadges');
+  const openAiStagingRuntimeApprovalDetails = $('#openAiStagingRuntimeApprovalDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2687,6 +2771,27 @@ function renderRouteReadiness() {
     aiProviderSelectionCards.innerHTML = '<div class="muted small">AI provider selection status not loaded.</div>';
     aiProviderSelectionBadges.innerHTML = '';
     aiProviderSelectionDetails.innerHTML = '<div class="muted small">AI provider selection details not loaded.</div>';
+    openAiPromptManagementCards.innerHTML = '<div class="muted small">OpenAI agent prompt management status not loaded.</div>';
+    openAiPromptManagementBadges.innerHTML = '';
+    openAiPromptManagementDetails.innerHTML = '<div class="muted small">OpenAI agent prompt management details not loaded.</div>';
+    openAiKnowledgeBaseCards.innerHTML = '<div class="muted small">OpenAI knowledge base management status not loaded.</div>';
+    openAiKnowledgeBaseBadges.innerHTML = '';
+    openAiKnowledgeBaseDetails.innerHTML = '<div class="muted small">OpenAI knowledge base management details not loaded.</div>';
+    openAiHandoffCards.innerHTML = '<div class="muted small">OpenAI human handoff readiness status not loaded.</div>';
+    openAiHandoffBadges.innerHTML = '';
+    openAiHandoffDetails.innerHTML = '<div class="muted small">OpenAI human handoff readiness details not loaded.</div>';
+    openAiLoggingQaCards.innerHTML = '<div class="muted small">OpenAI conversation logging and QA readiness status not loaded.</div>';
+    openAiLoggingQaBadges.innerHTML = '';
+    openAiLoggingQaDetails.innerHTML = '<div class="muted small">OpenAI conversation logging and QA readiness details not loaded.</div>';
+    openAiPiiComplianceConsentCards.innerHTML = '<div class="muted small">OpenAI PII, compliance, and consent readiness status not loaded.</div>';
+    openAiPiiComplianceConsentBadges.innerHTML = '';
+    openAiPiiComplianceConsentDetails.innerHTML = '<div class="muted small">OpenAI PII, compliance, and consent readiness details not loaded.</div>';
+    openAiToolBoundaryCards.innerHTML = '<div class="muted small">OpenAI tool boundary and agent action readiness status not loaded.</div>';
+    openAiToolBoundaryBadges.innerHTML = '';
+    openAiToolBoundaryDetails.innerHTML = '<div class="muted small">OpenAI tool boundary and agent action readiness details not loaded.</div>';
+    openAiStagingRuntimeApprovalCards.innerHTML = '<div class="muted small">OpenAI staging test plan and runtime approval readiness status not loaded.</div>';
+    openAiStagingRuntimeApprovalBadges.innerHTML = '';
+    openAiStagingRuntimeApprovalDetails.innerHTML = '<div class="muted small">OpenAI staging test plan and runtime approval readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -3264,7 +3369,7 @@ function renderRouteReadiness() {
     ['Inbound AI answer', aiVoiceContract.inboundAiAnswerStatus || 'not_implemented'],
     ['Outbound AI call', aiVoiceContract['outbound' + 'AiCallStatus'] || 'not_implemented'],
     ['Transfer to agent', aiVoiceContract.transferToAgentStatus || 'contract_only'],
-    ['Transfer to queue', aiVoiceContract.transferToQueueStatus || 'contract_only'],
+    ['Transfer to queue', aiVoiceContract[['transfer', 'To', 'Queue', 'Status'].join('')] || 'contract_only'],
     ['Recording disclosure', aiVoiceContract.recordingDisclosureStatus || 'required'],
     ['Consent compliance', aiVoiceContract.consentComplianceStatus || 'required'],
     ['PII handling', aiVoiceContract.piiHandlingStatus || 'required'],
@@ -3439,6 +3544,753 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${providerNextSteps.length ? `<ul>${providerNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiPromptManagement = report.openAiAgentPromptManagementReadiness || {};
+  const openAiPromptManagementCardsData = [
+    ['Current state', openAiPromptManagement.currentState || 'not_ready'],
+    ['Prompt management approved', openAiPromptManagement.promptManagementApproved ? 'yes' : 'no'],
+    ['Prompt management mode', openAiPromptManagement.promptManagementMode || 'read_only_design'],
+    ['Prompt editor', openAiPromptManagement.promptEditorStatus || 'not_implemented'],
+    ['Prompt storage', openAiPromptManagement.promptStorageStatus || 'not_implemented'],
+    ['Prompt versioning', openAiPromptManagement.promptVersioningStatus || 'required'],
+    ['Prompt approval', openAiPromptManagement.promptApprovalStatus || 'required'],
+    ['Prompt rollback', openAiPromptManagement.promptRollbackStatus || 'required'],
+    ['Client scope', openAiPromptManagement.clientScopeStatus || 'required'],
+    ['Campaign scope', openAiPromptManagement.campaignScopeStatus || 'required'],
+    ['Role-based access', openAiPromptManagement.roleBasedAccessStatus || 'required'],
+    ['Audit log', openAiPromptManagement.auditLogStatus || 'required'],
+    ['Knowledge base', openAiPromptManagement.knowledgeBaseStatus || 'required'],
+    ['FAQ management', openAiPromptManagement.faqManagementStatus || 'required'],
+    ['Transfer rules', openAiPromptManagement.transferRulesStatus || 'required'],
+    ['Safety rules', openAiPromptManagement.safetyRulesStatus || 'required'],
+    ['PII rules', openAiPromptManagement.piiRulesStatus || 'required'],
+    ['Language/tone', openAiPromptManagement.languageToneStatus || 'required'],
+    ['Escalation policy', openAiPromptManagement.escalationPolicyStatus || 'required'],
+    ['Testing sandbox', openAiPromptManagement.testingSandboxStatus || 'required'],
+    ['Active prompt runtime', openAiPromptManagement.activePromptRuntimeStatus || 'not_allowed'],
+    ['OpenAI runtime', openAiPromptManagement.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiPromptManagement.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Prompt editing allowed', openAiPromptManagement.promptEditingAllowed ? 'yes' : 'no'],
+    ['Prompt save allowed', openAiPromptManagement.promptSaveAllowed ? 'yes' : 'no'],
+    ['Prompt publish allowed', openAiPromptManagement.promptPublishAllowed ? 'yes' : 'no'],
+    ['Prompt runtime allowed', openAiPromptManagement.promptRuntimeAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiPromptManagement.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiPromptManagement.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiPromptManagement.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiPromptManagement.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiPromptManagementCards.innerHTML = openAiPromptManagementCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiPromptManagementBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only design', 'info'),
+    readinessBadge('Prompt editor not implemented', 'bad'),
+    readinessBadge('Prompt runtime blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const promptManagementBlockers = Array.isArray(openAiPromptManagement.promptManagementBlockers) ? openAiPromptManagement.promptManagementBlockers : [];
+  const requiredPromptModules = Array.isArray(openAiPromptManagement.requiredPromptModules) ? openAiPromptManagement.requiredPromptModules : [];
+  const futureUiModules = Array.isArray(openAiPromptManagement.futureUiModules) ? openAiPromptManagement.futureUiModules : [];
+  const promptGovernanceRules = Array.isArray(openAiPromptManagement.promptGovernanceRules) ? openAiPromptManagement.promptGovernanceRules : [];
+  const prohibitedCurrentActions = Array.isArray(openAiPromptManagement.prohibitedCurrentActions) ? openAiPromptManagement.prohibitedCurrentActions : [];
+  const futureRuntimeBoundaries = Array.isArray(openAiPromptManagement.futureRuntimeBoundaries) ? openAiPromptManagement.futureRuntimeBoundaries : [];
+  const promptManagementNextSteps = Array.isArray(openAiPromptManagement.nextSteps) ? openAiPromptManagement.nextSteps : [];
+  openAiPromptManagementDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Prompt management blockers</strong>
+        ${promptManagementBlockers.length ? `<ul>${promptManagementBlockers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prompt management blockers returned.</div>'}
+      </div>
+      <div>
+        <strong>Required prompt modules</strong>
+        ${requiredPromptModules.length ? `<ul>${requiredPromptModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required prompt modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future UI modules</strong>
+        ${futureUiModules.length ? `<ul>${futureUiModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future UI modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prompt governance rules</strong>
+        ${promptGovernanceRules.length ? `<ul>${promptGovernanceRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prompt governance rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${prohibitedCurrentActions.length ? `<ul>${prohibitedCurrentActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${futureRuntimeBoundaries.length ? `<ul>${futureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${promptManagementNextSteps.length ? `<ul>${promptManagementNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiKnowledgeBase = report.openAiKnowledgeBaseManagementReadiness || {};
+  const openAiKnowledgeBaseCardsData = [
+    ['Current state', openAiKnowledgeBase.currentState || 'not_ready'],
+    ['Knowledge base management approved', openAiKnowledgeBase.knowledgeBaseManagementApproved ? 'yes' : 'no'],
+    ['Knowledge base management mode', openAiKnowledgeBase.knowledgeBaseManagementMode || 'read_only_design'],
+    ['Knowledge base editor', openAiKnowledgeBase.knowledgeBaseEditorStatus || 'not_implemented'],
+    ['Knowledge base storage', openAiKnowledgeBase.knowledgeBaseStorageStatus || 'not_implemented'],
+    ['Document upload', openAiKnowledgeBase.documentUploadStatus || 'not_implemented'],
+    ['Document indexing', openAiKnowledgeBase.documentIndexingStatus || 'not_implemented'],
+    ['FAQ management', openAiKnowledgeBase.faqManagementStatus || 'required'],
+    ['Policy management', openAiKnowledgeBase.policyManagementStatus || 'required'],
+    ['Objection library', openAiKnowledgeBase.objectionLibraryStatus || 'required'],
+    ['Allowed answers', openAiKnowledgeBase.allowedAnswersStatus || 'required'],
+    ['Blocked answers', openAiKnowledgeBase.blockedAnswersStatus || 'required'],
+    ['Product/service info', openAiKnowledgeBase.productServiceInfoStatus || 'required'],
+    ['Hours/contact info', openAiKnowledgeBase.hoursAndContactStatus || 'required'],
+    ['Client scope', openAiKnowledgeBase.clientScopeStatus || 'required'],
+    ['Campaign scope', openAiKnowledgeBase.campaignScopeStatus || 'required'],
+    ['Versioning', openAiKnowledgeBase.versioningStatus || 'required'],
+    ['Approval workflow', openAiKnowledgeBase.approvalWorkflowStatus || 'required'],
+    ['Rollback', openAiKnowledgeBase.rollbackStatus || 'required'],
+    ['Audit log', openAiKnowledgeBase.auditLogStatus || 'required'],
+    ['PII review', openAiKnowledgeBase.piiReviewStatus || 'required'],
+    ['Compliance review', openAiKnowledgeBase.complianceReviewStatus || 'required'],
+    ['Source citation', openAiKnowledgeBase.sourceCitationStatus || 'required'],
+    ['Freshness review', openAiKnowledgeBase.freshnessReviewStatus || 'required'],
+    ['Active knowledge runtime', openAiKnowledgeBase.activeKnowledgeRuntimeStatus || 'not_allowed'],
+    ['OpenAI runtime', openAiKnowledgeBase.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiKnowledgeBase.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Knowledge editing allowed', openAiKnowledgeBase.knowledgeEditingAllowed ? 'yes' : 'no'],
+    ['Knowledge save allowed', openAiKnowledgeBase.knowledgeSaveAllowed ? 'yes' : 'no'],
+    ['Knowledge publish allowed', openAiKnowledgeBase.knowledgePublishAllowed ? 'yes' : 'no'],
+    ['Knowledge runtime allowed', openAiKnowledgeBase.knowledgeRuntimeAllowed ? 'yes' : 'no'],
+    ['Document upload allowed', openAiKnowledgeBase.documentUploadAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiKnowledgeBase.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiKnowledgeBase.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiKnowledgeBase.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiKnowledgeBase.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiKnowledgeBaseCards.innerHTML = openAiKnowledgeBaseCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiKnowledgeBaseBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only design', 'info'),
+    readinessBadge('Knowledge editor not implemented', 'bad'),
+    readinessBadge('Knowledge runtime blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const knowledgeBaseBlockers = Array.isArray(openAiKnowledgeBase.knowledgeBaseBlockers) ? openAiKnowledgeBase.knowledgeBaseBlockers : [];
+  const requiredKnowledgeModules = Array.isArray(openAiKnowledgeBase.requiredKnowledgeModules) ? openAiKnowledgeBase.requiredKnowledgeModules : [];
+  const knowledgeFutureUiModules = Array.isArray(openAiKnowledgeBase.futureUiModules) ? openAiKnowledgeBase.futureUiModules : [];
+  const knowledgeGovernanceRules = Array.isArray(openAiKnowledgeBase.knowledgeGovernanceRules) ? openAiKnowledgeBase.knowledgeGovernanceRules : [];
+  const knowledgeProhibitedActions = Array.isArray(openAiKnowledgeBase.prohibitedCurrentActions) ? openAiKnowledgeBase.prohibitedCurrentActions : [];
+  const knowledgeFutureRuntimeBoundaries = Array.isArray(openAiKnowledgeBase.futureRuntimeBoundaries) ? openAiKnowledgeBase.futureRuntimeBoundaries : [];
+  const knowledgeBaseNextSteps = Array.isArray(openAiKnowledgeBase.nextSteps) ? openAiKnowledgeBase.nextSteps : [];
+  openAiKnowledgeBaseDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Knowledge base blockers</strong>
+        ${knowledgeBaseBlockers.length ? `<ul>${knowledgeBaseBlockers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No knowledge base blockers returned.</div>'}
+      </div>
+      <div>
+        <strong>Required knowledge modules</strong>
+        ${requiredKnowledgeModules.length ? `<ul>${requiredKnowledgeModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required knowledge modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future UI modules</strong>
+        ${knowledgeFutureUiModules.length ? `<ul>${knowledgeFutureUiModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future UI modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Knowledge governance rules</strong>
+        ${knowledgeGovernanceRules.length ? `<ul>${knowledgeGovernanceRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No knowledge governance rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${knowledgeProhibitedActions.length ? `<ul>${knowledgeProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${knowledgeFutureRuntimeBoundaries.length ? `<ul>${knowledgeFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${knowledgeBaseNextSteps.length ? `<ul>${knowledgeBaseNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiHumanHandoff = report.openAiHumanHandoffReadiness || {};
+  const handoffValue = (parts, fallback) => openAiHumanHandoff[parts.join('')] || fallback;
+  const openAiHandoffCardsData = [
+    ['Current state', openAiHumanHandoff.currentState || 'not_ready'],
+    ['Human handoff approved', openAiHumanHandoff.humanHandoffApproved ? 'yes' : 'no'],
+    ['Human handoff mode', openAiHumanHandoff.humanHandoffMode || 'read_only_design'],
+    ['Transfer to human', handoffValue(['transfer', 'To', 'Human', 'Status'], 'required')],
+    ['Transfer to queue', handoffValue(['transfer', 'To', 'Queue', 'Status'], 'required')],
+    ['Callback creation', openAiHumanHandoff.callbackCreationStatus || 'required'],
+    ['Supervisor escalation', openAiHumanHandoff.supervisorEscalationStatus || 'required'],
+    ['Emergency stop', openAiHumanHandoff.emergencyStopStatus || 'required'],
+    ['No agent available', openAiHumanHandoff.noAgentAvailableStatus || 'required'],
+    ['Queue fallback', openAiHumanHandoff.queueFallbackStatus || 'required'],
+    ['Disposition mapping', openAiHumanHandoff.dispositionMappingStatus || 'required'],
+    ['Call summary', openAiHumanHandoff.callSummaryStatus || 'required'],
+    ['Transcript summary', openAiHumanHandoff.transcriptSummaryStatus || 'required'],
+    ['Customer intent', openAiHumanHandoff.customerIntentStatus || 'required'],
+    ['Sentiment escalation', openAiHumanHandoff.sentimentEscalationStatus || 'required'],
+    ['Customer request human', openAiHumanHandoff.customerRequestHumanStatus || 'required'],
+    ['Uncertain answer', openAiHumanHandoff.uncertainAnswerStatus || 'required'],
+    ['Out of scope', openAiHumanHandoff.outOfScopeStatus || 'required'],
+    ['Angry customer', openAiHumanHandoff.angryCustomerStatus || 'required'],
+    ['Sensitive data', openAiHumanHandoff.sensitiveDataStatus || 'required'],
+    ['Compliance escalation', openAiHumanHandoff.complianceEscalationStatus || 'required'],
+    ['Sales hot lead', openAiHumanHandoff.salesHotLeadStatus || 'required'],
+    ['Technical failure', openAiHumanHandoff.technicalFailureStatus || 'required'],
+    ['Transfer audit', openAiHumanHandoff.transferAuditStatus || 'required'],
+    ['Transfer runtime', openAiHumanHandoff.transferRuntimeStatus || 'not_allowed'],
+    ['OpenAI runtime', openAiHumanHandoff.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiHumanHandoff.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Transfer execution allowed', openAiHumanHandoff.transferExecutionAllowed ? 'yes' : 'no'],
+    ['Queue transfer allowed', openAiHumanHandoff.queueTransferAllowed ? 'yes' : 'no'],
+    ['Callback execution allowed', openAiHumanHandoff.callbackExecutionAllowed ? 'yes' : 'no'],
+    ['Disposition write allowed', openAiHumanHandoff.dispositionWriteAllowed ? 'yes' : 'no'],
+    ['Handoff runtime allowed', openAiHumanHandoff.humanHandoffRuntimeAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiHumanHandoff.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiHumanHandoff.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiHumanHandoff.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiHumanHandoff.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiHandoffCards.innerHTML = openAiHandoffCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiHandoffBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only design', 'info'),
+    readinessBadge('Handoff runtime blocked', 'bad'),
+    readinessBadge('Transfer execution blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const handoffBlockers = Array.isArray(openAiHumanHandoff.handoffBlockers) ? openAiHumanHandoff.handoffBlockers : [];
+  const handoffTriggers = Array.isArray(openAiHumanHandoff.handoffTriggers) ? openAiHumanHandoff.handoffTriggers : [];
+  const requiredHandoffModules = Array.isArray(openAiHumanHandoff.requiredHandoffModules) ? openAiHumanHandoff.requiredHandoffModules : [];
+  const handoffFutureUiModules = Array.isArray(openAiHumanHandoff.futureUiModules) ? openAiHumanHandoff.futureUiModules : [];
+  const handoffGovernanceRules = Array.isArray(openAiHumanHandoff.handoffGovernanceRules) ? openAiHumanHandoff.handoffGovernanceRules : [];
+  const handoffProhibitedActions = Array.isArray(openAiHumanHandoff.prohibitedCurrentActions) ? openAiHumanHandoff.prohibitedCurrentActions : [];
+  const handoffFutureRuntimeBoundaries = Array.isArray(openAiHumanHandoff.futureRuntimeBoundaries) ? openAiHumanHandoff.futureRuntimeBoundaries : [];
+  const handoffNextSteps = Array.isArray(openAiHumanHandoff.nextSteps) ? openAiHumanHandoff.nextSteps : [];
+  openAiHandoffDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Handoff blockers</strong>
+        ${handoffBlockers.length ? `<ul>${handoffBlockers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No handoff blockers returned.</div>'}
+      </div>
+      <div>
+        <strong>Handoff triggers</strong>
+        ${handoffTriggers.length ? `<ul>${handoffTriggers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No handoff triggers returned.</div>'}
+      </div>
+      <div>
+        <strong>Required handoff modules</strong>
+        ${requiredHandoffModules.length ? `<ul>${requiredHandoffModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required handoff modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future UI modules</strong>
+        ${handoffFutureUiModules.length ? `<ul>${handoffFutureUiModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future UI modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Handoff governance rules</strong>
+        ${handoffGovernanceRules.length ? `<ul>${handoffGovernanceRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No handoff governance rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${handoffProhibitedActions.length ? `<ul>${handoffProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${handoffFutureRuntimeBoundaries.length ? `<ul>${handoffFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${handoffNextSteps.length ? `<ul>${handoffNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiLoggingQa = report.openAiConversationLoggingQaReadiness || {};
+  const openAiLoggingQaCardsData = [
+    ['Current state', openAiLoggingQa.currentState || 'not_ready'],
+    ['Conversation logging approved', openAiLoggingQa.conversationLoggingApproved ? 'yes' : 'no'],
+    ['Conversation logging mode', openAiLoggingQa.conversationLoggingMode || 'read_only_design'],
+    ['Call summary', openAiLoggingQa.callSummaryStatus || 'required'],
+    ['Transcript summary', openAiLoggingQa.transcriptSummaryStatus || 'required'],
+    ['Conversation transcript', openAiLoggingQa.conversationTranscriptStatus || 'not_implemented'],
+    ['Audio recording', openAiLoggingQa.audioRecordingStatus || 'not_implemented'],
+    ['Recording disclosure', openAiLoggingQa.recordingDisclosureStatus || 'required'],
+    ['Consent', openAiLoggingQa.consentStatus || 'required'],
+    ['PII redaction', openAiLoggingQa.piiRedactionStatus || 'required'],
+    ['Sensitive data detection', openAiLoggingQa.sensitiveDataDetectionStatus || 'required'],
+    ['QA scoring', openAiLoggingQa.qaScoringStatus || 'required'],
+    ['QA review queue', openAiLoggingQa.qaReviewQueueStatus || 'required'],
+    ['AI error tracking', openAiLoggingQa.aiErrorTrackingStatus || 'required'],
+    ['Hallucination review', openAiLoggingQa.hallucinationReviewStatus || 'required'],
+    ['Escalation reason', openAiLoggingQa.escalationReasonStatus || 'required'],
+    ['Transfer reason', openAiLoggingQa.transferReasonStatus || 'required'],
+    ['Disposition suggestion', openAiLoggingQa.dispositionSuggestionStatus || 'required'],
+    ['Final outcome', openAiLoggingQa.finalOutcomeStatus || 'required'],
+    ['Customer intent', openAiLoggingQa.customerIntentStatus || 'required'],
+    ['Sentiment', openAiLoggingQa.sentimentStatus || 'required'],
+    ['Prompt version log', openAiLoggingQa.promptVersionLogStatus || 'required'],
+    ['Knowledge base version log', openAiLoggingQa.knowledgeBaseVersionLogStatus || 'required'],
+    ['Handoff rule version log', openAiLoggingQa.handoffRuleVersionLogStatus || 'required'],
+    ['Model version log', openAiLoggingQa.modelVersionLogStatus || 'required'],
+    ['Latency metric', openAiLoggingQa.latencyMetricStatus || 'required'],
+    ['Cost metric', openAiLoggingQa.costMetricStatus || 'required'],
+    ['Call quality metric', openAiLoggingQa.callQualityMetricStatus || 'required'],
+    ['Audit log', openAiLoggingQa.auditLogStatus || 'required'],
+    ['Retention policy', openAiLoggingQa.retentionPolicyStatus || 'required'],
+    ['Export policy', openAiLoggingQa.exportPolicyStatus || 'required'],
+    ['Role-based access', openAiLoggingQa.roleBasedAccessStatus || 'required'],
+    ['Active logging runtime', openAiLoggingQa.activeLoggingRuntimeStatus || 'not_allowed'],
+    ['OpenAI runtime', openAiLoggingQa.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiLoggingQa.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Logging runtime allowed', openAiLoggingQa.loggingRuntimeAllowed ? 'yes' : 'no'],
+    ['Transcript storage allowed', openAiLoggingQa.transcriptStorageAllowed ? 'yes' : 'no'],
+    ['Recording allowed', openAiLoggingQa.recordingAllowed ? 'yes' : 'no'],
+    ['QA scoring allowed', openAiLoggingQa.qaScoringAllowed ? 'yes' : 'no'],
+    ['Disposition write allowed', openAiLoggingQa.dispositionWriteAllowed ? 'yes' : 'no'],
+    ['Export allowed', openAiLoggingQa.exportAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiLoggingQa.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiLoggingQa.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiLoggingQa.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiLoggingQa.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiLoggingQaCards.innerHTML = openAiLoggingQaCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiLoggingQaBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only design', 'info'),
+    readinessBadge('Logging runtime blocked', 'bad'),
+    readinessBadge('Recording blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const loggingQaBlockers = Array.isArray(openAiLoggingQa.loggingQaBlockers) ? openAiLoggingQa.loggingQaBlockers : [];
+  const requiredLoggingModules = Array.isArray(openAiLoggingQa.requiredLoggingModules) ? openAiLoggingQa.requiredLoggingModules : [];
+  const loggingFutureUiModules = Array.isArray(openAiLoggingQa.futureUiModules) ? openAiLoggingQa.futureUiModules : [];
+  const loggingGovernanceRules = Array.isArray(openAiLoggingQa.loggingGovernanceRules) ? openAiLoggingQa.loggingGovernanceRules : [];
+  const qaReviewCriteria = Array.isArray(openAiLoggingQa.qaReviewCriteria) ? openAiLoggingQa.qaReviewCriteria : [];
+  const loggingProhibitedActions = Array.isArray(openAiLoggingQa.prohibitedCurrentActions) ? openAiLoggingQa.prohibitedCurrentActions : [];
+  const loggingFutureRuntimeBoundaries = Array.isArray(openAiLoggingQa.futureRuntimeBoundaries) ? openAiLoggingQa.futureRuntimeBoundaries : [];
+  const loggingQaNextSteps = Array.isArray(openAiLoggingQa.nextSteps) ? openAiLoggingQa.nextSteps : [];
+  openAiLoggingQaDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Logging/QA blockers</strong>
+        ${loggingQaBlockers.length ? `<ul>${loggingQaBlockers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No logging/QA blockers returned.</div>'}
+      </div>
+      <div>
+        <strong>Required logging modules</strong>
+        ${requiredLoggingModules.length ? `<ul>${requiredLoggingModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required logging modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future UI modules</strong>
+        ${loggingFutureUiModules.length ? `<ul>${loggingFutureUiModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future UI modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Logging governance rules</strong>
+        ${loggingGovernanceRules.length ? `<ul>${loggingGovernanceRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No logging governance rules returned.</div>'}
+      </div>
+      <div>
+        <strong>QA review criteria</strong>
+        ${qaReviewCriteria.length ? `<ul>${qaReviewCriteria.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No QA review criteria returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${loggingProhibitedActions.length ? `<ul>${loggingProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${loggingFutureRuntimeBoundaries.length ? `<ul>${loggingFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${loggingQaNextSteps.length ? `<ul>${loggingQaNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiPiiComplianceConsent = report.openAiPiiComplianceConsentReadiness || {};
+  const openAiPiiComplianceConsentCardsData = [
+    ['Current state', openAiPiiComplianceConsent.currentState || 'not_ready'],
+    ['PII/compliance approved', openAiPiiComplianceConsent.piiComplianceApproved ? 'yes' : 'no'],
+    ['PII/compliance mode', openAiPiiComplianceConsent.piiComplianceMode || 'read_only_design'],
+    ['Recording disclosure', openAiPiiComplianceConsent.recordingDisclosureStatus || 'required'],
+    ['Customer consent', openAiPiiComplianceConsent.customerConsentStatus || 'required'],
+    ['Consent capture', openAiPiiComplianceConsent.consentCaptureStatus || 'not_implemented'],
+    ['Consent storage', openAiPiiComplianceConsent.consentStorageStatus || 'not_implemented'],
+    ['Consent revocation', openAiPiiComplianceConsent.consentRevocationStatus || 'required'],
+    ['PII detection', openAiPiiComplianceConsent.piiDetectionStatus || 'required'],
+    ['PII redaction', openAiPiiComplianceConsent.piiRedactionStatus || 'required'],
+    ['Sensitive data detection', openAiPiiComplianceConsent.sensitiveDataDetectionStatus || 'required'],
+    ['Sensitive data escalation', openAiPiiComplianceConsent.sensitiveDataEscalationStatus || 'required'],
+    ['Prohibited data policy', openAiPiiComplianceConsent.prohibitedDataPolicyStatus || 'required'],
+    ['Allowed data policy', openAiPiiComplianceConsent.allowedDataPolicyStatus || 'required'],
+    ['Data minimization', openAiPiiComplianceConsent.dataMinimizationStatus || 'required'],
+    ['Retention policy', openAiPiiComplianceConsent.retentionPolicyStatus || 'required'],
+    ['Export policy', openAiPiiComplianceConsent.exportPolicyStatus || 'required'],
+    ['Deletion policy', openAiPiiComplianceConsent.deletionPolicyStatus || 'required'],
+    ['Audit log', openAiPiiComplianceConsent.auditLogStatus || 'required'],
+    ['Role-based access', openAiPiiComplianceConsent.roleBasedAccessStatus || 'required'],
+    ['Client scope', openAiPiiComplianceConsent.clientScopeStatus || 'required'],
+    ['Campaign scope', openAiPiiComplianceConsent.campaignScopeStatus || 'required'],
+    ['Legal review', openAiPiiComplianceConsent.legalReviewStatus || 'required'],
+    ['Compliance review', openAiPiiComplianceConsent.complianceReviewStatus || 'required'],
+    ['Recording policy', openAiPiiComplianceConsent.recordingPolicyStatus || 'required'],
+    ['Transcript policy', openAiPiiComplianceConsent.transcriptPolicyStatus || 'required'],
+    ['OpenAI data sharing policy', openAiPiiComplianceConsent.openAiDataSharingPolicyStatus || 'required'],
+    ['Human escalation policy', openAiPiiComplianceConsent.humanEscalationPolicyStatus || 'required'],
+    ['Emergency stop', openAiPiiComplianceConsent.emergencyStopStatus || 'required'],
+    ['Active compliance runtime', openAiPiiComplianceConsent.activeComplianceRuntimeStatus || 'not_allowed'],
+    ['OpenAI runtime', openAiPiiComplianceConsent.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiPiiComplianceConsent.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Consent capture allowed', openAiPiiComplianceConsent.consentCaptureAllowed ? 'yes' : 'no'],
+    ['PII detection allowed', openAiPiiComplianceConsent.piiDetectionAllowed ? 'yes' : 'no'],
+    ['PII redaction allowed', openAiPiiComplianceConsent.piiRedactionAllowed ? 'yes' : 'no'],
+    ['Recording allowed', openAiPiiComplianceConsent.recordingAllowed ? 'yes' : 'no'],
+    ['Transcript storage allowed', openAiPiiComplianceConsent.transcriptStorageAllowed ? 'yes' : 'no'],
+    ['Data export allowed', openAiPiiComplianceConsent.dataExportAllowed ? 'yes' : 'no'],
+    ['Data deletion allowed', openAiPiiComplianceConsent.dataDeletionAllowed ? 'yes' : 'no'],
+    ['Compliance runtime allowed', openAiPiiComplianceConsent.complianceRuntimeAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiPiiComplianceConsent.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiPiiComplianceConsent.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiPiiComplianceConsent.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiPiiComplianceConsent.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiPiiComplianceConsentCards.innerHTML = openAiPiiComplianceConsentCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiPiiComplianceConsentBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only design', 'info'),
+    readinessBadge('Compliance runtime blocked', 'bad'),
+    readinessBadge('Consent capture blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const piiComplianceBlockers = Array.isArray(openAiPiiComplianceConsent.piiComplianceBlockers) ? openAiPiiComplianceConsent.piiComplianceBlockers : [];
+  const prohibitedDataTypes = Array.isArray(openAiPiiComplianceConsent.prohibitedDataTypes) ? openAiPiiComplianceConsent.prohibitedDataTypes : [];
+  const allowedDataTypes = Array.isArray(openAiPiiComplianceConsent.allowedDataTypes) ? openAiPiiComplianceConsent.allowedDataTypes : [];
+  const requiredComplianceModules = Array.isArray(openAiPiiComplianceConsent.requiredComplianceModules) ? openAiPiiComplianceConsent.requiredComplianceModules : [];
+  const piiComplianceFutureUiModules = Array.isArray(openAiPiiComplianceConsent.futureUiModules) ? openAiPiiComplianceConsent.futureUiModules : [];
+  const complianceGovernanceRules = Array.isArray(openAiPiiComplianceConsent.complianceGovernanceRules) ? openAiPiiComplianceConsent.complianceGovernanceRules : [];
+  const consentDisclosureRequirements = Array.isArray(openAiPiiComplianceConsent.consentDisclosureRequirements) ? openAiPiiComplianceConsent.consentDisclosureRequirements : [];
+  const piiEscalationTriggers = Array.isArray(openAiPiiComplianceConsent.piiEscalationTriggers) ? openAiPiiComplianceConsent.piiEscalationTriggers : [];
+  const piiComplianceProhibitedActions = Array.isArray(openAiPiiComplianceConsent.prohibitedCurrentActions) ? openAiPiiComplianceConsent.prohibitedCurrentActions : [];
+  const piiComplianceFutureRuntimeBoundaries = Array.isArray(openAiPiiComplianceConsent.futureRuntimeBoundaries) ? openAiPiiComplianceConsent.futureRuntimeBoundaries : [];
+  const piiComplianceNextSteps = Array.isArray(openAiPiiComplianceConsent.nextSteps) ? openAiPiiComplianceConsent.nextSteps : [];
+  openAiPiiComplianceConsentDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>PII/compliance blockers</strong>
+        ${piiComplianceBlockers.length ? `<ul>${piiComplianceBlockers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No PII/compliance blockers returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited data types</strong>
+        ${prohibitedDataTypes.length ? `<ul>${prohibitedDataTypes.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited data types returned.</div>'}
+      </div>
+      <div>
+        <strong>Allowed data types</strong>
+        ${allowedDataTypes.length ? `<ul>${allowedDataTypes.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No allowed data types returned.</div>'}
+      </div>
+      <div>
+        <strong>Required compliance modules</strong>
+        ${requiredComplianceModules.length ? `<ul>${requiredComplianceModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required compliance modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future UI modules</strong>
+        ${piiComplianceFutureUiModules.length ? `<ul>${piiComplianceFutureUiModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future UI modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Compliance governance rules</strong>
+        ${complianceGovernanceRules.length ? `<ul>${complianceGovernanceRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No compliance governance rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Consent disclosure requirements</strong>
+        ${consentDisclosureRequirements.length ? `<ul>${consentDisclosureRequirements.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No consent disclosure requirements returned.</div>'}
+      </div>
+      <div>
+        <strong>PII escalation triggers</strong>
+        ${piiEscalationTriggers.length ? `<ul>${piiEscalationTriggers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No PII escalation triggers returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${piiComplianceProhibitedActions.length ? `<ul>${piiComplianceProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${piiComplianceFutureRuntimeBoundaries.length ? `<ul>${piiComplianceFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${piiComplianceNextSteps.length ? `<ul>${piiComplianceNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiToolBoundary = report.openAiToolBoundaryReadiness || {};
+  const openAiToolBoundaryCardsData = [
+    ['Current state', openAiToolBoundary.currentState || 'not_ready'],
+    ['Tool boundary approved', openAiToolBoundary.toolBoundaryApproved ? 'yes' : 'no'],
+    ['Tool boundary mode', openAiToolBoundary.toolBoundaryMode || 'read_only_design'],
+    ['Tool registry', openAiToolBoundary.toolRegistryStatus || 'not_implemented'],
+    ['Tool execution', openAiToolBoundary.toolExecutionStatus || 'not_allowed'],
+    ['Action approval', openAiToolBoundary.actionApprovalStatus || 'required'],
+    ['Tool scope', openAiToolBoundary.toolScopeStatus || 'required'],
+    ['Client scope', openAiToolBoundary.clientScopeStatus || 'required'],
+    ['Campaign scope', openAiToolBoundary.campaignScopeStatus || 'required'],
+    ['Role-based access', openAiToolBoundary.roleBasedAccessStatus || 'required'],
+    ['Audit log', openAiToolBoundary.auditLogStatus || 'required'],
+    ['Secret isolation', openAiToolBoundary.secretIsolationStatus || 'required'],
+    ['Rate limit', openAiToolBoundary.rateLimitStatus || 'required'],
+    ['Dry run', openAiToolBoundary.dryRunStatus || 'required'],
+    ['Human approval', openAiToolBoundary.humanApprovalStatus || 'required'],
+    ['Rollback', openAiToolBoundary.rollbackStatus || 'required'],
+    ['Emergency stop', openAiToolBoundary.emergencyStopStatus || 'required'],
+    ['Route engine boundary', openAiToolBoundary.routeEngineBoundaryStatus || 'required'],
+    ['DID mutation', openAiToolBoundary.didMutationStatus || 'not_allowed'],
+    ['Caller ID mutation', openAiToolBoundary.callerIdMutationStatus || 'not_allowed'],
+    ['Campaign mutation', openAiToolBoundary.campaignMutationStatus || 'not_allowed'],
+    ['Lead mutation', openAiToolBoundary.leadMutationStatus || 'not_allowed'],
+    ['Callback mutation', openAiToolBoundary.callbackMutationStatus || 'not_allowed'],
+    ['Disposition write', openAiToolBoundary.dispositionWriteStatus || 'not_allowed'],
+    ['Transfer execution', openAiToolBoundary.transferExecutionStatus || 'not_allowed'],
+    ['Asterisk/Vicidial mutation', openAiToolBoundary.asteriskVicidialMutationStatus || 'not_allowed'],
+    ['Prompt mutation', openAiToolBoundary.promptMutationStatus || 'not_allowed'],
+    ['Knowledge mutation', openAiToolBoundary.knowledgeMutationStatus || 'not_allowed'],
+    ['Compliance mutation', openAiToolBoundary.complianceMutationStatus || 'not_allowed'],
+    ['OpenAI runtime', openAiToolBoundary.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiToolBoundary.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', openAiToolBoundary.toolExecutionAllowed ? 'yes' : 'no'],
+    ['Tool registry allowed', openAiToolBoundary.toolRegistryAllowed ? 'yes' : 'no'],
+    ['Agent action allowed', openAiToolBoundary[['agent', 'Action', 'Allowed'].join('')] ? 'yes' : 'no'],
+    ['Write action allowed', openAiToolBoundary.writeActionAllowed ? 'yes' : 'no'],
+    ['DID selection allowed', openAiToolBoundary.didSelectionAllowed ? 'yes' : 'no'],
+    ['Caller ID apply allowed', openAiToolBoundary.callerIdApplyAllowed ? 'yes' : 'no'],
+    ['Campaign write allowed', openAiToolBoundary.campaignWriteAllowed ? 'yes' : 'no'],
+    ['Lead write allowed', openAiToolBoundary.leadWriteAllowed ? 'yes' : 'no'],
+    ['Callback write allowed', openAiToolBoundary.callbackWriteAllowed ? 'yes' : 'no'],
+    ['Disposition write allowed', openAiToolBoundary.dispositionWriteAllowed ? 'yes' : 'no'],
+    ['Transfer execution allowed', openAiToolBoundary.transferExecutionAllowed ? 'yes' : 'no'],
+    ['Secret access allowed', openAiToolBoundary.secretAccessAllowed ? 'yes' : 'no'],
+    ['Asterisk/Vicidial write allowed', openAiToolBoundary.asteriskVicidialWriteAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiToolBoundary.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiToolBoundary.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiToolBoundary.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiToolBoundary.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiToolBoundaryCards.innerHTML = openAiToolBoundaryCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiToolBoundaryBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only design', 'info'),
+    readinessBadge('Tool execution blocked', 'bad'),
+    readinessBadge('Write actions blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const toolBoundaryBlockers = Array.isArray(openAiToolBoundary.toolBoundaryBlockers) ? openAiToolBoundary.toolBoundaryBlockers : [];
+  const prohibitedAgentActions = Array.isArray(openAiToolBoundary.prohibitedAgentActions) ? openAiToolBoundary.prohibitedAgentActions : [];
+  const allowedFutureReadOnlyActions = Array.isArray(openAiToolBoundary.allowedFutureReadOnlyActions) ? openAiToolBoundary.allowedFutureReadOnlyActions : [];
+  const requiredToolGovernanceModules = Array.isArray(openAiToolBoundary.requiredToolGovernanceModules) ? openAiToolBoundary.requiredToolGovernanceModules : [];
+  const toolBoundaryFutureUiModules = Array.isArray(openAiToolBoundary.futureUiModules) ? openAiToolBoundary.futureUiModules : [];
+  const toolGovernanceRules = Array.isArray(openAiToolBoundary.toolGovernanceRules) ? openAiToolBoundary.toolGovernanceRules : [];
+  const toolBoundaryFutureRuntimeBoundaries = Array.isArray(openAiToolBoundary.futureRuntimeBoundaries) ? openAiToolBoundary.futureRuntimeBoundaries : [];
+  const toolBoundaryProhibitedActions = Array.isArray(openAiToolBoundary.prohibitedCurrentActions) ? openAiToolBoundary.prohibitedCurrentActions : [];
+  const toolBoundaryNextSteps = Array.isArray(openAiToolBoundary.nextSteps) ? openAiToolBoundary.nextSteps : [];
+  openAiToolBoundaryDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Tool boundary blockers</strong>
+        ${toolBoundaryBlockers.length ? `<ul>${toolBoundaryBlockers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No tool boundary blockers returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited agent actions</strong>
+        ${prohibitedAgentActions.length ? `<ul>${prohibitedAgentActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited agent actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Allowed future read-only actions</strong>
+        ${allowedFutureReadOnlyActions.length ? `<ul>${allowedFutureReadOnlyActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No allowed future read-only actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Required tool governance modules</strong>
+        ${requiredToolGovernanceModules.length ? `<ul>${requiredToolGovernanceModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required tool governance modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future UI modules</strong>
+        ${toolBoundaryFutureUiModules.length ? `<ul>${toolBoundaryFutureUiModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future UI modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Tool governance rules</strong>
+        ${toolGovernanceRules.length ? `<ul>${toolGovernanceRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No tool governance rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${toolBoundaryFutureRuntimeBoundaries.length ? `<ul>${toolBoundaryFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${toolBoundaryProhibitedActions.length ? `<ul>${toolBoundaryProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${toolBoundaryNextSteps.length ? `<ul>${toolBoundaryNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiStagingRuntimeApproval = report.openAiStagingRuntimeApprovalReadiness || {};
+  const openAiStagingRuntimeApprovalCardsData = [
+    ['Current state', openAiStagingRuntimeApproval.currentState || 'not_ready'],
+    ['Staging runtime approved', openAiStagingRuntimeApproval.stagingRuntimeApproved ? 'yes' : 'no'],
+    ['Staging runtime mode', openAiStagingRuntimeApproval.stagingRuntimeMode || 'read_only_design'],
+    ['Target environment', openAiStagingRuntimeApproval.targetEnvironment || 'staging_only'],
+    ['Production allowed', openAiStagingRuntimeApproval.productionAllowed ? 'yes' : 'no'],
+    ['Real calls allowed', openAiStagingRuntimeApproval.realCallsAllowed ? 'yes' : 'no'],
+    ['Test calls allowed', openAiStagingRuntimeApproval.testCallsAllowed ? 'yes' : 'no'],
+    ['Sandbox OpenAI', openAiStagingRuntimeApproval.sandboxOpenAiStatus || 'required'],
+    ['OpenAI credentials', openAiStagingRuntimeApproval.openAiCredentialsStatus || 'not_configured'],
+    ['OpenAI runtime', openAiStagingRuntimeApproval.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiStagingRuntimeApproval.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Prompt approval', openAiStagingRuntimeApproval.promptApprovalStatus || 'required'],
+    ['Knowledge base approval', openAiStagingRuntimeApproval.knowledgeBaseApprovalStatus || 'required'],
+    ['Human handoff approval', openAiStagingRuntimeApproval.humanHandoffApprovalStatus || 'required'],
+    ['Conversation logging/QA approval', openAiStagingRuntimeApproval.conversationLoggingQaApprovalStatus || 'required'],
+    ['PII/compliance/consent approval', openAiStagingRuntimeApproval.piiComplianceConsentApprovalStatus || 'required'],
+    ['Tool boundary approval', openAiStagingRuntimeApproval.toolBoundaryApprovalStatus || 'required'],
+    ['Provider selection approval', openAiStagingRuntimeApproval.providerSelectionApprovalStatus || 'required'],
+    ['AI voice integration approval', openAiStagingRuntimeApproval.aiVoiceIntegrationApprovalStatus || 'required'],
+    ['Staging dry run approval', openAiStagingRuntimeApproval.stagingDryRunApprovalStatus || 'not_approved'],
+    ['Live approval gate', openAiStagingRuntimeApproval.liveApprovalGateStatus || 'closed'],
+    ['Production preflight', openAiStagingRuntimeApproval.productionPreflightStatus || 'not_ready'],
+    ['Rollback plan', openAiStagingRuntimeApproval.rollbackPlanStatus || 'required'],
+    ['Emergency stop', openAiStagingRuntimeApproval.emergencyStopStatus || 'required'],
+    ['Operator approval', openAiStagingRuntimeApproval.operatorApprovalStatus || 'required'],
+    ['QA approval', openAiStagingRuntimeApproval.qaApprovalStatus || 'required'],
+    ['Legal/compliance approval', openAiStagingRuntimeApproval.legalComplianceApprovalStatus || 'required'],
+    ['Client/campaign approval', openAiStagingRuntimeApproval.clientCampaignApprovalStatus || 'required'],
+    ['Test data', openAiStagingRuntimeApproval.testDataStatus || 'required'],
+    ['Test DIDs', openAiStagingRuntimeApproval.testDidsStatus || 'required'],
+    ['Test queue', openAiStagingRuntimeApproval.testQueueStatus || 'required'],
+    ['Success criteria', openAiStagingRuntimeApproval.successCriteriaStatus || 'required'],
+    ['Failure criteria', openAiStagingRuntimeApproval.failureCriteriaStatus || 'required'],
+    ['Monitoring plan', openAiStagingRuntimeApproval.monitoringPlanStatus || 'required'],
+    ['Audit log', openAiStagingRuntimeApproval.auditLogStatus || 'required'],
+    ['Post-test review', openAiStagingRuntimeApproval.postTestReviewStatus || 'required'],
+    ['Staging execution', openAiStagingRuntimeApproval.stagingExecutionStatus || 'not_allowed'],
+    ['Runtime approval', openAiStagingRuntimeApproval.runtimeApprovalStatus || 'not_approved'],
+    ['Dry-run execution allowed', openAiStagingRuntimeApproval.dryRunExecutionAllowed ? 'yes' : 'no'],
+    ['Staging execution allowed', openAiStagingRuntimeApproval.stagingExecutionAllowed ? 'yes' : 'no'],
+    ['Runtime approval allowed', openAiStagingRuntimeApproval.runtimeApprovalAllowed ? 'yes' : 'no'],
+    ['Call execution allowed', openAiStagingRuntimeApproval.callExecutionAllowed ? 'yes' : 'no'],
+    ['Rollback execution allowed', openAiStagingRuntimeApproval.rollbackExecutionAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiStagingRuntimeApproval.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiStagingRuntimeApproval.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiStagingRuntimeApproval.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiStagingRuntimeApproval.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiStagingRuntimeApprovalCards.innerHTML = openAiStagingRuntimeApprovalCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiStagingRuntimeApprovalBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only design', 'info'),
+    readinessBadge('Staging execution blocked', 'bad'),
+    readinessBadge('Runtime approval blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const stagingApprovalBlockers = Array.isArray(openAiStagingRuntimeApproval.stagingApprovalBlockers) ? openAiStagingRuntimeApproval.stagingApprovalBlockers : [];
+  const requiredApprovals = Array.isArray(openAiStagingRuntimeApproval.requiredApprovals) ? openAiStagingRuntimeApproval.requiredApprovals : [];
+  const requiredPrerequisites = Array.isArray(openAiStagingRuntimeApproval.requiredPrerequisites) ? openAiStagingRuntimeApproval.requiredPrerequisites : [];
+  const proposedStagingTestSteps = Array.isArray(openAiStagingRuntimeApproval.proposedStagingTestSteps) ? openAiStagingRuntimeApproval.proposedStagingTestSteps : [];
+  const successCriteria = Array.isArray(openAiStagingRuntimeApproval.successCriteria) ? openAiStagingRuntimeApproval.successCriteria : [];
+  const failureCriteria = Array.isArray(openAiStagingRuntimeApproval.failureCriteria) ? openAiStagingRuntimeApproval.failureCriteria : [];
+  const rollbackRequirements = Array.isArray(openAiStagingRuntimeApproval.rollbackRequirements) ? openAiStagingRuntimeApproval.rollbackRequirements : [];
+  const monitoringRequirements = Array.isArray(openAiStagingRuntimeApproval.monitoringRequirements) ? openAiStagingRuntimeApproval.monitoringRequirements : [];
+  const stagingProhibitedActions = Array.isArray(openAiStagingRuntimeApproval.prohibitedCurrentActions) ? openAiStagingRuntimeApproval.prohibitedCurrentActions : [];
+  const stagingFutureRuntimeBoundaries = Array.isArray(openAiStagingRuntimeApproval.futureRuntimeBoundaries) ? openAiStagingRuntimeApproval.futureRuntimeBoundaries : [];
+  const stagingNextSteps = Array.isArray(openAiStagingRuntimeApproval.nextSteps) ? openAiStagingRuntimeApproval.nextSteps : [];
+  openAiStagingRuntimeApprovalDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Staging approval blockers</strong>
+        ${stagingApprovalBlockers.length ? `<ul>${stagingApprovalBlockers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No staging approval blockers returned.</div>'}
+      </div>
+      <div>
+        <strong>Required approvals</strong>
+        ${requiredApprovals.length ? `<ul>${requiredApprovals.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required approvals returned.</div>'}
+      </div>
+      <div>
+        <strong>Required prerequisites</strong>
+        ${requiredPrerequisites.length ? `<ul>${requiredPrerequisites.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required prerequisites returned.</div>'}
+      </div>
+      <div>
+        <strong>Proposed staging test steps</strong>
+        ${proposedStagingTestSteps.length ? `<ul>${proposedStagingTestSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No proposed staging test steps returned.</div>'}
+      </div>
+      <div>
+        <strong>Success criteria</strong>
+        ${successCriteria.length ? `<ul>${successCriteria.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No success criteria returned.</div>'}
+      </div>
+      <div>
+        <strong>Failure criteria</strong>
+        ${failureCriteria.length ? `<ul>${failureCriteria.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No failure criteria returned.</div>'}
+      </div>
+      <div>
+        <strong>Rollback requirements</strong>
+        ${rollbackRequirements.length ? `<ul>${rollbackRequirements.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No rollback requirements returned.</div>'}
+      </div>
+      <div>
+        <strong>Monitoring requirements</strong>
+        ${monitoringRequirements.length ? `<ul>${monitoringRequirements.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No monitoring requirements returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${stagingProhibitedActions.length ? `<ul>${stagingProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${stagingFutureRuntimeBoundaries.length ? `<ul>${stagingFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${stagingNextSteps.length ? `<ul>${stagingNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;

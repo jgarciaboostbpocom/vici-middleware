@@ -333,6 +333,375 @@ export type AiProviderSelectionReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiAgentPromptManagementReadiness = {
+  currentState: 'not_ready';
+  promptManagementApproved: false;
+  promptManagementMode: 'read_only_design';
+  promptEditorStatus: 'not_implemented';
+  promptStorageStatus: 'not_implemented';
+  promptVersioningStatus: 'required';
+  promptApprovalStatus: 'required';
+  promptRollbackStatus: 'required';
+  clientScopeStatus: 'required';
+  campaignScopeStatus: 'required';
+  roleBasedAccessStatus: 'required';
+  auditLogStatus: 'required';
+  knowledgeBaseStatus: 'required';
+  faqManagementStatus: 'required';
+  transferRulesStatus: 'required';
+  safetyRulesStatus: 'required';
+  piiRulesStatus: 'required';
+  languageToneStatus: 'required';
+  escalationPolicyStatus: 'required';
+  testingSandboxStatus: 'required';
+  activePromptRuntimeStatus: 'not_allowed';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  promptEditingAllowed: false;
+  promptSaveAllowed: false;
+  promptPublishAllowed: false;
+  promptRuntimeAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  promptManagementBlockers: string[];
+  requiredPromptModules: string[];
+  futureUiModules: string[];
+  promptGovernanceRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
+export type OpenAiKnowledgeBaseManagementReadiness = {
+  currentState: 'not_ready';
+  knowledgeBaseManagementApproved: false;
+  knowledgeBaseManagementMode: 'read_only_design';
+  knowledgeBaseEditorStatus: 'not_implemented';
+  knowledgeBaseStorageStatus: 'not_implemented';
+  documentUploadStatus: 'not_implemented';
+  documentIndexingStatus: 'not_implemented';
+  faqManagementStatus: 'required';
+  policyManagementStatus: 'required';
+  objectionLibraryStatus: 'required';
+  allowedAnswersStatus: 'required';
+  blockedAnswersStatus: 'required';
+  productServiceInfoStatus: 'required';
+  hoursAndContactStatus: 'required';
+  clientScopeStatus: 'required';
+  campaignScopeStatus: 'required';
+  versioningStatus: 'required';
+  approvalWorkflowStatus: 'required';
+  rollbackStatus: 'required';
+  auditLogStatus: 'required';
+  piiReviewStatus: 'required';
+  complianceReviewStatus: 'required';
+  sourceCitationStatus: 'required';
+  freshnessReviewStatus: 'required';
+  activeKnowledgeRuntimeStatus: 'not_allowed';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  knowledgeEditingAllowed: false;
+  knowledgeSaveAllowed: false;
+  knowledgePublishAllowed: false;
+  knowledgeRuntimeAllowed: false;
+  documentUploadAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  knowledgeBaseBlockers: string[];
+  requiredKnowledgeModules: string[];
+  futureUiModules: string[];
+  knowledgeGovernanceRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
+export type OpenAiHumanHandoffReadiness = {
+  currentState: 'not_ready';
+  humanHandoffApproved: false;
+  humanHandoffMode: 'read_only_design';
+  transferToHumanStatus: 'required';
+  transferToQueueStatus: 'required';
+  callbackCreationStatus: 'required';
+  supervisorEscalationStatus: 'required';
+  emergencyStopStatus: 'required';
+  noAgentAvailableStatus: 'required';
+  queueFallbackStatus: 'required';
+  dispositionMappingStatus: 'required';
+  callSummaryStatus: 'required';
+  transcriptSummaryStatus: 'required';
+  customerIntentStatus: 'required';
+  sentimentEscalationStatus: 'required';
+  customerRequestHumanStatus: 'required';
+  uncertainAnswerStatus: 'required';
+  outOfScopeStatus: 'required';
+  angryCustomerStatus: 'required';
+  sensitiveDataStatus: 'required';
+  complianceEscalationStatus: 'required';
+  salesHotLeadStatus: 'required';
+  technicalFailureStatus: 'required';
+  transferAuditStatus: 'required';
+  transferRuntimeStatus: 'not_allowed';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  transferExecutionAllowed: false;
+  queueTransferAllowed: false;
+  callbackExecutionAllowed: false;
+  dispositionWriteAllowed: false;
+  humanHandoffRuntimeAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  handoffBlockers: string[];
+  handoffTriggers: string[];
+  requiredHandoffModules: string[];
+  futureUiModules: string[];
+  handoffGovernanceRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
+export type OpenAiConversationLoggingQaReadiness = {
+  currentState: 'not_ready';
+  conversationLoggingApproved: false;
+  conversationLoggingMode: 'read_only_design';
+  callSummaryStatus: 'required';
+  transcriptSummaryStatus: 'required';
+  conversationTranscriptStatus: 'not_implemented';
+  audioRecordingStatus: 'not_implemented';
+  recordingDisclosureStatus: 'required';
+  consentStatus: 'required';
+  piiRedactionStatus: 'required';
+  sensitiveDataDetectionStatus: 'required';
+  qaScoringStatus: 'required';
+  qaReviewQueueStatus: 'required';
+  aiErrorTrackingStatus: 'required';
+  hallucinationReviewStatus: 'required';
+  escalationReasonStatus: 'required';
+  transferReasonStatus: 'required';
+  dispositionSuggestionStatus: 'required';
+  finalOutcomeStatus: 'required';
+  customerIntentStatus: 'required';
+  sentimentStatus: 'required';
+  promptVersionLogStatus: 'required';
+  knowledgeBaseVersionLogStatus: 'required';
+  handoffRuleVersionLogStatus: 'required';
+  modelVersionLogStatus: 'required';
+  latencyMetricStatus: 'required';
+  costMetricStatus: 'required';
+  callQualityMetricStatus: 'required';
+  auditLogStatus: 'required';
+  retentionPolicyStatus: 'required';
+  exportPolicyStatus: 'required';
+  roleBasedAccessStatus: 'required';
+  activeLoggingRuntimeStatus: 'not_allowed';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  loggingRuntimeAllowed: false;
+  transcriptStorageAllowed: false;
+  recordingAllowed: false;
+  qaScoringAllowed: false;
+  dispositionWriteAllowed: false;
+  exportAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  loggingQaBlockers: string[];
+  requiredLoggingModules: string[];
+  futureUiModules: string[];
+  loggingGovernanceRules: string[];
+  qaReviewCriteria: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
+export type OpenAiPiiComplianceConsentReadiness = {
+  currentState: 'not_ready';
+  piiComplianceApproved: false;
+  piiComplianceMode: 'read_only_design';
+  recordingDisclosureStatus: 'required';
+  customerConsentStatus: 'required';
+  consentCaptureStatus: 'not_implemented';
+  consentStorageStatus: 'not_implemented';
+  consentRevocationStatus: 'required';
+  piiDetectionStatus: 'required';
+  piiRedactionStatus: 'required';
+  sensitiveDataDetectionStatus: 'required';
+  sensitiveDataEscalationStatus: 'required';
+  prohibitedDataPolicyStatus: 'required';
+  allowedDataPolicyStatus: 'required';
+  dataMinimizationStatus: 'required';
+  retentionPolicyStatus: 'required';
+  exportPolicyStatus: 'required';
+  deletionPolicyStatus: 'required';
+  auditLogStatus: 'required';
+  roleBasedAccessStatus: 'required';
+  clientScopeStatus: 'required';
+  campaignScopeStatus: 'required';
+  legalReviewStatus: 'required';
+  complianceReviewStatus: 'required';
+  recordingPolicyStatus: 'required';
+  transcriptPolicyStatus: 'required';
+  openAiDataSharingPolicyStatus: 'required';
+  humanEscalationPolicyStatus: 'required';
+  emergencyStopStatus: 'required';
+  activeComplianceRuntimeStatus: 'not_allowed';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  consentCaptureAllowed: false;
+  piiDetectionAllowed: false;
+  piiRedactionAllowed: false;
+  recordingAllowed: false;
+  transcriptStorageAllowed: false;
+  dataExportAllowed: false;
+  dataDeletionAllowed: false;
+  complianceRuntimeAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  piiComplianceBlockers: string[];
+  prohibitedDataTypes: string[];
+  allowedDataTypes: string[];
+  requiredComplianceModules: string[];
+  futureUiModules: string[];
+  complianceGovernanceRules: string[];
+  consentDisclosureRequirements: string[];
+  piiEscalationTriggers: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
+export type OpenAiToolBoundaryReadiness = {
+  currentState: 'not_ready';
+  toolBoundaryApproved: false;
+  toolBoundaryMode: 'read_only_design';
+  toolRegistryStatus: 'not_implemented';
+  toolExecutionStatus: 'not_allowed';
+  actionApprovalStatus: 'required';
+  toolScopeStatus: 'required';
+  clientScopeStatus: 'required';
+  campaignScopeStatus: 'required';
+  roleBasedAccessStatus: 'required';
+  auditLogStatus: 'required';
+  secretIsolationStatus: 'required';
+  rateLimitStatus: 'required';
+  dryRunStatus: 'required';
+  humanApprovalStatus: 'required';
+  rollbackStatus: 'required';
+  emergencyStopStatus: 'required';
+  routeEngineBoundaryStatus: 'required';
+  didMutationStatus: 'not_allowed';
+  callerIdMutationStatus: 'not_allowed';
+  campaignMutationStatus: 'not_allowed';
+  leadMutationStatus: 'not_allowed';
+  callbackMutationStatus: 'not_allowed';
+  dispositionWriteStatus: 'not_allowed';
+  transferExecutionStatus: 'not_allowed';
+  asteriskVicidialMutationStatus: 'not_allowed';
+  promptMutationStatus: 'not_allowed';
+  knowledgeMutationStatus: 'not_allowed';
+  complianceMutationStatus: 'not_allowed';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  toolExecutionAllowed: false;
+  toolRegistryAllowed: false;
+  agentActionAllowed: false;
+  writeActionAllowed: false;
+  didSelectionAllowed: false;
+  callerIdApplyAllowed: false;
+  campaignWriteAllowed: false;
+  leadWriteAllowed: false;
+  callbackWriteAllowed: false;
+  dispositionWriteAllowed: false;
+  transferExecutionAllowed: false;
+  secretAccessAllowed: false;
+  asteriskVicidialWriteAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  toolBoundaryBlockers: string[];
+  prohibitedAgentActions: string[];
+  allowedFutureReadOnlyActions: string[];
+  requiredToolGovernanceModules: string[];
+  futureUiModules: string[];
+  toolGovernanceRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
+export type OpenAiStagingRuntimeApprovalReadiness = {
+  currentState: 'not_ready';
+  stagingRuntimeApproved: false;
+  stagingRuntimeMode: 'read_only_design';
+  targetEnvironment: 'staging_only';
+  productionAllowed: false;
+  realCallsAllowed: false;
+  testCallsAllowed: false;
+  sandboxOpenAiStatus: 'required';
+  openAiCredentialsStatus: 'not_configured';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  promptApprovalStatus: 'required';
+  knowledgeBaseApprovalStatus: 'required';
+  humanHandoffApprovalStatus: 'required';
+  conversationLoggingQaApprovalStatus: 'required';
+  piiComplianceConsentApprovalStatus: 'required';
+  toolBoundaryApprovalStatus: 'required';
+  providerSelectionApprovalStatus: 'required';
+  aiVoiceIntegrationApprovalStatus: 'required';
+  stagingDryRunApprovalStatus: 'not_approved';
+  liveApprovalGateStatus: 'closed';
+  productionPreflightStatus: 'not_ready';
+  rollbackPlanStatus: 'required';
+  emergencyStopStatus: 'required';
+  operatorApprovalStatus: 'required';
+  qaApprovalStatus: 'required';
+  legalComplianceApprovalStatus: 'required';
+  clientCampaignApprovalStatus: 'required';
+  testDataStatus: 'required';
+  testDidsStatus: 'required';
+  testQueueStatus: 'required';
+  successCriteriaStatus: 'required';
+  failureCriteriaStatus: 'required';
+  monitoringPlanStatus: 'required';
+  auditLogStatus: 'required';
+  postTestReviewStatus: 'required';
+  stagingExecutionStatus: 'not_allowed';
+  runtimeApprovalStatus: 'not_approved';
+  dryRunExecutionAllowed: false;
+  stagingExecutionAllowed: false;
+  runtimeApprovalAllowed: false;
+  callExecutionAllowed: false;
+  rollbackExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  stagingApprovalBlockers: string[];
+  requiredApprovals: string[];
+  requiredPrerequisites: string[];
+  proposedStagingTestSteps: string[];
+  successCriteria: string[];
+  failureCriteria: string[];
+  rollbackRequirements: string[];
+  monitoringRequirements: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -362,6 +731,13 @@ export type RouteReadinessReport = {
   stagingDryRunReadiness: StagingDryRunReadiness;
   aiVoiceIntegrationContractReadiness: AiVoiceIntegrationContractReadiness;
   aiProviderSelectionReadiness: AiProviderSelectionReadiness;
+  openAiAgentPromptManagementReadiness: OpenAiAgentPromptManagementReadiness;
+  openAiKnowledgeBaseManagementReadiness: OpenAiKnowledgeBaseManagementReadiness;
+  openAiHumanHandoffReadiness: OpenAiHumanHandoffReadiness;
+  openAiConversationLoggingQaReadiness: OpenAiConversationLoggingQaReadiness;
+  openAiPiiComplianceConsentReadiness: OpenAiPiiComplianceConsentReadiness;
+  openAiToolBoundaryReadiness: OpenAiToolBoundaryReadiness;
+  openAiStagingRuntimeApprovalReadiness: OpenAiStagingRuntimeApprovalReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -1755,6 +2131,1483 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiAgentPromptManagementReadiness: OpenAiAgentPromptManagementReadiness = {
+    currentState: 'not_ready',
+    promptManagementApproved: false,
+    promptManagementMode: 'read_only_design',
+    promptEditorStatus: 'not_implemented',
+    promptStorageStatus: 'not_implemented',
+    promptVersioningStatus: 'required',
+    promptApprovalStatus: 'required',
+    promptRollbackStatus: 'required',
+    clientScopeStatus: 'required',
+    campaignScopeStatus: 'required',
+    roleBasedAccessStatus: 'required',
+    auditLogStatus: 'required',
+    knowledgeBaseStatus: 'required',
+    faqManagementStatus: 'required',
+    transferRulesStatus: 'required',
+    safetyRulesStatus: 'required',
+    piiRulesStatus: 'required',
+    languageToneStatus: 'required',
+    escalationPolicyStatus: 'required',
+    testingSandboxStatus: 'required',
+    activePromptRuntimeStatus: 'not_allowed',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    promptEditingAllowed: false,
+    promptSaveAllowed: false,
+    promptPublishAllowed: false,
+    promptRuntimeAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    promptManagementBlockers: [
+      'Prompt management not approved',
+      'Prompt editor not implemented',
+      'Prompt storage not implemented',
+      'Prompt versioning required',
+      'Prompt approval workflow required',
+      'Prompt rollback required',
+      'Client scope required',
+      'Campaign scope required',
+      'Role-based access required',
+      'Audit logging required',
+      'Knowledge base management required',
+      'FAQ management required',
+      'Transfer rules required',
+      'Safety rules required',
+      'PII rules required',
+      'Language/tone configuration required',
+      'Escalation policy required',
+      'Testing sandbox required',
+      'OpenAI runtime not connected',
+      'Prompt runtime not allowed',
+      'OpenAI provider selection not approved',
+      'AI voice integration not approved',
+      'Staging dry run not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+    ],
+    requiredPromptModules: [
+      'System prompt / agent identity',
+      'Campaign objective',
+      'Client/campaign scope',
+      'Opening script',
+      'Allowed answers',
+      'Blocked answers',
+      'FAQ / knowledge base',
+      'Objection handling',
+      'Transfer-to-human rules',
+      'Transfer-to-queue rules',
+      'Escalation policy',
+      'PII and sensitive data rules',
+      'Recording disclosure language',
+      'Consent language',
+      'Language selection',
+      'Tone and style',
+      'Call closing script',
+      'Disposition mapping',
+      'Call summary instructions',
+      'Tool-use boundaries',
+      'Human handoff trigger list',
+    ],
+    futureUiModules: [
+      'Prompt template list by client/campaign',
+      'Prompt editor',
+      'Prompt version history',
+      'Draft / pending approval / approved / archived statuses',
+      'Active prompt assignment',
+      'Prompt rollback',
+      'Knowledge base manager',
+      'FAQ manager',
+      'Transfer rules manager',
+      'Safety rules manager',
+      'PII rules manager',
+      'Test sandbox preview',
+      'Audit log viewer',
+      'Role-based approval workflow',
+    ],
+    promptGovernanceRules: [
+      'Prompt must be client/campaign scoped',
+      'Prompt must have version number',
+      'Prompt must have approval status',
+      'Prompt must have author and approver metadata',
+      'Prompt must support rollback',
+      'Prompt must not be executed unless approved',
+      'Prompt must not expose secrets',
+      'Prompt must not request prohibited sensitive data',
+      'Prompt must define human handoff conditions',
+      'Prompt must define blocked topics',
+      'Prompt must define allowed knowledge sources',
+      'Prompt must define language/tone',
+      'Prompt must define call close and summary behavior',
+      'Prompt changes must be audited',
+      'Prompt runtime must use only approved active version',
+    ],
+    prohibitedCurrentActions: [
+      'Do not hardcode final agent prompts in backend rules',
+      'Do not create prompt save/edit runtime controls in this phase',
+      'Do not create prompt database migrations in this phase',
+      'Do not send prompts to OpenAI',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Runtime may only use approved active prompt version',
+      'Runtime must remain client/campaign scoped',
+      'Runtime must not use draft prompts',
+      'Runtime must not use archived prompts',
+      'Runtime must not expose secrets to OpenAI/browser/logs',
+      'Runtime must not allow AI to choose DIDs',
+      'Runtime must not allow AI to apply caller ID',
+      'Runtime must not bypass route engine',
+      'Runtime must support human handoff',
+      'Runtime must support queue fallback',
+      'Runtime must log prompt version used',
+      'Runtime must support rollback to prior approved version',
+      'Runtime must be blocked until staging approval',
+    ],
+    nextSteps: [
+      'Keep OpenAI prompt management read-only, unapproved, unimplemented, and disconnected.',
+      'Document client/campaign/project prompt ownership, versioning, approval, rollback, audit, and role-based access requirements.',
+      'Design future prompt, knowledge base, FAQ, transfer rule, safety rule, PII rule, language/tone, escalation, and sandbox modules before implementation.',
+      'Keep OpenAI provider selection, AI voice integration, staging dry run, live approval gate, and production preflight blocked.',
+      'Do not add prompt editor controls, prompt persistence, migrations, OpenAI calls, agent tools, inbound/outbound AI, call execution, FastAGI changes, Asterisk/Vicidial changes, or route behavior changes in this phase.',
+    ],
+  };
+
+  const openAiKnowledgeBaseManagementReadiness: OpenAiKnowledgeBaseManagementReadiness = {
+    currentState: 'not_ready',
+    knowledgeBaseManagementApproved: false,
+    knowledgeBaseManagementMode: 'read_only_design',
+    knowledgeBaseEditorStatus: 'not_implemented',
+    knowledgeBaseStorageStatus: 'not_implemented',
+    documentUploadStatus: 'not_implemented',
+    documentIndexingStatus: 'not_implemented',
+    faqManagementStatus: 'required',
+    policyManagementStatus: 'required',
+    objectionLibraryStatus: 'required',
+    allowedAnswersStatus: 'required',
+    blockedAnswersStatus: 'required',
+    productServiceInfoStatus: 'required',
+    hoursAndContactStatus: 'required',
+    clientScopeStatus: 'required',
+    campaignScopeStatus: 'required',
+    versioningStatus: 'required',
+    approvalWorkflowStatus: 'required',
+    rollbackStatus: 'required',
+    auditLogStatus: 'required',
+    piiReviewStatus: 'required',
+    complianceReviewStatus: 'required',
+    sourceCitationStatus: 'required',
+    freshnessReviewStatus: 'required',
+    activeKnowledgeRuntimeStatus: 'not_allowed',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    knowledgeEditingAllowed: false,
+    knowledgeSaveAllowed: false,
+    knowledgePublishAllowed: false,
+    knowledgeRuntimeAllowed: false,
+    documentUploadAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    knowledgeBaseBlockers: [
+      'Knowledge base management not approved',
+      'Knowledge base editor not implemented',
+      'Knowledge base storage not implemented',
+      'Document upload not implemented',
+      'Document indexing not implemented',
+      'FAQ management required',
+      'Policy management required',
+      'Objection library required',
+      'Allowed answers required',
+      'Blocked answers required',
+      'Product/service information required',
+      'Hours/contact information required',
+      'Client scope required',
+      'Campaign scope required',
+      'Versioning required',
+      'Approval workflow required',
+      'Rollback required',
+      'Audit logging required',
+      'PII review required',
+      'Compliance review required',
+      'Source citation required',
+      'Freshness review required',
+      'OpenAI runtime not connected',
+      'Knowledge runtime not allowed',
+      'Prompt management not approved',
+      'OpenAI provider selection not approved',
+      'AI voice integration not approved',
+      'Staging dry run not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+    ],
+    requiredKnowledgeModules: [
+      'FAQ / common questions',
+      'Approved policies',
+      'Objection handling library',
+      'Allowed answers',
+      'Blocked answers',
+      'Product/service descriptions',
+      'Business hours',
+      'Contact information',
+      'Escalation instructions',
+      'Transfer rules',
+      'Campaign disclaimers',
+      'Compliance disclosures',
+      'Recording consent language',
+      'PII handling notes',
+      'State/campaign restrictions',
+      'Pricing or offer rules',
+      'Appointment rules',
+      'Callback rules',
+      'Human handoff triggers',
+      'Source references / citations',
+      'Knowledge freshness review',
+    ],
+    futureUiModules: [
+      'Knowledge base list by client/campaign',
+      'Knowledge base editor',
+      'FAQ manager',
+      'Policy manager',
+      'Objection library manager',
+      'Allowed/blocked answer manager',
+      'Document upload manager',
+      'Document review queue',
+      'Version history',
+      'Draft / pending approval / approved / archived statuses',
+      'Active knowledge base assignment',
+      'Knowledge base rollback',
+      'Freshness review dashboard',
+      'Source/citation viewer',
+      'Audit log viewer',
+      'Role-based approval workflow',
+    ],
+    knowledgeGovernanceRules: [
+      'Knowledge base must be client/campaign scoped',
+      'Knowledge base must have version number',
+      'Knowledge base must have approval status',
+      'Knowledge base must have author and approver metadata',
+      'Knowledge base must support rollback',
+      'Knowledge base must not be used unless approved',
+      'Knowledge base must not expose secrets',
+      'Knowledge base must not include prohibited sensitive data unless explicitly approved',
+      'Knowledge base must define allowed sources',
+      'Knowledge base must define blocked topics',
+      'Knowledge base must define freshness/review cadence',
+      'Knowledge base must identify source/citation where applicable',
+      'Knowledge base changes must be audited',
+      'Runtime must use only approved active knowledge base version',
+      'Runtime must not allow AI to invent unsupported answers',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create knowledge base editor controls in this phase',
+      'Do not create knowledge base save/edit/delete runtime controls in this phase',
+      'Do not create document upload controls in this phase',
+      'Do not create knowledge base database migrations in this phase',
+      'Do not store knowledge base content in this phase',
+      'Do not index documents in this phase',
+      'Do not send knowledge base content to OpenAI',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Runtime may only use approved active knowledge base version',
+      'Runtime must remain client/campaign scoped',
+      'Runtime must not use draft knowledge bases',
+      'Runtime must not use archived knowledge bases',
+      'Runtime must not expose secrets to OpenAI/browser/logs',
+      'Runtime must not allow AI to invent answers beyond approved knowledge',
+      'Runtime must cite or trace source references where applicable',
+      'Runtime must not allow AI to choose DIDs',
+      'Runtime must not allow AI to apply caller ID',
+      'Runtime must not bypass route engine',
+      'Runtime must support human handoff when knowledge is missing',
+      'Runtime must support queue fallback',
+      'Runtime must log knowledge base version used',
+      'Runtime must support rollback to prior approved version',
+      'Runtime must be blocked until staging approval',
+    ],
+    nextSteps: [
+      'Keep OpenAI knowledge base management read-only, unapproved, unimplemented, and disconnected.',
+      'Document client/campaign/project knowledge ownership, versioning, approval, rollback, audit, citation, freshness, and role-based access requirements.',
+      'Design future FAQ, policy, objection, allowed/blocked answer, document review, citation, freshness, and approval modules before implementation.',
+      'Keep prompt management, OpenAI provider selection, AI voice integration, staging dry run, live approval gate, and production preflight blocked.',
+      'Do not add knowledge editor controls, document upload controls, storage, indexing, migrations, OpenAI calls, agent tools, inbound/outbound AI, call execution, FastAGI changes, Asterisk/Vicidial changes, or route behavior changes in this phase.',
+    ],
+  };
+
+  const openAiHumanHandoffReadiness: OpenAiHumanHandoffReadiness = {
+    currentState: 'not_ready',
+    humanHandoffApproved: false,
+    humanHandoffMode: 'read_only_design',
+    transferToHumanStatus: 'required',
+    transferToQueueStatus: 'required',
+    callbackCreationStatus: 'required',
+    supervisorEscalationStatus: 'required',
+    emergencyStopStatus: 'required',
+    noAgentAvailableStatus: 'required',
+    queueFallbackStatus: 'required',
+    dispositionMappingStatus: 'required',
+    callSummaryStatus: 'required',
+    transcriptSummaryStatus: 'required',
+    customerIntentStatus: 'required',
+    sentimentEscalationStatus: 'required',
+    customerRequestHumanStatus: 'required',
+    uncertainAnswerStatus: 'required',
+    outOfScopeStatus: 'required',
+    angryCustomerStatus: 'required',
+    sensitiveDataStatus: 'required',
+    complianceEscalationStatus: 'required',
+    salesHotLeadStatus: 'required',
+    technicalFailureStatus: 'required',
+    transferAuditStatus: 'required',
+    transferRuntimeStatus: 'not_allowed',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    transferExecutionAllowed: false,
+    queueTransferAllowed: false,
+    callbackExecutionAllowed: false,
+    dispositionWriteAllowed: false,
+    humanHandoffRuntimeAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    handoffBlockers: [
+      'Human handoff not approved',
+      'Transfer to human rules required',
+      'Transfer to queue rules required',
+      'Callback creation rules required',
+      'Supervisor escalation required',
+      'Emergency stop required',
+      'No-agent-available fallback required',
+      'Queue fallback required',
+      'Disposition mapping required',
+      'Call summary required',
+      'Transcript summary required',
+      'Customer intent detection required',
+      'Sentiment escalation required',
+      'Customer-request-human trigger required',
+      'Uncertain-answer trigger required',
+      'Out-of-scope trigger required',
+      'Angry-customer trigger required',
+      'Sensitive-data trigger required',
+      'Compliance escalation required',
+      'Sales hot-lead escalation required',
+      'Technical failure escalation required',
+      'Transfer audit required',
+      'OpenAI runtime not connected',
+      'Transfer runtime not allowed',
+      'Prompt management not approved',
+      'Knowledge base management not approved',
+      'OpenAI provider selection not approved',
+      'AI voice integration not approved',
+      'Staging dry run not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+    ],
+    handoffTriggers: [
+      'Customer asks for a human',
+      'Customer is angry or distressed',
+      'Customer asks a question outside approved knowledge',
+      'AI is uncertain or lacks approved answer',
+      'Customer provides or requests sensitive data',
+      'Compliance or legal risk is detected',
+      'Customer requests cancellation or complaint handling',
+      'Customer is a high-intent sales lead',
+      'Customer requests callback',
+      'Customer requests appointment',
+      'Customer requests supervisor',
+      'Customer language cannot be handled safely',
+      'Customer repeats the same issue multiple times',
+      'OpenAI runtime failure',
+      'Audio quality failure',
+      'Tool or middleware failure',
+      'Queue availability issue',
+      'Emergency stop condition',
+    ],
+    requiredHandoffModules: [
+      'Human transfer policy',
+      'Queue transfer policy',
+      'Callback policy',
+      'Supervisor escalation policy',
+      'No-agent-available fallback',
+      'Emergency stop policy',
+      'Disposition mapping',
+      'Call summary template',
+      'Transcript summary template',
+      'Customer intent classification',
+      'Sentiment escalation rules',
+      'Sensitive data handling rules',
+      'Compliance escalation rules',
+      'Sales hot-lead routing',
+      'Technical failure fallback',
+      'Queue availability rules',
+      'Transfer audit logging',
+      'Prompt version logging',
+      'Knowledge base version logging',
+      'Final outcome mapping',
+    ],
+    futureUiModules: [
+      'Handoff rules by client/campaign',
+      'Queue assignment by client/campaign',
+      'Human transfer trigger editor',
+      'Callback rule editor',
+      'Supervisor escalation editor',
+      'Emergency stop configuration',
+      'No-agent-available fallback editor',
+      'Disposition mapping editor',
+      'Call summary template editor',
+      'Handoff audit viewer',
+      'Transfer test sandbox preview',
+      'Role-based approval workflow',
+      'Version history',
+      'Rollback panel',
+    ],
+    handoffGovernanceRules: [
+      'Handoff rules must be client/campaign scoped',
+      'Handoff rules must have version number',
+      'Handoff rules must have approval status',
+      'Handoff rules must have author and approver metadata',
+      'Handoff rules must support rollback',
+      'Handoff runtime must not execute unless approved',
+      'Handoff runtime must not bypass route engine',
+      'Handoff runtime must not expose secrets',
+      'Handoff runtime must log prompt version used',
+      'Handoff runtime must log knowledge base version used',
+      'Handoff runtime must log transfer reason',
+      'Handoff runtime must log final outcome/disposition',
+      'AI must not refuse human transfer when customer asks for human',
+      'AI must transfer or escalate when knowledge is missing',
+      'AI must transfer or escalate for compliance/sensitive-data risk',
+      'Queue transfer must have fallback when no agents are available',
+      'Emergency stop must override AI runtime',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create transfer endpoints in this phase',
+      'Do not execute transfer to human in this phase',
+      'Do not execute transfer to queue in this phase',
+      'Do not create callback execution endpoints in this phase',
+      'Do not write dispositions in this phase',
+      'Do not create handoff save/edit controls in this phase',
+      'Do not create handoff database migrations in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Runtime may only use approved active handoff rules',
+      'Runtime must remain client/campaign scoped',
+      'Runtime must not use draft handoff rules',
+      'Runtime must not use archived handoff rules',
+      'Runtime must not expose secrets to OpenAI/browser/logs',
+      'Runtime must not allow AI to choose DIDs',
+      'Runtime must not allow AI to apply caller ID',
+      'Runtime must not bypass route engine',
+      'Runtime must transfer when customer requests a human',
+      'Runtime must transfer or escalate when knowledge is missing',
+      'Runtime must fallback when no agents are available',
+      'Runtime must log transfer reason',
+      'Runtime must log prompt version used',
+      'Runtime must log knowledge base version used',
+      'Runtime must log final disposition/outcome',
+      'Runtime must support rollback to prior approved rules',
+      'Runtime must be blocked until staging approval',
+    ],
+    nextSteps: [
+      'Keep OpenAI human handoff and queue transfer design read-only, unapproved, unimplemented, and disconnected.',
+      'Document client/campaign/project handoff ownership, trigger rules, queue mapping, callback policy, disposition mapping, audit, approval, rollback, and role-based access requirements.',
+      'Design future human transfer, queue transfer, callback, supervisor escalation, emergency stop, no-agent fallback, and disposition modules before implementation.',
+      'Keep prompt management, knowledge base management, OpenAI provider selection, AI voice integration, staging dry run, live approval gate, and production preflight blocked.',
+      'Do not add transfer logic, transfer endpoints, callback endpoints, disposition writes, handoff controls, migrations, OpenAI calls, agent tools, inbound/outbound AI, call execution, FastAGI changes, Asterisk/Vicidial changes, or route behavior changes in this phase.',
+    ],
+  };
+
+  const openAiConversationLoggingQaReadiness: OpenAiConversationLoggingQaReadiness = {
+    currentState: 'not_ready',
+    conversationLoggingApproved: false,
+    conversationLoggingMode: 'read_only_design',
+    callSummaryStatus: 'required',
+    transcriptSummaryStatus: 'required',
+    conversationTranscriptStatus: 'not_implemented',
+    audioRecordingStatus: 'not_implemented',
+    recordingDisclosureStatus: 'required',
+    consentStatus: 'required',
+    piiRedactionStatus: 'required',
+    sensitiveDataDetectionStatus: 'required',
+    qaScoringStatus: 'required',
+    qaReviewQueueStatus: 'required',
+    aiErrorTrackingStatus: 'required',
+    hallucinationReviewStatus: 'required',
+    escalationReasonStatus: 'required',
+    transferReasonStatus: 'required',
+    dispositionSuggestionStatus: 'required',
+    finalOutcomeStatus: 'required',
+    customerIntentStatus: 'required',
+    sentimentStatus: 'required',
+    promptVersionLogStatus: 'required',
+    knowledgeBaseVersionLogStatus: 'required',
+    handoffRuleVersionLogStatus: 'required',
+    modelVersionLogStatus: 'required',
+    latencyMetricStatus: 'required',
+    costMetricStatus: 'required',
+    callQualityMetricStatus: 'required',
+    auditLogStatus: 'required',
+    retentionPolicyStatus: 'required',
+    exportPolicyStatus: 'required',
+    roleBasedAccessStatus: 'required',
+    activeLoggingRuntimeStatus: 'not_allowed',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    loggingRuntimeAllowed: false,
+    transcriptStorageAllowed: false,
+    recordingAllowed: false,
+    qaScoringAllowed: false,
+    dispositionWriteAllowed: false,
+    exportAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    loggingQaBlockers: [
+      'Conversation logging not approved',
+      'Call summary required',
+      'Transcript summary required',
+      'Conversation transcript storage not implemented',
+      'Audio recording not implemented',
+      'Recording disclosure required',
+      'Consent required',
+      'PII redaction required',
+      'Sensitive data detection required',
+      'QA scoring required',
+      'QA review queue required',
+      'AI error tracking required',
+      'Hallucination review required',
+      'Escalation reason logging required',
+      'Transfer reason logging required',
+      'Disposition suggestion required',
+      'Final outcome tracking required',
+      'Customer intent logging required',
+      'Sentiment logging required',
+      'Prompt version logging required',
+      'Knowledge base version logging required',
+      'Handoff rule version logging required',
+      'Model version logging required',
+      'Latency metric required',
+      'Cost metric required',
+      'Call quality metric required',
+      'Audit logging required',
+      'Retention policy required',
+      'Export policy required',
+      'Role-based access required',
+      'OpenAI runtime not connected',
+      'Logging runtime not allowed',
+      'Prompt management not approved',
+      'Knowledge base management not approved',
+      'Human handoff not approved',
+      'OpenAI provider selection not approved',
+      'AI voice integration not approved',
+      'Staging dry run not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+    ],
+    requiredLoggingModules: [
+      'Call summary generator',
+      'Transcript summary generator',
+      'Conversation transcript capture policy',
+      'Recording disclosure tracking',
+      'Consent tracking',
+      'PII redaction',
+      'Sensitive data detection',
+      'QA scorecard',
+      'QA review queue',
+      'AI error tracker',
+      'Hallucination review workflow',
+      'Escalation reason log',
+      'Transfer reason log',
+      'Disposition suggestion log',
+      'Final outcome mapping',
+      'Customer intent classification',
+      'Sentiment classification',
+      'Prompt version log',
+      'Knowledge base version log',
+      'Handoff rule version log',
+      'OpenAI model/version log',
+      'Latency metrics',
+      'Cost metrics',
+      'Call quality metrics',
+      'Audit log',
+      'Retention policy',
+      'Export policy',
+      'Role-based access rules',
+    ],
+    futureUiModules: [
+      'Conversation log list by client/campaign',
+      'Conversation detail view',
+      'Call summary viewer',
+      'Transcript summary viewer',
+      'Redacted transcript viewer',
+      'QA review queue',
+      'QA scorecard editor',
+      'QA evaluator notes',
+      'AI error review',
+      'Hallucination review',
+      'Escalation/transfer reason viewer',
+      'Disposition suggestion viewer',
+      'Final outcome viewer',
+      'Prompt/knowledge/handoff version viewer',
+      'Latency and cost dashboard',
+      'Retention policy viewer',
+      'Export request workflow',
+      'Audit log viewer',
+      'Role-based QA access workflow',
+    ],
+    loggingGovernanceRules: [
+      'Logging rules must be client/campaign scoped',
+      'Logging rules must have approval status',
+      'Logging rules must have author and approver metadata',
+      'Logging rules must support retention policy',
+      'Logging rules must support export policy',
+      'Logging runtime must not execute unless approved',
+      'Logs must not expose secrets',
+      'Logs must redact or restrict PII according to approved policy',
+      'Logs must identify prompt version used',
+      'Logs must identify knowledge base version used',
+      'Logs must identify handoff rule version used',
+      'Logs must identify model/version used',
+      'Logs must track escalation and transfer reasons',
+      'Logs must track final outcome/disposition suggestion',
+      'QA review must be role-restricted',
+      'Exports must be role-restricted and audited',
+      'Retention must be client/campaign scoped',
+      'Runtime must not store transcripts unless approved',
+      'Runtime must not record calls unless disclosure and consent are approved',
+    ],
+    qaReviewCriteria: [
+      'Greeting and identity compliance',
+      'Recording disclosure compliance',
+      'Consent compliance',
+      'Correct use of approved knowledge',
+      'No unsupported or invented answers',
+      'Proper escalation when uncertain',
+      'Proper transfer when customer requests human',
+      'Sensitive data handling',
+      'Tone and professionalism',
+      'Language match',
+      'Call objective completion',
+      'Disposition accuracy',
+      'Summary accuracy',
+      'Prompt adherence',
+      'Knowledge base adherence',
+      'Handoff rule adherence',
+      'Compliance risk flags',
+      'Customer sentiment',
+      'AI error or hallucination flags',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create conversation logging runtime in this phase',
+      'Do not store conversation logs in this phase',
+      'Do not store transcripts in this phase',
+      'Do not record calls in this phase',
+      'Do not create transcription endpoints in this phase',
+      'Do not create QA scoring endpoints in this phase',
+      'Do not create export endpoints in this phase',
+      'Do not write dispositions in this phase',
+      'Do not send logs, audio, transcripts, summaries, or QA data to OpenAI',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Runtime may only log under approved active logging policy',
+      'Runtime must remain client/campaign scoped',
+      'Runtime must not store transcripts unless approved',
+      'Runtime must not record calls unless disclosure and consent are approved',
+      'Runtime must not expose secrets to OpenAI/browser/logs',
+      'Runtime must redact or restrict PII according to approved policy',
+      'Runtime must log prompt version used',
+      'Runtime must log knowledge base version used',
+      'Runtime must log handoff rule version used',
+      'Runtime must log OpenAI model/version used',
+      'Runtime must log escalation and transfer reasons',
+      'Runtime must log final outcome/disposition suggestion',
+      'Runtime must support QA review permissions',
+      'Runtime must support retention and export policies',
+      'Runtime must support audit trail',
+      'Runtime must be blocked until staging approval',
+    ],
+    nextSteps: [
+      'Keep OpenAI conversation logging and QA design read-only, unapproved, unimplemented, and disconnected.',
+      'Document client/campaign/project logging, QA, recording disclosure, consent, PII redaction, retention, export, and role-based access requirements.',
+      'Design future summaries, transcript policy, QA scorecards, AI error review, hallucination review, metrics, audit, retention, and export modules before implementation.',
+      'Keep prompt management, knowledge base management, human handoff, OpenAI provider selection, AI voice integration, staging dry run, live approval gate, and production preflight blocked.',
+      'Do not add logging runtime, transcript storage, recording, transcription endpoints, QA scoring endpoints, export endpoints, disposition writes, OpenAI calls, agent tools, inbound/outbound AI, call execution, FastAGI changes, Asterisk/Vicidial changes, or route behavior changes in this phase.',
+    ],
+  };
+
+  const openAiPiiComplianceConsentReadiness: OpenAiPiiComplianceConsentReadiness = {
+    currentState: 'not_ready',
+    piiComplianceApproved: false,
+    piiComplianceMode: 'read_only_design',
+    recordingDisclosureStatus: 'required',
+    customerConsentStatus: 'required',
+    consentCaptureStatus: 'not_implemented',
+    consentStorageStatus: 'not_implemented',
+    consentRevocationStatus: 'required',
+    piiDetectionStatus: 'required',
+    piiRedactionStatus: 'required',
+    sensitiveDataDetectionStatus: 'required',
+    sensitiveDataEscalationStatus: 'required',
+    prohibitedDataPolicyStatus: 'required',
+    allowedDataPolicyStatus: 'required',
+    dataMinimizationStatus: 'required',
+    retentionPolicyStatus: 'required',
+    exportPolicyStatus: 'required',
+    deletionPolicyStatus: 'required',
+    auditLogStatus: 'required',
+    roleBasedAccessStatus: 'required',
+    clientScopeStatus: 'required',
+    campaignScopeStatus: 'required',
+    legalReviewStatus: 'required',
+    complianceReviewStatus: 'required',
+    recordingPolicyStatus: 'required',
+    transcriptPolicyStatus: 'required',
+    openAiDataSharingPolicyStatus: 'required',
+    humanEscalationPolicyStatus: 'required',
+    emergencyStopStatus: 'required',
+    activeComplianceRuntimeStatus: 'not_allowed',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    consentCaptureAllowed: false,
+    piiDetectionAllowed: false,
+    piiRedactionAllowed: false,
+    recordingAllowed: false,
+    transcriptStorageAllowed: false,
+    dataExportAllowed: false,
+    dataDeletionAllowed: false,
+    complianceRuntimeAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    piiComplianceBlockers: [
+      'PII/compliance readiness not approved',
+      'Recording disclosure required',
+      'Customer consent required',
+      'Consent capture not implemented',
+      'Consent storage not implemented',
+      'Consent revocation policy required',
+      'PII detection required',
+      'PII redaction required',
+      'Sensitive data detection required',
+      'Sensitive data escalation required',
+      'Prohibited data policy required',
+      'Allowed data policy required',
+      'Data minimization required',
+      'Retention policy required',
+      'Export policy required',
+      'Deletion policy required',
+      'Audit logging required',
+      'Role-based access required',
+      'Client scope required',
+      'Campaign scope required',
+      'Legal review required',
+      'Compliance review required',
+      'Recording policy required',
+      'Transcript policy required',
+      'OpenAI data sharing policy required',
+      'Human escalation policy required',
+      'Emergency stop required',
+      'OpenAI runtime not connected',
+      'Compliance runtime not allowed',
+      'Prompt management not approved',
+      'Knowledge base management not approved',
+      'Human handoff not approved',
+      'Conversation logging/QA not approved',
+      'OpenAI provider selection not approved',
+      'AI voice integration not approved',
+      'Staging dry run not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+    ],
+    prohibitedDataTypes: [
+      'Full Social Security number or national ID',
+      'Full credit card number',
+      'CVV/security code',
+      'Bank account credentials',
+      'Passwords or one-time passcodes',
+      'Full medical diagnosis details unless explicitly approved for campaign',
+      'Protected health information unless explicitly approved for campaign',
+      'Legal case confidential details unless explicitly approved for campaign',
+      'Authentication secrets',
+      'API keys or tokens',
+      'Biometric identifiers unless explicitly approved',
+      'Children/minor sensitive information unless explicitly approved',
+      'Any data outside approved campaign scope',
+    ],
+    allowedDataTypes: [
+      'First name or preferred name when needed',
+      'Callback phone number when approved',
+      'Appointment preference when approved',
+      'General service interest',
+      'General issue category',
+      'Non-sensitive call reason',
+      'Language preference',
+      'Consent response',
+      'Transfer request',
+      'Callback request',
+      'Public business information',
+      'Campaign-approved qualification fields',
+    ],
+    requiredComplianceModules: [
+      'Recording disclosure policy',
+      'Consent capture policy',
+      'Consent revocation policy',
+      'PII detection policy',
+      'PII redaction policy',
+      'Sensitive data escalation policy',
+      'Prohibited data policy',
+      'Allowed data policy',
+      'Data minimization policy',
+      'Retention policy',
+      'Export policy',
+      'Deletion policy',
+      'Role-based access policy',
+      'Legal review workflow',
+      'Compliance review workflow',
+      'Audit logging',
+      'OpenAI data sharing policy',
+      'Human escalation policy',
+      'Emergency stop policy',
+      'Client/campaign scope policy',
+    ],
+    futureUiModules: [
+      'PII/compliance policy list by client/campaign',
+      'Recording disclosure editor',
+      'Consent language editor',
+      'Consent requirement matrix',
+      'PII allowed/blocked data manager',
+      'Sensitive data escalation manager',
+      'Retention policy viewer',
+      'Export policy viewer',
+      'Deletion policy viewer',
+      'Compliance approval workflow',
+      'Legal review workflow',
+      'Audit log viewer',
+      'Role-based access workflow',
+      'Emergency stop configuration',
+      'Policy version history',
+      'Policy rollback panel',
+    ],
+    complianceGovernanceRules: [
+      'Compliance policy must be client/campaign scoped',
+      'Compliance policy must have version number',
+      'Compliance policy must have approval status',
+      'Compliance policy must have author and approver metadata',
+      'Compliance policy must support rollback',
+      'Compliance runtime must not execute unless approved',
+      'AI runtime must be blocked without required consent',
+      'AI runtime must stop or transfer on prohibited sensitive data',
+      'AI runtime must not request prohibited data',
+      'AI runtime must use data minimization',
+      'AI runtime must not expose secrets',
+      'OpenAI must receive only approved minimal context',
+      'Logs/transcripts must redact or restrict PII according to policy',
+      'Recording must not occur without approved disclosure/consent rules',
+      'Transcript storage must not occur without approved retention policy',
+      'Exports must be role-restricted and audited',
+      'Deletion requests must be tracked and audited',
+      'Emergency stop must override AI runtime',
+    ],
+    consentDisclosureRequirements: [
+      'Disclosure language must be approved per client/campaign',
+      'Customer must be informed when AI is used if required by policy',
+      'Customer must be informed when call may be recorded if recording is enabled',
+      'Consent response must be captured before recording or transcript storage if required',
+      'Lack of consent must block recording/transcript storage when required',
+      'Customer must be able to request human assistance',
+      'Customer must be able to withdraw consent where policy requires',
+      'Consent outcome must be logged in future runtime',
+      'Consent rules must be versioned and approved',
+    ],
+    piiEscalationTriggers: [
+      'Customer provides prohibited sensitive data',
+      'Customer asks AI to process prohibited sensitive data',
+      'Customer requests legal/medical/financial advice outside approved scope',
+      'Customer provides authentication secrets',
+      'Customer provides payment card security code',
+      'Customer asks to bypass consent or recording disclosure',
+      'AI detects compliance uncertainty',
+      'AI detects policy conflict',
+      'AI cannot determine whether data is allowed',
+      'Customer asks for deletion/export/privacy request',
+      'Customer asks for supervisor or human over privacy concern',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create PII detection runtime in this phase',
+      'Do not create consent capture runtime in this phase',
+      'Do not store consent records in this phase',
+      'Do not store PII in this phase',
+      'Do not store transcripts in this phase',
+      'Do not record calls in this phase',
+      'Do not create redaction runtime in this phase',
+      'Do not create retention/export runtime in this phase',
+      'Do not send PII, audio, transcripts, consent, summaries, or logs to OpenAI',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Runtime may only use approved active compliance policy',
+      'Runtime must remain client/campaign scoped',
+      'Runtime must block AI without required consent',
+      'Runtime must not request prohibited data',
+      'Runtime must stop or transfer on prohibited sensitive data',
+      'Runtime must use data minimization',
+      'Runtime must not expose secrets to OpenAI/browser/logs',
+      'Runtime must redact or restrict PII according to approved policy',
+      'Runtime must not record calls unless disclosure and consent are approved',
+      'Runtime must not store transcripts unless retention policy is approved',
+      'Runtime must log consent outcome if consent capture is approved',
+      'Runtime must support privacy/export/deletion request handling in approved workflow',
+      'Runtime must log prompt/knowledge/handoff/logging/compliance policy versions',
+      'Runtime must support emergency stop',
+      'Runtime must be blocked until staging approval',
+    ],
+    nextSteps: [
+      'Keep OpenAI PII/compliance/consent design read-only, not ready, unapproved, unimplemented, and disconnected.',
+      'Document client/campaign/project policy ownership, versioning, approval, rollback, audit, legal review, compliance review, and role-based access requirements.',
+      'Define prohibited data, allowed data, consent language, recording disclosure, retention, export, deletion, redaction, escalation, and emergency stop rules before runtime.',
+      'Keep prompt management, knowledge base management, human handoff, conversation logging/QA, OpenAI provider selection, AI voice integration, staging dry run, live approval gate, and production preflight blocked.',
+      'Do not add PII detection runtime, consent capture runtime, consent storage, PII storage, transcript storage, recording, redaction, retention/export runtime, OpenAI calls, agent tools, inbound/outbound AI, call execution, FastAGI changes, Asterisk/Vicidial changes, or route behavior changes in this phase.',
+    ],
+  };
+
+  const openAiToolBoundaryReadiness: OpenAiToolBoundaryReadiness = {
+    currentState: 'not_ready',
+    toolBoundaryApproved: false,
+    toolBoundaryMode: 'read_only_design',
+    toolRegistryStatus: 'not_implemented',
+    toolExecutionStatus: 'not_allowed',
+    actionApprovalStatus: 'required',
+    toolScopeStatus: 'required',
+    clientScopeStatus: 'required',
+    campaignScopeStatus: 'required',
+    roleBasedAccessStatus: 'required',
+    auditLogStatus: 'required',
+    secretIsolationStatus: 'required',
+    rateLimitStatus: 'required',
+    dryRunStatus: 'required',
+    humanApprovalStatus: 'required',
+    rollbackStatus: 'required',
+    emergencyStopStatus: 'required',
+    routeEngineBoundaryStatus: 'required',
+    didMutationStatus: 'not_allowed',
+    callerIdMutationStatus: 'not_allowed',
+    campaignMutationStatus: 'not_allowed',
+    leadMutationStatus: 'not_allowed',
+    callbackMutationStatus: 'not_allowed',
+    dispositionWriteStatus: 'not_allowed',
+    transferExecutionStatus: 'not_allowed',
+    asteriskVicidialMutationStatus: 'not_allowed',
+    promptMutationStatus: 'not_allowed',
+    knowledgeMutationStatus: 'not_allowed',
+    complianceMutationStatus: 'not_allowed',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    toolExecutionAllowed: false,
+    toolRegistryAllowed: false,
+    agentActionAllowed: false,
+    writeActionAllowed: false,
+    didSelectionAllowed: false,
+    callerIdApplyAllowed: false,
+    campaignWriteAllowed: false,
+    leadWriteAllowed: false,
+    callbackWriteAllowed: false,
+    dispositionWriteAllowed: false,
+    transferExecutionAllowed: false,
+    secretAccessAllowed: false,
+    asteriskVicidialWriteAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    toolBoundaryBlockers: [
+      'Tool boundary not approved',
+      'Tool registry not implemented',
+      'Tool execution not allowed',
+      'Action approval workflow required',
+      'Tool scope required',
+      'Client scope required',
+      'Campaign scope required',
+      'Role-based access required',
+      'Audit logging required',
+      'Secret isolation required',
+      'Rate limit policy required',
+      'Dry-run policy required',
+      'Human approval required',
+      'Rollback policy required',
+      'Emergency stop required',
+      'Route engine boundary required',
+      'DID mutation not allowed',
+      'Caller ID mutation not allowed',
+      'Campaign mutation not allowed',
+      'Lead mutation not allowed',
+      'Callback mutation not allowed',
+      'Disposition write not allowed',
+      'Transfer execution not allowed',
+      'Asterisk/Vicidial mutation not allowed',
+      'Prompt mutation not allowed',
+      'Knowledge mutation not allowed',
+      'Compliance mutation not allowed',
+      'OpenAI runtime not connected',
+      'Tool execution runtime not allowed',
+      'Prompt management not approved',
+      'Knowledge base management not approved',
+      'Human handoff not approved',
+      'Conversation logging/QA not approved',
+      'PII/compliance/consent not approved',
+      'OpenAI provider selection not approved',
+      'AI voice integration not approved',
+      'Staging dry run not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+    ],
+    prohibitedAgentActions: [
+      'AI must not choose DID',
+      'AI must not apply caller ID',
+      'AI must not bypass route engine',
+      'AI must not change route mode',
+      'AI must not enable FastAGI',
+      'AI must not modify Asterisk/Vicidial',
+      'AI must not modify DID inventory',
+      'AI must not pause/burn/delete DIDs',
+      'AI must not modify campaign settings',
+      'AI must not modify lead records',
+      'AI must not create callbacks without approved policy',
+      'AI must not transfer calls without approved policy',
+      'AI must not write dispositions without approved policy',
+      'AI must not edit prompts',
+      'AI must not edit knowledge base content',
+      'AI must not edit compliance policies',
+      'AI must not access API keys or secrets',
+      'AI must not execute shell commands',
+      'AI must not restart services',
+      'AI must not deploy code',
+      'AI must not run migrations',
+      'AI must not export data',
+      'AI must not delete data',
+      'AI must not override human approval',
+      'AI must not continue when emergency stop is active',
+    ],
+    allowedFutureReadOnlyActions: [
+      'Read approved prompt version metadata',
+      'Read approved knowledge base version metadata',
+      'Read approved handoff policy metadata',
+      'Read approved compliance policy metadata',
+      'Read campaign public configuration summary',
+      'Read client public configuration summary',
+      'Read route decision explanation',
+      'Read simulator trace result',
+      'Read safe FAQ answer from approved knowledge',
+      'Read transfer policy summary',
+      'Read consent/disclosure policy summary',
+      'Read allowed/prohibited action list',
+      'Read current readiness state',
+      'Read audit-safe call summary after approval',
+    ],
+    requiredToolGovernanceModules: [
+      'Tool registry',
+      'Tool allowlist',
+      'Tool denylist',
+      'Tool scope policy',
+      'Client/campaign tool assignment',
+      'Role-based tool permissions',
+      'Human approval workflow',
+      'Dry-run/simulation policy',
+      'Rate limiting',
+      'Audit logging',
+      'Secret isolation',
+      'Tool result validation',
+      'Rollback policy',
+      'Emergency stop',
+      'Runtime kill switch',
+      'Policy versioning',
+      'Approval status tracking',
+    ],
+    futureUiModules: [
+      'Tool registry viewer',
+      'Tool allowlist viewer',
+      'Tool denylist viewer',
+      'Client/campaign tool scope viewer',
+      'Agent action boundary matrix',
+      'Human approval workflow viewer',
+      'Dry-run policy viewer',
+      'Rate limit policy viewer',
+      'Tool audit log viewer',
+      'Secret isolation status viewer',
+      'Emergency stop status viewer',
+      'Runtime kill switch status viewer',
+      'Policy version history',
+      'Rollback policy viewer',
+      'Forbidden action list viewer',
+    ],
+    toolGovernanceRules: [
+      'Tool policy must be client/campaign scoped',
+      'Tool policy must have version number',
+      'Tool policy must have approval status',
+      'Tool policy must have author and approver metadata',
+      'Tool policy must support rollback',
+      'Tool runtime must not execute unless approved',
+      'Tool runtime must use allowlist and denylist',
+      'Tool runtime must enforce least privilege',
+      'Tool runtime must not expose secrets',
+      'Tool runtime must audit every attempted action',
+      'Tool runtime must block write actions unless explicitly approved',
+      'Tool runtime must block DID/caller ID/campaign/lead mutation unless explicitly approved',
+      'Tool runtime must never bypass route engine',
+      'Tool runtime must stop when emergency stop is active',
+      'Tool runtime must support dry-run before live action',
+      'Human approval must be required for high-risk actions',
+      'OpenAI must only receive tool outputs that are safe and scoped',
+      'Failed tool calls must not retry unsafe actions automatically',
+    ],
+    futureRuntimeBoundaries: [
+      'Runtime may only use approved active tool policy',
+      'Runtime must remain client/campaign scoped',
+      'Runtime must not expose secrets to OpenAI/browser/logs',
+      'Runtime must not allow AI to choose DIDs',
+      'Runtime must not allow AI to apply caller ID',
+      'Runtime must not allow AI to bypass route engine',
+      'Runtime must not allow AI to mutate Asterisk/Vicidial',
+      'Runtime must not allow AI to mutate campaigns/leads/DIDs without approved write policy',
+      'Runtime must not allow AI to create callbacks without approved policy',
+      'Runtime must not allow AI to transfer calls without approved policy',
+      'Runtime must not allow AI to write dispositions without approved policy',
+      'Runtime must audit attempted actions',
+      'Runtime must log tool policy version used',
+      'Runtime must support human approval gates',
+      'Runtime must support emergency stop',
+      'Runtime must be blocked until staging approval',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create OpenAI tool schemas in this phase',
+      'Do not expose agent tools in this phase',
+      'Do not create tool execution endpoints in this phase',
+      'Do not create agent action endpoints in this phase',
+      'Do not create write-capable tools in this phase',
+      'Do not allow AI to choose DIDs in this phase',
+      'Do not allow AI to apply caller ID in this phase',
+      'Do not allow AI to mutate campaigns, leads, DIDs, callbacks, dispositions, prompts, knowledge, compliance policies, or route behavior in this phase',
+      'Do not expose secrets in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    nextSteps: [
+      'Keep OpenAI tool boundary and agent action design read-only, not ready, unapproved, unimplemented, and disconnected.',
+      'Document client/campaign/project tool ownership, allowlist, denylist, scope, versioning, approval, rollback, audit, rate limit, secret isolation, and emergency stop requirements.',
+      'Define prohibited agent actions, future read-only actions, high-risk human approval gates, dry-run requirements, and route engine boundaries before any runtime implementation.',
+      'Keep prompt management, knowledge base management, human handoff, conversation logging/QA, PII/compliance/consent, OpenAI provider selection, AI voice integration, staging dry run, live approval gate, and production preflight blocked.',
+      'Do not add OpenAI tool schemas, agent tools, tool execution endpoints, agent action endpoints, write-capable tools, OpenAI calls, inbound/outbound AI, call execution, FastAGI changes, Asterisk/Vicidial changes, DID/caller ID/campaign/lead/callback/disposition/prompt/knowledge/compliance mutations, or route behavior changes in this phase.',
+    ],
+  };
+
+  const openAiStagingRuntimeApprovalReadiness: OpenAiStagingRuntimeApprovalReadiness = {
+    currentState: 'not_ready',
+    stagingRuntimeApproved: false,
+    stagingRuntimeMode: 'read_only_design',
+    targetEnvironment: 'staging_only',
+    productionAllowed: false,
+    realCallsAllowed: false,
+    testCallsAllowed: false,
+    sandboxOpenAiStatus: 'required',
+    openAiCredentialsStatus: 'not_configured',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    promptApprovalStatus: 'required',
+    knowledgeBaseApprovalStatus: 'required',
+    humanHandoffApprovalStatus: 'required',
+    conversationLoggingQaApprovalStatus: 'required',
+    piiComplianceConsentApprovalStatus: 'required',
+    toolBoundaryApprovalStatus: 'required',
+    providerSelectionApprovalStatus: 'required',
+    aiVoiceIntegrationApprovalStatus: 'required',
+    stagingDryRunApprovalStatus: 'not_approved',
+    liveApprovalGateStatus: 'closed',
+    productionPreflightStatus: 'not_ready',
+    rollbackPlanStatus: 'required',
+    emergencyStopStatus: 'required',
+    operatorApprovalStatus: 'required',
+    qaApprovalStatus: 'required',
+    legalComplianceApprovalStatus: 'required',
+    clientCampaignApprovalStatus: 'required',
+    testDataStatus: 'required',
+    testDidsStatus: 'required',
+    testQueueStatus: 'required',
+    successCriteriaStatus: 'required',
+    failureCriteriaStatus: 'required',
+    monitoringPlanStatus: 'required',
+    auditLogStatus: 'required',
+    postTestReviewStatus: 'required',
+    stagingExecutionStatus: 'not_allowed',
+    runtimeApprovalStatus: 'not_approved',
+    dryRunExecutionAllowed: false,
+    stagingExecutionAllowed: false,
+    runtimeApprovalAllowed: false,
+    callExecutionAllowed: false,
+    rollbackExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    stagingApprovalBlockers: [
+      'Staging runtime not approved',
+      'Sandbox OpenAI environment required',
+      'OpenAI credentials not configured',
+      'OpenAI runtime not connected',
+      'OpenAI execution not allowed',
+      'Prompt approval required',
+      'Knowledge base approval required',
+      'Human handoff approval required',
+      'Conversation logging/QA approval required',
+      'PII/compliance/consent approval required',
+      'Tool boundary approval required',
+      'Provider selection approval required',
+      'AI voice integration approval required',
+      'Staging dry run not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+      'Rollback plan required',
+      'Emergency stop required',
+      'Operator approval required',
+      'QA approval required',
+      'Legal/compliance approval required',
+      'Client/campaign approval required',
+      'Test data required',
+      'Test DIDs required',
+      'Test queue required',
+      'Success criteria required',
+      'Failure criteria required',
+      'Monitoring plan required',
+      'Audit logging required',
+      'Post-test review required',
+      'Staging execution not allowed',
+      'Runtime approval not approved',
+      'Real calls not allowed',
+      'Production not allowed',
+    ],
+    requiredApprovals: [
+      'Super admin approval',
+      'Operator approval',
+      'QA approval',
+      'Legal/compliance approval',
+      'Client/campaign owner approval',
+      'OpenAI provider selection approval',
+      'AI voice integration approval',
+      'Prompt version approval',
+      'Knowledge base version approval',
+      'Human handoff rules approval',
+      'Conversation logging and QA policy approval',
+      'PII/compliance/consent policy approval',
+      'Tool boundary policy approval',
+      'Rollback plan approval',
+      'Emergency stop approval',
+      'Staging dry-run approval',
+    ],
+    requiredPrerequisites: [
+      'Staging-only environment identified',
+      'Production explicitly blocked',
+      'Real customer calls explicitly blocked',
+      'OpenAI sandbox credentials defined but not configured in this phase',
+      'Approved test prompt version',
+      'Approved test knowledge base version',
+      'Approved handoff policy version',
+      'Approved logging/QA policy version',
+      'Approved PII/compliance/consent policy version',
+      'Approved tool boundary policy version',
+      'Test DIDs identified',
+      'Test queue identified',
+      'Test data approved',
+      'Monitoring owner assigned',
+      'Rollback owner assigned',
+      'Emergency stop owner assigned',
+      'Success criteria documented',
+      'Failure criteria documented',
+      'Post-test review owner assigned',
+    ],
+    proposedStagingTestSteps: [
+      'Confirm all prerequisite approvals',
+      'Confirm production remains blocked',
+      'Confirm real calls remain blocked',
+      'Confirm test campaign/client scope',
+      'Confirm test DIDs and queue are non-production',
+      'Confirm OpenAI sandbox credentials are configured only in approved future phase',
+      'Confirm prompt, knowledge, handoff, logging, compliance, and tool policies are approved versions',
+      'Run simulator-only validation',
+      'Run non-call OpenAI connection validation in approved future phase',
+      'Run synthetic transcript validation in approved future phase',
+      'Run isolated audio path validation in approved future phase',
+      'Run controlled internal test call only after separate approval',
+      'Review logs, QA signals, handoff behavior, consent behavior, and tool boundary behavior',
+      'Stop test immediately on failure criteria',
+      'Complete post-test review before any wider pilot',
+    ],
+    successCriteria: [
+      'No production traffic involved',
+      'No real customer calls involved',
+      'OpenAI runtime remains scoped to approved staging policy',
+      'Prompt version used is approved',
+      'Knowledge base version used is approved',
+      'Handoff rules version used is approved',
+      'Logging/QA policy version used is approved',
+      'PII/compliance/consent policy version used is approved',
+      'Tool boundary policy version used is approved',
+      'AI does not choose DIDs',
+      'AI does not apply caller ID',
+      'AI does not bypass route engine',
+      'AI does not access secrets',
+      'AI transfers or escalates when required',
+      'AI does not invent unsupported answers',
+      'Consent/disclosure behavior follows approved policy',
+      'QA review captures required signals',
+      'Rollback/emergency stop path is verified',
+    ],
+    failureCriteria: [
+      'Any production traffic is touched',
+      'Any real customer call is touched',
+      'OpenAI uses unapproved prompt',
+      'OpenAI uses unapproved knowledge',
+      'OpenAI uses unapproved handoff rules',
+      'OpenAI uses unapproved compliance policy',
+      'OpenAI tool boundary is bypassed',
+      'AI chooses or applies caller ID',
+      'AI bypasses route engine',
+      'AI accesses or exposes secrets',
+      'AI requests prohibited data',
+      'AI stores transcript without approval',
+      'AI records without approval',
+      'AI fails to transfer when customer requests human',
+      'AI invents unsupported answer',
+      'Any unapproved write action occurs',
+      'Monitoring or audit logs are missing',
+      'Emergency stop fails',
+      'Rollback fails',
+    ],
+    rollbackRequirements: [
+      'FastAGI remains disabled unless separately approved',
+      'Route engine remains shadow unless separately approved',
+      'OpenAI runtime can be disabled immediately in future phase',
+      'AI voice can be disabled immediately in future phase',
+      'Tool execution can be disabled immediately in future phase',
+      'Test campaign can be disabled immediately in future phase',
+      'Test queue can be removed from flow immediately in future phase',
+      'Logs must identify test window',
+      'Logs must identify prompt/knowledge/handoff/logging/compliance/tool versions',
+      'Operator must verify disabled state after rollback',
+      'Post-rollback review required',
+    ],
+    monitoringRequirements: [
+      'Route engine traces reviewed',
+      'OpenAI runtime errors reviewed in future phase',
+      'Handoff decisions reviewed',
+      'Consent/disclosure decisions reviewed',
+      'Tool boundary decisions reviewed',
+      'QA scorecard reviewed',
+      'Transcript/summary handling reviewed if approved',
+      'Latency reviewed',
+      'Cost reviewed',
+      'Audit log reviewed',
+      'Emergency stop status reviewed',
+      'Rollback readiness reviewed',
+    ],
+    prohibitedCurrentActions: [
+      'Do not approve staging runtime in this phase',
+      'Do not configure OpenAI credentials in this phase',
+      'Do not connect OpenAI in this phase',
+      'Do not execute OpenAI API calls in this phase',
+      'Do not open Realtime voice sessions in this phase',
+      'Do not expose agent tools in this phase',
+      'Do not execute staging tests in this phase',
+      'Do not execute dry-run calls in this phase',
+      'Do not execute real calls in this phase',
+      'Do not enable inbound AI in this phase',
+      'Do not enable outbound AI in this phase',
+      'Do not create runtime approval controls in this phase',
+      'Do not create staging execution controls in this phase',
+      'Do not create rollback execution controls in this phase',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Runtime may only run in staging after all approvals',
+      'Runtime must remain client/campaign scoped',
+      'Runtime must not touch production unless separately approved',
+      'Runtime must not touch real customer calls unless separately approved',
+      'Runtime must only use approved prompt, knowledge, handoff, logging, compliance, and tool versions',
+      'Runtime must not allow AI to choose DIDs',
+      'Runtime must not allow AI to apply caller ID',
+      'Runtime must not allow AI to bypass route engine',
+      'Runtime must not expose secrets',
+      'Runtime must honor consent and compliance policies',
+      'Runtime must honor tool boundary policy',
+      'Runtime must support immediate emergency stop',
+      'Runtime must support rollback',
+      'Runtime must log all test identifiers and policy versions',
+      'Runtime must complete post-test review before pilot expansion',
+    ],
+    nextSteps: [
+      'Keep OpenAI staging runtime approval readiness read-only, not ready, unapproved, and disconnected.',
+      'Document staging-only client/campaign/project approval ownership, required prerequisites, success criteria, failure criteria, monitoring, rollback, emergency stop, and post-test review requirements.',
+      'Keep production, real calls, test calls, OpenAI credentials, OpenAI runtime, staging execution, runtime approval, dry-run execution, call execution, rollback execution, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Keep prompt management, knowledge base management, human handoff, conversation logging/QA, PII/compliance/consent, tool boundary, provider selection, AI voice integration, staging dry run, live approval gate, and production preflight blocked.',
+      'Do not add staging execution logic, runtime approval endpoints, dry-run execution endpoints, OpenAI sandbox execution, OpenAI connection, agent tools, call execution controls, approval write controls, Asterisk/Vicidial changes, or route behavior changes in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -1908,6 +3761,24 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'AI provider selection readiness is read-only, no provider is selected, credentials are not configured, and no provider execution controls are exposed.',
     },
+    {
+      id: 'openai-pii-compliance-consent-readiness-read-only',
+      label: 'OpenAI PII/compliance/consent readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI PII/compliance/consent readiness is read-only, not approved, runtime-blocked, and exposes no consent, PII, recording, export, deletion, or OpenAI execution controls.',
+    },
+    {
+      id: 'openai-tool-boundary-readiness-read-only',
+      label: 'OpenAI tool boundary readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI tool boundary readiness is read-only, not approved, runtime-blocked, and exposes no tool execution, agent action, write, mutation, caller ID, secret, or OpenAI execution controls.',
+    },
+    {
+      id: 'openai-staging-runtime-approval-readiness-read-only',
+      label: 'OpenAI staging runtime approval readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI staging runtime approval readiness is read-only, not approved, staging-only, disconnected, and exposes no staging, dry-run, runtime approval, call, rollback, OpenAI execution, or approval write controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -2009,6 +3880,13 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     stagingDryRunReadiness,
     aiVoiceIntegrationContractReadiness,
     aiProviderSelectionReadiness,
+    openAiAgentPromptManagementReadiness,
+    openAiKnowledgeBaseManagementReadiness,
+    openAiHumanHandoffReadiness,
+    openAiConversationLoggingQaReadiness,
+    openAiPiiComplianceConsentReadiness,
+    openAiToolBoundaryReadiness,
+    openAiStagingRuntimeApprovalReadiness,
     checklist,
     risks,
     recommendations: [
@@ -2024,6 +3902,13 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat staging dry run readiness as read-only planning visibility; it does not execute dry runs, calls, or command controls.',
       'Treat AI voice integration contract as read-only planning visibility; it does not connect providers, execute calls, or answer calls with AI.',
       'Treat AI provider selection readiness as read-only evaluation visibility; it does not select providers, configure credentials, or connect AI providers.',
+      'Treat OpenAI agent prompt management readiness as read-only design visibility; it does not implement prompt editing, store prompts, connect OpenAI, expose agent tools, or execute AI requests.',
+      'Treat OpenAI knowledge base management readiness as read-only design visibility; it does not implement knowledge editing, store content, upload documents, index documents, connect OpenAI, or execute AI requests.',
+      'Treat OpenAI human handoff readiness as read-only design visibility; it does not implement transfer logic, create transfer endpoints, transfer calls, create callbacks, write dispositions, connect OpenAI, or execute AI requests.',
+      'Treat OpenAI conversation logging and QA readiness as read-only design visibility; it does not implement logging runtime, store transcripts, record calls, score QA, export data, write dispositions, connect OpenAI, or execute AI requests.',
+      'Treat OpenAI PII/compliance/consent readiness as read-only design visibility; it does not implement PII detection, consent capture, consent storage, PII storage, transcript storage, recording, redaction, retention/export runtime, connect OpenAI, or execute AI requests.',
+      'Treat OpenAI tool boundary readiness as read-only design visibility; it does not create OpenAI tool schemas, expose agent tools, create tool execution endpoints, create agent action endpoints, create write-capable tools, mutate middleware state, expose secrets, connect OpenAI, or execute AI requests.',
+      'Treat OpenAI staging runtime approval readiness as read-only design visibility; it does not approve staging runtime, configure credentials, connect OpenAI, execute staging tests, execute dry-run calls, execute real calls, create runtime approval controls, create staging execution controls, create rollback execution controls, modify Asterisk/Vicidial, or change route behavior.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
