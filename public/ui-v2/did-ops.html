@@ -792,6 +792,15 @@
                   <div class="muted small">Loading OpenAI staging test plan and runtime approval readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Config Model Readiness</h2>
+                  <span class="muted small">Read-only configuration model status. This does not create storage, save configs, approve configs, store credentials, connect OpenAI, or enable runtime config.</span>
+                </div>
+                <div class="summary-grid" id="openAiConfigModelCards"></div>
+                <div class="row" id="openAiConfigModelBadges" style="margin-top:12px"></div>
+                <div id="openAiConfigModelDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI config model readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2732,10 +2741,13 @@ function renderRouteReadiness() {
   const openAiStagingRuntimeApprovalCards = $('#openAiStagingRuntimeApprovalCards');
   const openAiStagingRuntimeApprovalBadges = $('#openAiStagingRuntimeApprovalBadges');
   const openAiStagingRuntimeApprovalDetails = $('#openAiStagingRuntimeApprovalDetails');
+  const openAiConfigModelCards = $('#openAiConfigModelCards');
+  const openAiConfigModelBadges = $('#openAiConfigModelBadges');
+  const openAiConfigModelDetails = $('#openAiConfigModelDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2792,6 +2804,9 @@ function renderRouteReadiness() {
     openAiStagingRuntimeApprovalCards.innerHTML = '<div class="muted small">OpenAI staging test plan and runtime approval readiness status not loaded.</div>';
     openAiStagingRuntimeApprovalBadges.innerHTML = '';
     openAiStagingRuntimeApprovalDetails.innerHTML = '<div class="muted small">OpenAI staging test plan and runtime approval readiness details not loaded.</div>';
+    openAiConfigModelCards.innerHTML = '<div class="muted small">OpenAI config model readiness status not loaded.</div>';
+    openAiConfigModelBadges.innerHTML = '';
+    openAiConfigModelDetails.innerHTML = '<div class="muted small">OpenAI config model readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -4291,6 +4306,128 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${stagingNextSteps.length ? `<ul>${stagingNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiConfigModel = report.openAiConfigModelReadiness || {};
+  const openAiConfigModelCardsData = [
+    ['Current state', openAiConfigModel.currentState || 'not_ready'],
+    ['Config model approved', openAiConfigModel.configModelApproved ? 'yes' : 'no'],
+    ['Config model mode', openAiConfigModel.configModelMode || 'read_only_design'],
+    ['Config storage', openAiConfigModel.configStorageStatus || 'not_implemented'],
+    ['Config CRUD', openAiConfigModel.configCrudStatus || 'not_implemented'],
+    ['Config migration', openAiConfigModel.configMigrationStatus || 'not_implemented'],
+    ['Client scope', openAiConfigModel.clientScopeStatus || 'required'],
+    ['Campaign scope', openAiConfigModel.campaignScopeStatus || 'required'],
+    ['Project scope', openAiConfigModel.projectScopeStatus || 'required'],
+    ['Versioning', openAiConfigModel.versioningStatus || 'required'],
+    ['Status workflow', openAiConfigModel.statusWorkflowStatus || 'required'],
+    ['Approval workflow', openAiConfigModel.approvalWorkflowStatus || 'required'],
+    ['Rollback', openAiConfigModel.rollbackStatus || 'required'],
+    ['Audit log', openAiConfigModel.auditLogStatus || 'required'],
+    ['Role-based access', openAiConfigModel.roleBasedAccessStatus || 'required'],
+    ['Prompt config', openAiConfigModel.promptConfigStatus || 'required'],
+    ['Knowledge config', openAiConfigModel.knowledgeConfigStatus || 'required'],
+    ['Handoff config', openAiConfigModel.handoffConfigStatus || 'required'],
+    ['Logging/QA config', openAiConfigModel.loggingQaConfigStatus || 'required'],
+    ['PII/compliance/consent config', openAiConfigModel.piiComplianceConsentConfigStatus || 'required'],
+    ['Tool boundary config', openAiConfigModel.toolBoundaryConfigStatus || 'required'],
+    ['Staging runtime approval config', openAiConfigModel.stagingRuntimeApprovalConfigStatus || 'required'],
+    ['Provider selection config', openAiConfigModel.providerSelectionConfigStatus || 'required'],
+    ['AI voice integration config', openAiConfigModel.aiVoiceIntegrationConfigStatus || 'required'],
+    ['Credentials config', openAiConfigModel.credentialsConfigStatus || 'not_allowed'],
+    ['Active runtime config', openAiConfigModel.activeRuntimeConfigStatus || 'not_allowed'],
+    ['OpenAI runtime', openAiConfigModel.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiConfigModel.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Config save allowed', openAiConfigModel.configSaveAllowed ? 'yes' : 'no'],
+    ['Config edit allowed', openAiConfigModel.configEditAllowed ? 'yes' : 'no'],
+    ['Config delete allowed', openAiConfigModel.configDeleteAllowed ? 'yes' : 'no'],
+    ['Config publish allowed', openAiConfigModel.configPublishAllowed ? 'yes' : 'no'],
+    ['Config approve allowed', openAiConfigModel.configApproveAllowed ? 'yes' : 'no'],
+    ['Config rollback allowed', openAiConfigModel.configRollbackAllowed ? 'yes' : 'no'],
+    ['Credential storage allowed', openAiConfigModel.credentialStorageAllowed ? 'yes' : 'no'],
+    ['Runtime config allowed', openAiConfigModel.runtimeConfigAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiConfigModel.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiConfigModel.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiConfigModel.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiConfigModel.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiConfigModelCards.innerHTML = openAiConfigModelCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiConfigModelBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Runtime config blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const requiredConfigEntities = Array.isArray(openAiConfigModel.requiredConfigEntities) ? openAiConfigModel.requiredConfigEntities : [];
+  const requiredConfigStatuses = Array.isArray(openAiConfigModel.requiredConfigStatuses) ? openAiConfigModel.requiredConfigStatuses : [];
+  const requiredConfigFields = Array.isArray(openAiConfigModel.requiredConfigFields) ? openAiConfigModel.requiredConfigFields : [];
+  const configScopeRules = Array.isArray(openAiConfigModel.configScopeRules) ? openAiConfigModel.configScopeRules : [];
+  const configVersioningRules = Array.isArray(openAiConfigModel.configVersioningRules) ? openAiConfigModel.configVersioningRules : [];
+  const configApprovalRules = Array.isArray(openAiConfigModel.configApprovalRules) ? openAiConfigModel.configApprovalRules : [];
+  const configRbacRules = Array.isArray(openAiConfigModel.configRbacRules) ? openAiConfigModel.configRbacRules : [];
+  const configAuditRules = Array.isArray(openAiConfigModel.configAuditRules) ? openAiConfigModel.configAuditRules : [];
+  const configRollbackRules = Array.isArray(openAiConfigModel.configRollbackRules) ? openAiConfigModel.configRollbackRules : [];
+  const configModelProhibitedActions = Array.isArray(openAiConfigModel.prohibitedCurrentActions) ? openAiConfigModel.prohibitedCurrentActions : [];
+  const configModelFutureRuntimeBoundaries = Array.isArray(openAiConfigModel.futureRuntimeBoundaries) ? openAiConfigModel.futureRuntimeBoundaries : [];
+  const configModelNextSteps = Array.isArray(openAiConfigModel.nextSteps) ? openAiConfigModel.nextSteps : [];
+  openAiConfigModelDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Required config entities</strong>
+        ${requiredConfigEntities.length ? `<ul>${requiredConfigEntities.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required config entities returned.</div>'}
+      </div>
+      <div>
+        <strong>Required config statuses</strong>
+        ${requiredConfigStatuses.length ? `<ul>${requiredConfigStatuses.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required config statuses returned.</div>'}
+      </div>
+      <div>
+        <strong>Required config fields</strong>
+        ${requiredConfigFields.length ? `<ul>${requiredConfigFields.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required config fields returned.</div>'}
+      </div>
+      <div>
+        <strong>Config scope rules</strong>
+        ${configScopeRules.length ? `<ul>${configScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No config scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Config versioning rules</strong>
+        ${configVersioningRules.length ? `<ul>${configVersioningRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No config versioning rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Config approval rules</strong>
+        ${configApprovalRules.length ? `<ul>${configApprovalRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No config approval rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Config RBAC rules</strong>
+        ${configRbacRules.length ? `<ul>${configRbacRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No config RBAC rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Config audit rules</strong>
+        ${configAuditRules.length ? `<ul>${configAuditRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No config audit rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Config rollback rules</strong>
+        ${configRollbackRules.length ? `<ul>${configRollbackRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No config rollback rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${configModelProhibitedActions.length ? `<ul>${configModelProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${configModelFutureRuntimeBoundaries.length ? `<ul>${configModelFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${configModelNextSteps.length ? `<ul>${configModelNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;

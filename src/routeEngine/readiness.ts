@@ -702,6 +702,61 @@ export type OpenAiStagingRuntimeApprovalReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiConfigModelReadiness = {
+  currentState: 'not_ready';
+  configModelApproved: false;
+  configModelMode: 'read_only_design';
+  configStorageStatus: 'not_implemented';
+  configCrudStatus: 'not_implemented';
+  configMigrationStatus: 'not_implemented';
+  clientScopeStatus: 'required';
+  campaignScopeStatus: 'required';
+  projectScopeStatus: 'required';
+  versioningStatus: 'required';
+  statusWorkflowStatus: 'required';
+  approvalWorkflowStatus: 'required';
+  rollbackStatus: 'required';
+  auditLogStatus: 'required';
+  roleBasedAccessStatus: 'required';
+  promptConfigStatus: 'required';
+  knowledgeConfigStatus: 'required';
+  handoffConfigStatus: 'required';
+  loggingQaConfigStatus: 'required';
+  piiComplianceConsentConfigStatus: 'required';
+  toolBoundaryConfigStatus: 'required';
+  stagingRuntimeApprovalConfigStatus: 'required';
+  providerSelectionConfigStatus: 'required';
+  aiVoiceIntegrationConfigStatus: 'required';
+  credentialsConfigStatus: 'not_allowed';
+  activeRuntimeConfigStatus: 'not_allowed';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  configSaveAllowed: false;
+  configEditAllowed: false;
+  configDeleteAllowed: false;
+  configPublishAllowed: false;
+  configApproveAllowed: false;
+  configRollbackAllowed: false;
+  credentialStorageAllowed: false;
+  runtimeConfigAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  requiredConfigEntities: string[];
+  requiredConfigStatuses: string[];
+  requiredConfigFields: string[];
+  configScopeRules: string[];
+  configVersioningRules: string[];
+  configApprovalRules: string[];
+  configRbacRules: string[];
+  configAuditRules: string[];
+  configRollbackRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -738,6 +793,7 @@ export type RouteReadinessReport = {
   openAiPiiComplianceConsentReadiness: OpenAiPiiComplianceConsentReadiness;
   openAiToolBoundaryReadiness: OpenAiToolBoundaryReadiness;
   openAiStagingRuntimeApprovalReadiness: OpenAiStagingRuntimeApprovalReadiness;
+  openAiConfigModelReadiness: OpenAiConfigModelReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -3608,6 +3664,212 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiConfigModelReadiness: OpenAiConfigModelReadiness = {
+    currentState: 'not_ready',
+    configModelApproved: false,
+    configModelMode: 'read_only_design',
+    configStorageStatus: 'not_implemented',
+    configCrudStatus: 'not_implemented',
+    configMigrationStatus: 'not_implemented',
+    clientScopeStatus: 'required',
+    campaignScopeStatus: 'required',
+    projectScopeStatus: 'required',
+    versioningStatus: 'required',
+    statusWorkflowStatus: 'required',
+    approvalWorkflowStatus: 'required',
+    rollbackStatus: 'required',
+    auditLogStatus: 'required',
+    roleBasedAccessStatus: 'required',
+    promptConfigStatus: 'required',
+    knowledgeConfigStatus: 'required',
+    handoffConfigStatus: 'required',
+    loggingQaConfigStatus: 'required',
+    piiComplianceConsentConfigStatus: 'required',
+    toolBoundaryConfigStatus: 'required',
+    stagingRuntimeApprovalConfigStatus: 'required',
+    providerSelectionConfigStatus: 'required',
+    aiVoiceIntegrationConfigStatus: 'required',
+    credentialsConfigStatus: 'not_allowed',
+    activeRuntimeConfigStatus: 'not_allowed',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    configSaveAllowed: false,
+    configEditAllowed: false,
+    configDeleteAllowed: false,
+    configPublishAllowed: false,
+    configApproveAllowed: false,
+    configRollbackAllowed: false,
+    credentialStorageAllowed: false,
+    runtimeConfigAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    requiredConfigEntities: [
+      'OpenAI provider selection config',
+      'OpenAI prompt config',
+      'OpenAI knowledge base config',
+      'OpenAI human handoff config',
+      'OpenAI conversation logging and QA config',
+      'OpenAI PII/compliance/consent config',
+      'OpenAI tool boundary config',
+      'OpenAI staging runtime approval config',
+      'OpenAI AI voice integration config',
+      'Client/campaign/project assignment config',
+      'Config version metadata',
+      'Config approval metadata',
+      'Config audit metadata',
+      'Config rollback metadata',
+    ],
+    requiredConfigStatuses: [
+      'draft',
+      'pending_approval',
+      'approved',
+      'archived',
+      'rejected',
+      'superseded',
+      'rollback_candidate',
+    ],
+    requiredConfigFields: [
+      'configId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'configType',
+      'version',
+      'status',
+      'title',
+      'description',
+      'createdBy',
+      'createdAt',
+      'updatedBy',
+      'updatedAt',
+      'submittedBy',
+      'submittedAt',
+      'approvedBy',
+      'approvedAt',
+      'archivedBy',
+      'archivedAt',
+      'supersedesVersion',
+      'rollbackTargetVersion',
+      'approvalNotes',
+      'rejectionReason',
+      'changeSummary',
+      'auditCorrelationId',
+    ],
+    configScopeRules: [
+      'Configs must be scoped by client/campaign/project',
+      'Super admin may view all configs',
+      'Internal admins may view only assigned clients/campaigns/projects',
+      'Restricted users may view only assigned clients/campaigns/projects',
+      'Client users may view only their own client/campaign/project configs when authorized',
+      'A config must not be shared across clients unless explicitly approved',
+      'Campaign-specific config overrides client-level config',
+      'Project-specific config overrides campaign-level config where applicable',
+      'Runtime must never use unscoped config',
+      'Runtime must never use config from another client/campaign',
+    ],
+    configVersioningRules: [
+      'Every config change creates a new version',
+      'Approved versions must be immutable',
+      'Draft versions must not run',
+      'Pending approval versions must not run',
+      'Archived versions must not run',
+      'Superseded versions must not run unless selected for rollback',
+      'Rollback must create or select an approved rollback version',
+      'Runtime may only use approved active version',
+      'Version metadata must include author and timestamp',
+      'Version metadata must include change summary',
+    ],
+    configApprovalRules: [
+      'Draft config can be edited only by authorized roles',
+      'Draft config must be submitted before approval',
+      'Approval must require authorized approver',
+      'Approver must be recorded',
+      'Approval timestamp must be recorded',
+      'Rejection reason must be recorded',
+      'Approved config must be immutable',
+      'Publishing to runtime requires separate future approval',
+      'Config approval does not automatically enable runtime',
+      'Emergency stop overrides approved config',
+    ],
+    configRbacRules: [
+      'Super admin can design global policy and view all config status',
+      'Internal admin can manage only assigned clients/campaigns/projects',
+      'Restricted user can view only assigned configs',
+      'Client admin can manage only client-owned configs when authorized',
+      'Editing requires explicit permission',
+      'Approval requires explicit permission',
+      'Rollback requires explicit permission',
+      'Credential access is never exposed in this readiness phase',
+      'Runtime activation is never exposed in this readiness phase',
+    ],
+    configAuditRules: [
+      'Every create/edit/submit/approve/reject/archive/rollback action must be auditable in future phase',
+      'Audit must include actor',
+      'Audit must include timestamp',
+      'Audit must include client/campaign/project scope',
+      'Audit must include config type',
+      'Audit must include fromVersion and toVersion where applicable',
+      'Audit must include reason or change summary',
+      'Audit must not expose secrets',
+      'Audit must be role-restricted',
+    ],
+    configRollbackRules: [
+      'Rollback requires approved target version',
+      'Rollback requires authorized role',
+      'Rollback requires reason',
+      'Rollback must be auditable',
+      'Rollback must not activate runtime automatically in this readiness phase',
+      'Rollback must preserve prior versions',
+      'Emergency rollback policy must be defined before runtime',
+      'Runtime rollback requires separate future runtime approval',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create config storage in this phase',
+      'Do not create CRUD endpoints in this phase',
+      'Do not create database tables in this phase',
+      'Do not create migrations in this phase',
+      'Do not save OpenAI configs in this phase',
+      'Do not edit OpenAI configs in this phase',
+      'Do not approve OpenAI configs in this phase',
+      'Do not publish OpenAI configs in this phase',
+      'Do not rollback OpenAI configs in this phase',
+      'Do not store OpenAI credentials in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Runtime may only use approved active config versions',
+      'Runtime must remain client/campaign/project scoped',
+      'Runtime must not use draft config',
+      'Runtime must not use pending approval config',
+      'Runtime must not use archived config',
+      'Runtime must not use config from another client/campaign/project',
+      'Runtime must not use config without approval metadata',
+      'Runtime must not expose credentials to browser/OpenAI logs/admin UI',
+      'Runtime must not activate automatically after config approval',
+      'Runtime activation must require separate staging/runtime approval',
+      'Emergency stop must override all approved configs',
+      'Rollback must be auditable and approved',
+      'Runtime must log config version IDs used',
+    ],
+    nextSteps: [
+      'Keep OpenAI config model readiness read-only, not ready, unapproved, unimplemented, and disconnected.',
+      'Document client/campaign/project config structure, version metadata, status workflow, approval metadata, audit metadata, rollback metadata, RBAC rules, and active runtime boundaries.',
+      'Define future config entities for provider selection, prompt, knowledge, handoff, logging/QA, PII/compliance/consent, tool boundary, staging approval, and AI voice integration before storage or runtime work.',
+      'Keep config storage, CRUD, database tables, migrations, save/edit/delete/approve/publish/rollback actions, credential storage, runtime config, OpenAI connection, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Do not add config storage, CRUD endpoints, migrations, admin form inputs, save/approval/publish controls, credential fields, OpenAI calls, agent tools, runtime endpoints, Asterisk/Vicidial changes, or route behavior changes in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -3779,6 +4041,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI staging runtime approval readiness is read-only, not approved, staging-only, disconnected, and exposes no staging, dry-run, runtime approval, call, rollback, OpenAI execution, or approval write controls.',
     },
+    {
+      id: 'openai-config-model-readiness-read-only',
+      label: 'OpenAI config model readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI config model readiness is read-only, not approved, storage-unimplemented, runtime-blocked, and exposes no config storage, CRUD, save, edit, delete, approve, publish, rollback, credential, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -3887,6 +4155,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiPiiComplianceConsentReadiness,
     openAiToolBoundaryReadiness,
     openAiStagingRuntimeApprovalReadiness,
+    openAiConfigModelReadiness,
     checklist,
     risks,
     recommendations: [
@@ -3909,6 +4178,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI PII/compliance/consent readiness as read-only design visibility; it does not implement PII detection, consent capture, consent storage, PII storage, transcript storage, recording, redaction, retention/export runtime, connect OpenAI, or execute AI requests.',
       'Treat OpenAI tool boundary readiness as read-only design visibility; it does not create OpenAI tool schemas, expose agent tools, create tool execution endpoints, create agent action endpoints, create write-capable tools, mutate middleware state, expose secrets, connect OpenAI, or execute AI requests.',
       'Treat OpenAI staging runtime approval readiness as read-only design visibility; it does not approve staging runtime, configure credentials, connect OpenAI, execute staging tests, execute dry-run calls, execute real calls, create runtime approval controls, create staging execution controls, create rollback execution controls, modify Asterisk/Vicidial, or change route behavior.',
+      'Treat OpenAI config model readiness as read-only design visibility; it does not create config storage, create CRUD endpoints, create database tables, create migrations, save configs, edit configs, approve configs, publish configs, rollback configs, store credentials, connect OpenAI, or enable runtime config.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
