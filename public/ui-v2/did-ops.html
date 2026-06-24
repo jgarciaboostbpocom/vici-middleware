@@ -720,6 +720,15 @@
                   <div class="muted small">Loading AI voice integration contract status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>AI Provider Selection</h2>
+                  <span class="muted small">Read-only provider evaluation status. This does not select providers or configure credentials.</span>
+                </div>
+                <div class="summary-grid" id="aiProviderSelectionCards"></div>
+                <div class="row" id="aiProviderSelectionBadges" style="margin-top:12px"></div>
+                <div id="aiProviderSelectionDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading AI provider selection status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2636,10 +2645,13 @@ function renderRouteReadiness() {
   const aiVoiceContractCards = $('#aiVoiceContractCards');
   const aiVoiceContractBadges = $('#aiVoiceContractBadges');
   const aiVoiceContractDetails = $('#aiVoiceContractDetails');
+  const aiProviderSelectionCards = $('#aiProviderSelectionCards');
+  const aiProviderSelectionBadges = $('#aiProviderSelectionBadges');
+  const aiProviderSelectionDetails = $('#aiProviderSelectionDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2672,6 +2684,9 @@ function renderRouteReadiness() {
     aiVoiceContractCards.innerHTML = '<div class="muted small">AI voice integration contract status not loaded.</div>';
     aiVoiceContractBadges.innerHTML = '';
     aiVoiceContractDetails.innerHTML = '<div class="muted small">AI voice integration contract details not loaded.</div>';
+    aiProviderSelectionCards.innerHTML = '<div class="muted small">AI provider selection status not loaded.</div>';
+    aiProviderSelectionBadges.innerHTML = '';
+    aiProviderSelectionDetails.innerHTML = '<div class="muted small">AI provider selection details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -3333,6 +3348,97 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${aiNextSteps.length ? `<ul>${aiNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const aiProviderSelection = report.aiProviderSelectionReadiness || {};
+  const aiProviderSelectionCardsData = [
+    ['Current state', aiProviderSelection.currentState || 'not_ready'],
+    ['Provider selection approved', aiProviderSelection.providerSelectionApproved ? 'yes' : 'no'],
+    ['Provider selection mode', aiProviderSelection.providerSelectionMode || 'read_only_evaluation'],
+    ['Selected provider', aiProviderSelection.selectedProvider || 'none'],
+    ['Provider connection', aiProviderSelection.providerConnectionStatus || 'not_connected'],
+    ['Credentials', aiProviderSelection.credentialsStatus || 'not_configured'],
+    ['Intended candidate provider', aiProviderSelection.intendedCandidateProvider || 'OpenAI / ChatGPT'],
+    ['OpenAI Realtime Voice', aiProviderSelection.openAiRealtimeVoiceStatus || 'evaluation_required'],
+    ['OpenAI Agents', aiProviderSelection.openAiAgentsStatus || 'evaluation_required'],
+    ['OpenAI Responses API', aiProviderSelection.openAiResponsesApiStatus || 'evaluation_required'],
+    ['OpenAI credentials', aiProviderSelection.openAiCredentialStatus || 'not_configured'],
+    ['OpenAI connection', aiProviderSelection.openAiConnectionStatus || 'not_connected'],
+    ['Security review', aiProviderSelection.securityReviewStatus || 'required'],
+    ['Compliance review', aiProviderSelection.complianceReviewStatus || 'required'],
+    ['PII review', aiProviderSelection.piiReviewStatus || 'required'],
+    ['Recording disclosure review', aiProviderSelection.recordingDisclosureReviewStatus || 'required'],
+    ['Consent review', aiProviderSelection.consentReviewStatus || 'required'],
+    ['Latency review', aiProviderSelection.latencyReviewStatus || 'required'],
+    ['Cost review', aiProviderSelection.costReviewStatus || 'required'],
+    ['Uptime/SLA review', aiProviderSelection.uptimeSlaReviewStatus || 'required'],
+    ['Data retention review', aiProviderSelection.dataRetentionReviewStatus || 'required'],
+    ['Transfer support review', aiProviderSelection.transferSupportReviewStatus || 'required'],
+    ['Webhook security review', aiProviderSelection.webhookSecurityReviewStatus || 'required'],
+    ['Failover support review', aiProviderSelection.failoverSupportReviewStatus || 'required'],
+    ['Language support review', aiProviderSelection.languageSupportReviewStatus || 'required'],
+    ['Human handoff review', aiProviderSelection.humanHandoffReviewStatus || 'required'],
+    ['Asterisk/Vicidial compatibility', aiProviderSelection.asteriskVicidialCompatibilityStatus || 'required'],
+    ['Campaign scope support', aiProviderSelection.campaignScopeSupportStatus || 'required'],
+    ['Provider execution allowed', aiProviderSelection.providerExecutionAllowed ? 'yes' : 'no'],
+    ['AI execution allowed', aiProviderSelection.aiExecutionAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', aiProviderSelection.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', aiProviderSelection.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', aiProviderSelection.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', aiProviderSelection.liveAllowed ? 'yes' : 'no'],
+  ];
+  aiProviderSelectionCards.innerHTML = aiProviderSelectionCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  aiProviderSelectionBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only evaluation', 'info'),
+    readinessBadge('OpenAI candidate only', 'info'),
+    readinessBadge('Provider not connected', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const providerEvaluationCriteria = Array.isArray(aiProviderSelection.evaluationCriteria) ? aiProviderSelection.evaluationCriteria : [];
+  const providerSelectionBlockers = Array.isArray(aiProviderSelection.providerSelectionBlockers) ? aiProviderSelection.providerSelectionBlockers : [];
+  const providerRequiredApprovals = Array.isArray(aiProviderSelection.requiredApprovals) ? aiProviderSelection.requiredApprovals : [];
+  const candidateProviderNotes = Array.isArray(aiProviderSelection.candidateProviderNotes) ? aiProviderSelection.candidateProviderNotes : [];
+  const providerProhibitedActions = Array.isArray(aiProviderSelection.prohibitedActions) ? aiProviderSelection.prohibitedActions : [];
+  const providerFutureBoundaries = Array.isArray(aiProviderSelection.futureIntegrationBoundaries) ? aiProviderSelection.futureIntegrationBoundaries : [];
+  const providerNextSteps = Array.isArray(aiProviderSelection.nextSteps) ? aiProviderSelection.nextSteps : [];
+  aiProviderSelectionDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Evaluation criteria</strong>
+        ${providerEvaluationCriteria.length ? `<ul>${providerEvaluationCriteria.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No evaluation criteria returned.</div>'}
+      </div>
+      <div>
+        <strong>Provider selection blockers</strong>
+        ${providerSelectionBlockers.length ? `<ul>${providerSelectionBlockers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No provider selection blockers returned.</div>'}
+      </div>
+      <div>
+        <strong>Required approvals</strong>
+        ${providerRequiredApprovals.length ? `<ul>${providerRequiredApprovals.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required approvals returned.</div>'}
+      </div>
+      <div>
+        <strong>Candidate provider notes</strong>
+        ${candidateProviderNotes.length ? `<ul>${candidateProviderNotes.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No candidate provider notes returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited actions</strong>
+        ${providerProhibitedActions.length ? `<ul>${providerProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future integration boundaries</strong>
+        ${providerFutureBoundaries.length ? `<ul>${providerFutureBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future integration boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${providerNextSteps.length ? `<ul>${providerNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;

@@ -136,6 +136,8 @@ Staging dry run readiness has been added as read-only planning/status. `dryRunAp
 
 AI voice integration contract has been added as read-only planning/status. `aiVoiceApproved` remains `false`, `aiExecutionAllowed` remains `false`, `inboundAllowed` remains `false`, `outboundAllowed` remains `false`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [ai-voice-integration-contract.md](ai-voice-integration-contract.md).
 
+AI provider selection readiness now identifies OpenAI / ChatGPT as the intended future candidate provider, but `providerSelectionApproved` remains `false`, `selectedProvider` remains `none`, OpenAI connection remains `not_connected`, OpenAI credentials remain `not_configured`, `providerExecutionAllowed` remains `false`, `aiExecutionAllowed` remains `false`, `inboundAllowed` remains `false`, `outboundAllowed` remains `false`, `pilotAllowed` remains `false`, `liveAllowed` remains `false`, and no runtime behavior changed. See [ai-provider-selection-readiness.md](ai-provider-selection-readiness.md).
+
 ## DID/Campaign State
 
 - `TESTCAMP` exists.

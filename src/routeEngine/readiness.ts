@@ -289,6 +289,50 @@ export type AiVoiceIntegrationContractReadiness = {
   nextSteps: string[];
 };
 
+export type AiProviderSelectionReadiness = {
+  currentState: 'not_ready';
+  providerSelectionApproved: false;
+  providerSelectionMode: 'read_only_evaluation';
+  selectedProvider: 'none';
+  providerConnectionStatus: 'not_connected';
+  credentialsStatus: 'not_configured';
+  intendedCandidateProvider: 'OpenAI / ChatGPT';
+  openAiRealtimeVoiceStatus: 'evaluation_required';
+  openAiAgentsStatus: 'evaluation_required';
+  openAiResponsesApiStatus: 'evaluation_required';
+  openAiCredentialStatus: 'not_configured';
+  openAiConnectionStatus: 'not_connected';
+  securityReviewStatus: 'required';
+  complianceReviewStatus: 'required';
+  piiReviewStatus: 'required';
+  recordingDisclosureReviewStatus: 'required';
+  consentReviewStatus: 'required';
+  latencyReviewStatus: 'required';
+  costReviewStatus: 'required';
+  uptimeSlaReviewStatus: 'required';
+  dataRetentionReviewStatus: 'required';
+  transferSupportReviewStatus: 'required';
+  webhookSecurityReviewStatus: 'required';
+  failoverSupportReviewStatus: 'required';
+  languageSupportReviewStatus: 'required';
+  humanHandoffReviewStatus: 'required';
+  asteriskVicidialCompatibilityStatus: 'required';
+  campaignScopeSupportStatus: 'required';
+  providerExecutionAllowed: false;
+  aiExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  providerSelectionBlockers: string[];
+  evaluationCriteria: string[];
+  requiredApprovals: string[];
+  candidateProviderNotes: string[];
+  prohibitedActions: string[];
+  futureIntegrationBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -317,6 +361,7 @@ export type RouteReadinessReport = {
   asteriskChangePlanReadiness: AsteriskChangePlanReadiness;
   stagingDryRunReadiness: StagingDryRunReadiness;
   aiVoiceIntegrationContractReadiness: AiVoiceIntegrationContractReadiness;
+  aiProviderSelectionReadiness: AiProviderSelectionReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -1551,6 +1596,165 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const aiProviderSelectionReadiness: AiProviderSelectionReadiness = {
+    currentState: 'not_ready',
+    providerSelectionApproved: false,
+    providerSelectionMode: 'read_only_evaluation',
+    selectedProvider: 'none',
+    providerConnectionStatus: 'not_connected',
+    credentialsStatus: 'not_configured',
+    intendedCandidateProvider: 'OpenAI / ChatGPT',
+    openAiRealtimeVoiceStatus: 'evaluation_required',
+    openAiAgentsStatus: 'evaluation_required',
+    openAiResponsesApiStatus: 'evaluation_required',
+    openAiCredentialStatus: 'not_configured',
+    openAiConnectionStatus: 'not_connected',
+    securityReviewStatus: 'required',
+    complianceReviewStatus: 'required',
+    piiReviewStatus: 'required',
+    recordingDisclosureReviewStatus: 'required',
+    consentReviewStatus: 'required',
+    latencyReviewStatus: 'required',
+    costReviewStatus: 'required',
+    uptimeSlaReviewStatus: 'required',
+    dataRetentionReviewStatus: 'required',
+    transferSupportReviewStatus: 'required',
+    webhookSecurityReviewStatus: 'required',
+    failoverSupportReviewStatus: 'required',
+    languageSupportReviewStatus: 'required',
+    humanHandoffReviewStatus: 'required',
+    asteriskVicidialCompatibilityStatus: 'required',
+    campaignScopeSupportStatus: 'required',
+    providerExecutionAllowed: false,
+    aiExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    providerSelectionBlockers: [
+      'Provider selection not approved',
+      'No provider selected',
+      'Provider not connected',
+      'Credentials not configured',
+      'OpenAI / ChatGPT candidate not approved',
+      'OpenAI credentials not configured',
+      'OpenAI connection not established',
+      'OpenAI Realtime voice not approved',
+      'OpenAI Agents / Responses API not approved',
+      'OpenAI tool boundaries not approved',
+      'Security review missing',
+      'Compliance review missing',
+      'PII review missing',
+      'Recording disclosure review missing',
+      'Consent review missing',
+      'Latency review missing',
+      'Cost review missing',
+      'Uptime/SLA review missing',
+      'Data retention review missing',
+      'Transfer support review missing',
+      'Webhook security review missing',
+      'Failover support review missing',
+      'Asterisk/Vicidial compatibility review missing',
+      'Campaign scope support review missing',
+      'AI voice integration contract not approved',
+      'Staging dry run not approved',
+      'Live approval gate closed',
+      'Production preflight not ready',
+    ],
+    evaluationCriteria: [
+      'Security and secrets handling',
+      'API authentication model',
+      'PII handling and data retention',
+      'OpenAI Realtime voice capability evaluation',
+      'OpenAI Agents / Responses API evaluation',
+      'OpenAI tool-calling boundary review',
+      'OpenAI prompt/instructions governance review',
+      'OpenAI model and voice latency review',
+      'OpenAI cost and rate-limit review',
+      'OpenAI data handling and retention review',
+      'Recording disclosure and consent support',
+      'Latency and real-time voice performance',
+      'Cost model per minute / per call',
+      'Uptime/SLA and provider reliability',
+      'Transfer to human agent/queue support',
+      'Failover and emergency stop support',
+      'Webhook security and signature verification',
+      'Call logging and audit support',
+      'Campaign/client scoping support',
+      'Spanish/English language support',
+      'Asterisk/Vicidial compatibility',
+      'Inbound voice support',
+      'Outbound voice support',
+      'No browser/UI exposure of provider secrets',
+      'Provider must not choose DIDs or caller ID',
+      'Provider must not bypass middleware route engine',
+      'Provider must be disabled by default',
+    ],
+    requiredApprovals: [
+      'Provider shortlist approval',
+      'Provider security approval',
+      'Provider legal/compliance approval',
+      'Provider PII/data retention approval',
+      'Recording disclosure approval',
+      'Consent approval',
+      'Cost approval',
+      'Latency/SLA approval',
+      'Transfer/handoff approval',
+      'Webhook security approval',
+      'Failover/emergency stop approval',
+      'Campaign/client scope approval',
+      'AI voice integration approval',
+      'Staging dry run approval',
+      'Rollback approval',
+    ],
+    candidateProviderNotes: [
+      'Intended candidate provider is OpenAI / ChatGPT',
+      'OpenAI is not connected in this phase',
+      'OpenAI credentials are not configured in this phase',
+      'No OpenAI API calls are executed in this phase',
+      'No OpenAI Realtime voice session is opened in this phase',
+      'No OpenAI agent tools are exposed in this phase',
+      'No provider is selected in this phase',
+      'Candidate providers must be evaluated outside runtime',
+      'Credentials must not be stored in this phase',
+      'Provider SDK/client code must not be added in this phase',
+      'Provider webhooks must not be exposed in this phase',
+      'Provider calls must not be executed in this phase',
+    ],
+    prohibitedActions: [
+      'Do not connect AI provider',
+      'Do not configure provider credentials',
+      'Do not expose provider secrets',
+      'Do not create AI execution endpoint',
+      'Do not answer inbound calls with AI',
+      'Do not place outbound calls with AI',
+      'Do not send customer audio to AI',
+      'Do not enable AI voice',
+      'Do not enable FastAGI',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureIntegrationBoundaries: [
+      'AI provider does not choose or rotate DIDs',
+      'AI provider does not apply caller ID',
+      'AI provider does not bypass middleware route engine',
+      'AI provider does not receive secrets from browser/UI',
+      'AI provider receives only approved campaign/client scoped context',
+      'AI provider must support human handoff',
+      'AI provider must support failover/emergency stop',
+      'AI provider must be disabled by default',
+      'AI provider must be blocked until staging dry run approval',
+      'AI provider must be blocked until live approval gate opens',
+    ],
+    nextSteps: [
+      'Keep provider selection unapproved, selectedProvider none, credentials not configured, and provider connection not connected.',
+      'Evaluate candidate providers outside runtime against security, compliance, PII, recording disclosure, consent, latency, cost, SLA, transfer, webhook, failover, language, and compatibility criteria.',
+      'Document provider shortlist, legal/compliance, data retention, campaign/client scope, transfer/handoff, failover, and rollback approvals before any future integration.',
+      'Keep AI voice integration contract unapproved, staging dry run unapproved, live approval gate closed, and production preflight not ready.',
+      'Do not add provider credentials, SDK/client runtime code, provider webhooks, AI execution endpoints, AI requests, calls, FastAGI changes, Asterisk/Vicidial changes, or route behavior changes in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -1698,6 +1902,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'AI voice integration contract is read-only, not approved, disconnected, and exposes no AI execution controls.',
     },
+    {
+      id: 'ai-provider-selection-readiness-read-only',
+      label: 'AI provider selection readiness read-only',
+      status: 'pass',
+      detail: 'AI provider selection readiness is read-only, no provider is selected, credentials are not configured, and no provider execution controls are exposed.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -1798,6 +2008,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     asteriskChangePlanReadiness,
     stagingDryRunReadiness,
     aiVoiceIntegrationContractReadiness,
+    aiProviderSelectionReadiness,
     checklist,
     risks,
     recommendations: [
@@ -1812,6 +2023,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat Asterisk change plan readiness as read-only planning visibility; it does not execute Asterisk commands or approve dialplan changes.',
       'Treat staging dry run readiness as read-only planning visibility; it does not execute dry runs, calls, or command controls.',
       'Treat AI voice integration contract as read-only planning visibility; it does not connect providers, execute calls, or answer calls with AI.',
+      'Treat AI provider selection readiness as read-only evaluation visibility; it does not select providers, configure credentials, or connect AI providers.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
