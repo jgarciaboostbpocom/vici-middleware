@@ -855,6 +855,15 @@
                   <div class="muted small">Loading OpenAI credential boundary readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Emergency Stop Readiness</h2>
+                  <span class="muted small">Read-only emergency stop design status. This does not create emergency stop storage, runtime stop controls, OpenAI connection, runtime enforcement, or execution controls.</span>
+                </div>
+                <div class="summary-grid" id="openAiEmergencyStopCards"></div>
+                <div class="row" id="openAiEmergencyStopBadges" style="margin-top:12px"></div>
+                <div id="openAiEmergencyStopDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI emergency stop readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2816,10 +2825,13 @@ function renderRouteReadiness() {
   const openAiCredentialBoundaryCards = $('#openAiCredentialBoundaryCards');
   const openAiCredentialBoundaryBadges = $('#openAiCredentialBoundaryBadges');
   const openAiCredentialBoundaryDetails = $('#openAiCredentialBoundaryDetails');
+  const openAiEmergencyStopCards = $('#openAiEmergencyStopCards');
+  const openAiEmergencyStopBadges = $('#openAiEmergencyStopBadges');
+  const openAiEmergencyStopDetails = $('#openAiEmergencyStopDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2897,6 +2909,9 @@ function renderRouteReadiness() {
     openAiCredentialBoundaryCards.innerHTML = '<div class="muted small">OpenAI credential boundary readiness status not loaded.</div>';
     openAiCredentialBoundaryBadges.innerHTML = '';
     openAiCredentialBoundaryDetails.innerHTML = '<div class="muted small">OpenAI credential boundary readiness details not loaded.</div>';
+    openAiEmergencyStopCards.innerHTML = '<div class="muted small">OpenAI emergency stop readiness status not loaded.</div>';
+    openAiEmergencyStopBadges.innerHTML = '';
+    openAiEmergencyStopDetails.innerHTML = '<div class="muted small">OpenAI emergency stop readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -5283,6 +5298,132 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${credentialNextSteps.length ? `<ul>${credentialNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiEmergencyStop = report.openAiEmergencyStopReadiness || {};
+  const openAiEmergencyStopCardsData = [
+    ['Current state', openAiEmergencyStop.currentState || 'not_ready'],
+    ['Emergency stop approved', openAiEmergencyStop.emergencyStopApproved ? 'yes' : 'no'],
+    ['Emergency stop mode', openAiEmergencyStop.emergencyStopMode || 'read_only_design'],
+    ['Emergency stop storage', openAiEmergencyStop.emergencyStopStorageStatus || 'not_implemented'],
+    ['Emergency stop CRUD', openAiEmergencyStop.emergencyStopCrudStatus || 'not_implemented'],
+    ['Emergency stop migration', openAiEmergencyStop.emergencyStopMigrationStatus || 'not_implemented'],
+    ['Emergency stop endpoint', openAiEmergencyStop.emergencyStopEndpointStatus || 'not_implemented'],
+    ['Emergency stop UI action', openAiEmergencyStop.emergencyStopUiActionStatus || 'not_allowed'],
+    ['Emergency stop runtime', openAiEmergencyStop.emergencyStopRuntimeStatus || 'not_allowed'],
+    ['Emergency stop audit', openAiEmergencyStop.emergencyStopAuditStatus || 'required'],
+    ['Emergency stop RBAC', openAiEmergencyStop.emergencyStopRbacStatus || 'required'],
+    ['Emergency stop scope', openAiEmergencyStop.emergencyStopScopeStatus || 'required'],
+    ['Global scope', openAiEmergencyStop.emergencyStopGlobalScopeStatus || 'required'],
+    ['Client scope', openAiEmergencyStop.emergencyStopClientScopeStatus || 'required'],
+    ['Campaign scope', openAiEmergencyStop.emergencyStopCampaignScopeStatus || 'required'],
+    ['Project scope', openAiEmergencyStop.emergencyStopProjectScopeStatus || 'required'],
+    ['Credential override', openAiEmergencyStop.emergencyStopCredentialOverrideStatus || 'required'],
+    ['Approval override', openAiEmergencyStop.emergencyStopApprovalOverrideStatus || 'required'],
+    ['Rollback override', openAiEmergencyStop.emergencyStopRollbackOverrideStatus || 'required'],
+    ['Runtime activation override', openAiEmergencyStop.emergencyStopRuntimeActivationOverrideStatus || 'required'],
+    ['Tool execution override', openAiEmergencyStop.emergencyStopToolExecutionOverrideStatus || 'required'],
+    ['Realtime session override', openAiEmergencyStop.emergencyStopRealtimeSessionOverrideStatus || 'required'],
+    ['Inbound override', openAiEmergencyStop.emergencyStopInboundOverrideStatus || 'required'],
+    ['Outbound override', openAiEmergencyStop.emergencyStopOutboundOverrideStatus || 'required'],
+    ['OpenAI connection', openAiEmergencyStop.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', openAiEmergencyStop.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiEmergencyStop.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Emergency stop storage allowed', openAiEmergencyStop.emergencyStopStorageAllowed ? 'yes' : 'no'],
+    ['Emergency stop CRUD allowed', openAiEmergencyStop.emergencyStopCrudAllowed ? 'yes' : 'no'],
+    ['Emergency stop read allowed', openAiEmergencyStop.emergencyStopReadAllowed ? 'yes' : 'no'],
+    ['Emergency stop write allowed', openAiEmergencyStop.emergencyStopWriteAllowed ? 'yes' : 'no'],
+    ['Emergency stop update allowed', openAiEmergencyStop.emergencyStopUpdateAllowed ? 'yes' : 'no'],
+    ['Emergency stop delete allowed', openAiEmergencyStop.emergencyStopDeleteAllowed ? 'yes' : 'no'],
+    ['Emergency stop enable allowed', openAiEmergencyStop.emergencyStopEnableAllowed ? 'yes' : 'no'],
+    ['Emergency stop disable allowed', openAiEmergencyStop.emergencyStopDisableAllowed ? 'yes' : 'no'],
+    ['Emergency stop toggle allowed', openAiEmergencyStop.emergencyStopToggleAllowed ? 'yes' : 'no'],
+    ['Emergency stop runtime allowed', openAiEmergencyStop.emergencyStopRuntimeAllowed ? 'yes' : 'no'],
+    ['Emergency stop endpoint allowed', openAiEmergencyStop.emergencyStopEndpointAllowed ? 'yes' : 'no'],
+    ['Emergency stop UI control allowed', openAiEmergencyStop.emergencyStopUiControlAllowed ? 'yes' : 'no'],
+    ['OpenAI connect allowed', openAiEmergencyStop.openAiConnectAllowed ? 'yes' : 'no'],
+    ['Runtime credential access allowed', openAiEmergencyStop.runtimeCredentialAccessAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', openAiEmergencyStop.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', openAiEmergencyStop.toolExecutionAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiEmergencyStop.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiEmergencyStop.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiEmergencyStop.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiEmergencyStop.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiEmergencyStopCards.innerHTML = openAiEmergencyStopCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiEmergencyStopBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only emergency design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Emergency controls blocked', 'bad'),
+    readinessBadge('Runtime enforcement blocked', 'bad'),
+    readinessBadge('OpenAI connection blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const futureEmergencyStopScopes = Array.isArray(openAiEmergencyStop.futureEmergencyStopScopes) ? openAiEmergencyStop.futureEmergencyStopScopes : [];
+  const futureEmergencyStopTriggers = Array.isArray(openAiEmergencyStop.futureEmergencyStopTriggers) ? openAiEmergencyStop.futureEmergencyStopTriggers : [];
+  const futureEmergencyStopBlockedActions = Array.isArray(openAiEmergencyStop.futureEmergencyStopBlockedActions) ? openAiEmergencyStop.futureEmergencyStopBlockedActions : [];
+  const futureEmergencyStopOverrideRules = Array.isArray(openAiEmergencyStop.futureEmergencyStopOverrideRules) ? openAiEmergencyStop.futureEmergencyStopOverrideRules : [];
+  const futureEmergencyStopRbacRules = Array.isArray(openAiEmergencyStop.futureEmergencyStopRbacRules) ? openAiEmergencyStop.futureEmergencyStopRbacRules : [];
+  const futureEmergencyStopAuditRules = Array.isArray(openAiEmergencyStop.futureEmergencyStopAuditRules) ? openAiEmergencyStop.futureEmergencyStopAuditRules : [];
+  const futureEmergencyStopRuntimeRules = Array.isArray(openAiEmergencyStop.futureEmergencyStopRuntimeRules) ? openAiEmergencyStop.futureEmergencyStopRuntimeRules : [];
+  const futureEmergencyStopRecoveryRules = Array.isArray(openAiEmergencyStop.futureEmergencyStopRecoveryRules) ? openAiEmergencyStop.futureEmergencyStopRecoveryRules : [];
+  const emergencyStopProhibitedActions = Array.isArray(openAiEmergencyStop.prohibitedCurrentActions) ? openAiEmergencyStop.prohibitedCurrentActions : [];
+  const emergencyStopFutureRuntimeBoundaries = Array.isArray(openAiEmergencyStop.futureRuntimeBoundaries) ? openAiEmergencyStop.futureRuntimeBoundaries : [];
+  const emergencyStopNextSteps = Array.isArray(openAiEmergencyStop.nextSteps) ? openAiEmergencyStop.nextSteps : [];
+  openAiEmergencyStopDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Future emergency stop scopes</strong>
+        ${futureEmergencyStopScopes.length ? `<ul>${futureEmergencyStopScopes.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future emergency stop scopes returned.</div>'}
+      </div>
+      <div>
+        <strong>Future emergency stop triggers</strong>
+        ${futureEmergencyStopTriggers.length ? `<ul>${futureEmergencyStopTriggers.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future emergency stop triggers returned.</div>'}
+      </div>
+      <div>
+        <strong>Future emergency stop blocked actions</strong>
+        ${futureEmergencyStopBlockedActions.length ? `<ul>${futureEmergencyStopBlockedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future emergency stop blocked actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future emergency stop override rules</strong>
+        ${futureEmergencyStopOverrideRules.length ? `<ul>${futureEmergencyStopOverrideRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future emergency stop override rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future emergency stop RBAC rules</strong>
+        ${futureEmergencyStopRbacRules.length ? `<ul>${futureEmergencyStopRbacRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future emergency stop RBAC rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future emergency stop audit rules</strong>
+        ${futureEmergencyStopAuditRules.length ? `<ul>${futureEmergencyStopAuditRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future emergency stop audit rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future emergency stop runtime rules</strong>
+        ${futureEmergencyStopRuntimeRules.length ? `<ul>${futureEmergencyStopRuntimeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future emergency stop runtime rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future emergency stop recovery rules</strong>
+        ${futureEmergencyStopRecoveryRules.length ? `<ul>${futureEmergencyStopRecoveryRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future emergency stop recovery rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${emergencyStopProhibitedActions.length ? `<ul>${emergencyStopProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${emergencyStopFutureRuntimeBoundaries.length ? `<ul>${emergencyStopFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${emergencyStopNextSteps.length ? `<ul>${emergencyStopNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;

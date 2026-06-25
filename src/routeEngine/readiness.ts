@@ -1109,6 +1109,67 @@ export type OpenAiCredentialBoundaryReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiEmergencyStopReadiness = {
+  currentState: 'not_ready';
+  emergencyStopApproved: false;
+  emergencyStopMode: 'read_only_design';
+  emergencyStopStorageStatus: 'not_implemented';
+  emergencyStopCrudStatus: 'not_implemented';
+  emergencyStopMigrationStatus: 'not_implemented';
+  emergencyStopEndpointStatus: 'not_implemented';
+  emergencyStopUiActionStatus: 'not_allowed';
+  emergencyStopRuntimeStatus: 'not_allowed';
+  emergencyStopAuditStatus: 'required';
+  emergencyStopRbacStatus: 'required';
+  emergencyStopScopeStatus: 'required';
+  emergencyStopGlobalScopeStatus: 'required';
+  emergencyStopClientScopeStatus: 'required';
+  emergencyStopCampaignScopeStatus: 'required';
+  emergencyStopProjectScopeStatus: 'required';
+  emergencyStopCredentialOverrideStatus: 'required';
+  emergencyStopApprovalOverrideStatus: 'required';
+  emergencyStopRollbackOverrideStatus: 'required';
+  emergencyStopRuntimeActivationOverrideStatus: 'required';
+  emergencyStopToolExecutionOverrideStatus: 'required';
+  emergencyStopRealtimeSessionOverrideStatus: 'required';
+  emergencyStopInboundOverrideStatus: 'required';
+  emergencyStopOutboundOverrideStatus: 'required';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  emergencyStopStorageAllowed: false;
+  emergencyStopCrudAllowed: false;
+  emergencyStopReadAllowed: false;
+  emergencyStopWriteAllowed: false;
+  emergencyStopUpdateAllowed: false;
+  emergencyStopDeleteAllowed: false;
+  emergencyStopEnableAllowed: false;
+  emergencyStopDisableAllowed: false;
+  emergencyStopToggleAllowed: false;
+  emergencyStopRuntimeAllowed: false;
+  emergencyStopEndpointAllowed: false;
+  emergencyStopUiControlAllowed: false;
+  openAiConnectAllowed: false;
+  runtimeCredentialAccessAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  futureEmergencyStopScopes: string[];
+  futureEmergencyStopTriggers: string[];
+  futureEmergencyStopBlockedActions: string[];
+  futureEmergencyStopOverrideRules: string[];
+  futureEmergencyStopRbacRules: string[];
+  futureEmergencyStopAuditRules: string[];
+  futureEmergencyStopRuntimeRules: string[];
+  futureEmergencyStopRecoveryRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -1152,6 +1213,7 @@ export type RouteReadinessReport = {
   openAiAuditTrailReadiness: OpenAiAuditTrailReadiness;
   openAiRbacScopeReadiness: OpenAiRbacScopeReadiness;
   openAiCredentialBoundaryReadiness: OpenAiCredentialBoundaryReadiness;
+  openAiEmergencyStopReadiness: OpenAiEmergencyStopReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -5529,6 +5591,211 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiEmergencyStopReadiness: OpenAiEmergencyStopReadiness = {
+    currentState: 'not_ready',
+    emergencyStopApproved: false,
+    emergencyStopMode: 'read_only_design',
+    emergencyStopStorageStatus: 'not_implemented',
+    emergencyStopCrudStatus: 'not_implemented',
+    emergencyStopMigrationStatus: 'not_implemented',
+    emergencyStopEndpointStatus: 'not_implemented',
+    emergencyStopUiActionStatus: 'not_allowed',
+    emergencyStopRuntimeStatus: 'not_allowed',
+    emergencyStopAuditStatus: 'required',
+    emergencyStopRbacStatus: 'required',
+    emergencyStopScopeStatus: 'required',
+    emergencyStopGlobalScopeStatus: 'required',
+    emergencyStopClientScopeStatus: 'required',
+    emergencyStopCampaignScopeStatus: 'required',
+    emergencyStopProjectScopeStatus: 'required',
+    emergencyStopCredentialOverrideStatus: 'required',
+    emergencyStopApprovalOverrideStatus: 'required',
+    emergencyStopRollbackOverrideStatus: 'required',
+    emergencyStopRuntimeActivationOverrideStatus: 'required',
+    emergencyStopToolExecutionOverrideStatus: 'required',
+    emergencyStopRealtimeSessionOverrideStatus: 'required',
+    emergencyStopInboundOverrideStatus: 'required',
+    emergencyStopOutboundOverrideStatus: 'required',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    emergencyStopStorageAllowed: false,
+    emergencyStopCrudAllowed: false,
+    emergencyStopReadAllowed: false,
+    emergencyStopWriteAllowed: false,
+    emergencyStopUpdateAllowed: false,
+    emergencyStopDeleteAllowed: false,
+    emergencyStopEnableAllowed: false,
+    emergencyStopDisableAllowed: false,
+    emergencyStopToggleAllowed: false,
+    emergencyStopRuntimeAllowed: false,
+    emergencyStopEndpointAllowed: false,
+    emergencyStopUiControlAllowed: false,
+    openAiConnectAllowed: false,
+    runtimeCredentialAccessAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    futureEmergencyStopScopes: [
+      'global',
+      'client',
+      'campaign',
+      'project',
+      'provider',
+      'credential_reference',
+      'runtime_channel',
+      'inbound_ai',
+      'outbound_ai',
+      'realtime_voice',
+      'tool_execution',
+    ],
+    futureEmergencyStopTriggers: [
+      'suspected credential leak',
+      'unauthorized OpenAI runtime behavior',
+      'prompt safety issue',
+      'compliance issue',
+      'customer complaint',
+      'unexpected outbound calls',
+      'unexpected inbound AI answer',
+      'excessive error rate',
+      'excessive spend or usage',
+      'Realtime session instability',
+      'tool execution incident',
+      'cross-client scope leak',
+      'audit anomaly',
+      'rollback failure',
+      'provider outage',
+    ],
+    futureEmergencyStopBlockedActions: [
+      'OpenAI API calls',
+      'OpenAI Realtime sessions',
+      'inbound AI answers',
+      'outbound AI calls',
+      'AI voice runtime',
+      'agent tool execution',
+      'runtime credential access',
+      'runtime config activation',
+      'runtime rollback activation',
+      'staging runtime tests',
+      'pilot runtime',
+      'live runtime',
+      'provider connection tests',
+      'credential rotation runtime tests',
+      'config publish to runtime',
+      'webhook processing for OpenAI runtime',
+    ],
+    futureEmergencyStopOverrideRules: [
+      'Emergency stop must override approved config status',
+      'Emergency stop must override runtime activation approval',
+      'Emergency stop must override rollback approval',
+      'Emergency stop must override credential availability',
+      'Emergency stop must override provider selection',
+      'Emergency stop must override AI voice integration readiness',
+      'Emergency stop must override inbound AI enablement',
+      'Emergency stop must override outbound AI enablement',
+      'Emergency stop must override tool execution permissions',
+      'Emergency stop must override Realtime session permissions',
+      'Emergency stop must be evaluated before runtime credential resolution',
+      'Emergency stop must be evaluated before OpenAI API call execution',
+    ],
+    futureEmergencyStopRbacRules: [
+      'Super admin may activate global emergency stop in a future approved implementation',
+      'Super admin may activate client/campaign/project emergency stop in a future approved implementation',
+      'Internal admin may activate emergency stop only for assigned clients/campaigns/projects when explicitly permitted',
+      'Client admin may request or activate client-owned emergency stop only when policy allows it',
+      'Restricted users cannot activate emergency stop unless explicitly granted emergency permission',
+      'Auditor may view emergency stop metadata only within assigned audit scope',
+      'Runtime operator may view emergency stop status when authorized but cannot disable it by default',
+      'Emergency stop disable permission must be stricter than enable permission',
+      'Emergency stop activation must require actor identity and reason',
+      'Emergency stop disable must require review, reason, and audit trail',
+    ],
+    futureEmergencyStopAuditRules: [
+      'Emergency stop activation must be auditable in a future phase',
+      'Emergency stop disable must be auditable in a future phase',
+      'Emergency stop scope changes must be auditable in a future phase',
+      'Emergency stop runtime block decisions must be auditable in a future phase',
+      'Audit events must include actor, timestamp, scope, reason, affected runtime channels, and correlation ID',
+      'Audit events must not expose credentials',
+      'Audit events must not expose raw customer PII unless policy allows it',
+      'Audit visibility must be scoped to client/campaign/project',
+      'Audit export must not expose credentials',
+      'Emergency stop audit retention must support compliance review',
+    ],
+    futureEmergencyStopRuntimeRules: [
+      'Runtime must check emergency stop before resolving credentials',
+      'Runtime must check emergency stop before loading active OpenAI config',
+      'Runtime must check emergency stop before opening Realtime sessions',
+      'Runtime must check emergency stop before answering inbound AI calls',
+      'Runtime must check emergency stop before placing outbound AI calls',
+      'Runtime must check emergency stop before executing tools',
+      'Runtime must fail closed when emergency stop state cannot be resolved',
+      'Runtime must log blocked action metadata without secrets in a future phase',
+      'Runtime must not bypass emergency stop during rollback',
+      'Runtime must not bypass emergency stop during staging tests',
+    ],
+    futureEmergencyStopRecoveryRules: [
+      'Emergency stop disable must require explicit authorization',
+      'Emergency stop disable must require reason and audit metadata',
+      'Recovery must verify credential boundary readiness',
+      'Recovery must verify RBAC/scope readiness',
+      'Recovery must verify approved active config',
+      'Recovery must verify rollback state if incident involved rollback',
+      'Recovery must verify audit trail readiness',
+      'Recovery must verify staging/runtime approval',
+      'Recovery must not automatically resume live runtime',
+      'Recovery must require separate runtime reactivation approval',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create emergency stop storage in this phase',
+      'Do not create emergency stop CRUD endpoints in this phase',
+      'Do not create emergency stop toggle endpoints in this phase',
+      'Do not create runtime stop endpoints in this phase',
+      'Do not create emergency stop database tables in this phase',
+      'Do not create emergency stop migrations in this phase',
+      'Do not save emergency stop records in this phase',
+      'Do not add emergency stop buttons in this phase',
+      'Do not add kill switch controls in this phase',
+      'Do not add runtime stop controls in this phase',
+      'Do not add enable/disable/toggle controls in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+      'Do not change credential behavior',
+      'Do not change approval behavior',
+      'Do not change rollback behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Emergency stop readiness must not activate emergency stop controls',
+      'Emergency stop readiness must not change route behavior',
+      'Emergency stop readiness must not connect OpenAI',
+      'Emergency stop readiness must not grant runtime stop permissions',
+      'Runtime emergency stop enforcement requires separately approved runtime implementation',
+      'Runtime must fail closed when emergency stop state is unavailable in a future implementation',
+      'Runtime must evaluate emergency stop before credential access in a future implementation',
+      'Runtime must evaluate emergency stop before OpenAI API calls in a future implementation',
+      'Runtime must evaluate emergency stop before Realtime sessions in a future implementation',
+      'Runtime must evaluate emergency stop before inbound/outbound AI actions in a future implementation',
+    ],
+    nextSteps: [
+      'Keep OpenAI emergency stop readiness read-only, not ready, unapproved, unimplemented, and disconnected.',
+      'Define future emergency stop storage, RBAC, scoped activation, scoped disable, audit, runtime enforcement, recovery, and fail-closed contracts in separately approved phases.',
+      'Keep emergency stop storage, CRUD, migrations, endpoints, UI actions, toggles, runtime enforcement, OpenAI connection, credential access, Realtime sessions, tool execution, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require separate approval before emergency stop controls, runtime stop permissions, runtime enforcement, recovery workflows, or OpenAI runtime changes can be implemented in a future phase.',
+      'Do not add emergency stop buttons, kill switch controls, runtime stop controls, storage, endpoints, OpenAI calls, agent tools, FastAGI changes, Asterisk/Vicidial changes, credential behavior changes, approval behavior changes, rollback behavior changes, or route behavior changes in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -5742,6 +6009,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI credential boundary readiness is read-only, not approved, storage-unimplemented, secret-storage-unimplemented, exposure-blocked, OpenAI-disconnected, and exposes no credential, secret, connection, runtime, or execution controls.',
     },
+    {
+      id: 'openai-emergency-stop-readiness-read-only',
+      label: 'OpenAI emergency stop readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI emergency stop readiness is read-only, not approved, storage-unimplemented, action-blocked, runtime-enforcement-blocked, OpenAI-disconnected, and exposes no emergency stop, runtime stop, connection, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -5857,6 +6130,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiAuditTrailReadiness,
     openAiRbacScopeReadiness,
     openAiCredentialBoundaryReadiness,
+    openAiEmergencyStopReadiness,
     checklist,
     risks,
     recommendations: [
@@ -5886,6 +6160,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI audit trail readiness as read-only design visibility; it does not create audit storage, audit CRUD, migrations, endpoints, audit writes, exports, search, filters, runtime audit logging, OpenAI connection, or execution.',
       'Treat OpenAI RBAC and scope enforcement readiness as read-only design visibility; it does not create RBAC storage, RBAC CRUD, permission endpoints, scope assignment endpoints, role mappings, scope assignments, runtime authorization, OpenAI connection, or execution.',
       'Treat OpenAI credential boundary readiness as read-only design visibility; it does not create credential storage, secret storage, credential CRUD, credential endpoints, credential UI fields, OpenAI connection, runtime credential access, or execution controls.',
+      'Treat OpenAI emergency stop readiness as read-only design visibility; it does not create emergency stop storage, CRUD, toggle endpoints, runtime stop endpoints, UI actions, runtime enforcement, OpenAI connection, or execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
