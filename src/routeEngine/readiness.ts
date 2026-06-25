@@ -886,6 +886,61 @@ export type OpenAiApprovalWorkflowReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiRollbackWorkflowReadiness = {
+  currentState: 'not_ready';
+  rollbackWorkflowApproved: false;
+  rollbackWorkflowMode: 'read_only_design';
+  rollbackStorageStatus: 'not_implemented';
+  rollbackCrudStatus: 'not_implemented';
+  rollbackMigrationStatus: 'not_implemented';
+  rollbackEndpointStatus: 'not_implemented';
+  rollbackUiActionStatus: 'not_allowed';
+  rollbackRuntimeStatus: 'not_allowed';
+  configRuntimeRollbackStatus: 'not_allowed';
+  openAiRuntimeStatus: 'not_connected';
+  rollbackCandidateStatus: 'required';
+  rollbackRequestStatus: 'required';
+  rollbackApprovalStatus: 'required';
+  rollbackExecutionStatus: 'not_allowed';
+  rollbackAuditStatus: 'required';
+  rollbackMetadataStatus: 'required';
+  rollbackRiskReviewStatus: 'required';
+  rollbackComplianceReviewStatus: 'required';
+  rollbackRuntimeApprovalSeparationStatus: 'required';
+  emergencyRollbackStatus: 'required';
+  previousVersionPreservationStatus: 'required';
+  openAiExecutionAllowed: false;
+  rollbackSaveAllowed: false;
+  rollbackRequestAllowed: false;
+  rollbackApproveAllowed: false;
+  rollbackRejectAllowed: false;
+  rollbackExecuteAllowed: false;
+  rollbackPublishAllowed: false;
+  rollbackArchiveAllowed: false;
+  runtimeRollbackAllowed: false;
+  configRuntimeAllowed: false;
+  credentialStorageAllowed: false;
+  rollbackStorageAllowed: false;
+  rollbackCrudAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  rollbackStates: string[];
+  rollbackCandidateRules: string[];
+  allowedFutureRollbackTransitions: string[];
+  blockedCurrentRollbackTransitions: string[];
+  requiredRollbackRequestMetadata: string[];
+  requiredRollbackApprovalMetadata: string[];
+  futureRollbackRequesterRules: string[];
+  futureRollbackApproverRules: string[];
+  futureRollbackAuditRules: string[];
+  futureRuntimeRollbackSeparationRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -925,6 +980,7 @@ export type RouteReadinessReport = {
   openAiConfigModelReadiness: OpenAiConfigModelReadiness;
   openAiAdminConfigPreviewReadiness: OpenAiAdminConfigPreviewReadiness;
   openAiApprovalWorkflowReadiness: OpenAiApprovalWorkflowReadiness;
+  openAiRollbackWorkflowReadiness: OpenAiRollbackWorkflowReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -4456,6 +4512,222 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiRollbackWorkflowReadiness: OpenAiRollbackWorkflowReadiness = {
+    currentState: 'not_ready',
+    rollbackWorkflowApproved: false,
+    rollbackWorkflowMode: 'read_only_design',
+    rollbackStorageStatus: 'not_implemented',
+    rollbackCrudStatus: 'not_implemented',
+    rollbackMigrationStatus: 'not_implemented',
+    rollbackEndpointStatus: 'not_implemented',
+    rollbackUiActionStatus: 'not_allowed',
+    rollbackRuntimeStatus: 'not_allowed',
+    configRuntimeRollbackStatus: 'not_allowed',
+    openAiRuntimeStatus: 'not_connected',
+    rollbackCandidateStatus: 'required',
+    rollbackRequestStatus: 'required',
+    rollbackApprovalStatus: 'required',
+    rollbackExecutionStatus: 'not_allowed',
+    rollbackAuditStatus: 'required',
+    rollbackMetadataStatus: 'required',
+    rollbackRiskReviewStatus: 'required',
+    rollbackComplianceReviewStatus: 'required',
+    rollbackRuntimeApprovalSeparationStatus: 'required',
+    emergencyRollbackStatus: 'required',
+    previousVersionPreservationStatus: 'required',
+    openAiExecutionAllowed: false,
+    rollbackSaveAllowed: false,
+    rollbackRequestAllowed: false,
+    rollbackApproveAllowed: false,
+    rollbackRejectAllowed: false,
+    rollbackExecuteAllowed: false,
+    rollbackPublishAllowed: false,
+    rollbackArchiveAllowed: false,
+    runtimeRollbackAllowed: false,
+    configRuntimeAllowed: false,
+    credentialStorageAllowed: false,
+    rollbackStorageAllowed: false,
+    rollbackCrudAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    rollbackStates: [
+      'no_rollback_requested',
+      'rollback_requested',
+      'rollback_pending_approval',
+      'rollback_approved',
+      'rollback_rejected',
+      'rollback_candidate',
+      'rollback_superseded',
+      'rollback_archived',
+      'runtime_rollback_pending',
+    ],
+    rollbackCandidateRules: [
+      'Only previously approved versions can become rollback candidates',
+      'Draft versions cannot become rollback candidates',
+      'Pending approval versions cannot become rollback candidates',
+      'Rejected versions cannot become rollback candidates',
+      'Archived versions cannot become rollback candidates unless policy explicitly allows it',
+      'Rollback candidate must belong to the same client/campaign/project scope',
+      'Rollback candidate must not come from another client',
+      'Rollback candidate must preserve original approval metadata',
+      'Rollback candidate must require rollback reason',
+      'Rollback candidate must not activate runtime automatically',
+    ],
+    allowedFutureRollbackTransitions: [
+      'approved -> rollback_candidate',
+      'superseded -> rollback_candidate',
+      'rollback_candidate -> rollback_requested',
+      'rollback_requested -> rollback_pending_approval',
+      'rollback_pending_approval -> rollback_approved',
+      'rollback_pending_approval -> rollback_rejected',
+      'rollback_approved -> approved',
+      'rollback_approved -> runtime_rollback_pending',
+      'rollback_rejected -> no_rollback_requested',
+      'runtime_rollback_pending -> approved_active_after_separate_runtime_approval',
+    ],
+    blockedCurrentRollbackTransitions: [
+      'Any rollback transition is blocked in this readiness phase',
+      'Rollback candidate cannot be selected in this phase',
+      'Rollback request cannot be saved in this phase',
+      'Rollback request cannot be submitted in this phase',
+      'Rollback request cannot be approved in this phase',
+      'Rollback request cannot be rejected in this phase',
+      'Rollback cannot be executed in this phase',
+      'Rollback cannot activate runtime in this phase',
+      'Runtime cannot use rollback candidate in this phase',
+      'Runtime cannot use rollback approved config in this phase',
+    ],
+    requiredRollbackRequestMetadata: [
+      'rollbackRequestId',
+      'configId',
+      'configType',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'currentVersion',
+      'targetRollbackVersion',
+      'requestedBy',
+      'requestedAt',
+      'rollbackReason',
+      'incidentReference',
+      'riskSummary',
+      'expectedImpact',
+      'emergencyFlag',
+      'auditCorrelationId',
+    ],
+    requiredRollbackApprovalMetadata: [
+      'rollbackRequestId',
+      'reviewedBy',
+      'reviewedAt',
+      'rollbackDecision',
+      'rollbackApprovalNotes',
+      'rollbackRejectionReason',
+      'complianceReview',
+      'riskReview',
+      'dataProtectionReview',
+      'runtimeImpactReview',
+      'stagingRetestRequirement',
+      'emergencyStopAcknowledgement',
+      'auditCorrelationId',
+    ],
+    futureRollbackRequesterRules: [
+      'Super admin may request rollback for any assigned future config',
+      'Internal admin may request rollback only for assigned clients/campaigns/projects when explicitly permitted',
+      'Restricted users cannot request rollback unless explicitly granted rollback request permission',
+      'Client admin can request rollback only for client-owned configs when authorized by policy',
+      'Rollback request requires requester identity',
+      'Rollback request requires timestamp',
+      'Rollback request requires reason',
+      'Rollback request must be scoped to client/campaign/project',
+      'Rollback request must not expose credentials',
+      'Rollback request must not imply runtime rollback',
+    ],
+    futureRollbackApproverRules: [
+      'Super admin may approve rollback for any assigned future config',
+      'Internal admin may approve rollback only for assigned clients/campaigns/projects when explicitly permitted',
+      'Restricted users cannot approve rollback unless explicitly granted rollback approval permission',
+      'Client admin can approve rollback only when policy allows client-owned rollback approval',
+      'Rollback approver should not be the rollback requester unless policy explicitly allows it',
+      'Rollback approval requires reviewer identity',
+      'Rollback approval requires timestamp',
+      'Rollback approval requires notes or risk acknowledgement',
+      'Rollback approval must be scoped to client/campaign/project',
+      'Rollback approval must not expose credentials',
+      'Rollback approval must not imply runtime activation',
+    ],
+    futureRollbackAuditRules: [
+      'Every rollback candidate selection must be auditable in a future phase',
+      'Every rollback request must be auditable in a future phase',
+      'Every rollback approval must be auditable in a future phase',
+      'Every rollback rejection must be auditable in a future phase',
+      'Every runtime rollback approval must be auditable in a future phase',
+      'Audit must include actor, timestamp, config scope, currentVersion, targetRollbackVersion, fromStatus, toStatus, reason, and auditCorrelationId',
+      'Audit must not expose secrets',
+      'Audit must be role-restricted',
+      'Audit must support rollback investigation',
+      'Audit must support compliance review',
+    ],
+    futureRuntimeRollbackSeparationRules: [
+      'Rollback approval does not automatically enable runtime rollback',
+      'Runtime rollback requires separate staging/runtime rollback approval',
+      'Runtime rollback requires approved prompt, knowledge, handoff, logging/QA, PII/compliance/consent, tool boundary, provider selection, and AI voice integration readiness',
+      'Runtime rollback requires OpenAI credentials configured through a future secret boundary',
+      'Runtime rollback requires emergency stop readiness',
+      'Runtime must only use approved active rollback target versions',
+      'Runtime must never use rollback requested configs',
+      'Runtime must never use rollback rejected configs',
+      'Runtime must log rollback request IDs and config version IDs used',
+      'Emergency stop overrides all rollback approvals',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create rollback storage in this phase',
+      'Do not create rollback CRUD endpoints in this phase',
+      'Do not create rollback database tables in this phase',
+      'Do not create rollback migrations in this phase',
+      'Do not save rollback records in this phase',
+      'Do not select rollback candidates in this phase',
+      'Do not request rollback in this phase',
+      'Do not approve rollback in this phase',
+      'Do not reject rollback in this phase',
+      'Do not execute rollback in this phase',
+      'Do not activate runtime rollback in this phase',
+      'Do not store OpenAI credentials in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Rollback workflow display must not activate runtime',
+      'Rollback approval status must not mean runtime rollback is active',
+      'Runtime rollback may only use separately approved active rollback target versions in a future phase',
+      'Runtime rollback must remain client/campaign/project scoped',
+      'Runtime rollback must not use draft configs',
+      'Runtime rollback must not use pending approval configs',
+      'Runtime rollback must not use rejected rollback requests',
+      'Runtime rollback must not use archived configs unless policy explicitly allows it',
+      'Runtime rollback must not expose credentials to browser/admin UI',
+      'Runtime rollback activation must require separate staging/runtime approval',
+      'Emergency stop must override all rollback approvals',
+      'Runtime must log rollback metadata and config version IDs used',
+    ],
+    nextSteps: [
+      'Keep OpenAI rollback workflow readiness read-only, not ready, unapproved, unimplemented, and disconnected.',
+      'Define future rollback storage, RBAC, candidate selection, request, approval, rejection, audit, metadata, and runtime rollback separation contracts in separately approved phases.',
+      'Keep rollback storage, rollback CRUD, migrations, endpoints, UI actions, runtime rollback, credential storage, OpenAI connection, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require separate staging/runtime rollback approval before any rollback-approved config can become active at runtime in a future phase.',
+      'Do not add rollback persistence, rollback buttons, rollback endpoints, rollback execution endpoints, runtime endpoints, credential fields, OpenAI calls, agent tools, FastAGI changes, Asterisk/Vicidial changes, or route behavior changes in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -4645,6 +4917,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI approval workflow readiness is read-only, not approved, storage-unimplemented, action-blocked, runtime-blocked, and exposes no approval save, submit, approve, reject, publish, archive, rollback, credential, OpenAI connection, or execution controls.',
     },
+    {
+      id: 'openai-rollback-workflow-readiness-read-only',
+      label: 'OpenAI rollback workflow readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI rollback workflow readiness is read-only, not approved, storage-unimplemented, action-blocked, runtime-rollback-blocked, and exposes no rollback save, request, approve, reject, execute, publish, archive, credential, OpenAI connection, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -4756,6 +5034,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiConfigModelReadiness,
     openAiAdminConfigPreviewReadiness,
     openAiApprovalWorkflowReadiness,
+    openAiRollbackWorkflowReadiness,
     checklist,
     risks,
     recommendations: [
@@ -4781,6 +5060,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI config model readiness as read-only design visibility; it does not create config storage, create CRUD endpoints, create database tables, create migrations, save configs, edit configs, approve configs, publish configs, rollback configs, store credentials, connect OpenAI, or enable runtime config.',
       'Treat OpenAI admin config preview readiness as read-only static design visibility; it does not create config storage, create CRUD endpoints, create database tables, create migrations, save preview rows, source preview rows from runtime data, edit/approve/publish/rollback configs, display credentials, store credentials, connect OpenAI, or enable runtime.',
       'Treat OpenAI approval workflow readiness as read-only design visibility; it does not create approval storage, approval CRUD, migrations, endpoints, UI actions, approval records, OpenAI connection, or runtime activation.',
+      'Treat OpenAI rollback workflow readiness as read-only design visibility; it does not create rollback storage, rollback CRUD, migrations, endpoints, UI actions, rollback records, rollback execution, OpenAI connection, or runtime rollback.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
