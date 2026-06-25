@@ -828,6 +828,15 @@
                   <div class="muted small">Loading OpenAI rollback workflow readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Audit Trail Readiness</h2>
+                  <span class="muted small">Read-only audit trail design status. This does not create audit storage, write audit records, read real audit records, export audit records, activate runtime audit logging, connect OpenAI, or execute AI requests.</span>
+                </div>
+                <div class="summary-grid" id="openAiAuditTrailCards"></div>
+                <div class="row" id="openAiAuditTrailBadges" style="margin-top:12px"></div>
+                <div id="openAiAuditTrailDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI audit trail readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2780,10 +2789,13 @@ function renderRouteReadiness() {
   const openAiRollbackWorkflowCards = $('#openAiRollbackWorkflowCards');
   const openAiRollbackWorkflowBadges = $('#openAiRollbackWorkflowBadges');
   const openAiRollbackWorkflowDetails = $('#openAiRollbackWorkflowDetails');
+  const openAiAuditTrailCards = $('#openAiAuditTrailCards');
+  const openAiAuditTrailBadges = $('#openAiAuditTrailBadges');
+  const openAiAuditTrailDetails = $('#openAiAuditTrailDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2852,6 +2864,9 @@ function renderRouteReadiness() {
     openAiRollbackWorkflowCards.innerHTML = '<div class="muted small">OpenAI rollback workflow readiness status not loaded.</div>';
     openAiRollbackWorkflowBadges.innerHTML = '';
     openAiRollbackWorkflowDetails.innerHTML = '<div class="muted small">OpenAI rollback workflow readiness details not loaded.</div>';
+    openAiAuditTrailCards.innerHTML = '<div class="muted small">OpenAI audit trail readiness status not loaded.</div>';
+    openAiAuditTrailBadges.innerHTML = '';
+    openAiAuditTrailDetails.innerHTML = '<div class="muted small">OpenAI audit trail readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -4865,6 +4880,126 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${rollbackNextSteps.length ? `<ul>${rollbackNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiAuditTrail = report.openAiAuditTrailReadiness || {};
+  const openAiAuditTrailCardsData = [
+    ['Current state', openAiAuditTrail.currentState || 'not_ready'],
+    ['Audit trail approved', openAiAuditTrail.auditTrailApproved ? 'yes' : 'no'],
+    ['Audit trail mode', openAiAuditTrail.auditTrailMode || 'read_only_design'],
+    ['Audit storage', openAiAuditTrail.auditStorageStatus || 'not_implemented'],
+    ['Audit CRUD', openAiAuditTrail.auditCrudStatus || 'not_implemented'],
+    ['Audit migration', openAiAuditTrail.auditMigrationStatus || 'not_implemented'],
+    ['Audit endpoint', openAiAuditTrail.auditEndpointStatus || 'not_implemented'],
+    ['Audit export', openAiAuditTrail.auditExportStatus || 'not_allowed'],
+    ['Audit write', openAiAuditTrail.auditWriteStatus || 'not_allowed'],
+    ['Audit runtime', openAiAuditTrail.auditRuntimeStatus || 'not_allowed'],
+    ['Audit visibility', openAiAuditTrail.auditVisibilityStatus || 'required'],
+    ['Audit retention', openAiAuditTrail.auditRetentionStatus || 'required'],
+    ['Audit redaction', openAiAuditTrail.auditRedactionStatus || 'required'],
+    ['Audit correlation', openAiAuditTrail.auditCorrelationStatus || 'required'],
+    ['Audit integrity', openAiAuditTrail.auditIntegrityStatus || 'required'],
+    ['Audit search', openAiAuditTrail.auditSearchStatus || 'required'],
+    ['Audit filter', openAiAuditTrail.auditFilterStatus || 'required'],
+    ['Audit role scope', openAiAuditTrail.auditRoleScopeStatus || 'required'],
+    ['Audit client scope', openAiAuditTrail.auditClientScopeStatus || 'required'],
+    ['Audit campaign scope', openAiAuditTrail.auditCampaignScopeStatus || 'required'],
+    ['Audit project scope', openAiAuditTrail.auditProjectScopeStatus || 'required'],
+    ['OpenAI runtime', openAiAuditTrail.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiAuditTrail.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Audit write allowed', openAiAuditTrail.auditWriteAllowed ? 'yes' : 'no'],
+    ['Audit read allowed', openAiAuditTrail.auditReadAllowed ? 'yes' : 'no'],
+    ['Audit export allowed', openAiAuditTrail.auditExportAllowed ? 'yes' : 'no'],
+    ['Audit search allowed', openAiAuditTrail.auditSearchAllowed ? 'yes' : 'no'],
+    ['Audit filter allowed', openAiAuditTrail.auditFilterAllowed ? 'yes' : 'no'],
+    ['Audit storage allowed', openAiAuditTrail.auditStorageAllowed ? 'yes' : 'no'],
+    ['Audit CRUD allowed', openAiAuditTrail.auditCrudAllowed ? 'yes' : 'no'],
+    ['Audit endpoint allowed', openAiAuditTrail.auditEndpointAllowed ? 'yes' : 'no'],
+    ['Runtime audit allowed', openAiAuditTrail.runtimeAuditAllowed ? 'yes' : 'no'],
+    ['Credential storage allowed', openAiAuditTrail.credentialStorageAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiAuditTrail.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiAuditTrail.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiAuditTrail.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiAuditTrail.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiAuditTrailCards.innerHTML = openAiAuditTrailCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiAuditTrailBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only audit design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Audit writes blocked', 'bad'),
+    readinessBadge('Runtime audit blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const auditableConfigActions = Array.isArray(openAiAuditTrail.auditableConfigActions) ? openAiAuditTrail.auditableConfigActions : [];
+  const auditableApprovalActions = Array.isArray(openAiAuditTrail.auditableApprovalActions) ? openAiAuditTrail.auditableApprovalActions : [];
+  const auditableRollbackActions = Array.isArray(openAiAuditTrail.auditableRollbackActions) ? openAiAuditTrail.auditableRollbackActions : [];
+  const auditableRuntimeActions = Array.isArray(openAiAuditTrail.auditableRuntimeActions) ? openAiAuditTrail.auditableRuntimeActions : [];
+  const requiredAuditMetadata = Array.isArray(openAiAuditTrail.requiredAuditMetadata) ? openAiAuditTrail.requiredAuditMetadata : [];
+  const futureAuditVisibilityRules = Array.isArray(openAiAuditTrail.futureAuditVisibilityRules) ? openAiAuditTrail.futureAuditVisibilityRules : [];
+  const futureAuditRedactionRules = Array.isArray(openAiAuditTrail.futureAuditRedactionRules) ? openAiAuditTrail.futureAuditRedactionRules : [];
+  const futureAuditIntegrityRules = Array.isArray(openAiAuditTrail.futureAuditIntegrityRules) ? openAiAuditTrail.futureAuditIntegrityRules : [];
+  const futureAuditRetentionRules = Array.isArray(openAiAuditTrail.futureAuditRetentionRules) ? openAiAuditTrail.futureAuditRetentionRules : [];
+  const auditProhibitedActions = Array.isArray(openAiAuditTrail.prohibitedCurrentActions) ? openAiAuditTrail.prohibitedCurrentActions : [];
+  const auditFutureRuntimeBoundaries = Array.isArray(openAiAuditTrail.futureRuntimeBoundaries) ? openAiAuditTrail.futureRuntimeBoundaries : [];
+  const auditNextSteps = Array.isArray(openAiAuditTrail.nextSteps) ? openAiAuditTrail.nextSteps : [];
+  openAiAuditTrailDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Auditable config actions</strong>
+        ${auditableConfigActions.length ? `<ul>${auditableConfigActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No auditable config actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Auditable approval actions</strong>
+        ${auditableApprovalActions.length ? `<ul>${auditableApprovalActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No auditable approval actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Auditable rollback actions</strong>
+        ${auditableRollbackActions.length ? `<ul>${auditableRollbackActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No auditable rollback actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Auditable runtime actions</strong>
+        ${auditableRuntimeActions.length ? `<ul>${auditableRuntimeActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No auditable runtime actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Required audit metadata</strong>
+        ${requiredAuditMetadata.length ? `<ul>${requiredAuditMetadata.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required audit metadata returned.</div>'}
+      </div>
+      <div>
+        <strong>Future audit visibility rules</strong>
+        ${futureAuditVisibilityRules.length ? `<ul>${futureAuditVisibilityRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future audit visibility rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future audit redaction rules</strong>
+        ${futureAuditRedactionRules.length ? `<ul>${futureAuditRedactionRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future audit redaction rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future audit integrity rules</strong>
+        ${futureAuditIntegrityRules.length ? `<ul>${futureAuditIntegrityRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future audit integrity rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future audit retention rules</strong>
+        ${futureAuditRetentionRules.length ? `<ul>${futureAuditRetentionRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future audit retention rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${auditProhibitedActions.length ? `<ul>${auditProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${auditFutureRuntimeBoundaries.length ? `<ul>${auditFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${auditNextSteps.length ? `<ul>${auditNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;

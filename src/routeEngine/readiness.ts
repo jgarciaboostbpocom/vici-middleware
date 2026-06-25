@@ -941,6 +941,58 @@ export type OpenAiRollbackWorkflowReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiAuditTrailReadiness = {
+  currentState: 'not_ready';
+  auditTrailApproved: false;
+  auditTrailMode: 'read_only_design';
+  auditStorageStatus: 'not_implemented';
+  auditCrudStatus: 'not_implemented';
+  auditMigrationStatus: 'not_implemented';
+  auditEndpointStatus: 'not_implemented';
+  auditExportStatus: 'not_allowed';
+  auditWriteStatus: 'not_allowed';
+  auditRuntimeStatus: 'not_allowed';
+  auditVisibilityStatus: 'required';
+  auditRetentionStatus: 'required';
+  auditRedactionStatus: 'required';
+  auditCorrelationStatus: 'required';
+  auditIntegrityStatus: 'required';
+  auditSearchStatus: 'required';
+  auditFilterStatus: 'required';
+  auditRoleScopeStatus: 'required';
+  auditClientScopeStatus: 'required';
+  auditCampaignScopeStatus: 'required';
+  auditProjectScopeStatus: 'required';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  auditWriteAllowed: false;
+  auditReadAllowed: false;
+  auditExportAllowed: false;
+  auditSearchAllowed: false;
+  auditFilterAllowed: false;
+  auditStorageAllowed: false;
+  auditCrudAllowed: false;
+  auditEndpointAllowed: false;
+  runtimeAuditAllowed: false;
+  credentialStorageAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  auditableConfigActions: string[];
+  auditableApprovalActions: string[];
+  auditableRollbackActions: string[];
+  auditableRuntimeActions: string[];
+  requiredAuditMetadata: string[];
+  futureAuditVisibilityRules: string[];
+  futureAuditRedactionRules: string[];
+  futureAuditIntegrityRules: string[];
+  futureAuditRetentionRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -981,6 +1033,7 @@ export type RouteReadinessReport = {
   openAiAdminConfigPreviewReadiness: OpenAiAdminConfigPreviewReadiness;
   openAiApprovalWorkflowReadiness: OpenAiApprovalWorkflowReadiness;
   openAiRollbackWorkflowReadiness: OpenAiRollbackWorkflowReadiness;
+  openAiAuditTrailReadiness: OpenAiAuditTrailReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -4728,6 +4781,227 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiAuditTrailReadiness: OpenAiAuditTrailReadiness = {
+    currentState: 'not_ready',
+    auditTrailApproved: false,
+    auditTrailMode: 'read_only_design',
+    auditStorageStatus: 'not_implemented',
+    auditCrudStatus: 'not_implemented',
+    auditMigrationStatus: 'not_implemented',
+    auditEndpointStatus: 'not_implemented',
+    auditExportStatus: 'not_allowed',
+    auditWriteStatus: 'not_allowed',
+    auditRuntimeStatus: 'not_allowed',
+    auditVisibilityStatus: 'required',
+    auditRetentionStatus: 'required',
+    auditRedactionStatus: 'required',
+    auditCorrelationStatus: 'required',
+    auditIntegrityStatus: 'required',
+    auditSearchStatus: 'required',
+    auditFilterStatus: 'required',
+    auditRoleScopeStatus: 'required',
+    auditClientScopeStatus: 'required',
+    auditCampaignScopeStatus: 'required',
+    auditProjectScopeStatus: 'required',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    auditWriteAllowed: false,
+    auditReadAllowed: false,
+    auditExportAllowed: false,
+    auditSearchAllowed: false,
+    auditFilterAllowed: false,
+    auditStorageAllowed: false,
+    auditCrudAllowed: false,
+    auditEndpointAllowed: false,
+    runtimeAuditAllowed: false,
+    credentialStorageAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    auditableConfigActions: [
+      'config_created',
+      'config_updated',
+      'config_deleted',
+      'config_version_created',
+      'config_version_superseded',
+      'config_status_changed',
+      'config_scope_changed',
+      'config_module_changed',
+      'config_provider_selection_changed',
+      'config_prompt_changed',
+      'config_knowledge_base_changed',
+      'config_handoff_changed',
+      'config_logging_qa_changed',
+      'config_pii_compliance_consent_changed',
+      'config_tool_boundary_changed',
+      'config_ai_voice_integration_changed',
+    ],
+    auditableApprovalActions: [
+      'config_submitted_for_approval',
+      'config_approved',
+      'config_rejected',
+      'config_approval_notes_changed',
+      'config_rejection_reason_recorded',
+      'config_archived',
+      'config_unarchived',
+      'config_marked_superseded',
+      'config_marked_rollback_candidate',
+    ],
+    auditableRollbackActions: [
+      'rollback_candidate_selected',
+      'rollback_requested',
+      'rollback_request_updated',
+      'rollback_approved',
+      'rollback_rejected',
+      'rollback_cancelled',
+      'rollback_superseded',
+      'rollback_archived',
+      'rollback_runtime_approval_requested',
+      'rollback_runtime_approval_granted',
+      'rollback_runtime_approval_rejected',
+    ],
+    auditableRuntimeActions: [
+      'staging_test_requested',
+      'staging_test_approved',
+      'staging_test_rejected',
+      'runtime_activation_requested',
+      'runtime_activation_approved',
+      'runtime_activation_rejected',
+      'runtime_activation_enabled',
+      'runtime_activation_disabled',
+      'runtime_emergency_stop_enabled',
+      'runtime_emergency_stop_disabled',
+      'runtime_config_version_used',
+      'runtime_rollback_requested',
+      'runtime_rollback_approved',
+      'runtime_rollback_rejected',
+      'runtime_rollback_enabled',
+    ],
+    requiredAuditMetadata: [
+      'auditEventId',
+      'auditCorrelationId',
+      'eventType',
+      'actorUserId',
+      'actorRole',
+      'actorScope',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'configId',
+      'configType',
+      'configVersion',
+      'previousStatus',
+      'newStatus',
+      'previousVersion',
+      'newVersion',
+      'targetRollbackVersion',
+      'approvalDecision',
+      'rollbackDecision',
+      'runtimeDecision',
+      'reason',
+      'notes',
+      'riskReview',
+      'complianceReview',
+      'piiRedactionApplied',
+      'secretsRedacted',
+      'sourceIp',
+      'userAgent',
+      'createdAt',
+    ],
+    futureAuditVisibilityRules: [
+      'Super admin may view all future audit events',
+      'Internal admins may view only audit events for assigned clients/campaigns/projects',
+      'Restricted users may view only audit events for explicitly assigned clients/campaigns/projects',
+      'Client admins may view only authorized client-owned audit events',
+      'Audit visibility must not leak cross-client configuration details',
+      'Audit visibility must not reveal OpenAI credentials',
+      'Audit visibility must not reveal secrets',
+      'Audit visibility must not reveal unapproved config content to unauthorized roles',
+      'Audit visibility must be scoped to client/campaign/project',
+      'Audit visibility must support compliance review',
+    ],
+    futureAuditRedactionRules: [
+      'OpenAI credentials must always be redacted',
+      'Secret values must always be redacted',
+      'Raw customer PII must be redacted unless policy explicitly allows limited display',
+      'Prompt content may require redaction depending on role and approval state',
+      'Knowledge base content may require redaction depending on role and approval state',
+      'Tool arguments must be redacted when they include sensitive data',
+      'Runtime transcripts must not be included in config audit events unless separately approved',
+      'Audit should log references and IDs instead of secrets',
+      'Redaction must be applied before display',
+      'Redaction must be applied before export in a future phase',
+    ],
+    futureAuditIntegrityRules: [
+      'Audit events should be append-only in a future phase',
+      'Audit events should include immutable event IDs',
+      'Audit events should include correlation IDs',
+      'Audit events should preserve previous and new status values',
+      'Audit events should preserve previous and new config version IDs',
+      'Audit events should include actor identity',
+      'Audit events should include timestamp',
+      'Audit events should not be editable by normal users',
+      'Audit deletion should require explicit retention policy',
+      'Audit integrity must support rollback investigation',
+    ],
+    futureAuditRetentionRules: [
+      'Retention policy must be defined before audit storage',
+      'Retention must respect client/campaign/project requirements',
+      'Retention must support compliance investigation',
+      'Retention must support rollback investigation',
+      'Retention must not keep secrets',
+      'Retention must define archive behavior',
+      'Retention must define export behavior in a future phase',
+      'Retention must define deletion behavior in a future phase',
+      'Retention must define who can view archived audit events',
+      'Retention must define emergency/legal hold behavior if needed',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create audit storage in this phase',
+      'Do not create audit CRUD endpoints in this phase',
+      'Do not create audit database tables in this phase',
+      'Do not create audit migrations in this phase',
+      'Do not write audit records in this phase',
+      'Do not write audit NDJSON files in this phase',
+      'Do not read real audit records in this phase',
+      'Do not export audit records in this phase',
+      'Do not add audit search in this phase',
+      'Do not add audit filters in this phase',
+      'Do not expose OpenAI credentials in this phase',
+      'Do not store OpenAI credentials in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Audit trail display must not activate runtime',
+      'Audit readiness must not mean runtime audit logging is active',
+      'Runtime audit logging requires separately approved runtime implementation',
+      'Runtime may only log approved config version IDs in a future phase',
+      'Runtime must not expose credentials to browser/admin UI',
+      'Runtime must apply redaction before audit display',
+      'Runtime must log config version IDs used in a future approved phase',
+      'Runtime must log approval and rollback correlation IDs in a future approved phase',
+      'Emergency stop must override all runtime actions',
+      'Audit trail readiness must remain separate from OpenAI connection',
+    ],
+    nextSteps: [
+      'Keep OpenAI audit trail readiness read-only, not ready, unapproved, unimplemented, and disconnected.',
+      'Define future audit event schema, RBAC visibility, client/campaign/project scoping, redaction, integrity, retention, and correlation rules before storage work.',
+      'Keep audit storage, audit CRUD, migrations, endpoints, writes, exports, search, filters, runtime audit logging, credential storage, OpenAI connection, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require separate runtime implementation approval before runtime audit logging can be added in a future phase.',
+      'Do not add audit persistence, audit endpoints, audit export controls, audit search/filter controls, runtime logging, credential fields, OpenAI calls, agent tools, FastAGI changes, Asterisk/Vicidial changes, or route behavior changes in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -4923,6 +5197,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI rollback workflow readiness is read-only, not approved, storage-unimplemented, action-blocked, runtime-rollback-blocked, and exposes no rollback save, request, approve, reject, execute, publish, archive, credential, OpenAI connection, or execution controls.',
     },
+    {
+      id: 'openai-audit-trail-readiness-read-only',
+      label: 'OpenAI audit trail readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI audit trail readiness is read-only, not approved, storage-unimplemented, write-blocked, export-blocked, runtime-audit-blocked, and exposes no audit write, export, search, filter, credential, OpenAI connection, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -5035,6 +5315,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiAdminConfigPreviewReadiness,
     openAiApprovalWorkflowReadiness,
     openAiRollbackWorkflowReadiness,
+    openAiAuditTrailReadiness,
     checklist,
     risks,
     recommendations: [
@@ -5061,6 +5342,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI admin config preview readiness as read-only static design visibility; it does not create config storage, create CRUD endpoints, create database tables, create migrations, save preview rows, source preview rows from runtime data, edit/approve/publish/rollback configs, display credentials, store credentials, connect OpenAI, or enable runtime.',
       'Treat OpenAI approval workflow readiness as read-only design visibility; it does not create approval storage, approval CRUD, migrations, endpoints, UI actions, approval records, OpenAI connection, or runtime activation.',
       'Treat OpenAI rollback workflow readiness as read-only design visibility; it does not create rollback storage, rollback CRUD, migrations, endpoints, UI actions, rollback records, rollback execution, OpenAI connection, or runtime rollback.',
+      'Treat OpenAI audit trail readiness as read-only design visibility; it does not create audit storage, audit CRUD, migrations, endpoints, audit writes, exports, search, filters, runtime audit logging, OpenAI connection, or execution.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
