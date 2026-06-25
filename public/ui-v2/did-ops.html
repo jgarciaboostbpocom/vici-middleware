@@ -882,6 +882,15 @@
                   <div class="muted small">Loading OpenAI staging sandbox environment readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Synthetic Scenario Library Readiness</h2>
+                  <span class="muted small">Read-only synthetic scenario library design status. This does not create scenario storage, scenario execution controls, sandbox runs, OpenAI connection, test calls, FastAGI execution, Asterisk/Vicidial changes, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="openAiSyntheticScenarioLibraryCards"></div>
+                <div class="row" id="openAiSyntheticScenarioLibraryBadges" style="margin-top:12px"></div>
+                <div id="openAiSyntheticScenarioLibraryDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI synthetic scenario library readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2852,10 +2861,13 @@ function renderRouteReadiness() {
   const openAiStagingSandboxEnvironmentCards = $('#openAiStagingSandboxEnvironmentCards');
   const openAiStagingSandboxEnvironmentBadges = $('#openAiStagingSandboxEnvironmentBadges');
   const openAiStagingSandboxEnvironmentDetails = $('#openAiStagingSandboxEnvironmentDetails');
+  const openAiSyntheticScenarioLibraryCards = $('#openAiSyntheticScenarioLibraryCards');
+  const openAiSyntheticScenarioLibraryBadges = $('#openAiSyntheticScenarioLibraryBadges');
+  const openAiSyntheticScenarioLibraryDetails = $('#openAiSyntheticScenarioLibraryDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2942,6 +2954,9 @@ function renderRouteReadiness() {
     openAiStagingSandboxEnvironmentCards.innerHTML = '<div class="muted small">OpenAI staging sandbox environment readiness status not loaded.</div>';
     openAiStagingSandboxEnvironmentBadges.innerHTML = '';
     openAiStagingSandboxEnvironmentDetails.innerHTML = '<div class="muted small">OpenAI staging sandbox environment readiness details not loaded.</div>';
+    openAiSyntheticScenarioLibraryCards.innerHTML = '<div class="muted small">OpenAI synthetic scenario library readiness status not loaded.</div>';
+    openAiSyntheticScenarioLibraryBadges.innerHTML = '';
+    openAiSyntheticScenarioLibraryDetails.innerHTML = '<div class="muted small">OpenAI synthetic scenario library readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -5733,6 +5748,166 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${stagingSandboxNextSteps.length ? `<ul>${stagingSandboxNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiSyntheticScenarioLibrary = report.openAiSyntheticScenarioLibraryReadiness || {};
+  const openAiSyntheticScenarioLibraryCardsData = [
+    ['Current state', openAiSyntheticScenarioLibrary.currentState || 'not_ready'],
+    ['Synthetic scenario library approved', openAiSyntheticScenarioLibrary.syntheticScenarioLibraryApproved ? 'yes' : 'no'],
+    ['Synthetic scenario library mode', openAiSyntheticScenarioLibrary.syntheticScenarioLibraryMode || 'read_only_design'],
+    ['Synthetic scenario storage', openAiSyntheticScenarioLibrary.syntheticScenarioStorageStatus || 'not_implemented'],
+    ['Synthetic scenario CRUD', openAiSyntheticScenarioLibrary.syntheticScenarioCrudStatus || 'not_implemented'],
+    ['Synthetic scenario migration', openAiSyntheticScenarioLibrary.syntheticScenarioMigrationStatus || 'not_implemented'],
+    ['Synthetic scenario endpoint', openAiSyntheticScenarioLibrary.syntheticScenarioEndpointStatus || 'not_implemented'],
+    ['Synthetic scenario UI action', openAiSyntheticScenarioLibrary.syntheticScenarioUiActionStatus || 'not_allowed'],
+    ['Synthetic scenario execution', openAiSyntheticScenarioLibrary.syntheticScenarioExecutionStatus || 'not_allowed'],
+    ['Synthetic scenario evidence', openAiSyntheticScenarioLibrary.syntheticScenarioEvidenceStatus || 'required'],
+    ['Synthetic scenario versioning', openAiSyntheticScenarioLibrary.syntheticScenarioVersioningStatus || 'required'],
+    ['Synthetic scenario scope', openAiSyntheticScenarioLibrary.syntheticScenarioScopeStatus || 'required'],
+    ['Synthetic scenario RBAC', openAiSyntheticScenarioLibrary.syntheticScenarioRbacStatus || 'required'],
+    ['Synthetic scenario audit', openAiSyntheticScenarioLibrary.syntheticScenarioAuditStatus || 'required'],
+    ['Synthetic scenario synthetic data', openAiSyntheticScenarioLibrary.syntheticScenarioSyntheticDataStatus || 'required'],
+    ['Synthetic scenario real PII', openAiSyntheticScenarioLibrary.syntheticScenarioRealPiiStatus || 'not_allowed'],
+    ['Synthetic scenario real credential', openAiSyntheticScenarioLibrary.syntheticScenarioRealCredentialStatus || 'not_allowed'],
+    ['Synthetic scenario real call', openAiSyntheticScenarioLibrary.syntheticScenarioRealCallStatus || 'not_allowed'],
+    ['Staging sandbox gate', openAiSyntheticScenarioLibrary.stagingSandboxGateStatus || 'required'],
+    ['Runtime activation gate', openAiSyntheticScenarioLibrary.runtimeActivationGateStatus || 'required'],
+    ['Emergency stop gate', openAiSyntheticScenarioLibrary.emergencyStopGateStatus || 'required'],
+    ['Credential boundary gate', openAiSyntheticScenarioLibrary.credentialBoundaryGateStatus || 'required'],
+    ['RBAC scope gate', openAiSyntheticScenarioLibrary.rbacScopeGateStatus || 'required'],
+    ['Audit trail gate', openAiSyntheticScenarioLibrary.auditTrailGateStatus || 'required'],
+    ['PII compliance gate', openAiSyntheticScenarioLibrary.piiComplianceGateStatus || 'required'],
+    ['Logging QA gate', openAiSyntheticScenarioLibrary.loggingQaGateStatus || 'required'],
+    ['OpenAI connection', openAiSyntheticScenarioLibrary.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', openAiSyntheticScenarioLibrary.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiSyntheticScenarioLibrary.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Synthetic scenario storage allowed', openAiSyntheticScenarioLibrary.syntheticScenarioStorageAllowed ? 'yes' : 'no'],
+    ['Synthetic scenario CRUD allowed', openAiSyntheticScenarioLibrary.syntheticScenarioCrudAllowed ? 'yes' : 'no'],
+    ['Synthetic scenario read allowed', openAiSyntheticScenarioLibrary.syntheticScenarioReadAllowed ? 'yes' : 'no'],
+    ['Synthetic scenario write allowed', openAiSyntheticScenarioLibrary.syntheticScenarioWriteAllowed ? 'yes' : 'no'],
+    ['Synthetic scenario update allowed', openAiSyntheticScenarioLibrary.syntheticScenarioUpdateAllowed ? 'yes' : 'no'],
+    ['Synthetic scenario delete allowed', openAiSyntheticScenarioLibrary.syntheticScenarioDeleteAllowed ? 'yes' : 'no'],
+    ['Synthetic scenario run allowed', openAiSyntheticScenarioLibrary.syntheticScenarioRunAllowed ? 'yes' : 'no'],
+    ['Synthetic scenario endpoint allowed', openAiSyntheticScenarioLibrary.syntheticScenarioEndpointAllowed ? 'yes' : 'no'],
+    ['Synthetic scenario UI control allowed', openAiSyntheticScenarioLibrary.syntheticScenarioUiControlAllowed ? 'yes' : 'no'],
+    ['Synthetic scenario approval allowed', openAiSyntheticScenarioLibrary.syntheticScenarioApprovalAllowed ? 'yes' : 'no'],
+    ['Synthetic data only allowed', openAiSyntheticScenarioLibrary.syntheticDataOnlyAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', openAiSyntheticScenarioLibrary.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', openAiSyntheticScenarioLibrary.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real OpenAI connection allowed', openAiSyntheticScenarioLibrary.realOpenAiConnectionAllowed ? 'yes' : 'no'],
+    ['Real call allowed', openAiSyntheticScenarioLibrary.realCallAllowed ? 'yes' : 'no'],
+    ['Asterisk change allowed', openAiSyntheticScenarioLibrary.asteriskChangeAllowed ? 'yes' : 'no'],
+    ['Vicidial change allowed', openAiSyntheticScenarioLibrary.vicidialChangeAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', openAiSyntheticScenarioLibrary.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', openAiSyntheticScenarioLibrary.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['OpenAI connect allowed', openAiSyntheticScenarioLibrary.openAiConnectAllowed ? 'yes' : 'no'],
+    ['Runtime credential access allowed', openAiSyntheticScenarioLibrary.runtimeCredentialAccessAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', openAiSyntheticScenarioLibrary.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', openAiSyntheticScenarioLibrary.toolExecutionAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiSyntheticScenarioLibrary.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiSyntheticScenarioLibrary.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiSyntheticScenarioLibrary.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiSyntheticScenarioLibrary.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiSyntheticScenarioLibraryCards.innerHTML = openAiSyntheticScenarioLibraryCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiSyntheticScenarioLibraryBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only scenario design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Scenario execution blocked', 'bad'),
+    readinessBadge('Synthetic data only', 'ok'),
+    readinessBadge('Real calls blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const futureScenarioCategories = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioCategories) ? openAiSyntheticScenarioLibrary.futureScenarioCategories : [];
+  const futureScenarioRequiredMetadata = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioRequiredMetadata) ? openAiSyntheticScenarioLibrary.futureScenarioRequiredMetadata : [];
+  const futureScenarioExpectedBehaviorFields = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioExpectedBehaviorFields) ? openAiSyntheticScenarioLibrary.futureScenarioExpectedBehaviorFields : [];
+  const futureScenarioSafetyCases = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioSafetyCases) ? openAiSyntheticScenarioLibrary.futureScenarioSafetyCases : [];
+  const futureScenarioComplianceCases = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioComplianceCases) ? openAiSyntheticScenarioLibrary.futureScenarioComplianceCases : [];
+  const futureScenarioHandoffCases = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioHandoffCases) ? openAiSyntheticScenarioLibrary.futureScenarioHandoffCases : [];
+  const futureScenarioToolBoundaryCases = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioToolBoundaryCases) ? openAiSyntheticScenarioLibrary.futureScenarioToolBoundaryCases : [];
+  const futureScenarioScopeCases = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioScopeCases) ? openAiSyntheticScenarioLibrary.futureScenarioScopeCases : [];
+  const futureScenarioProviderFailureCases = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioProviderFailureCases) ? openAiSyntheticScenarioLibrary.futureScenarioProviderFailureCases : [];
+  const futureScenarioEmergencyStopCases = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioEmergencyStopCases) ? openAiSyntheticScenarioLibrary.futureScenarioEmergencyStopCases : [];
+  const futureScenarioRollbackCases = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioRollbackCases) ? openAiSyntheticScenarioLibrary.futureScenarioRollbackCases : [];
+  const futureScenarioQaLoggingCases = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioQaLoggingCases) ? openAiSyntheticScenarioLibrary.futureScenarioQaLoggingCases : [];
+  const futureScenarioPromotionRules = Array.isArray(openAiSyntheticScenarioLibrary.futureScenarioPromotionRules) ? openAiSyntheticScenarioLibrary.futureScenarioPromotionRules : [];
+  const syntheticScenarioProhibitedActions = Array.isArray(openAiSyntheticScenarioLibrary.prohibitedCurrentActions) ? openAiSyntheticScenarioLibrary.prohibitedCurrentActions : [];
+  const syntheticScenarioFutureRuntimeBoundaries = Array.isArray(openAiSyntheticScenarioLibrary.futureRuntimeBoundaries) ? openAiSyntheticScenarioLibrary.futureRuntimeBoundaries : [];
+  const syntheticScenarioNextSteps = Array.isArray(openAiSyntheticScenarioLibrary.nextSteps) ? openAiSyntheticScenarioLibrary.nextSteps : [];
+  openAiSyntheticScenarioLibraryDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Future scenario categories</strong>
+        ${futureScenarioCategories.length ? `<ul>${futureScenarioCategories.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario categories returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scenario required metadata</strong>
+        ${futureScenarioRequiredMetadata.length ? `<ul>${futureScenarioRequiredMetadata.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario required metadata returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scenario expected behavior fields</strong>
+        ${futureScenarioExpectedBehaviorFields.length ? `<ul>${futureScenarioExpectedBehaviorFields.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario expected behavior fields returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scenario safety cases</strong>
+        ${futureScenarioSafetyCases.length ? `<ul>${futureScenarioSafetyCases.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario safety cases returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scenario compliance cases</strong>
+        ${futureScenarioComplianceCases.length ? `<ul>${futureScenarioComplianceCases.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario compliance cases returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scenario handoff cases</strong>
+        ${futureScenarioHandoffCases.length ? `<ul>${futureScenarioHandoffCases.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario handoff cases returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scenario tool boundary cases</strong>
+        ${futureScenarioToolBoundaryCases.length ? `<ul>${futureScenarioToolBoundaryCases.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario tool boundary cases returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scenario scope cases</strong>
+        ${futureScenarioScopeCases.length ? `<ul>${futureScenarioScopeCases.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario scope cases returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scenario provider failure cases</strong>
+        ${futureScenarioProviderFailureCases.length ? `<ul>${futureScenarioProviderFailureCases.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario provider failure cases returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scenario emergency stop cases</strong>
+        ${futureScenarioEmergencyStopCases.length ? `<ul>${futureScenarioEmergencyStopCases.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario emergency stop cases returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scenario rollback cases</strong>
+        ${futureScenarioRollbackCases.length ? `<ul>${futureScenarioRollbackCases.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario rollback cases returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scenario QA/logging cases</strong>
+        ${futureScenarioQaLoggingCases.length ? `<ul>${futureScenarioQaLoggingCases.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario QA/logging cases returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scenario promotion rules</strong>
+        ${futureScenarioPromotionRules.length ? `<ul>${futureScenarioPromotionRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scenario promotion rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${syntheticScenarioProhibitedActions.length ? `<ul>${syntheticScenarioProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${syntheticScenarioFutureRuntimeBoundaries.length ? `<ul>${syntheticScenarioFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${syntheticScenarioNextSteps.length ? `<ul>${syntheticScenarioNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;

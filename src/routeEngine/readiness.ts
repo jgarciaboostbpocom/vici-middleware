@@ -1307,6 +1307,81 @@ export type OpenAiStagingSandboxEnvironmentReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiSyntheticScenarioLibraryReadiness = {
+  currentState: 'not_ready';
+  syntheticScenarioLibraryApproved: false;
+  syntheticScenarioLibraryMode: 'read_only_design';
+  syntheticScenarioStorageStatus: 'not_implemented';
+  syntheticScenarioCrudStatus: 'not_implemented';
+  syntheticScenarioMigrationStatus: 'not_implemented';
+  syntheticScenarioEndpointStatus: 'not_implemented';
+  syntheticScenarioUiActionStatus: 'not_allowed';
+  syntheticScenarioExecutionStatus: 'not_allowed';
+  syntheticScenarioEvidenceStatus: 'required';
+  syntheticScenarioVersioningStatus: 'required';
+  syntheticScenarioScopeStatus: 'required';
+  syntheticScenarioRbacStatus: 'required';
+  syntheticScenarioAuditStatus: 'required';
+  syntheticScenarioSyntheticDataStatus: 'required';
+  syntheticScenarioRealPiiStatus: 'not_allowed';
+  syntheticScenarioRealCredentialStatus: 'not_allowed';
+  syntheticScenarioRealCallStatus: 'not_allowed';
+  stagingSandboxGateStatus: 'required';
+  runtimeActivationGateStatus: 'required';
+  emergencyStopGateStatus: 'required';
+  credentialBoundaryGateStatus: 'required';
+  rbacScopeGateStatus: 'required';
+  auditTrailGateStatus: 'required';
+  piiComplianceGateStatus: 'required';
+  loggingQaGateStatus: 'required';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  syntheticScenarioStorageAllowed: false;
+  syntheticScenarioCrudAllowed: false;
+  syntheticScenarioReadAllowed: false;
+  syntheticScenarioWriteAllowed: false;
+  syntheticScenarioUpdateAllowed: false;
+  syntheticScenarioDeleteAllowed: false;
+  syntheticScenarioRunAllowed: false;
+  syntheticScenarioEndpointAllowed: false;
+  syntheticScenarioUiControlAllowed: false;
+  syntheticScenarioApprovalAllowed: false;
+  syntheticDataOnlyAllowed: true;
+  realPiiAllowed: false;
+  realCredentialAllowed: false;
+  realOpenAiConnectionAllowed: false;
+  realCallAllowed: false;
+  asteriskChangeAllowed: false;
+  vicidialChangeAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  openAiConnectAllowed: false;
+  runtimeCredentialAccessAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  futureScenarioCategories: string[];
+  futureScenarioRequiredMetadata: string[];
+  futureScenarioExpectedBehaviorFields: string[];
+  futureScenarioSafetyCases: string[];
+  futureScenarioComplianceCases: string[];
+  futureScenarioHandoffCases: string[];
+  futureScenarioToolBoundaryCases: string[];
+  futureScenarioScopeCases: string[];
+  futureScenarioProviderFailureCases: string[];
+  futureScenarioEmergencyStopCases: string[];
+  futureScenarioRollbackCases: string[];
+  futureScenarioQaLoggingCases: string[];
+  futureScenarioPromotionRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -1353,6 +1428,7 @@ export type RouteReadinessReport = {
   openAiEmergencyStopReadiness: OpenAiEmergencyStopReadiness;
   openAiRuntimeActivationGateReadiness: OpenAiRuntimeActivationGateReadiness;
   openAiStagingSandboxEnvironmentReadiness: OpenAiStagingSandboxEnvironmentReadiness;
+  openAiSyntheticScenarioLibraryReadiness: OpenAiSyntheticScenarioLibraryReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -6439,6 +6515,344 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiSyntheticScenarioLibraryReadiness: OpenAiSyntheticScenarioLibraryReadiness = {
+    currentState: 'not_ready',
+    syntheticScenarioLibraryApproved: false,
+    syntheticScenarioLibraryMode: 'read_only_design',
+    syntheticScenarioStorageStatus: 'not_implemented',
+    syntheticScenarioCrudStatus: 'not_implemented',
+    syntheticScenarioMigrationStatus: 'not_implemented',
+    syntheticScenarioEndpointStatus: 'not_implemented',
+    syntheticScenarioUiActionStatus: 'not_allowed',
+    syntheticScenarioExecutionStatus: 'not_allowed',
+    syntheticScenarioEvidenceStatus: 'required',
+    syntheticScenarioVersioningStatus: 'required',
+    syntheticScenarioScopeStatus: 'required',
+    syntheticScenarioRbacStatus: 'required',
+    syntheticScenarioAuditStatus: 'required',
+    syntheticScenarioSyntheticDataStatus: 'required',
+    syntheticScenarioRealPiiStatus: 'not_allowed',
+    syntheticScenarioRealCredentialStatus: 'not_allowed',
+    syntheticScenarioRealCallStatus: 'not_allowed',
+    stagingSandboxGateStatus: 'required',
+    runtimeActivationGateStatus: 'required',
+    emergencyStopGateStatus: 'required',
+    credentialBoundaryGateStatus: 'required',
+    rbacScopeGateStatus: 'required',
+    auditTrailGateStatus: 'required',
+    piiComplianceGateStatus: 'required',
+    loggingQaGateStatus: 'required',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    syntheticScenarioStorageAllowed: false,
+    syntheticScenarioCrudAllowed: false,
+    syntheticScenarioReadAllowed: false,
+    syntheticScenarioWriteAllowed: false,
+    syntheticScenarioUpdateAllowed: false,
+    syntheticScenarioDeleteAllowed: false,
+    syntheticScenarioRunAllowed: false,
+    syntheticScenarioEndpointAllowed: false,
+    syntheticScenarioUiControlAllowed: false,
+    syntheticScenarioApprovalAllowed: false,
+    syntheticDataOnlyAllowed: true,
+    realPiiAllowed: false,
+    realCredentialAllowed: false,
+    realOpenAiConnectionAllowed: false,
+    realCallAllowed: false,
+    asteriskChangeAllowed: false,
+    vicidialChangeAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    openAiConnectAllowed: false,
+    runtimeCredentialAccessAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    futureScenarioCategories: [
+      'faq_answer',
+      'inbound_customer_service_question',
+      'outbound_customer_service_follow_up',
+      'human_handoff_required',
+      'unsupported_intent',
+      'pii_redaction_required',
+      'compliance_consent_required',
+      'tool_boundary_violation_attempt',
+      'escalation_required',
+      'knowledge_base_answer',
+      'prompt_safety_refusal',
+      'low_confidence_answer',
+      'repeated_customer_question',
+      'call_summary_generation',
+      'qa_scoring_sample',
+      'rollback_candidate_comparison',
+      'emergency_stop_active_for_scope',
+      'credential_unavailable',
+      'provider_unavailable',
+      'runtime_gate_missing',
+      'cross_client_scope_mismatch',
+      'wrong_campaign_scope',
+      'wrong_project_scope',
+      'malformed_user_input',
+      'angry_customer',
+      'silence_or_no_response',
+      'language_mismatch',
+      'sensitive_data_request',
+      'payment_data_request',
+      'medical_or_health_data_request',
+      'legal_advice_request',
+      'customer_requests_human',
+    ],
+    futureScenarioRequiredMetadata: [
+      'scenarioId',
+      'scenarioName',
+      'scenarioCategory',
+      'scenarioVersion',
+      'scenarioStatus',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'configId',
+      'configVersion',
+      'providerId',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'syntheticCallerProfile',
+      'syntheticPhoneNumber',
+      'syntheticIntent',
+      'syntheticTranscript',
+      'expectedBehavior',
+      'expectedHandoffQueue',
+      'expectedPiiHandling',
+      'expectedComplianceConsent',
+      'expectedToolBoundary',
+      'expectedEmergencyStopState',
+      'expectedScopeDecision',
+      'expectedRefusalDecision',
+      'expectedSummaryOutput',
+      'expectedQaOutcome',
+      'expectedRiskOutcome',
+      'createdBy',
+      'createdAt',
+      'reviewedBy',
+      'reviewedAt',
+      'auditCorrelationId',
+    ],
+    futureScenarioExpectedBehaviorFields: [
+      'shouldAnswer',
+      'shouldRefuse',
+      'shouldHandoff',
+      'shouldEscalate',
+      'shouldRedactPii',
+      'shouldRequestConsent',
+      'shouldBlockToolExecution',
+      'shouldBlockForScopeMismatch',
+      'shouldBlockForEmergencyStop',
+      'shouldBlockForMissingRuntimeGate',
+      'shouldBlockForProviderFailure',
+      'shouldGenerateSummary',
+      'shouldGenerateQaScore',
+      'shouldPreserveAuditMetadata',
+      'shouldAvoidCredentials',
+      'shouldAvoidRawCustomerPii',
+      'shouldUseKnowledgeBaseOnlyWhenAvailable',
+      'shouldStayWithinAssignedClientCampaignProjectScope',
+    ],
+    futureScenarioSafetyCases: [
+      'prompt injection attempt',
+      'tool misuse request',
+      'request for credentials or secrets',
+      'request for raw customer PII',
+      'request to bypass compliance consent',
+      'request to bypass human handoff',
+      'request to bypass emergency stop',
+      'request to bypass runtime activation gate',
+      'request to place unauthorized outbound call',
+      'request to modify Asterisk or Vicidial',
+      'request to enable FastAGI',
+      'request to change route behavior',
+      'request for unsafe medical, legal, or financial advice',
+      'hallucination risk',
+      'low confidence response',
+    ],
+    futureScenarioComplianceCases: [
+      'consent required before continuing',
+      'missing consent must block response',
+      'PII detected and redaction required',
+      'payment data request must be blocked or escalated',
+      'health data request must be blocked or escalated unless policy allows',
+      'government identifier request must be blocked or escalated',
+      'customer asks for data deletion',
+      'customer asks for human agent',
+      'customer complaint escalation',
+      'call recording disclosure required',
+      'do-not-call concern',
+      'policy-specific refusal required',
+    ],
+    futureScenarioHandoffCases: [
+      'customer requests human',
+      'low confidence answer',
+      'unsupported intent',
+      'complaint escalation',
+      'compliance escalation',
+      'PII escalation',
+      'angry customer escalation',
+      'repeated failure',
+      'provider unavailable',
+      'emergency stop active',
+      'cross-client scope mismatch',
+      'tool boundary violation',
+      'rollback comparison requires review',
+    ],
+    futureScenarioToolBoundaryCases: [
+      'tool execution not allowed',
+      'tool requested outside approved scope',
+      'tool requested before consent',
+      'tool requested with PII risk',
+      'tool requested during emergency stop',
+      'tool requested while runtime gate missing',
+      'tool requested with wrong client scope',
+      'tool requested with wrong campaign scope',
+      'tool requested with wrong project scope',
+      'tool requested while credentials unavailable',
+      'tool requested while provider unavailable',
+      'tool requested by restricted user',
+    ],
+    futureScenarioScopeCases: [
+      'matching client/campaign/project scope',
+      'wrong client scope',
+      'wrong campaign scope',
+      'wrong project scope',
+      'missing project scope',
+      'cross-client leakage attempt',
+      'campaign-level config used for wrong campaign',
+      'project-level config used for wrong project',
+      'restricted user outside assignment',
+      'client admin outside client',
+      'internal admin outside assigned campaign',
+      'audit visibility outside scope',
+    ],
+    futureScenarioProviderFailureCases: [
+      'provider unavailable',
+      'provider timeout',
+      'provider rate limited',
+      'provider response malformed',
+      'provider safety refusal',
+      'provider cost spike',
+      'provider Realtime unavailable',
+      'provider tool call failure',
+      'provider credential reference unavailable',
+      'provider model unavailable',
+    ],
+    futureScenarioEmergencyStopCases: [
+      'global emergency stop active',
+      'client emergency stop active',
+      'campaign emergency stop active',
+      'project emergency stop active',
+      'credential reference emergency stop active',
+      'inbound AI emergency stop active',
+      'outbound AI emergency stop active',
+      'Realtime voice emergency stop active',
+      'tool execution emergency stop active',
+      'emergency stop state unavailable must fail closed',
+    ],
+    futureScenarioRollbackCases: [
+      'current config compared to rollback candidate',
+      'rollback candidate missing evidence',
+      'rollback requested but not approved',
+      'rollback approved but runtime activation gate missing',
+      'rollback approved but emergency stop active',
+      'rollback approved but credential boundary missing',
+      'rollback approved but scope mismatch',
+      'rollback should not automatically resume live runtime',
+      'rollback comparison requires reviewer notes',
+      'rollback evidence must be auditable',
+    ],
+    futureScenarioQaLoggingCases: [
+      'call summary required',
+      'QA score required',
+      'risk score required',
+      'refusal reason required',
+      'handoff reason required',
+      'blocked reason required',
+      'scope decision required',
+      'PII decision required',
+      'compliance consent decision required',
+      'audit correlation ID required',
+      'scenario pass/fail required',
+      'reviewer notes required before promotion',
+    ],
+    futureScenarioPromotionRules: [
+      'Scenario library readiness must not execute scenarios',
+      'Scenario definition must not automatically create sandbox run',
+      'Scenario pass result must not automatically activate runtime',
+      'Scenario pass result must not automatically approve live runtime',
+      'Scenario pass result must not override emergency stop',
+      'Scenario pass result must not override credential boundary',
+      'Scenario pass result must not override RBAC/scope gate',
+      'Scenario pass result must not override audit trail gate',
+      'Scenario pass result must not override PII/compliance gate',
+      'Scenario pass result must not override runtime activation approval',
+      'Scenario evidence must be reviewed before promotion request',
+      'Runtime activation remains a separate future approval gate',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create synthetic scenario storage in this phase',
+      'Do not create synthetic scenario CRUD endpoints in this phase',
+      'Do not create scenario execution endpoints in this phase',
+      'Do not create sandbox run endpoints in this phase',
+      'Do not create test call endpoints in this phase',
+      'Do not create OpenAI sandbox connection endpoints in this phase',
+      'Do not create synthetic scenario database tables in this phase',
+      'Do not create synthetic scenario migrations in this phase',
+      'Do not save synthetic scenario records in this phase',
+      'Do not add scenario buttons in this phase',
+      'Do not add run scenario controls in this phase',
+      'Do not add test call controls in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not use real OpenAI credentials',
+      'Do not use real customer PII',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not enable FastAGI',
+      'Do not change route behavior',
+      'Do not change credential behavior',
+      'Do not change staging sandbox behavior',
+      'Do not change runtime activation behavior',
+      'Do not change emergency stop behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Synthetic scenario library readiness must not execute scenarios',
+      'Synthetic scenario library readiness must not activate sandbox execution',
+      'Synthetic scenario library readiness must not activate runtime',
+      'Synthetic scenario library readiness must not add scenario controls',
+      'Synthetic scenario library readiness must not change route behavior',
+      'Synthetic scenario library readiness must not connect OpenAI',
+      'Synthetic scenario execution requires separately approved staging sandbox implementation',
+      'Runtime activation must require reviewed scenario evidence in a future implementation',
+      'Runtime must fail closed when required scenario evidence is missing in a future implementation',
+      'Scenario evidence must remain scoped to client/campaign/project',
+      'Scenario evidence must not contain credentials or raw customer PII',
+      'Scenario library must remain separate from runtime activation gate',
+    ],
+    nextSteps: [
+      'Keep OpenAI synthetic scenario library readiness read-only, not ready, unapproved, unimplemented, disconnected, synthetic-data-only, and execution-blocked.',
+      'Define future synthetic scenario storage, versioning, RBAC, audit, evidence review, sandbox promotion, and fail-closed runtime contracts in separately approved phases.',
+      'Keep synthetic scenario storage, CRUD, migrations, endpoints, UI actions, scenario execution, sandbox runs, test calls, OpenAI connection, credential access, Realtime sessions, tool execution, FastAGI, Asterisk/Vicidial changes, route changes, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require reviewed scenario evidence before any future staging sandbox execution or runtime activation approval can be considered.',
+      'Do not add scenario buttons, run controls, test call controls, storage, endpoints, OpenAI calls, agent tools, FastAGI changes, Asterisk/Vicidial changes, credential behavior changes, staging sandbox behavior changes, runtime activation behavior changes, emergency stop behavior changes, or route behavior changes in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -6670,6 +7084,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI staging sandbox environment readiness is read-only, not approved, storage-unimplemented, execution-blocked, OpenAI-disconnected, synthetic-data-only, and exposes no sandbox, test call, connection, runtime, or execution controls.',
     },
+    {
+      id: 'openai-synthetic-scenario-library-readiness-read-only',
+      label: 'OpenAI synthetic scenario library readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI synthetic scenario library readiness is read-only, not approved, storage-unimplemented, execution-blocked, OpenAI-disconnected, synthetic-data-only, and exposes no scenario, sandbox run, test call, connection, runtime, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -6788,6 +7208,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiEmergencyStopReadiness,
     openAiRuntimeActivationGateReadiness,
     openAiStagingSandboxEnvironmentReadiness,
+    openAiSyntheticScenarioLibraryReadiness,
     checklist,
     risks,
     recommendations: [
@@ -6820,6 +7241,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI emergency stop readiness as read-only design visibility; it does not create emergency stop storage, CRUD, toggle endpoints, runtime stop endpoints, UI actions, runtime enforcement, OpenAI connection, or execution controls.',
       'Treat OpenAI runtime activation gate readiness as read-only design visibility; it does not create runtime activation storage, CRUD, toggle endpoints, enable/disable endpoints, UI actions, runtime activation approvals, runtime enforcement, OpenAI connection, or execution controls.',
       'Treat OpenAI staging sandbox environment readiness as read-only design visibility; it does not create staging sandbox storage, CRUD, execution endpoints, test call endpoints, UI actions, OpenAI sandbox connection, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
+      'Treat OpenAI synthetic scenario library readiness as read-only design visibility; it does not create synthetic scenario storage, CRUD, execution endpoints, sandbox run endpoints, test call endpoints, UI actions, OpenAI sandbox connection, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
