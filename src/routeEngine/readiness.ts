@@ -1048,6 +1048,67 @@ export type OpenAiRbacScopeReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiCredentialBoundaryReadiness = {
+  currentState: 'not_ready';
+  credentialBoundaryApproved: false;
+  credentialBoundaryMode: 'read_only_design';
+  credentialStorageStatus: 'not_implemented';
+  secretStorageStatus: 'not_implemented';
+  credentialCrudStatus: 'not_implemented';
+  credentialMigrationStatus: 'not_implemented';
+  credentialEndpointStatus: 'not_implemented';
+  credentialUiFieldStatus: 'not_allowed';
+  credentialDisplayStatus: 'not_allowed';
+  credentialLoggingStatus: 'not_allowed';
+  credentialAuditDisplayStatus: 'not_allowed';
+  credentialConfigPreviewStatus: 'not_allowed';
+  credentialReadinessReportStatus: 'not_allowed';
+  credentialRotationStatus: 'required';
+  credentialRevocationStatus: 'required';
+  credentialRuntimeAccessStatus: 'required';
+  credentialServerSideOnlyStatus: 'required';
+  credentialRedactionStatus: 'required';
+  credentialScopeStatus: 'required';
+  credentialRbacStatus: 'required';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  credentialStorageAllowed: false;
+  secretStorageAllowed: false;
+  credentialCrudAllowed: false;
+  credentialReadAllowed: false;
+  credentialWriteAllowed: false;
+  credentialUpdateAllowed: false;
+  credentialDeleteAllowed: false;
+  credentialRotateAllowed: false;
+  credentialRevokeAllowed: false;
+  credentialTestAllowed: false;
+  credentialDisplayAllowed: false;
+  credentialBrowserExposureAllowed: false;
+  credentialAuditExposureAllowed: false;
+  credentialConfigPreviewExposureAllowed: false;
+  credentialReadinessReportExposureAllowed: false;
+  openAiConnectAllowed: false;
+  runtimeCredentialAccessAllowed: false;
+  configStorageAllowed: false;
+  configCrudAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  prohibitedCredentialLocations: string[];
+  futureSecretBoundaryRules: string[];
+  futureCredentialStorageRules: string[];
+  futureCredentialRbacRules: string[];
+  futureCredentialRotationRules: string[];
+  futureCredentialRuntimeAccessRules: string[];
+  futureCredentialRedactionRules: string[];
+  futureCredentialAuditRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -1090,6 +1151,7 @@ export type RouteReadinessReport = {
   openAiRollbackWorkflowReadiness: OpenAiRollbackWorkflowReadiness;
   openAiAuditTrailReadiness: OpenAiAuditTrailReadiness;
   openAiRbacScopeReadiness: OpenAiRbacScopeReadiness;
+  openAiCredentialBoundaryReadiness: OpenAiCredentialBoundaryReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -5264,6 +5326,209 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiCredentialBoundaryReadiness: OpenAiCredentialBoundaryReadiness = {
+    currentState: 'not_ready',
+    credentialBoundaryApproved: false,
+    credentialBoundaryMode: 'read_only_design',
+    credentialStorageStatus: 'not_implemented',
+    secretStorageStatus: 'not_implemented',
+    credentialCrudStatus: 'not_implemented',
+    credentialMigrationStatus: 'not_implemented',
+    credentialEndpointStatus: 'not_implemented',
+    credentialUiFieldStatus: 'not_allowed',
+    credentialDisplayStatus: 'not_allowed',
+    credentialLoggingStatus: 'not_allowed',
+    credentialAuditDisplayStatus: 'not_allowed',
+    credentialConfigPreviewStatus: 'not_allowed',
+    credentialReadinessReportStatus: 'not_allowed',
+    credentialRotationStatus: 'required',
+    credentialRevocationStatus: 'required',
+    credentialRuntimeAccessStatus: 'required',
+    credentialServerSideOnlyStatus: 'required',
+    credentialRedactionStatus: 'required',
+    credentialScopeStatus: 'required',
+    credentialRbacStatus: 'required',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    credentialStorageAllowed: false,
+    secretStorageAllowed: false,
+    credentialCrudAllowed: false,
+    credentialReadAllowed: false,
+    credentialWriteAllowed: false,
+    credentialUpdateAllowed: false,
+    credentialDeleteAllowed: false,
+    credentialRotateAllowed: false,
+    credentialRevokeAllowed: false,
+    credentialTestAllowed: false,
+    credentialDisplayAllowed: false,
+    credentialBrowserExposureAllowed: false,
+    credentialAuditExposureAllowed: false,
+    credentialConfigPreviewExposureAllowed: false,
+    credentialReadinessReportExposureAllowed: false,
+    openAiConnectAllowed: false,
+    runtimeCredentialAccessAllowed: false,
+    configStorageAllowed: false,
+    configCrudAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    prohibitedCredentialLocations: [
+      'browser_admin_ui',
+      'readiness_report',
+      'config_preview_rows',
+      'audit_display',
+      'audit_export',
+      'client_side_javascript',
+      'source_code',
+      'git_repository',
+      'runtime_logs',
+      'route_engine_logs',
+      'fastagi_logs',
+      'asterisk_logs',
+      'vicidial_logs',
+      'ndjson_events',
+      'error_messages',
+      'screenshots',
+      'support_exports',
+      'downloaded_reports',
+    ],
+    futureSecretBoundaryRules: [
+      'OpenAI credentials must be stored only in a future server-side secret boundary',
+      'Credentials must never be returned by readiness endpoints',
+      'Credentials must never be returned by admin preview endpoints',
+      'Credentials must never be returned by audit endpoints',
+      'Credentials must never be rendered in browser/admin UI',
+      'Credentials must never be committed to git',
+      'Credentials must never be stored in docs',
+      'Credentials must never be stored in source code',
+      'Credentials must never be stored in client-side JavaScript',
+      'Credentials must never be stored in runtime data files',
+      'Future runtime may request credential access only through server-side secret resolution',
+      'Future secret resolution must be scoped, audited, and redacted',
+    ],
+    futureCredentialStorageRules: [
+      'Credential storage requires separately approved secret storage implementation',
+      'Credential storage requires encryption or managed secret store',
+      'Credential storage requires environment separation',
+      'Credential storage requires client/campaign/project scope metadata',
+      'Credential storage requires provider metadata',
+      'Credential storage requires creation timestamp',
+      'Credential storage requires last rotation timestamp',
+      'Credential storage requires revocation status',
+      'Credential storage must not expose raw secret value after save',
+      'Credential storage must not be implemented in this readiness phase',
+    ],
+    futureCredentialRbacRules: [
+      'Config view permission must not grant credential view',
+      'Config edit permission must not grant credential view',
+      'Approval permission must not grant credential view',
+      'Audit permission must not grant credential view',
+      'Runtime operator permission must not grant credential view',
+      'Only a future server-side secret resolver may access raw credentials',
+      'Credential management permission must be separate from config edit permission',
+      'Credential rotation permission must be separate from credential metadata view permission',
+      'Client admin credential management must be explicitly authorized by policy',
+      'Restricted users must never view raw credentials',
+    ],
+    futureCredentialRotationRules: [
+      'Credential rotation must be auditable in a future phase',
+      'Credential rotation must not expose old or new secret values',
+      'Credential rotation must preserve provider and scope metadata',
+      'Credential rotation must support rollback-safe runtime behavior',
+      'Credential rotation must support revocation state',
+      'Credential rotation must require authorized role and scope',
+      'Credential rotation must not automatically activate runtime',
+      'Credential rotation must not test OpenAI connection in this phase',
+      'Credential rotation must not update runtime in this phase',
+      'Credential rotation must be separately approved before implementation',
+    ],
+    futureCredentialRuntimeAccessRules: [
+      'Runtime credential access must be server-side only',
+      'Runtime credential access must require approved active OpenAI config',
+      'Runtime credential access must require active credential reference',
+      'Runtime credential access must require matching client/campaign/project scope',
+      'Runtime credential access must never expose raw credential to browser/admin UI',
+      'Runtime credential access must never include raw credential in logs',
+      'Runtime credential access must never include raw credential in audit display',
+      'Runtime credential access must log credential reference ID, not secret value',
+      'Runtime credential access requires separate runtime approval',
+      'Emergency stop must override runtime credential access',
+    ],
+    futureCredentialRedactionRules: [
+      'Redaction must apply before display',
+      'Redaction must apply before logging',
+      'Redaction must apply before audit display',
+      'Redaction must apply before export',
+      'Redaction must apply before error responses',
+      'Redaction must mask credential references when needed',
+      'Redaction must never reveal full secret value',
+      'Redaction must never reveal partial values unless policy explicitly allows safe fingerprinting',
+      'Redaction must prefer secret fingerprints or IDs over values',
+      'Redaction must be tested before credential storage implementation',
+    ],
+    futureCredentialAuditRules: [
+      'Future credential create metadata must be auditable',
+      'Future credential rotation metadata must be auditable',
+      'Future credential revocation metadata must be auditable',
+      'Future credential runtime access metadata must be auditable',
+      'Audit events must never include raw credentials',
+      'Audit events must include actor, timestamp, scope, provider, credential reference ID, and reason',
+      'Audit events must include rotation/revocation decisions where applicable',
+      'Audit visibility must be scoped to client/campaign/project',
+      'Audit exports must not expose raw credentials',
+      'Audit retention must not keep raw credentials',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create credential storage in this phase',
+      'Do not create secret storage in this phase',
+      'Do not create credential CRUD endpoints in this phase',
+      'Do not create credential database tables in this phase',
+      'Do not create credential migrations in this phase',
+      'Do not save OpenAI credentials in this phase',
+      'Do not save secret records in this phase',
+      'Do not add credential UI fields in this phase',
+      'Do not add credential save controls in this phase',
+      'Do not add credential rotation controls in this phase',
+      'Do not add credential test connection controls in this phase',
+      'Do not expose credentials in readiness reports',
+      'Do not expose credentials in config previews',
+      'Do not expose credentials in audit views',
+      'Do not expose credentials in logs',
+      'Do not store credentials in data files',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Credential boundary readiness must not connect OpenAI',
+      'Credential boundary readiness must not grant runtime credential access',
+      'Runtime credential access requires separately approved runtime implementation',
+      'Runtime may only resolve credentials through server-side secret boundary in a future phase',
+      'Runtime must use credential reference IDs, not raw values, in logs and audit events',
+      'Runtime must match credential scope to active client/campaign/project scope',
+      'Runtime must never expose credentials to browser/admin UI',
+      'Runtime must never include credentials in errors or traces',
+      'Emergency stop must override runtime credential access',
+      'Credential readiness must remain separate from OpenAI runtime activation',
+    ],
+    nextSteps: [
+      'Keep OpenAI credential boundary readiness read-only, not ready, unapproved, unimplemented, and disconnected.',
+      'Define future server-side secret boundary, storage isolation, redaction, RBAC, rotation, revocation, and runtime credential access rules before implementation.',
+      'Keep credential storage, secret storage, credential CRUD, migrations, endpoints, UI fields, rotation, revocation, credential testing, OpenAI connection, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require separate approval before any credential storage, secret storage, credential rotation, revocation, OpenAI connection, or runtime credential access can be implemented in a future phase.',
+      'Do not add credential fields, API key fields, token fields, secret fields, credential controls, storage, endpoints, OpenAI calls, agent tools, FastAGI changes, Asterisk/Vicidial changes, or route behavior changes in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -5471,6 +5736,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI RBAC/scope readiness is read-only, not approved, storage-unimplemented, scope-assignment-blocked, runtime-scope-blocked, and exposes no RBAC, permission, scope assignment, credential, OpenAI connection, or execution controls.',
     },
+    {
+      id: 'openai-credential-boundary-readiness-read-only',
+      label: 'OpenAI credential boundary readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI credential boundary readiness is read-only, not approved, storage-unimplemented, secret-storage-unimplemented, exposure-blocked, OpenAI-disconnected, and exposes no credential, secret, connection, runtime, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -5585,6 +5856,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiRollbackWorkflowReadiness,
     openAiAuditTrailReadiness,
     openAiRbacScopeReadiness,
+    openAiCredentialBoundaryReadiness,
     checklist,
     risks,
     recommendations: [
@@ -5613,6 +5885,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI rollback workflow readiness as read-only design visibility; it does not create rollback storage, rollback CRUD, migrations, endpoints, UI actions, rollback records, rollback execution, OpenAI connection, or runtime rollback.',
       'Treat OpenAI audit trail readiness as read-only design visibility; it does not create audit storage, audit CRUD, migrations, endpoints, audit writes, exports, search, filters, runtime audit logging, OpenAI connection, or execution.',
       'Treat OpenAI RBAC and scope enforcement readiness as read-only design visibility; it does not create RBAC storage, RBAC CRUD, permission endpoints, scope assignment endpoints, role mappings, scope assignments, runtime authorization, OpenAI connection, or execution.',
+      'Treat OpenAI credential boundary readiness as read-only design visibility; it does not create credential storage, secret storage, credential CRUD, credential endpoints, credential UI fields, OpenAI connection, runtime credential access, or execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

@@ -846,6 +846,15 @@
                   <div class="muted small">Loading OpenAI RBAC / scope enforcement readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Credential Boundary Readiness</h2>
+                  <span class="muted small">Read-only credential boundary design status. This does not create credential storage, secret storage, credential fields, credential controls, connect OpenAI, or execute AI requests.</span>
+                </div>
+                <div class="summary-grid" id="openAiCredentialBoundaryCards"></div>
+                <div class="row" id="openAiCredentialBoundaryBadges" style="margin-top:12px"></div>
+                <div id="openAiCredentialBoundaryDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI credential boundary readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2804,10 +2813,13 @@ function renderRouteReadiness() {
   const openAiRbacScopeCards = $('#openAiRbacScopeCards');
   const openAiRbacScopeBadges = $('#openAiRbacScopeBadges');
   const openAiRbacScopeDetails = $('#openAiRbacScopeDetails');
+  const openAiCredentialBoundaryCards = $('#openAiCredentialBoundaryCards');
+  const openAiCredentialBoundaryBadges = $('#openAiCredentialBoundaryBadges');
+  const openAiCredentialBoundaryDetails = $('#openAiCredentialBoundaryDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2882,6 +2894,9 @@ function renderRouteReadiness() {
     openAiRbacScopeCards.innerHTML = '<div class="muted small">OpenAI RBAC / scope enforcement readiness status not loaded.</div>';
     openAiRbacScopeBadges.innerHTML = '';
     openAiRbacScopeDetails.innerHTML = '<div class="muted small">OpenAI RBAC / scope enforcement readiness details not loaded.</div>';
+    openAiCredentialBoundaryCards.innerHTML = '<div class="muted small">OpenAI credential boundary readiness status not loaded.</div>';
+    openAiCredentialBoundaryBadges.innerHTML = '';
+    openAiCredentialBoundaryDetails.innerHTML = '<div class="muted small">OpenAI credential boundary readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -5142,6 +5157,132 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${rbacNextSteps.length ? `<ul>${rbacNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiCredentialBoundary = report.openAiCredentialBoundaryReadiness || {};
+  const openAiCredentialBoundaryCardsData = [
+    ['Current state', openAiCredentialBoundary.currentState || 'not_ready'],
+    ['Credential boundary approved', openAiCredentialBoundary.credentialBoundaryApproved ? 'yes' : 'no'],
+    ['Credential boundary mode', openAiCredentialBoundary.credentialBoundaryMode || 'read_only_design'],
+    ['Credential storage', openAiCredentialBoundary.credentialStorageStatus || 'not_implemented'],
+    ['Secret storage', openAiCredentialBoundary.secretStorageStatus || 'not_implemented'],
+    ['Credential CRUD', openAiCredentialBoundary.credentialCrudStatus || 'not_implemented'],
+    ['Credential migration', openAiCredentialBoundary.credentialMigrationStatus || 'not_implemented'],
+    ['Credential endpoint', openAiCredentialBoundary.credentialEndpointStatus || 'not_implemented'],
+    ['Credential UI field', openAiCredentialBoundary.credentialUiFieldStatus || 'not_allowed'],
+    ['Credential display', openAiCredentialBoundary.credentialDisplayStatus || 'not_allowed'],
+    ['Credential logging', openAiCredentialBoundary.credentialLoggingStatus || 'not_allowed'],
+    ['Credential audit display', openAiCredentialBoundary.credentialAuditDisplayStatus || 'not_allowed'],
+    ['Credential config preview', openAiCredentialBoundary.credentialConfigPreviewStatus || 'not_allowed'],
+    ['Credential readiness report', openAiCredentialBoundary.credentialReadinessReportStatus || 'not_allowed'],
+    ['Credential rotation', openAiCredentialBoundary.credentialRotationStatus || 'required'],
+    ['Credential revocation', openAiCredentialBoundary.credentialRevocationStatus || 'required'],
+    ['Credential runtime access', openAiCredentialBoundary.credentialRuntimeAccessStatus || 'required'],
+    ['Credential server-side only', openAiCredentialBoundary.credentialServerSideOnlyStatus || 'required'],
+    ['Credential redaction', openAiCredentialBoundary.credentialRedactionStatus || 'required'],
+    ['Credential scope', openAiCredentialBoundary.credentialScopeStatus || 'required'],
+    ['Credential RBAC', openAiCredentialBoundary.credentialRbacStatus || 'required'],
+    ['OpenAI connection', openAiCredentialBoundary.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', openAiCredentialBoundary.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiCredentialBoundary.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Credential storage allowed', openAiCredentialBoundary.credentialStorageAllowed ? 'yes' : 'no'],
+    ['Secret storage allowed', openAiCredentialBoundary.secretStorageAllowed ? 'yes' : 'no'],
+    ['Credential CRUD allowed', openAiCredentialBoundary.credentialCrudAllowed ? 'yes' : 'no'],
+    ['Credential read allowed', openAiCredentialBoundary.credentialReadAllowed ? 'yes' : 'no'],
+    ['Credential write allowed', openAiCredentialBoundary.credentialWriteAllowed ? 'yes' : 'no'],
+    ['Credential update allowed', openAiCredentialBoundary.credentialUpdateAllowed ? 'yes' : 'no'],
+    ['Credential delete allowed', openAiCredentialBoundary.credentialDeleteAllowed ? 'yes' : 'no'],
+    ['Credential rotate allowed', openAiCredentialBoundary.credentialRotateAllowed ? 'yes' : 'no'],
+    ['Credential revoke allowed', openAiCredentialBoundary.credentialRevokeAllowed ? 'yes' : 'no'],
+    ['Credential test allowed', openAiCredentialBoundary.credentialTestAllowed ? 'yes' : 'no'],
+    ['Credential display allowed', openAiCredentialBoundary.credentialDisplayAllowed ? 'yes' : 'no'],
+    ['Credential browser exposure allowed', openAiCredentialBoundary.credentialBrowserExposureAllowed ? 'yes' : 'no'],
+    ['Credential audit exposure allowed', openAiCredentialBoundary.credentialAuditExposureAllowed ? 'yes' : 'no'],
+    ['Credential config preview exposure allowed', openAiCredentialBoundary.credentialConfigPreviewExposureAllowed ? 'yes' : 'no'],
+    ['Credential readiness report exposure allowed', openAiCredentialBoundary.credentialReadinessReportExposureAllowed ? 'yes' : 'no'],
+    ['OpenAI connect allowed', openAiCredentialBoundary.openAiConnectAllowed ? 'yes' : 'no'],
+    ['Runtime credential access allowed', openAiCredentialBoundary.runtimeCredentialAccessAllowed ? 'yes' : 'no'],
+    ['Config storage allowed', openAiCredentialBoundary.configStorageAllowed ? 'yes' : 'no'],
+    ['Config CRUD allowed', openAiCredentialBoundary.configCrudAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiCredentialBoundary.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiCredentialBoundary.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiCredentialBoundary.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiCredentialBoundary.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiCredentialBoundaryCards.innerHTML = openAiCredentialBoundaryCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiCredentialBoundaryBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only credential design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Secret storage not implemented', 'warn'),
+    readinessBadge('Credential exposure blocked', 'bad'),
+    readinessBadge('OpenAI connection blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const prohibitedCredentialLocations = Array.isArray(openAiCredentialBoundary.prohibitedCredentialLocations) ? openAiCredentialBoundary.prohibitedCredentialLocations : [];
+  const futureSecretBoundaryRules = Array.isArray(openAiCredentialBoundary.futureSecretBoundaryRules) ? openAiCredentialBoundary.futureSecretBoundaryRules : [];
+  const futureCredentialStorageRules = Array.isArray(openAiCredentialBoundary.futureCredentialStorageRules) ? openAiCredentialBoundary.futureCredentialStorageRules : [];
+  const futureCredentialRbacRules = Array.isArray(openAiCredentialBoundary.futureCredentialRbacRules) ? openAiCredentialBoundary.futureCredentialRbacRules : [];
+  const futureCredentialRotationRules = Array.isArray(openAiCredentialBoundary.futureCredentialRotationRules) ? openAiCredentialBoundary.futureCredentialRotationRules : [];
+  const futureCredentialRuntimeAccessRules = Array.isArray(openAiCredentialBoundary.futureCredentialRuntimeAccessRules) ? openAiCredentialBoundary.futureCredentialRuntimeAccessRules : [];
+  const futureCredentialRedactionRules = Array.isArray(openAiCredentialBoundary.futureCredentialRedactionRules) ? openAiCredentialBoundary.futureCredentialRedactionRules : [];
+  const futureCredentialAuditRules = Array.isArray(openAiCredentialBoundary.futureCredentialAuditRules) ? openAiCredentialBoundary.futureCredentialAuditRules : [];
+  const credentialProhibitedActions = Array.isArray(openAiCredentialBoundary.prohibitedCurrentActions) ? openAiCredentialBoundary.prohibitedCurrentActions : [];
+  const credentialFutureRuntimeBoundaries = Array.isArray(openAiCredentialBoundary.futureRuntimeBoundaries) ? openAiCredentialBoundary.futureRuntimeBoundaries : [];
+  const credentialNextSteps = Array.isArray(openAiCredentialBoundary.nextSteps) ? openAiCredentialBoundary.nextSteps : [];
+  openAiCredentialBoundaryDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Prohibited credential locations</strong>
+        ${prohibitedCredentialLocations.length ? `<ul>${prohibitedCredentialLocations.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited credential locations returned.</div>'}
+      </div>
+      <div>
+        <strong>Future secret boundary rules</strong>
+        ${futureSecretBoundaryRules.length ? `<ul>${futureSecretBoundaryRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future secret boundary rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future credential storage rules</strong>
+        ${futureCredentialStorageRules.length ? `<ul>${futureCredentialStorageRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future credential storage rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future credential RBAC rules</strong>
+        ${futureCredentialRbacRules.length ? `<ul>${futureCredentialRbacRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future credential RBAC rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future credential rotation rules</strong>
+        ${futureCredentialRotationRules.length ? `<ul>${futureCredentialRotationRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future credential rotation rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future credential runtime access rules</strong>
+        ${futureCredentialRuntimeAccessRules.length ? `<ul>${futureCredentialRuntimeAccessRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future credential runtime access rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future credential redaction rules</strong>
+        ${futureCredentialRedactionRules.length ? `<ul>${futureCredentialRedactionRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future credential redaction rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future credential audit rules</strong>
+        ${futureCredentialAuditRules.length ? `<ul>${futureCredentialAuditRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future credential audit rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${credentialProhibitedActions.length ? `<ul>${credentialProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${credentialFutureRuntimeBoundaries.length ? `<ul>${credentialFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${credentialNextSteps.length ? `<ul>${credentialNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;
