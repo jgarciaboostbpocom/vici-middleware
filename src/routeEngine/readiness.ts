@@ -1234,6 +1234,79 @@ export type OpenAiRuntimeActivationGateReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiStagingSandboxEnvironmentReadiness = {
+  currentState: 'not_ready';
+  stagingSandboxApproved: false;
+  stagingSandboxMode: 'read_only_design';
+  stagingSandboxStorageStatus: 'not_implemented';
+  stagingSandboxCrudStatus: 'not_implemented';
+  stagingSandboxMigrationStatus: 'not_implemented';
+  stagingSandboxEndpointStatus: 'not_implemented';
+  stagingSandboxUiActionStatus: 'not_allowed';
+  stagingSandboxExecutionStatus: 'not_allowed';
+  stagingSandboxEvidenceStatus: 'required';
+  stagingSandboxIsolationStatus: 'required';
+  stagingSandboxSyntheticDataStatus: 'required';
+  stagingSandboxCredentialStatus: 'not_allowed';
+  stagingSandboxOpenAiConnectionStatus: 'not_connected';
+  stagingSandboxRealtimeStatus: 'not_allowed';
+  stagingSandboxToolExecutionStatus: 'not_allowed';
+  stagingSandboxCallExecutionStatus: 'not_allowed';
+  stagingSandboxAsteriskStatus: 'not_allowed';
+  stagingSandboxVicidialStatus: 'not_allowed';
+  stagingSandboxFastAgiStatus: 'not_allowed';
+  stagingSandboxRouteBehaviorStatus: 'not_allowed';
+  runtimeActivationGateStatus: 'required';
+  emergencyStopGateStatus: 'required';
+  credentialBoundaryGateStatus: 'required';
+  rbacScopeGateStatus: 'required';
+  auditTrailGateStatus: 'required';
+  piiComplianceGateStatus: 'required';
+  loggingQaGateStatus: 'required';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  stagingSandboxStorageAllowed: false;
+  stagingSandboxCrudAllowed: false;
+  stagingSandboxReadAllowed: false;
+  stagingSandboxWriteAllowed: false;
+  stagingSandboxUpdateAllowed: false;
+  stagingSandboxDeleteAllowed: false;
+  stagingSandboxRunAllowed: false;
+  stagingSandboxEndpointAllowed: false;
+  stagingSandboxUiControlAllowed: false;
+  stagingSandboxApprovalAllowed: false;
+  syntheticDataOnlyAllowed: true;
+  realCredentialAllowed: false;
+  realOpenAiConnectionAllowed: false;
+  realCallAllowed: false;
+  asteriskChangeAllowed: false;
+  vicidialChangeAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  openAiConnectAllowed: false;
+  runtimeCredentialAccessAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  futureSandboxIsolationRules: string[];
+  futureSyntheticDataRules: string[];
+  futureSandboxScenarioTypes: string[];
+  futureSandboxEvidenceRequirements: string[];
+  futureSandboxInputMetadata: string[];
+  futureSandboxOutputMetadata: string[];
+  futureSandboxRbacRules: string[];
+  futureSandboxAuditRules: string[];
+  futureSandboxRuntimeRules: string[];
+  futureSandboxPromotionRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -1279,6 +1352,7 @@ export type RouteReadinessReport = {
   openAiCredentialBoundaryReadiness: OpenAiCredentialBoundaryReadiness;
   openAiEmergencyStopReadiness: OpenAiEmergencyStopReadiness;
   openAiRuntimeActivationGateReadiness: OpenAiRuntimeActivationGateReadiness;
+  openAiStagingSandboxEnvironmentReadiness: OpenAiStagingSandboxEnvironmentReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -6100,6 +6174,271 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiStagingSandboxEnvironmentReadiness: OpenAiStagingSandboxEnvironmentReadiness = {
+    currentState: 'not_ready',
+    stagingSandboxApproved: false,
+    stagingSandboxMode: 'read_only_design',
+    stagingSandboxStorageStatus: 'not_implemented',
+    stagingSandboxCrudStatus: 'not_implemented',
+    stagingSandboxMigrationStatus: 'not_implemented',
+    stagingSandboxEndpointStatus: 'not_implemented',
+    stagingSandboxUiActionStatus: 'not_allowed',
+    stagingSandboxExecutionStatus: 'not_allowed',
+    stagingSandboxEvidenceStatus: 'required',
+    stagingSandboxIsolationStatus: 'required',
+    stagingSandboxSyntheticDataStatus: 'required',
+    stagingSandboxCredentialStatus: 'not_allowed',
+    stagingSandboxOpenAiConnectionStatus: 'not_connected',
+    stagingSandboxRealtimeStatus: 'not_allowed',
+    stagingSandboxToolExecutionStatus: 'not_allowed',
+    stagingSandboxCallExecutionStatus: 'not_allowed',
+    stagingSandboxAsteriskStatus: 'not_allowed',
+    stagingSandboxVicidialStatus: 'not_allowed',
+    stagingSandboxFastAgiStatus: 'not_allowed',
+    stagingSandboxRouteBehaviorStatus: 'not_allowed',
+    runtimeActivationGateStatus: 'required',
+    emergencyStopGateStatus: 'required',
+    credentialBoundaryGateStatus: 'required',
+    rbacScopeGateStatus: 'required',
+    auditTrailGateStatus: 'required',
+    piiComplianceGateStatus: 'required',
+    loggingQaGateStatus: 'required',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    stagingSandboxStorageAllowed: false,
+    stagingSandboxCrudAllowed: false,
+    stagingSandboxReadAllowed: false,
+    stagingSandboxWriteAllowed: false,
+    stagingSandboxUpdateAllowed: false,
+    stagingSandboxDeleteAllowed: false,
+    stagingSandboxRunAllowed: false,
+    stagingSandboxEndpointAllowed: false,
+    stagingSandboxUiControlAllowed: false,
+    stagingSandboxApprovalAllowed: false,
+    syntheticDataOnlyAllowed: true,
+    realCredentialAllowed: false,
+    realOpenAiConnectionAllowed: false,
+    realCallAllowed: false,
+    asteriskChangeAllowed: false,
+    vicidialChangeAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    openAiConnectAllowed: false,
+    runtimeCredentialAccessAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    futureSandboxIsolationRules: [
+      'Sandbox must be isolated from live route engine behavior',
+      'Sandbox must not modify Asterisk',
+      'Sandbox must not modify Vicidial',
+      'Sandbox must not enable FastAGI',
+      'Sandbox must not place real calls',
+      'Sandbox must not answer real inbound calls',
+      'Sandbox must not use real customer PII unless policy explicitly allows approved masked data',
+      'Sandbox must not use real OpenAI credentials in this readiness phase',
+      'Sandbox must not open OpenAI Realtime sessions in this readiness phase',
+      'Sandbox must not execute agent tools in this readiness phase',
+      'Sandbox must not write runtime activation records in this readiness phase',
+      'Sandbox must not publish configs to runtime in this readiness phase',
+    ],
+    futureSyntheticDataRules: [
+      'Sandbox scenarios must use synthetic caller data by default',
+      'Sandbox scenarios must use synthetic call transcripts by default',
+      'Sandbox scenarios must use synthetic customer intents by default',
+      'Sandbox scenarios must use masked or dummy phone numbers',
+      'Sandbox scenarios must use dummy client/campaign/project references unless separately approved',
+      'Sandbox scenarios must avoid real payment data',
+      'Sandbox scenarios must avoid real health data',
+      'Sandbox scenarios must avoid real government identifiers',
+      'Sandbox scenarios must avoid real credentials',
+      'Synthetic data fixtures must be versioned in a future approved implementation',
+    ],
+    futureSandboxScenarioTypes: [
+      'inbound customer service question',
+      'outbound customer service follow-up',
+      'human handoff required',
+      'unsupported intent',
+      'PII redaction required',
+      'compliance consent required',
+      'tool boundary violation attempt',
+      'escalation required',
+      'knowledge base answer',
+      'prompt safety refusal',
+      'low confidence answer',
+      'repeated customer question',
+      'call summary generation',
+      'QA scoring sample',
+      'rollback candidate comparison',
+      'emergency stop active for scope',
+      'credential unavailable',
+      'provider unavailable',
+      'runtime gate missing',
+      'cross-client scope mismatch',
+    ],
+    futureSandboxEvidenceRequirements: [
+      'scenarioId',
+      'scenarioVersion',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'configId',
+      'configVersion',
+      'providerId',
+      'syntheticInputSummary',
+      'expectedBehavior',
+      'observedBehavior',
+      'passFailResult',
+      'reviewerNotes',
+      'riskFindings',
+      'piiFindings',
+      'complianceFindings',
+      'handoffFindings',
+      'toolBoundaryFindings',
+      'loggingQaFindings',
+      'rollbackComparison',
+      'emergencyStopResult',
+      'runtimeGateResult',
+      'auditCorrelationId',
+      'reviewedBy',
+      'reviewedAt',
+    ],
+    futureSandboxInputMetadata: [
+      'syntheticCallerProfile',
+      'syntheticPhoneNumber',
+      'syntheticIntent',
+      'syntheticTranscript',
+      'selectedClientScope',
+      'selectedCampaignScope',
+      'selectedProjectScope',
+      'selectedConfigVersion',
+      'selectedKnowledgeBaseVersion',
+      'selectedPromptVersion',
+      'expectedHandoffQueue',
+      'expectedToolBoundary',
+      'expectedPiiHandling',
+      'expectedComplianceConsent',
+      'expectedEmergencyStopState',
+    ],
+    futureSandboxOutputMetadata: [
+      'generatedAssistantResponse',
+      'generatedCallSummary',
+      'handoffDecision',
+      'refusalDecision',
+      'confidenceScore',
+      'piiRedactionDecision',
+      'complianceConsentDecision',
+      'toolExecutionDecision',
+      'knowledgeBaseCitationDecision',
+      'qaScore',
+      'riskScore',
+      'passFailResult',
+      'reviewerDecision',
+      'blockedReason',
+      'auditCorrelationId',
+    ],
+    futureSandboxRbacRules: [
+      'Super admin may view all future sandbox readiness metadata',
+      'Internal admin may view sandbox readiness metadata only for assigned clients/campaigns/projects',
+      'Client admin may view or request sandbox scenarios only for authorized client-owned scope when policy allows it',
+      'Restricted users cannot run sandbox scenarios unless explicitly granted sandbox permission',
+      'Auditor may view sandbox evidence only within assigned audit scope',
+      'Runtime operator may view sandbox result status when authorized but cannot promote runtime by default',
+      'Sandbox execution permission must be separate from runtime activation permission',
+      'Sandbox promotion permission must be separate from sandbox execution permission',
+      'Browser-side filtering alone is not sufficient',
+      'Server-side scope checks are required in a future implementation',
+    ],
+    futureSandboxAuditRules: [
+      'Sandbox scenario creation must be auditable in a future phase',
+      'Sandbox scenario run must be auditable in a future phase',
+      'Sandbox evidence review must be auditable in a future phase',
+      'Sandbox promotion request must be auditable in a future phase',
+      'Audit events must include actor, timestamp, scope, scenario ID, config version, decision, reason, and correlation ID',
+      'Audit events must not expose credentials',
+      'Audit events must not expose raw customer PII unless approved policy allows masked data',
+      'Audit visibility must be scoped to client/campaign/project',
+      'Audit retention must support runtime approval review',
+      'Sandbox audit must remain separate from live call logs',
+    ],
+    futureSandboxRuntimeRules: [
+      'Sandbox readiness must not activate runtime',
+      'Sandbox readiness must not connect OpenAI',
+      'Sandbox readiness must not resolve credentials',
+      'Sandbox readiness must not open Realtime sessions',
+      'Sandbox readiness must not execute tools',
+      'Sandbox readiness must not place calls',
+      'Sandbox readiness must not modify route behavior',
+      'Sandbox readiness must fail closed if evidence or gate state is missing in a future implementation',
+      'Sandbox readiness must remain separate from runtime activation gate',
+      'Runtime activation must require reviewed sandbox evidence in a future implementation',
+    ],
+    futureSandboxPromotionRules: [
+      'Sandbox pass result must not automatically activate runtime',
+      'Sandbox pass result must not automatically approve live runtime',
+      'Sandbox pass result must not override emergency stop',
+      'Sandbox pass result must not override credential boundary',
+      'Sandbox pass result must not override RBAC/scope gate',
+      'Sandbox pass result must not override audit trail gate',
+      'Sandbox pass result must not override PII/compliance gate',
+      'Sandbox pass result must not override runtime activation approval',
+      'Sandbox evidence must be reviewed before promotion request',
+      'Runtime activation remains a separate future approval gate',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create staging sandbox storage in this phase',
+      'Do not create staging sandbox CRUD endpoints in this phase',
+      'Do not create staging sandbox execution endpoints in this phase',
+      'Do not create test call endpoints in this phase',
+      'Do not create OpenAI sandbox connection endpoints in this phase',
+      'Do not create staging sandbox database tables in this phase',
+      'Do not create staging sandbox migrations in this phase',
+      'Do not save staging sandbox records in this phase',
+      'Do not add staging sandbox buttons in this phase',
+      'Do not add run sandbox controls in this phase',
+      'Do not add test call controls in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not use real OpenAI credentials',
+      'Do not use real customer PII',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not enable FastAGI',
+      'Do not change route behavior',
+      'Do not change credential behavior',
+      'Do not change runtime activation behavior',
+      'Do not change emergency stop behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Staging sandbox readiness must not activate sandbox execution',
+      'Staging sandbox readiness must not activate runtime',
+      'Staging sandbox readiness must not add sandbox controls',
+      'Staging sandbox readiness must not change route behavior',
+      'Staging sandbox readiness must not connect OpenAI',
+      'Staging sandbox execution requires separately approved implementation',
+      'Runtime activation must require reviewed sandbox evidence in a future implementation',
+      'Runtime must fail closed when sandbox evidence is missing in a future implementation',
+      'Sandbox evidence must remain scoped to client/campaign/project',
+      'Sandbox evidence must not contain credentials or raw customer PII',
+    ],
+    nextSteps: [
+      'Keep OpenAI staging sandbox environment readiness read-only, not ready, unapproved, unimplemented, disconnected, and execution-blocked.',
+      'Define future sandbox isolation, synthetic data fixtures, evidence review, RBAC, audit, promotion, and fail-closed runtime contracts in separately approved phases.',
+      'Keep staging sandbox storage, CRUD, migrations, endpoints, UI actions, sandbox execution, test calls, OpenAI connection, credential access, Realtime sessions, tool execution, FastAGI, Asterisk/Vicidial changes, route changes, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require separately reviewed sandbox evidence before any future runtime activation approval can be considered.',
+      'Do not add staging sandbox buttons, run controls, test call controls, storage, endpoints, OpenAI calls, agent tools, FastAGI changes, Asterisk/Vicidial changes, credential behavior changes, runtime activation behavior changes, emergency stop behavior changes, or route behavior changes in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -6325,6 +6664,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI runtime activation gate readiness is read-only, not approved, storage-unimplemented, action-blocked, runtime-enforcement-blocked, OpenAI-disconnected, and exposes no runtime activation, runtime approval, connection, or execution controls.',
     },
+    {
+      id: 'openai-staging-sandbox-environment-readiness-read-only',
+      label: 'OpenAI staging sandbox environment readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI staging sandbox environment readiness is read-only, not approved, storage-unimplemented, execution-blocked, OpenAI-disconnected, synthetic-data-only, and exposes no sandbox, test call, connection, runtime, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -6442,6 +6787,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiCredentialBoundaryReadiness,
     openAiEmergencyStopReadiness,
     openAiRuntimeActivationGateReadiness,
+    openAiStagingSandboxEnvironmentReadiness,
     checklist,
     risks,
     recommendations: [
@@ -6473,6 +6819,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI credential boundary readiness as read-only design visibility; it does not create credential storage, secret storage, credential CRUD, credential endpoints, credential UI fields, OpenAI connection, runtime credential access, or execution controls.',
       'Treat OpenAI emergency stop readiness as read-only design visibility; it does not create emergency stop storage, CRUD, toggle endpoints, runtime stop endpoints, UI actions, runtime enforcement, OpenAI connection, or execution controls.',
       'Treat OpenAI runtime activation gate readiness as read-only design visibility; it does not create runtime activation storage, CRUD, toggle endpoints, enable/disable endpoints, UI actions, runtime activation approvals, runtime enforcement, OpenAI connection, or execution controls.',
+      'Treat OpenAI staging sandbox environment readiness as read-only design visibility; it does not create staging sandbox storage, CRUD, execution endpoints, test call endpoints, UI actions, OpenAI sandbox connection, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
