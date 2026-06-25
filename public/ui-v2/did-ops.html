@@ -864,6 +864,15 @@
                   <div class="muted small">Loading OpenAI emergency stop readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Runtime Activation Gate Readiness</h2>
+                  <span class="muted small">Read-only runtime activation gate design status. This does not create runtime activation storage, runtime controls, OpenAI connection, runtime enforcement, or execution controls.</span>
+                </div>
+                <div class="summary-grid" id="openAiRuntimeActivationGateCards"></div>
+                <div class="row" id="openAiRuntimeActivationGateBadges" style="margin-top:12px"></div>
+                <div id="openAiRuntimeActivationGateDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI runtime activation gate readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2828,10 +2837,13 @@ function renderRouteReadiness() {
   const openAiEmergencyStopCards = $('#openAiEmergencyStopCards');
   const openAiEmergencyStopBadges = $('#openAiEmergencyStopBadges');
   const openAiEmergencyStopDetails = $('#openAiEmergencyStopDetails');
+  const openAiRuntimeActivationGateCards = $('#openAiRuntimeActivationGateCards');
+  const openAiRuntimeActivationGateBadges = $('#openAiRuntimeActivationGateBadges');
+  const openAiRuntimeActivationGateDetails = $('#openAiRuntimeActivationGateDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2912,6 +2924,9 @@ function renderRouteReadiness() {
     openAiEmergencyStopCards.innerHTML = '<div class="muted small">OpenAI emergency stop readiness status not loaded.</div>';
     openAiEmergencyStopBadges.innerHTML = '';
     openAiEmergencyStopDetails.innerHTML = '<div class="muted small">OpenAI emergency stop readiness details not loaded.</div>';
+    openAiRuntimeActivationGateCards.innerHTML = '<div class="muted small">OpenAI runtime activation gate readiness status not loaded.</div>';
+    openAiRuntimeActivationGateBadges.innerHTML = '';
+    openAiRuntimeActivationGateDetails.innerHTML = '<div class="muted small">OpenAI runtime activation gate readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -5424,6 +5439,139 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${emergencyStopNextSteps.length ? `<ul>${emergencyStopNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiRuntimeActivationGate = report.openAiRuntimeActivationGateReadiness || {};
+  const openAiRuntimeActivationGateCardsData = [
+    ['Current state', openAiRuntimeActivationGate.currentState || 'not_ready'],
+    ['Runtime activation gate approved', openAiRuntimeActivationGate.runtimeActivationGateApproved ? 'yes' : 'no'],
+    ['Runtime activation gate mode', openAiRuntimeActivationGate.runtimeActivationGateMode || 'read_only_design'],
+    ['Runtime activation storage', openAiRuntimeActivationGate.runtimeActivationStorageStatus || 'not_implemented'],
+    ['Runtime activation CRUD', openAiRuntimeActivationGate.runtimeActivationCrudStatus || 'not_implemented'],
+    ['Runtime activation migration', openAiRuntimeActivationGate.runtimeActivationMigrationStatus || 'not_implemented'],
+    ['Runtime activation endpoint', openAiRuntimeActivationGate.runtimeActivationEndpointStatus || 'not_implemented'],
+    ['Runtime activation UI action', openAiRuntimeActivationGate.runtimeActivationUiActionStatus || 'not_allowed'],
+    ['Runtime activation status', openAiRuntimeActivationGate.runtimeActivationStatus || 'not_allowed'],
+    ['Runtime activation audit', openAiRuntimeActivationGate.runtimeActivationAuditStatus || 'required'],
+    ['Runtime activation RBAC', openAiRuntimeActivationGate.runtimeActivationRbacStatus || 'required'],
+    ['Runtime activation scope', openAiRuntimeActivationGate.runtimeActivationScopeStatus || 'required'],
+    ['Config approval gate', openAiRuntimeActivationGate.configApprovalGateStatus || 'required'],
+    ['Credential boundary gate', openAiRuntimeActivationGate.credentialBoundaryGateStatus || 'required'],
+    ['Emergency stop gate', openAiRuntimeActivationGate.emergencyStopGateStatus || 'required'],
+    ['RBAC scope gate', openAiRuntimeActivationGate.rbacScopeGateStatus || 'required'],
+    ['Audit trail gate', openAiRuntimeActivationGate.auditTrailGateStatus || 'required'],
+    ['Rollback gate', openAiRuntimeActivationGate.rollbackGateStatus || 'required'],
+    ['Provider selection gate', openAiRuntimeActivationGate.providerSelectionGateStatus || 'required'],
+    ['AI voice integration gate', openAiRuntimeActivationGate.aiVoiceIntegrationGateStatus || 'required'],
+    ['Staging approval gate', openAiRuntimeActivationGate.stagingApprovalGateStatus || 'required'],
+    ['Tool boundary gate', openAiRuntimeActivationGate.toolBoundaryGateStatus || 'required'],
+    ['PII compliance consent gate', openAiRuntimeActivationGate.piiComplianceConsentGateStatus || 'required'],
+    ['Logging QA gate', openAiRuntimeActivationGate.loggingQaGateStatus || 'required'],
+    ['Knowledge base gate', openAiRuntimeActivationGate.knowledgeBaseGateStatus || 'required'],
+    ['Prompt management gate', openAiRuntimeActivationGate.promptManagementGateStatus || 'required'],
+    ['OpenAI connection', openAiRuntimeActivationGate.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', openAiRuntimeActivationGate.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiRuntimeActivationGate.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Runtime activation storage allowed', openAiRuntimeActivationGate.runtimeActivationStorageAllowed ? 'yes' : 'no'],
+    ['Runtime activation CRUD allowed', openAiRuntimeActivationGate.runtimeActivationCrudAllowed ? 'yes' : 'no'],
+    ['Runtime activation read allowed', openAiRuntimeActivationGate.runtimeActivationReadAllowed ? 'yes' : 'no'],
+    ['Runtime activation write allowed', openAiRuntimeActivationGate.runtimeActivationWriteAllowed ? 'yes' : 'no'],
+    ['Runtime activation update allowed', openAiRuntimeActivationGate.runtimeActivationUpdateAllowed ? 'yes' : 'no'],
+    ['Runtime activation delete allowed', openAiRuntimeActivationGate.runtimeActivationDeleteAllowed ? 'yes' : 'no'],
+    ['Runtime activation enable allowed', openAiRuntimeActivationGate.runtimeActivationEnableAllowed ? 'yes' : 'no'],
+    ['Runtime activation disable allowed', openAiRuntimeActivationGate.runtimeActivationDisableAllowed ? 'yes' : 'no'],
+    ['Runtime activation toggle allowed', openAiRuntimeActivationGate.runtimeActivationToggleAllowed ? 'yes' : 'no'],
+    ['Runtime activation endpoint allowed', openAiRuntimeActivationGate.runtimeActivationEndpointAllowed ? 'yes' : 'no'],
+    ['Runtime activation UI control allowed', openAiRuntimeActivationGate.runtimeActivationUiControlAllowed ? 'yes' : 'no'],
+    ['Runtime activation approval allowed', openAiRuntimeActivationGate.runtimeActivationApprovalAllowed ? 'yes' : 'no'],
+    ['OpenAI connect allowed', openAiRuntimeActivationGate.openAiConnectAllowed ? 'yes' : 'no'],
+    ['Runtime credential access allowed', openAiRuntimeActivationGate.runtimeCredentialAccessAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', openAiRuntimeActivationGate.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', openAiRuntimeActivationGate.toolExecutionAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiRuntimeActivationGate.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiRuntimeActivationGate.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiRuntimeActivationGate.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiRuntimeActivationGate.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiRuntimeActivationGateCards.innerHTML = openAiRuntimeActivationGateCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiRuntimeActivationGateBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only runtime gate design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Runtime controls blocked', 'bad'),
+    readinessBadge('Runtime enforcement blocked', 'bad'),
+    readinessBadge('OpenAI connection blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const futureMandatoryRuntimeGates = Array.isArray(openAiRuntimeActivationGate.futureMandatoryRuntimeGates) ? openAiRuntimeActivationGate.futureMandatoryRuntimeGates : [];
+  const futureRuntimeActivationBlockedActions = Array.isArray(openAiRuntimeActivationGate.futureRuntimeActivationBlockedActions) ? openAiRuntimeActivationGate.futureRuntimeActivationBlockedActions : [];
+  const futureRuntimeActivationApprovalMetadata = Array.isArray(openAiRuntimeActivationGate.futureRuntimeActivationApprovalMetadata) ? openAiRuntimeActivationGate.futureRuntimeActivationApprovalMetadata : [];
+  const futureRuntimeActivationRbacRules = Array.isArray(openAiRuntimeActivationGate.futureRuntimeActivationRbacRules) ? openAiRuntimeActivationGate.futureRuntimeActivationRbacRules : [];
+  const futureRuntimeActivationScopeRules = Array.isArray(openAiRuntimeActivationGate.futureRuntimeActivationScopeRules) ? openAiRuntimeActivationGate.futureRuntimeActivationScopeRules : [];
+  const futureRuntimeActivationAuditRules = Array.isArray(openAiRuntimeActivationGate.futureRuntimeActivationAuditRules) ? openAiRuntimeActivationGate.futureRuntimeActivationAuditRules : [];
+  const futureRuntimeActivationRuntimeRules = Array.isArray(openAiRuntimeActivationGate.futureRuntimeActivationRuntimeRules) ? openAiRuntimeActivationGate.futureRuntimeActivationRuntimeRules : [];
+  const futureRuntimeActivationRollbackRules = Array.isArray(openAiRuntimeActivationGate.futureRuntimeActivationRollbackRules) ? openAiRuntimeActivationGate.futureRuntimeActivationRollbackRules : [];
+  const futureRuntimeActivationRecoveryRules = Array.isArray(openAiRuntimeActivationGate.futureRuntimeActivationRecoveryRules) ? openAiRuntimeActivationGate.futureRuntimeActivationRecoveryRules : [];
+  const runtimeActivationGateProhibitedActions = Array.isArray(openAiRuntimeActivationGate.prohibitedCurrentActions) ? openAiRuntimeActivationGate.prohibitedCurrentActions : [];
+  const runtimeActivationGateFutureRuntimeBoundaries = Array.isArray(openAiRuntimeActivationGate.futureRuntimeBoundaries) ? openAiRuntimeActivationGate.futureRuntimeBoundaries : [];
+  const runtimeActivationGateNextSteps = Array.isArray(openAiRuntimeActivationGate.nextSteps) ? openAiRuntimeActivationGate.nextSteps : [];
+  openAiRuntimeActivationGateDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Future mandatory runtime gates</strong>
+        ${futureMandatoryRuntimeGates.length ? `<ul>${futureMandatoryRuntimeGates.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future mandatory runtime gates returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime activation blocked actions</strong>
+        ${futureRuntimeActivationBlockedActions.length ? `<ul>${futureRuntimeActivationBlockedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime activation blocked actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime activation approval metadata</strong>
+        ${futureRuntimeActivationApprovalMetadata.length ? `<ul>${futureRuntimeActivationApprovalMetadata.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime activation approval metadata returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime activation RBAC rules</strong>
+        ${futureRuntimeActivationRbacRules.length ? `<ul>${futureRuntimeActivationRbacRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime activation RBAC rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime activation scope rules</strong>
+        ${futureRuntimeActivationScopeRules.length ? `<ul>${futureRuntimeActivationScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime activation scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime activation audit rules</strong>
+        ${futureRuntimeActivationAuditRules.length ? `<ul>${futureRuntimeActivationAuditRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime activation audit rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime activation runtime rules</strong>
+        ${futureRuntimeActivationRuntimeRules.length ? `<ul>${futureRuntimeActivationRuntimeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime activation runtime rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime activation rollback rules</strong>
+        ${futureRuntimeActivationRollbackRules.length ? `<ul>${futureRuntimeActivationRollbackRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime activation rollback rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime activation recovery rules</strong>
+        ${futureRuntimeActivationRecoveryRules.length ? `<ul>${futureRuntimeActivationRecoveryRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime activation recovery rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${runtimeActivationGateProhibitedActions.length ? `<ul>${runtimeActivationGateProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${runtimeActivationGateFutureRuntimeBoundaries.length ? `<ul>${runtimeActivationGateFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${runtimeActivationGateNextSteps.length ? `<ul>${runtimeActivationGateNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;

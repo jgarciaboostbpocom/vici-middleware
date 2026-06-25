@@ -1170,6 +1170,70 @@ export type OpenAiEmergencyStopReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiRuntimeActivationGateReadiness = {
+  currentState: 'not_ready';
+  runtimeActivationGateApproved: false;
+  runtimeActivationGateMode: 'read_only_design';
+  runtimeActivationStorageStatus: 'not_implemented';
+  runtimeActivationCrudStatus: 'not_implemented';
+  runtimeActivationMigrationStatus: 'not_implemented';
+  runtimeActivationEndpointStatus: 'not_implemented';
+  runtimeActivationUiActionStatus: 'not_allowed';
+  runtimeActivationStatus: 'not_allowed';
+  runtimeActivationAuditStatus: 'required';
+  runtimeActivationRbacStatus: 'required';
+  runtimeActivationScopeStatus: 'required';
+  configApprovalGateStatus: 'required';
+  credentialBoundaryGateStatus: 'required';
+  emergencyStopGateStatus: 'required';
+  rbacScopeGateStatus: 'required';
+  auditTrailGateStatus: 'required';
+  rollbackGateStatus: 'required';
+  providerSelectionGateStatus: 'required';
+  aiVoiceIntegrationGateStatus: 'required';
+  stagingApprovalGateStatus: 'required';
+  toolBoundaryGateStatus: 'required';
+  piiComplianceConsentGateStatus: 'required';
+  loggingQaGateStatus: 'required';
+  knowledgeBaseGateStatus: 'required';
+  promptManagementGateStatus: 'required';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  runtimeActivationStorageAllowed: false;
+  runtimeActivationCrudAllowed: false;
+  runtimeActivationReadAllowed: false;
+  runtimeActivationWriteAllowed: false;
+  runtimeActivationUpdateAllowed: false;
+  runtimeActivationDeleteAllowed: false;
+  runtimeActivationEnableAllowed: false;
+  runtimeActivationDisableAllowed: false;
+  runtimeActivationToggleAllowed: false;
+  runtimeActivationEndpointAllowed: false;
+  runtimeActivationUiControlAllowed: false;
+  runtimeActivationApprovalAllowed: false;
+  openAiConnectAllowed: false;
+  runtimeCredentialAccessAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  futureMandatoryRuntimeGates: string[];
+  futureRuntimeActivationBlockedActions: string[];
+  futureRuntimeActivationApprovalMetadata: string[];
+  futureRuntimeActivationRbacRules: string[];
+  futureRuntimeActivationScopeRules: string[];
+  futureRuntimeActivationAuditRules: string[];
+  futureRuntimeActivationRuntimeRules: string[];
+  futureRuntimeActivationRollbackRules: string[];
+  futureRuntimeActivationRecoveryRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -1214,6 +1278,7 @@ export type RouteReadinessReport = {
   openAiRbacScopeReadiness: OpenAiRbacScopeReadiness;
   openAiCredentialBoundaryReadiness: OpenAiCredentialBoundaryReadiness;
   openAiEmergencyStopReadiness: OpenAiEmergencyStopReadiness;
+  openAiRuntimeActivationGateReadiness: OpenAiRuntimeActivationGateReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -5796,6 +5861,245 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiRuntimeActivationGateReadiness: OpenAiRuntimeActivationGateReadiness = {
+    currentState: 'not_ready',
+    runtimeActivationGateApproved: false,
+    runtimeActivationGateMode: 'read_only_design',
+    runtimeActivationStorageStatus: 'not_implemented',
+    runtimeActivationCrudStatus: 'not_implemented',
+    runtimeActivationMigrationStatus: 'not_implemented',
+    runtimeActivationEndpointStatus: 'not_implemented',
+    runtimeActivationUiActionStatus: 'not_allowed',
+    runtimeActivationStatus: 'not_allowed',
+    runtimeActivationAuditStatus: 'required',
+    runtimeActivationRbacStatus: 'required',
+    runtimeActivationScopeStatus: 'required',
+    configApprovalGateStatus: 'required',
+    credentialBoundaryGateStatus: 'required',
+    emergencyStopGateStatus: 'required',
+    rbacScopeGateStatus: 'required',
+    auditTrailGateStatus: 'required',
+    rollbackGateStatus: 'required',
+    providerSelectionGateStatus: 'required',
+    aiVoiceIntegrationGateStatus: 'required',
+    stagingApprovalGateStatus: 'required',
+    toolBoundaryGateStatus: 'required',
+    piiComplianceConsentGateStatus: 'required',
+    loggingQaGateStatus: 'required',
+    knowledgeBaseGateStatus: 'required',
+    promptManagementGateStatus: 'required',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    runtimeActivationStorageAllowed: false,
+    runtimeActivationCrudAllowed: false,
+    runtimeActivationReadAllowed: false,
+    runtimeActivationWriteAllowed: false,
+    runtimeActivationUpdateAllowed: false,
+    runtimeActivationDeleteAllowed: false,
+    runtimeActivationEnableAllowed: false,
+    runtimeActivationDisableAllowed: false,
+    runtimeActivationToggleAllowed: false,
+    runtimeActivationEndpointAllowed: false,
+    runtimeActivationUiControlAllowed: false,
+    runtimeActivationApprovalAllowed: false,
+    openAiConnectAllowed: false,
+    runtimeCredentialAccessAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    futureMandatoryRuntimeGates: [
+      'approved_config_version',
+      'runtime_activation_approval',
+      'staging_runtime_approval',
+      'credential_boundary_ready',
+      'credential_reference_ready',
+      'emergency_stop_ready',
+      'emergency_stop_not_active_for_scope',
+      'rbac_scope_ready',
+      'audit_trail_ready',
+      'rollback_workflow_ready',
+      'provider_selection_ready',
+      'ai_voice_integration_ready',
+      'prompt_management_ready',
+      'knowledge_base_ready',
+      'human_handoff_ready',
+      'conversation_logging_qa_ready',
+      'pii_compliance_consent_ready',
+      'tool_boundary_ready',
+      'runtime_scope_mapping_ready',
+      'runtime_fail_closed_policy_ready',
+    ],
+    futureRuntimeActivationBlockedActions: [
+      'OpenAI API calls',
+      'OpenAI Realtime sessions',
+      'inbound AI answers',
+      'outbound AI calls',
+      'AI voice runtime',
+      'agent tool execution',
+      'runtime credential access',
+      'runtime config activation',
+      'runtime rollback activation',
+      'staging runtime tests',
+      'pilot runtime',
+      'live runtime',
+      'provider connection tests',
+      'credential rotation runtime tests',
+      'config publish to runtime',
+      'webhook processing for OpenAI runtime',
+    ],
+    futureRuntimeActivationApprovalMetadata: [
+      'activationRequestId',
+      'configId',
+      'configVersion',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'providerId',
+      'credentialReferenceId',
+      'requestedBy',
+      'requestedAt',
+      'reviewedBy',
+      'reviewedAt',
+      'activationDecision',
+      'activationReason',
+      'scopeReview',
+      'riskReview',
+      'complianceReview',
+      'piiConsentReview',
+      'toolBoundaryReview',
+      'handoffReview',
+      'loggingQaReview',
+      'rollbackReview',
+      'emergencyStopReview',
+      'stagingTestEvidence',
+      'auditCorrelationId',
+    ],
+    futureRuntimeActivationRbacRules: [
+      'Super admin may approve runtime activation in a future approved implementation',
+      'Internal admin may approve runtime activation only for assigned clients/campaigns/projects when explicitly permitted',
+      'Client admin may request or approve client-owned runtime activation only when policy allows it',
+      'Restricted users cannot approve runtime activation unless explicitly granted runtime activation permission',
+      'Runtime operator may view runtime activation status when authorized but cannot approve it by default',
+      'Auditor may view runtime activation metadata only within assigned audit scope',
+      'Runtime activation approval permission must be separate from config approval permission',
+      'Runtime activation disable permission must be separate from runtime activation enable permission',
+      'Runtime activation must require actor identity and reason',
+      'Runtime activation disable must require review, reason, and audit trail',
+    ],
+    futureRuntimeActivationScopeRules: [
+      'Runtime activation must be scoped to client/campaign/project',
+      'Runtime activation must not cross client boundary',
+      'Runtime activation must not cross campaign boundary unless explicitly mapped',
+      'Runtime activation must not cross project boundary unless explicitly mapped',
+      'Runtime activation must use approved active config only for matching scope',
+      'Runtime activation must use credential reference only for matching scope',
+      'Runtime activation must verify emergency stop state for matching scope',
+      'Runtime activation must verify RBAC assignment for matching scope',
+      'Runtime activation must be server-side enforced in a future implementation',
+      'Browser-side filtering alone is not sufficient',
+    ],
+    futureRuntimeActivationAuditRules: [
+      'Runtime activation request must be auditable in a future phase',
+      'Runtime activation approval must be auditable in a future phase',
+      'Runtime activation rejection must be auditable in a future phase',
+      'Runtime activation disable must be auditable in a future phase',
+      'Runtime activation runtime block decisions must be auditable in a future phase',
+      'Audit events must include actor, timestamp, scope, config version, credential reference ID, decision, reason, and correlation ID',
+      'Audit events must not expose credentials',
+      'Audit events must not expose raw customer PII unless policy allows it',
+      'Audit visibility must be scoped to client/campaign/project',
+      'Audit retention must support compliance and incident review',
+    ],
+    futureRuntimeActivationRuntimeRules: [
+      'Runtime must verify all mandatory gates before resolving credentials',
+      'Runtime must verify emergency stop before resolving credentials',
+      'Runtime must verify approved config version before OpenAI API calls',
+      'Runtime must verify runtime activation approval before OpenAI API calls',
+      'Runtime must verify scope before opening Realtime sessions',
+      'Runtime must verify tool boundary before executing tools',
+      'Runtime must verify PII/compliance/consent before inbound or outbound AI',
+      'Runtime must fail closed when gate state cannot be resolved',
+      'Runtime must log blocked action metadata without secrets in a future phase',
+      'Runtime must not bypass gates during staging tests',
+    ],
+    futureRuntimeActivationRollbackRules: [
+      'Runtime rollback activation must require separate rollback approval',
+      'Runtime rollback activation must require runtime activation gate review',
+      'Runtime rollback activation must verify emergency stop state',
+      'Runtime rollback activation must verify credential boundary',
+      'Runtime rollback activation must verify RBAC/scope',
+      'Runtime rollback activation must verify audit trail readiness',
+      'Runtime rollback activation must not bypass staging approval unless emergency policy explicitly allows it',
+      'Runtime rollback activation must not automatically resume live runtime',
+      'Runtime rollback activation must be auditable in a future phase',
+      'Emergency stop must override runtime rollback activation',
+    ],
+    futureRuntimeActivationRecoveryRules: [
+      'Runtime activation disable must require explicit authorization',
+      'Runtime activation re-enable must require reason and audit metadata',
+      'Recovery must verify credential boundary readiness',
+      'Recovery must verify RBAC/scope readiness',
+      'Recovery must verify approved active config',
+      'Recovery must verify rollback state if incident involved rollback',
+      'Recovery must verify audit trail readiness',
+      'Recovery must verify emergency stop not active for scope',
+      'Recovery must verify staging/runtime approval',
+      'Recovery must not automatically resume live runtime',
+      'Recovery must require separate runtime reactivation approval',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create runtime activation storage in this phase',
+      'Do not create runtime activation CRUD endpoints in this phase',
+      'Do not create runtime activation toggle endpoints in this phase',
+      'Do not create runtime enable/disable endpoints in this phase',
+      'Do not create runtime activation database tables in this phase',
+      'Do not create runtime activation migrations in this phase',
+      'Do not save runtime activation records in this phase',
+      'Do not add runtime activation buttons in this phase',
+      'Do not add runtime enable buttons in this phase',
+      'Do not add runtime disable buttons in this phase',
+      'Do not add runtime toggle controls in this phase',
+      'Do not add runtime approval controls in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+      'Do not change credential behavior',
+      'Do not change approval behavior',
+      'Do not change rollback behavior',
+      'Do not change emergency stop behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Runtime activation gate readiness must not activate runtime',
+      'Runtime activation gate readiness must not add runtime controls',
+      'Runtime activation gate readiness must not change route behavior',
+      'Runtime activation gate readiness must not connect OpenAI',
+      'Runtime activation enforcement requires separately approved runtime implementation',
+      'Runtime must fail closed when any mandatory gate is unavailable in a future implementation',
+      'Runtime must evaluate emergency stop before credential access in a future implementation',
+      'Runtime must evaluate all mandatory gates before OpenAI API calls in a future implementation',
+      'Runtime must evaluate all mandatory gates before Realtime sessions in a future implementation',
+      'Runtime must evaluate all mandatory gates before inbound/outbound AI actions in a future implementation',
+    ],
+    nextSteps: [
+      'Keep OpenAI runtime activation gate readiness read-only, not ready, unapproved, unimplemented, disconnected, and runtime-blocked.',
+      'Define future mandatory gate evaluation, scoped runtime activation approval, RBAC, audit, rollback, recovery, and fail-closed runtime contracts in separately approved phases.',
+      'Keep runtime activation storage, CRUD, migrations, endpoints, UI actions, toggles, approvals, runtime enforcement, OpenAI connection, credential access, Realtime sessions, tool execution, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require separate approval before runtime activation controls, runtime activation enforcement, runtime reactivation, or OpenAI runtime behavior can be implemented in a future phase.',
+      'Do not add runtime activation buttons, enable/disable/toggle controls, runtime approval controls, storage, endpoints, OpenAI calls, agent tools, FastAGI changes, Asterisk/Vicidial changes, credential behavior changes, approval behavior changes, rollback behavior changes, emergency stop behavior changes, or route behavior changes in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -6015,6 +6319,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI emergency stop readiness is read-only, not approved, storage-unimplemented, action-blocked, runtime-enforcement-blocked, OpenAI-disconnected, and exposes no emergency stop, runtime stop, connection, or execution controls.',
     },
+    {
+      id: 'openai-runtime-activation-gate-readiness-read-only',
+      label: 'OpenAI runtime activation gate readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI runtime activation gate readiness is read-only, not approved, storage-unimplemented, action-blocked, runtime-enforcement-blocked, OpenAI-disconnected, and exposes no runtime activation, runtime approval, connection, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -6131,6 +6441,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiRbacScopeReadiness,
     openAiCredentialBoundaryReadiness,
     openAiEmergencyStopReadiness,
+    openAiRuntimeActivationGateReadiness,
     checklist,
     risks,
     recommendations: [
@@ -6161,6 +6472,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI RBAC and scope enforcement readiness as read-only design visibility; it does not create RBAC storage, RBAC CRUD, permission endpoints, scope assignment endpoints, role mappings, scope assignments, runtime authorization, OpenAI connection, or execution.',
       'Treat OpenAI credential boundary readiness as read-only design visibility; it does not create credential storage, secret storage, credential CRUD, credential endpoints, credential UI fields, OpenAI connection, runtime credential access, or execution controls.',
       'Treat OpenAI emergency stop readiness as read-only design visibility; it does not create emergency stop storage, CRUD, toggle endpoints, runtime stop endpoints, UI actions, runtime enforcement, OpenAI connection, or execution controls.',
+      'Treat OpenAI runtime activation gate readiness as read-only design visibility; it does not create runtime activation storage, CRUD, toggle endpoints, enable/disable endpoints, UI actions, runtime activation approvals, runtime enforcement, OpenAI connection, or execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
