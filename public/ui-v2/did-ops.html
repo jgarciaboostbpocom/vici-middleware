@@ -801,6 +801,15 @@
                   <div class="muted small">Loading OpenAI config model readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Admin Config Preview Readiness</h2>
+                  <span class="muted small">Read-only static admin preview design status. This does not create storage, save preview rows, source runtime data, approve configs, display credentials, connect OpenAI, or enable runtime.</span>
+                </div>
+                <div class="summary-grid" id="openAiAdminConfigPreviewCards"></div>
+                <div class="row" id="openAiAdminConfigPreviewBadges" style="margin-top:12px"></div>
+                <div id="openAiAdminConfigPreviewDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI admin config preview readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2744,10 +2753,13 @@ function renderRouteReadiness() {
   const openAiConfigModelCards = $('#openAiConfigModelCards');
   const openAiConfigModelBadges = $('#openAiConfigModelBadges');
   const openAiConfigModelDetails = $('#openAiConfigModelDetails');
+  const openAiAdminConfigPreviewCards = $('#openAiAdminConfigPreviewCards');
+  const openAiAdminConfigPreviewBadges = $('#openAiAdminConfigPreviewBadges');
+  const openAiAdminConfigPreviewDetails = $('#openAiAdminConfigPreviewDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2807,6 +2819,9 @@ function renderRouteReadiness() {
     openAiConfigModelCards.innerHTML = '<div class="muted small">OpenAI config model readiness status not loaded.</div>';
     openAiConfigModelBadges.innerHTML = '';
     openAiConfigModelDetails.innerHTML = '<div class="muted small">OpenAI config model readiness details not loaded.</div>';
+    openAiAdminConfigPreviewCards.innerHTML = '<div class="muted small">OpenAI admin config preview readiness status not loaded.</div>';
+    openAiAdminConfigPreviewBadges.innerHTML = '';
+    openAiAdminConfigPreviewDetails.innerHTML = '<div class="muted small">OpenAI admin config preview readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -4429,6 +4444,151 @@ function renderRouteReadiness() {
         <strong>Next steps</strong>
         ${configModelNextSteps.length ? `<ul>${configModelNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
+    </div>
+  `;
+
+  const openAiAdminConfigPreview = report.openAiAdminConfigPreviewReadiness || {};
+  const openAiAdminConfigPreviewCardsData = [
+    ['Current state', openAiAdminConfigPreview.currentState || 'not_ready'],
+    ['Preview approved', openAiAdminConfigPreview.adminConfigPreviewApproved ? 'yes' : 'no'],
+    ['Preview mode', openAiAdminConfigPreview.adminConfigPreviewMode || 'read_only_design'],
+    ['Preview source', openAiAdminConfigPreview.previewSourceStatus || 'static_design_only'],
+    ['Preview storage', openAiAdminConfigPreview.previewStorageStatus || 'not_implemented'],
+    ['Preview CRUD', openAiAdminConfigPreview.previewCrudStatus || 'not_implemented'],
+    ['Preview save', openAiAdminConfigPreview.previewSaveStatus || 'not_allowed'],
+    ['Preview edit', openAiAdminConfigPreview.previewEditStatus || 'not_allowed'],
+    ['Preview delete', openAiAdminConfigPreview.previewDeleteStatus || 'not_allowed'],
+    ['Preview approval', openAiAdminConfigPreview.previewApprovalStatus || 'not_allowed'],
+    ['Preview publish', openAiAdminConfigPreview.previewPublishStatus || 'not_allowed'],
+    ['Preview rollback', openAiAdminConfigPreview.previewRollbackStatus || 'not_allowed'],
+    ['Preview runtime', openAiAdminConfigPreview.previewRuntimeStatus || 'not_allowed'],
+    ['OpenAI runtime', openAiAdminConfigPreview.openAiRuntimeStatus || 'not_connected'],
+    ['Client scope', openAiAdminConfigPreview.clientScopeStatus || 'required'],
+    ['Campaign scope', openAiAdminConfigPreview.campaignScopeStatus || 'required'],
+    ['Project scope', openAiAdminConfigPreview.projectScopeStatus || 'required'],
+    ['Role visibility', openAiAdminConfigPreview.roleVisibilityStatus || 'required'],
+    ['Version display', openAiAdminConfigPreview.versionDisplayStatus || 'required'],
+    ['Status display', openAiAdminConfigPreview.statusDisplayStatus || 'required'],
+    ['Module display', openAiAdminConfigPreview.moduleDisplayStatus || 'required'],
+    ['Audit display', openAiAdminConfigPreview.auditDisplayStatus || 'required'],
+    ['Credential display', openAiAdminConfigPreview.credentialDisplayStatus || 'not_allowed'],
+    ['OpenAI execution allowed', openAiAdminConfigPreview.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Preview save allowed', openAiAdminConfigPreview.previewSaveAllowed ? 'yes' : 'no'],
+    ['Preview edit allowed', openAiAdminConfigPreview.previewEditAllowed ? 'yes' : 'no'],
+    ['Preview delete allowed', openAiAdminConfigPreview.previewDeleteAllowed ? 'yes' : 'no'],
+    ['Preview approve allowed', openAiAdminConfigPreview.previewApproveAllowed ? 'yes' : 'no'],
+    ['Preview publish allowed', openAiAdminConfigPreview.previewPublishAllowed ? 'yes' : 'no'],
+    ['Preview rollback allowed', openAiAdminConfigPreview.previewRollbackAllowed ? 'yes' : 'no'],
+    ['Preview runtime allowed', openAiAdminConfigPreview.previewRuntimeAllowed ? 'yes' : 'no'],
+    ['Credential display allowed', openAiAdminConfigPreview.credentialDisplayAllowed ? 'yes' : 'no'],
+    ['Credential storage allowed', openAiAdminConfigPreview.credentialStorageAllowed ? 'yes' : 'no'],
+    ['Config storage allowed', openAiAdminConfigPreview.configStorageAllowed ? 'yes' : 'no'],
+    ['Config CRUD allowed', openAiAdminConfigPreview.configCrudAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiAdminConfigPreview.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiAdminConfigPreview.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiAdminConfigPreview.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiAdminConfigPreview.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiAdminConfigPreviewCards.innerHTML = openAiAdminConfigPreviewCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiAdminConfigPreviewBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only preview', 'info'),
+    readinessBadge('Static design only', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Runtime blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const previewColumns = Array.isArray(openAiAdminConfigPreview.previewColumns) ? openAiAdminConfigPreview.previewColumns : [];
+  const previewModuleColumns = Array.isArray(openAiAdminConfigPreview.previewModuleColumns) ? openAiAdminConfigPreview.previewModuleColumns : [];
+  const previewStatusValues = Array.isArray(openAiAdminConfigPreview.previewStatusValues) ? openAiAdminConfigPreview.previewStatusValues : [];
+  const previewRowsExample = Array.isArray(openAiAdminConfigPreview.previewRowsExample) ? openAiAdminConfigPreview.previewRowsExample : [];
+  const previewVisibilityRules = Array.isArray(openAiAdminConfigPreview.previewVisibilityRules) ? openAiAdminConfigPreview.previewVisibilityRules : [];
+  const previewBlockedActions = Array.isArray(openAiAdminConfigPreview.previewBlockedActions) ? openAiAdminConfigPreview.previewBlockedActions : [];
+  const futureAdminWorkflow = Array.isArray(openAiAdminConfigPreview.futureAdminWorkflow) ? openAiAdminConfigPreview.futureAdminWorkflow : [];
+  const previewProhibitedActions = Array.isArray(openAiAdminConfigPreview.prohibitedCurrentActions) ? openAiAdminConfigPreview.prohibitedCurrentActions : [];
+  const previewFutureRuntimeBoundaries = Array.isArray(openAiAdminConfigPreview.futureRuntimeBoundaries) ? openAiAdminConfigPreview.futureRuntimeBoundaries : [];
+  const previewNextSteps = Array.isArray(openAiAdminConfigPreview.nextSteps) ? openAiAdminConfigPreview.nextSteps : [];
+  const previewRowsHtml = previewRowsExample.length ? previewRowsExample.map(row => `
+    <tr>
+      <td>${escapeHtml(row.source || 'sample_static_preview_only')}</td>
+      <td>${escapeHtml(row.clientName || '-')}</td>
+      <td>${escapeHtml(row.campaignName || '-')}</td>
+      <td>${escapeHtml(row.projectName || '-')}</td>
+      <td>${escapeHtml(row.configSetName || '-')}</td>
+      <td>${escapeHtml(row.version || '-')}</td>
+      <td>${escapeHtml(row.status || '-')}</td>
+      <td>${escapeHtml(row.updatedBy || '-')}</td>
+      <td>${escapeHtml(row.approvedBy || '-')}</td>
+      <td>${escapeHtml(row.runtimeStatus || 'blocked')}</td>
+    </tr>
+  `).join('') : '<tr><td colspan="10" class="muted">No static sample preview rows returned.</td></tr>';
+  openAiAdminConfigPreviewDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Preview columns</strong>
+        ${previewColumns.length ? `<ul>${previewColumns.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No preview columns returned.</div>'}
+      </div>
+      <div>
+        <strong>Preview module columns</strong>
+        ${previewModuleColumns.length ? `<ul>${previewModuleColumns.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No preview module columns returned.</div>'}
+      </div>
+      <div>
+        <strong>Preview status values</strong>
+        ${previewStatusValues.length ? `<ul>${previewStatusValues.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No preview status values returned.</div>'}
+      </div>
+      <div>
+        <strong>Preview visibility rules</strong>
+        ${previewVisibilityRules.length ? `<ul>${previewVisibilityRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No preview visibility rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Preview blocked actions</strong>
+        ${previewBlockedActions.length ? `<ul>${previewBlockedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No preview blocked actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future admin workflow</strong>
+        ${futureAdminWorkflow.length ? `<ul>${futureAdminWorkflow.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future admin workflow returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${previewProhibitedActions.length ? `<ul>${previewProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${previewFutureRuntimeBoundaries.length ? `<ul>${previewFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${previewNextSteps.length ? `<ul>${previewNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+    <div class="section-head" style="margin-top:14px">
+      <h3>Static sample preview rows</h3>
+      <span class="muted small">Rows are sample_static_preview_only and are not sourced from runtime data.</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Client</th>
+            <th>Campaign</th>
+            <th>Project</th>
+            <th>Config set</th>
+            <th>Version</th>
+            <th>Status</th>
+            <th>Updated by</th>
+            <th>Approved by</th>
+            <th>Runtime status</th>
+          </tr>
+        </thead>
+        <tbody>${previewRowsHtml}</tbody>
+      </table>
     </div>
   `;
 

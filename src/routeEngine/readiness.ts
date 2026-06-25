@@ -757,6 +757,79 @@ export type OpenAiConfigModelReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiAdminConfigPreviewRow = {
+  source: 'sample_static_preview_only';
+  clientId: string;
+  clientName: string;
+  campaignId: string;
+  campaignName: string;
+  projectId: string;
+  projectName: string;
+  configSetId: string;
+  configSetName: string;
+  version: string;
+  status: string;
+  createdBy: string;
+  updatedBy: string;
+  approvedBy: string;
+  lastUpdatedAt: string;
+  activeRuntimeEligible: false;
+  runtimeStatus: string;
+  modules: Record<string, string>;
+};
+
+export type OpenAiAdminConfigPreviewReadiness = {
+  currentState: 'not_ready';
+  adminConfigPreviewApproved: false;
+  adminConfigPreviewMode: 'read_only_design';
+  previewSourceStatus: 'static_design_only';
+  previewStorageStatus: 'not_implemented';
+  previewCrudStatus: 'not_implemented';
+  previewSaveStatus: 'not_allowed';
+  previewEditStatus: 'not_allowed';
+  previewDeleteStatus: 'not_allowed';
+  previewApprovalStatus: 'not_allowed';
+  previewPublishStatus: 'not_allowed';
+  previewRollbackStatus: 'not_allowed';
+  previewRuntimeStatus: 'not_allowed';
+  openAiRuntimeStatus: 'not_connected';
+  clientScopeStatus: 'required';
+  campaignScopeStatus: 'required';
+  projectScopeStatus: 'required';
+  roleVisibilityStatus: 'required';
+  versionDisplayStatus: 'required';
+  statusDisplayStatus: 'required';
+  moduleDisplayStatus: 'required';
+  auditDisplayStatus: 'required';
+  credentialDisplayStatus: 'not_allowed';
+  openAiExecutionAllowed: false;
+  previewSaveAllowed: false;
+  previewEditAllowed: false;
+  previewDeleteAllowed: false;
+  previewApproveAllowed: false;
+  previewPublishAllowed: false;
+  previewRollbackAllowed: false;
+  previewRuntimeAllowed: false;
+  credentialDisplayAllowed: false;
+  credentialStorageAllowed: false;
+  configStorageAllowed: false;
+  configCrudAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  previewColumns: string[];
+  previewModuleColumns: string[];
+  previewStatusValues: string[];
+  previewRowsExample: OpenAiAdminConfigPreviewRow[];
+  previewVisibilityRules: string[];
+  previewBlockedActions: string[];
+  futureAdminWorkflow: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -794,6 +867,7 @@ export type RouteReadinessReport = {
   openAiToolBoundaryReadiness: OpenAiToolBoundaryReadiness;
   openAiStagingRuntimeApprovalReadiness: OpenAiStagingRuntimeApprovalReadiness;
   openAiConfigModelReadiness: OpenAiConfigModelReadiness;
+  openAiAdminConfigPreviewReadiness: OpenAiAdminConfigPreviewReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -3870,6 +3944,263 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiAdminConfigPreviewReadiness: OpenAiAdminConfigPreviewReadiness = {
+    currentState: 'not_ready',
+    adminConfigPreviewApproved: false,
+    adminConfigPreviewMode: 'read_only_design',
+    previewSourceStatus: 'static_design_only',
+    previewStorageStatus: 'not_implemented',
+    previewCrudStatus: 'not_implemented',
+    previewSaveStatus: 'not_allowed',
+    previewEditStatus: 'not_allowed',
+    previewDeleteStatus: 'not_allowed',
+    previewApprovalStatus: 'not_allowed',
+    previewPublishStatus: 'not_allowed',
+    previewRollbackStatus: 'not_allowed',
+    previewRuntimeStatus: 'not_allowed',
+    openAiRuntimeStatus: 'not_connected',
+    clientScopeStatus: 'required',
+    campaignScopeStatus: 'required',
+    projectScopeStatus: 'required',
+    roleVisibilityStatus: 'required',
+    versionDisplayStatus: 'required',
+    statusDisplayStatus: 'required',
+    moduleDisplayStatus: 'required',
+    auditDisplayStatus: 'required',
+    credentialDisplayStatus: 'not_allowed',
+    openAiExecutionAllowed: false,
+    previewSaveAllowed: false,
+    previewEditAllowed: false,
+    previewDeleteAllowed: false,
+    previewApproveAllowed: false,
+    previewPublishAllowed: false,
+    previewRollbackAllowed: false,
+    previewRuntimeAllowed: false,
+    credentialDisplayAllowed: false,
+    credentialStorageAllowed: false,
+    configStorageAllowed: false,
+    configCrudAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    previewColumns: [
+      'clientId',
+      'clientName',
+      'campaignId',
+      'campaignName',
+      'projectId',
+      'projectName',
+      'configSetId',
+      'configSetName',
+      'version',
+      'status',
+      'createdBy',
+      'updatedBy',
+      'approvedBy',
+      'lastUpdatedAt',
+      'activeRuntimeEligible',
+      'runtimeStatus',
+    ],
+    previewModuleColumns: [
+      'providerSelection',
+      'promptConfig',
+      'knowledgeBaseConfig',
+      'humanHandoffConfig',
+      'conversationLoggingQaConfig',
+      'piiComplianceConsentConfig',
+      'toolBoundaryConfig',
+      'stagingRuntimeApprovalConfig',
+      'aiVoiceIntegrationConfig',
+    ],
+    previewStatusValues: [
+      'draft',
+      'pending_approval',
+      'approved',
+      'archived',
+      'rejected',
+      'superseded',
+      'rollback_candidate',
+    ],
+    previewRowsExample: [
+      {
+        source: 'sample_static_preview_only',
+        clientId: 'client_demo_a',
+        clientName: 'Client Demo A',
+        campaignId: 'campaign_demo_a',
+        campaignName: 'Campaign Demo A',
+        projectId: 'project_demo_a',
+        projectName: 'Project Demo A',
+        configSetId: 'config_set_demo_a',
+        configSetName: 'Config Set Demo A',
+        version: 'v1',
+        status: 'draft',
+        createdBy: 'sample_admin_a',
+        updatedBy: 'sample_admin_a',
+        approvedBy: 'not_approved',
+        lastUpdatedAt: 'sample_static_preview_only',
+        activeRuntimeEligible: false,
+        runtimeStatus: 'blocked',
+        modules: {
+          providerSelection: 'draft',
+          promptConfig: 'draft',
+          knowledgeBaseConfig: 'draft',
+          humanHandoffConfig: 'draft',
+          conversationLoggingQaConfig: 'draft',
+          piiComplianceConsentConfig: 'draft',
+          toolBoundaryConfig: 'draft',
+          stagingRuntimeApprovalConfig: 'not_approved',
+          aiVoiceIntegrationConfig: 'not_connected',
+        },
+      },
+      {
+        source: 'sample_static_preview_only',
+        clientId: 'client_demo_b',
+        clientName: 'Client Demo B',
+        campaignId: 'campaign_demo_b',
+        campaignName: 'Campaign Demo B',
+        projectId: 'project_demo_b',
+        projectName: 'Project Demo B',
+        configSetId: 'config_set_demo_b',
+        configSetName: 'Config Set Demo B',
+        version: 'v2',
+        status: 'pending_approval',
+        createdBy: 'sample_admin_b',
+        updatedBy: 'sample_reviewer_b',
+        approvedBy: 'pending_approval',
+        lastUpdatedAt: 'sample_static_preview_only',
+        activeRuntimeEligible: false,
+        runtimeStatus: 'blocked',
+        modules: {
+          providerSelection: 'pending_approval',
+          promptConfig: 'pending_approval',
+          knowledgeBaseConfig: 'pending_approval',
+          humanHandoffConfig: 'pending_approval',
+          conversationLoggingQaConfig: 'pending_approval',
+          piiComplianceConsentConfig: 'pending_approval',
+          toolBoundaryConfig: 'pending_approval',
+          stagingRuntimeApprovalConfig: 'not_approved',
+          aiVoiceIntegrationConfig: 'not_connected',
+        },
+      },
+      {
+        source: 'sample_static_preview_only',
+        clientId: 'client_demo_c',
+        clientName: 'Client Demo C',
+        campaignId: 'campaign_demo_c',
+        campaignName: 'Campaign Demo C',
+        projectId: 'project_demo_c',
+        projectName: 'Project Demo C',
+        configSetId: 'config_set_demo_c',
+        configSetName: 'Config Set Demo C',
+        version: 'v3',
+        status: 'approved',
+        createdBy: 'sample_admin_c',
+        updatedBy: 'sample_reviewer_c',
+        approvedBy: 'sample_approver_c',
+        lastUpdatedAt: 'sample_static_preview_only',
+        activeRuntimeEligible: false,
+        runtimeStatus: 'blocked_pending_runtime_approval',
+        modules: {
+          providerSelection: 'approved',
+          promptConfig: 'approved',
+          knowledgeBaseConfig: 'approved',
+          humanHandoffConfig: 'approved',
+          conversationLoggingQaConfig: 'approved',
+          piiComplianceConsentConfig: 'approved',
+          toolBoundaryConfig: 'approved',
+          stagingRuntimeApprovalConfig: 'not_approved',
+          aiVoiceIntegrationConfig: 'not_connected',
+        },
+      },
+    ],
+    previewVisibilityRules: [
+      'Super admin may view all future preview rows',
+      'Internal admins may view only assigned clients/campaigns/projects',
+      'Restricted users may view only assigned clients/campaigns/projects',
+      'Client admins may view only their authorized client/campaign/project rows',
+      'Preview must not leak configs across clients',
+      'Preview must not display credentials',
+      'Preview must not display secrets',
+      'Preview must not imply runtime activation',
+      'Preview must not expose hidden or unapproved config content to unauthorized roles',
+    ],
+    previewBlockedActions: [
+      'save',
+      'edit',
+      'delete',
+      'approve',
+      'reject',
+      'publish',
+      'archive',
+      'rollback',
+      'activate_runtime',
+      'connect_openai',
+      'store_credentials',
+      'execute_test_call',
+      'execute_live_call',
+      'run_staging_test',
+      'enable_inbound_ai',
+      'enable_outbound_ai',
+    ],
+    futureAdminWorkflow: [
+      'Add real config storage in a separately approved phase',
+      'Add RBAC-scoped config listing in a separately approved phase',
+      'Add draft creation/editing in a separately approved phase',
+      'Add submit-for-approval workflow in a separately approved phase',
+      'Add approval/rejection workflow in a separately approved phase',
+      'Add immutable approved versions in a separately approved phase',
+      'Add rollback selection workflow in a separately approved phase',
+      'Add audit trail display in a separately approved phase',
+      'Add secret boundary/credential vault integration in a separately approved phase',
+      'Add staging runtime approval in a separately approved phase',
+      'Add runtime activation only after separate staging approval',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create config storage in this phase',
+      'Do not create CRUD endpoints in this phase',
+      'Do not create database tables in this phase',
+      'Do not create migrations in this phase',
+      'Do not save preview rows in this phase',
+      'Do not source preview rows from runtime data in this phase',
+      'Do not edit OpenAI configs in this phase',
+      'Do not approve OpenAI configs in this phase',
+      'Do not publish OpenAI configs in this phase',
+      'Do not rollback OpenAI configs in this phase',
+      'Do not display credentials in this phase',
+      'Do not store OpenAI credentials in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Preview display must not activate runtime',
+      'Approved preview status must not mean runtime is active',
+      'Runtime may only use separately approved active config versions in a future phase',
+      'Runtime must remain client/campaign/project scoped',
+      'Runtime must not use sample preview rows',
+      'Runtime must not use draft or pending approval configs',
+      'Runtime must not expose credentials to browser/admin UI',
+      'Runtime activation must require separate staging/runtime approval',
+      'Emergency stop must override all preview/config states',
+      'Runtime must log config version IDs used',
+    ],
+    nextSteps: [
+      'Keep OpenAI admin config preview readiness read-only, static, not ready, unapproved, unimplemented, and disconnected.',
+      'Use the static preview rows only to show future admin list shape by client/campaign/project, config set, version, status, module status, audit metadata, and runtime eligibility.',
+      'Define future RBAC-scoped listing, storage, draft/edit, submit, approval, immutable version, rollback, audit, and credential boundary workflows in separately approved phases.',
+      'Keep preview storage, CRUD, save, edit, delete, approve, publish, rollback, runtime activation, credential display/storage, OpenAI connection, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Do not source preview rows from runtime data, create admin form inputs, add save/edit/delete/approval/publish/rollback controls, add credential fields, connect OpenAI, expose agent tools, execute calls, modify Asterisk/Vicidial, or change route behavior in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -4047,6 +4378,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI config model readiness is read-only, not approved, storage-unimplemented, runtime-blocked, and exposes no config storage, CRUD, save, edit, delete, approve, publish, rollback, credential, or execution controls.',
     },
+    {
+      id: 'openai-admin-config-preview-readiness-read-only',
+      label: 'OpenAI admin config preview readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI admin config preview readiness is read-only, static-design-only, not approved, storage-unimplemented, runtime-blocked, and exposes no preview save, edit, delete, approve, publish, rollback, credential, OpenAI connection, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -4156,6 +4493,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiToolBoundaryReadiness,
     openAiStagingRuntimeApprovalReadiness,
     openAiConfigModelReadiness,
+    openAiAdminConfigPreviewReadiness,
     checklist,
     risks,
     recommendations: [
@@ -4179,6 +4517,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI tool boundary readiness as read-only design visibility; it does not create OpenAI tool schemas, expose agent tools, create tool execution endpoints, create agent action endpoints, create write-capable tools, mutate middleware state, expose secrets, connect OpenAI, or execute AI requests.',
       'Treat OpenAI staging runtime approval readiness as read-only design visibility; it does not approve staging runtime, configure credentials, connect OpenAI, execute staging tests, execute dry-run calls, execute real calls, create runtime approval controls, create staging execution controls, create rollback execution controls, modify Asterisk/Vicidial, or change route behavior.',
       'Treat OpenAI config model readiness as read-only design visibility; it does not create config storage, create CRUD endpoints, create database tables, create migrations, save configs, edit configs, approve configs, publish configs, rollback configs, store credentials, connect OpenAI, or enable runtime config.',
+      'Treat OpenAI admin config preview readiness as read-only static design visibility; it does not create config storage, create CRUD endpoints, create database tables, create migrations, save preview rows, source preview rows from runtime data, edit/approve/publish/rollback configs, display credentials, store credentials, connect OpenAI, or enable runtime.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
