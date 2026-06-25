@@ -810,6 +810,15 @@
                   <div class="muted small">Loading OpenAI admin config preview readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Approval Workflow Readiness</h2>
+                  <span class="muted small">Read-only approval workflow design status. This does not create approval storage, save approvals, submit configs, approve configs, activate runtime, connect OpenAI, or execute AI requests.</span>
+                </div>
+                <div class="summary-grid" id="openAiApprovalWorkflowCards"></div>
+                <div class="row" id="openAiApprovalWorkflowBadges" style="margin-top:12px"></div>
+                <div id="openAiApprovalWorkflowDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI approval workflow readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2756,10 +2765,13 @@ function renderRouteReadiness() {
   const openAiAdminConfigPreviewCards = $('#openAiAdminConfigPreviewCards');
   const openAiAdminConfigPreviewBadges = $('#openAiAdminConfigPreviewBadges');
   const openAiAdminConfigPreviewDetails = $('#openAiAdminConfigPreviewDetails');
+  const openAiApprovalWorkflowCards = $('#openAiApprovalWorkflowCards');
+  const openAiApprovalWorkflowBadges = $('#openAiApprovalWorkflowBadges');
+  const openAiApprovalWorkflowDetails = $('#openAiApprovalWorkflowDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2822,6 +2834,9 @@ function renderRouteReadiness() {
     openAiAdminConfigPreviewCards.innerHTML = '<div class="muted small">OpenAI admin config preview readiness status not loaded.</div>';
     openAiAdminConfigPreviewBadges.innerHTML = '';
     openAiAdminConfigPreviewDetails.innerHTML = '<div class="muted small">OpenAI admin config preview readiness details not loaded.</div>';
+    openAiApprovalWorkflowCards.innerHTML = '<div class="muted small">OpenAI approval workflow readiness status not loaded.</div>';
+    openAiApprovalWorkflowBadges.innerHTML = '';
+    openAiApprovalWorkflowDetails.innerHTML = '<div class="muted small">OpenAI approval workflow readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -4589,6 +4604,126 @@ function renderRouteReadiness() {
         </thead>
         <tbody>${previewRowsHtml}</tbody>
       </table>
+    </div>
+  `;
+
+  const openAiApprovalWorkflow = report.openAiApprovalWorkflowReadiness || {};
+  const openAiApprovalWorkflowCardsData = [
+    ['Current state', openAiApprovalWorkflow.currentState || 'not_ready'],
+    ['Approval workflow approved', openAiApprovalWorkflow.approvalWorkflowApproved ? 'yes' : 'no'],
+    ['Approval workflow mode', openAiApprovalWorkflow.approvalWorkflowMode || 'read_only_design'],
+    ['Approval storage', openAiApprovalWorkflow.approvalStorageStatus || 'not_implemented'],
+    ['Approval CRUD', openAiApprovalWorkflow.approvalCrudStatus || 'not_implemented'],
+    ['Approval migration', openAiApprovalWorkflow.approvalMigrationStatus || 'not_implemented'],
+    ['Approval endpoint', openAiApprovalWorkflow.approvalEndpointStatus || 'not_implemented'],
+    ['Approval UI action', openAiApprovalWorkflow.approvalUiActionStatus || 'not_allowed'],
+    ['Approval runtime', openAiApprovalWorkflow.approvalRuntimeStatus || 'not_allowed'],
+    ['Config runtime activation', openAiApprovalWorkflow.configRuntimeActivationStatus || 'not_allowed'],
+    ['OpenAI runtime', openAiApprovalWorkflow.openAiRuntimeStatus || 'not_connected'],
+    ['Draft status', openAiApprovalWorkflow.draftStatus || 'required'],
+    ['Submit for approval', openAiApprovalWorkflow.submitForApprovalStatus || 'required'],
+    ['Pending approval', openAiApprovalWorkflow.pendingApprovalStatus || 'required'],
+    ['Approved status', openAiApprovalWorkflow.approvedStatus || 'required'],
+    ['Rejected status', openAiApprovalWorkflow.rejectedStatus || 'required'],
+    ['Archived status', openAiApprovalWorkflow.archivedStatus || 'required'],
+    ['Superseded status', openAiApprovalWorkflow.supersededStatus || 'required'],
+    ['Rollback candidate status', openAiApprovalWorkflow.rollbackCandidateStatus || 'required'],
+    ['Approver role', openAiApprovalWorkflow.approverRoleStatus || 'required'],
+    ['Approval metadata', openAiApprovalWorkflow.approvalMetadataStatus || 'required'],
+    ['Rejection metadata', openAiApprovalWorkflow.rejectionMetadataStatus || 'required'],
+    ['Audit trail', openAiApprovalWorkflow.auditTrailStatus || 'required'],
+    ['Emergency stop', openAiApprovalWorkflow.emergencyStopStatus || 'required'],
+    ['Runtime approval separation', openAiApprovalWorkflow.runtimeApprovalSeparationStatus || 'required'],
+    ['OpenAI execution allowed', openAiApprovalWorkflow.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Approval save allowed', openAiApprovalWorkflow.approvalSaveAllowed ? 'yes' : 'no'],
+    ['Approval submit allowed', openAiApprovalWorkflow.approvalSubmitAllowed ? 'yes' : 'no'],
+    ['Approval approve allowed', openAiApprovalWorkflow.approvalApproveAllowed ? 'yes' : 'no'],
+    ['Approval reject allowed', openAiApprovalWorkflow.approvalRejectAllowed ? 'yes' : 'no'],
+    ['Approval publish allowed', openAiApprovalWorkflow.approvalPublishAllowed ? 'yes' : 'no'],
+    ['Approval archive allowed', openAiApprovalWorkflow.approvalArchiveAllowed ? 'yes' : 'no'],
+    ['Approval rollback allowed', openAiApprovalWorkflow.approvalRollbackAllowed ? 'yes' : 'no'],
+    ['Runtime activation allowed', openAiApprovalWorkflow.runtimeActivationAllowed ? 'yes' : 'no'],
+    ['Config runtime allowed', openAiApprovalWorkflow.configRuntimeAllowed ? 'yes' : 'no'],
+    ['Credential storage allowed', openAiApprovalWorkflow.credentialStorageAllowed ? 'yes' : 'no'],
+    ['Approval storage allowed', openAiApprovalWorkflow.approvalStorageAllowed ? 'yes' : 'no'],
+    ['Approval CRUD allowed', openAiApprovalWorkflow.approvalCrudAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiApprovalWorkflow.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiApprovalWorkflow.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiApprovalWorkflow.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiApprovalWorkflow.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiApprovalWorkflowCards.innerHTML = openAiApprovalWorkflowCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiApprovalWorkflowBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only approval design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Approval actions blocked', 'bad'),
+    readinessBadge('Runtime activation blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const approvalStates = Array.isArray(openAiApprovalWorkflow.approvalStates) ? openAiApprovalWorkflow.approvalStates : [];
+  const allowedFutureTransitions = Array.isArray(openAiApprovalWorkflow.allowedFutureTransitions) ? openAiApprovalWorkflow.allowedFutureTransitions : [];
+  const blockedCurrentTransitions = Array.isArray(openAiApprovalWorkflow.blockedCurrentTransitions) ? openAiApprovalWorkflow.blockedCurrentTransitions : [];
+  const requiredApprovalMetadata = Array.isArray(openAiApprovalWorkflow.requiredApprovalMetadata) ? openAiApprovalWorkflow.requiredApprovalMetadata : [];
+  const requiredRejectionMetadata = Array.isArray(openAiApprovalWorkflow.requiredRejectionMetadata) ? openAiApprovalWorkflow.requiredRejectionMetadata : [];
+  const futureApproverRules = Array.isArray(openAiApprovalWorkflow.futureApproverRules) ? openAiApprovalWorkflow.futureApproverRules : [];
+  const futureAuditRules = Array.isArray(openAiApprovalWorkflow.futureAuditRules) ? openAiApprovalWorkflow.futureAuditRules : [];
+  const futureRuntimeSeparationRules = Array.isArray(openAiApprovalWorkflow.futureRuntimeSeparationRules) ? openAiApprovalWorkflow.futureRuntimeSeparationRules : [];
+  const approvalProhibitedActions = Array.isArray(openAiApprovalWorkflow.prohibitedCurrentActions) ? openAiApprovalWorkflow.prohibitedCurrentActions : [];
+  const approvalFutureRuntimeBoundaries = Array.isArray(openAiApprovalWorkflow.futureRuntimeBoundaries) ? openAiApprovalWorkflow.futureRuntimeBoundaries : [];
+  const approvalNextSteps = Array.isArray(openAiApprovalWorkflow.nextSteps) ? openAiApprovalWorkflow.nextSteps : [];
+  openAiApprovalWorkflowDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Approval states</strong>
+        ${approvalStates.length ? `<ul>${approvalStates.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No approval states returned.</div>'}
+      </div>
+      <div>
+        <strong>Allowed future transitions</strong>
+        ${allowedFutureTransitions.length ? `<ul>${allowedFutureTransitions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No allowed future transitions returned.</div>'}
+      </div>
+      <div>
+        <strong>Blocked current transitions</strong>
+        ${blockedCurrentTransitions.length ? `<ul>${blockedCurrentTransitions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No blocked current transitions returned.</div>'}
+      </div>
+      <div>
+        <strong>Required approval metadata</strong>
+        ${requiredApprovalMetadata.length ? `<ul>${requiredApprovalMetadata.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required approval metadata returned.</div>'}
+      </div>
+      <div>
+        <strong>Required rejection metadata</strong>
+        ${requiredRejectionMetadata.length ? `<ul>${requiredRejectionMetadata.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No required rejection metadata returned.</div>'}
+      </div>
+      <div>
+        <strong>Future approver rules</strong>
+        ${futureApproverRules.length ? `<ul>${futureApproverRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future approver rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future audit rules</strong>
+        ${futureAuditRules.length ? `<ul>${futureAuditRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future audit rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime separation rules</strong>
+        ${futureRuntimeSeparationRules.length ? `<ul>${futureRuntimeSeparationRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime separation rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${approvalProhibitedActions.length ? `<ul>${approvalProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${approvalFutureRuntimeBoundaries.length ? `<ul>${approvalFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${approvalNextSteps.length ? `<ul>${approvalNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
     </div>
   `;
 

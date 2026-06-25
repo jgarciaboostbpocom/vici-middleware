@@ -830,6 +830,62 @@ export type OpenAiAdminConfigPreviewReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiApprovalWorkflowReadiness = {
+  currentState: 'not_ready';
+  approvalWorkflowApproved: false;
+  approvalWorkflowMode: 'read_only_design';
+  approvalStorageStatus: 'not_implemented';
+  approvalCrudStatus: 'not_implemented';
+  approvalMigrationStatus: 'not_implemented';
+  approvalEndpointStatus: 'not_implemented';
+  approvalUiActionStatus: 'not_allowed';
+  approvalRuntimeStatus: 'not_allowed';
+  configRuntimeActivationStatus: 'not_allowed';
+  openAiRuntimeStatus: 'not_connected';
+  draftStatus: 'required';
+  submitForApprovalStatus: 'required';
+  pendingApprovalStatus: 'required';
+  approvedStatus: 'required';
+  rejectedStatus: 'required';
+  archivedStatus: 'required';
+  supersededStatus: 'required';
+  rollbackCandidateStatus: 'required';
+  approverRoleStatus: 'required';
+  approvalMetadataStatus: 'required';
+  rejectionMetadataStatus: 'required';
+  auditTrailStatus: 'required';
+  emergencyStopStatus: 'required';
+  runtimeApprovalSeparationStatus: 'required';
+  openAiExecutionAllowed: false;
+  approvalSaveAllowed: false;
+  approvalSubmitAllowed: false;
+  approvalApproveAllowed: false;
+  approvalRejectAllowed: false;
+  approvalPublishAllowed: false;
+  approvalArchiveAllowed: false;
+  approvalRollbackAllowed: false;
+  runtimeActivationAllowed: false;
+  configRuntimeAllowed: false;
+  credentialStorageAllowed: false;
+  approvalStorageAllowed: false;
+  approvalCrudAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  approvalStates: string[];
+  allowedFutureTransitions: string[];
+  blockedCurrentTransitions: string[];
+  requiredApprovalMetadata: string[];
+  requiredRejectionMetadata: string[];
+  futureApproverRules: string[];
+  futureAuditRules: string[];
+  futureRuntimeSeparationRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -868,6 +924,7 @@ export type RouteReadinessReport = {
   openAiStagingRuntimeApprovalReadiness: OpenAiStagingRuntimeApprovalReadiness;
   openAiConfigModelReadiness: OpenAiConfigModelReadiness;
   openAiAdminConfigPreviewReadiness: OpenAiAdminConfigPreviewReadiness;
+  openAiApprovalWorkflowReadiness: OpenAiApprovalWorkflowReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -4201,6 +4258,204 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiApprovalWorkflowReadiness: OpenAiApprovalWorkflowReadiness = {
+    currentState: 'not_ready',
+    approvalWorkflowApproved: false,
+    approvalWorkflowMode: 'read_only_design',
+    approvalStorageStatus: 'not_implemented',
+    approvalCrudStatus: 'not_implemented',
+    approvalMigrationStatus: 'not_implemented',
+    approvalEndpointStatus: 'not_implemented',
+    approvalUiActionStatus: 'not_allowed',
+    approvalRuntimeStatus: 'not_allowed',
+    configRuntimeActivationStatus: 'not_allowed',
+    openAiRuntimeStatus: 'not_connected',
+    draftStatus: 'required',
+    submitForApprovalStatus: 'required',
+    pendingApprovalStatus: 'required',
+    approvedStatus: 'required',
+    rejectedStatus: 'required',
+    archivedStatus: 'required',
+    supersededStatus: 'required',
+    rollbackCandidateStatus: 'required',
+    approverRoleStatus: 'required',
+    approvalMetadataStatus: 'required',
+    rejectionMetadataStatus: 'required',
+    auditTrailStatus: 'required',
+    emergencyStopStatus: 'required',
+    runtimeApprovalSeparationStatus: 'required',
+    openAiExecutionAllowed: false,
+    approvalSaveAllowed: false,
+    approvalSubmitAllowed: false,
+    approvalApproveAllowed: false,
+    approvalRejectAllowed: false,
+    approvalPublishAllowed: false,
+    approvalArchiveAllowed: false,
+    approvalRollbackAllowed: false,
+    runtimeActivationAllowed: false,
+    configRuntimeAllowed: false,
+    credentialStorageAllowed: false,
+    approvalStorageAllowed: false,
+    approvalCrudAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    approvalStates: [
+      'draft',
+      'pending_approval',
+      'approved',
+      'rejected',
+      'archived',
+      'superseded',
+      'rollback_candidate',
+    ],
+    allowedFutureTransitions: [
+      'draft -> pending_approval',
+      'pending_approval -> approved',
+      'pending_approval -> rejected',
+      'approved -> superseded',
+      'approved -> archived',
+      'approved -> rollback_candidate',
+      'rollback_candidate -> approved',
+      'rejected -> draft',
+      'superseded -> rollback_candidate',
+    ],
+    blockedCurrentTransitions: [
+      'Any transition is blocked in this readiness phase',
+      'Draft cannot be saved in this phase',
+      'Draft cannot be submitted in this phase',
+      'Pending approval cannot be approved in this phase',
+      'Pending approval cannot be rejected in this phase',
+      'Approved cannot be published in this phase',
+      'Approved cannot activate runtime in this phase',
+      'Approved cannot be rolled back in this phase',
+      'Archived cannot be restored in this phase',
+      'Rollback candidate cannot be activated in this phase',
+      'Runtime cannot use any approval state in this phase',
+    ],
+    requiredApprovalMetadata: [
+      'configId',
+      'configType',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'version',
+      'submittedBy',
+      'submittedAt',
+      'reviewedBy',
+      'reviewedAt',
+      'approvalDecision',
+      'approvalNotes',
+      'changeSummary',
+      'riskReview',
+      'complianceReview',
+      'knowledgeReview',
+      'promptReview',
+      'handoffReview',
+      'toolBoundaryReview',
+      'piiConsentReview',
+      'stagingApprovalRequirement',
+      'auditCorrelationId',
+    ],
+    requiredRejectionMetadata: [
+      'configId',
+      'version',
+      'reviewedBy',
+      'reviewedAt',
+      'rejectionReason',
+      'requiredChanges',
+      'riskNotes',
+      'complianceNotes',
+      'resubmissionAllowed',
+      'auditCorrelationId',
+    ],
+    futureApproverRules: [
+      'Super admin may approve any assigned future config',
+      'Internal admin may approve only assigned clients/campaigns/projects when explicitly permitted',
+      'Restricted users cannot approve unless explicitly granted approval permission',
+      'Client admin can approve only client-owned configs when authorized by policy',
+      'Creator should not self-approve unless policy explicitly allows it',
+      'Approval requires reviewer identity',
+      'Approval requires timestamp',
+      'Approval requires approval notes or risk acknowledgement',
+      'Approval must be scoped to client/campaign/project',
+      'Approval must not expose credentials',
+      'Approval must not imply runtime activation',
+    ],
+    futureAuditRules: [
+      'Every draft creation must be auditable in a future phase',
+      'Every submission must be auditable in a future phase',
+      'Every approval must be auditable in a future phase',
+      'Every rejection must be auditable in a future phase',
+      'Every archive/supersede/rollback-candidate selection must be auditable in a future phase',
+      'Audit must include actor, timestamp, config scope, version, fromStatus, toStatus, reason, and auditCorrelationId',
+      'Audit must not expose secrets',
+      'Audit must be role-restricted',
+      'Audit must support rollback investigation',
+      'Audit must support compliance review',
+    ],
+    futureRuntimeSeparationRules: [
+      'Config approval does not automatically enable runtime',
+      'Runtime activation requires separate staging/runtime approval',
+      'Runtime activation requires approved prompt, knowledge, handoff, logging/QA, PII/compliance/consent, tool boundary, provider selection, and AI voice integration readiness',
+      'Runtime activation requires OpenAI credentials configured through a future secret boundary',
+      'Runtime activation requires emergency stop readiness',
+      'Runtime must only use approved active versions',
+      'Runtime must never use pending approval configs',
+      'Runtime must never use rejected configs',
+      'Runtime must never use archived configs',
+      'Runtime must log config version IDs used',
+      'Emergency stop overrides all approvals',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create approval storage in this phase',
+      'Do not create approval CRUD endpoints in this phase',
+      'Do not create approval database tables in this phase',
+      'Do not create approval migrations in this phase',
+      'Do not save approval records in this phase',
+      'Do not submit configs for approval in this phase',
+      'Do not approve configs in this phase',
+      'Do not reject configs in this phase',
+      'Do not publish configs in this phase',
+      'Do not archive configs in this phase',
+      'Do not rollback configs in this phase',
+      'Do not activate runtime from approval in this phase',
+      'Do not store OpenAI credentials in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Approval workflow display must not activate runtime',
+      'Approved config status must not mean runtime is active',
+      'Runtime may only use separately approved active config versions in a future phase',
+      'Runtime must remain client/campaign/project scoped',
+      'Runtime must not use draft configs',
+      'Runtime must not use pending approval configs',
+      'Runtime must not use rejected configs',
+      'Runtime must not use archived configs',
+      'Runtime must not expose credentials to browser/admin UI',
+      'Runtime activation must require separate staging/runtime approval',
+      'Emergency stop must override all approved configs',
+      'Runtime must log approval metadata and config version IDs used',
+    ],
+    nextSteps: [
+      'Keep OpenAI approval workflow readiness read-only, not ready, unapproved, unimplemented, and disconnected.',
+      'Define future storage, RBAC, status transition, submission, approval, rejection, archive, supersede, rollback-candidate, audit, and metadata contracts in separately approved phases.',
+      'Keep approval storage, approval CRUD, migrations, endpoints, UI actions, runtime activation, credential storage, OpenAI connection, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require separate staging/runtime approval before any approved config can become eligible for runtime in a future phase.',
+      'Do not add approval persistence, approval buttons, approval endpoints, runtime endpoints, credential fields, OpenAI calls, agent tools, FastAGI changes, Asterisk/Vicidial changes, or route behavior changes in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -4384,6 +4639,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI admin config preview readiness is read-only, static-design-only, not approved, storage-unimplemented, runtime-blocked, and exposes no preview save, edit, delete, approve, publish, rollback, credential, OpenAI connection, or execution controls.',
     },
+    {
+      id: 'openai-approval-workflow-readiness-read-only',
+      label: 'OpenAI approval workflow readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI approval workflow readiness is read-only, not approved, storage-unimplemented, action-blocked, runtime-blocked, and exposes no approval save, submit, approve, reject, publish, archive, rollback, credential, OpenAI connection, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -4494,6 +4755,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiStagingRuntimeApprovalReadiness,
     openAiConfigModelReadiness,
     openAiAdminConfigPreviewReadiness,
+    openAiApprovalWorkflowReadiness,
     checklist,
     risks,
     recommendations: [
@@ -4518,6 +4780,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI staging runtime approval readiness as read-only design visibility; it does not approve staging runtime, configure credentials, connect OpenAI, execute staging tests, execute dry-run calls, execute real calls, create runtime approval controls, create staging execution controls, create rollback execution controls, modify Asterisk/Vicidial, or change route behavior.',
       'Treat OpenAI config model readiness as read-only design visibility; it does not create config storage, create CRUD endpoints, create database tables, create migrations, save configs, edit configs, approve configs, publish configs, rollback configs, store credentials, connect OpenAI, or enable runtime config.',
       'Treat OpenAI admin config preview readiness as read-only static design visibility; it does not create config storage, create CRUD endpoints, create database tables, create migrations, save preview rows, source preview rows from runtime data, edit/approve/publish/rollback configs, display credentials, store credentials, connect OpenAI, or enable runtime.',
+      'Treat OpenAI approval workflow readiness as read-only design visibility; it does not create approval storage, approval CRUD, migrations, endpoints, UI actions, approval records, OpenAI connection, or runtime activation.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
