@@ -993,6 +993,61 @@ export type OpenAiAuditTrailReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiRbacScopeReadiness = {
+  currentState: 'not_ready';
+  rbacScopeApproved: false;
+  rbacScopeMode: 'read_only_design';
+  rbacStorageStatus: 'not_implemented';
+  rbacCrudStatus: 'not_implemented';
+  rbacMigrationStatus: 'not_implemented';
+  rbacEndpointStatus: 'not_implemented';
+  rbacUiActionStatus: 'not_allowed';
+  rbacRuntimeStatus: 'not_allowed';
+  scopeAssignmentStatus: 'not_implemented';
+  scopeEnforcementStatus: 'required';
+  roleMappingStatus: 'required';
+  clientScopeStatus: 'required';
+  campaignScopeStatus: 'required';
+  projectScopeStatus: 'required';
+  crossClientIsolationStatus: 'required';
+  auditVisibilityScopeStatus: 'required';
+  approvalScopeStatus: 'required';
+  rollbackScopeStatus: 'required';
+  runtimeScopeStatus: 'required';
+  credentialVisibilityStatus: 'not_allowed';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  rbacWriteAllowed: false;
+  rbacReadAllowed: false;
+  rbacEditAllowed: false;
+  rbacDeleteAllowed: false;
+  scopeAssignmentAllowed: false;
+  permissionSaveAllowed: false;
+  roleMappingSaveAllowed: false;
+  runtimeScopeAllowed: false;
+  credentialStorageAllowed: false;
+  credentialVisibilityAllowed: false;
+  configStorageAllowed: false;
+  configCrudAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  futureRoles: string[];
+  futureRoleCapabilities: string[];
+  futureScopeRules: string[];
+  futureConfigVisibilityRules: string[];
+  futureConfigEditRules: string[];
+  futureApprovalScopeRules: string[];
+  futureRollbackScopeRules: string[];
+  futureAuditScopeRules: string[];
+  futureRuntimeScopeRules: string[];
+  futureCredentialBoundaryRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -1034,6 +1089,7 @@ export type RouteReadinessReport = {
   openAiApprovalWorkflowReadiness: OpenAiApprovalWorkflowReadiness;
   openAiRollbackWorkflowReadiness: OpenAiRollbackWorkflowReadiness;
   openAiAuditTrailReadiness: OpenAiAuditTrailReadiness;
+  openAiRbacScopeReadiness: OpenAiRbacScopeReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -5002,6 +5058,212 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiRbacScopeReadiness: OpenAiRbacScopeReadiness = {
+    currentState: 'not_ready',
+    rbacScopeApproved: false,
+    rbacScopeMode: 'read_only_design',
+    rbacStorageStatus: 'not_implemented',
+    rbacCrudStatus: 'not_implemented',
+    rbacMigrationStatus: 'not_implemented',
+    rbacEndpointStatus: 'not_implemented',
+    rbacUiActionStatus: 'not_allowed',
+    rbacRuntimeStatus: 'not_allowed',
+    scopeAssignmentStatus: 'not_implemented',
+    scopeEnforcementStatus: 'required',
+    roleMappingStatus: 'required',
+    clientScopeStatus: 'required',
+    campaignScopeStatus: 'required',
+    projectScopeStatus: 'required',
+    crossClientIsolationStatus: 'required',
+    auditVisibilityScopeStatus: 'required',
+    approvalScopeStatus: 'required',
+    rollbackScopeStatus: 'required',
+    runtimeScopeStatus: 'required',
+    credentialVisibilityStatus: 'not_allowed',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    rbacWriteAllowed: false,
+    rbacReadAllowed: false,
+    rbacEditAllowed: false,
+    rbacDeleteAllowed: false,
+    scopeAssignmentAllowed: false,
+    permissionSaveAllowed: false,
+    roleMappingSaveAllowed: false,
+    runtimeScopeAllowed: false,
+    credentialStorageAllowed: false,
+    credentialVisibilityAllowed: false,
+    configStorageAllowed: false,
+    configCrudAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    futureRoles: [
+      'super_admin',
+      'internal_admin',
+      'client_admin',
+      'restricted_user',
+      'auditor',
+      'runtime_operator',
+      'read_only_viewer',
+    ],
+    futureRoleCapabilities: [
+      'super_admin can view all future OpenAI readiness/config metadata across assigned system scope',
+      'super_admin can manage future client/campaign/project assignments when separately approved',
+      'internal_admin can view only assigned clients/campaigns/projects',
+      'internal_admin cannot access global OpenAI configs unless explicitly assigned',
+      'client_admin can view only authorized client-owned OpenAI config metadata',
+      'client_admin cannot view other clients',
+      'restricted_user can view only explicitly assigned clients/campaigns/projects',
+      'restricted_user cannot approve configs unless explicitly granted approval permission',
+      'auditor can view scoped audit metadata when authorized',
+      'runtime_operator can view runtime readiness status when authorized but cannot edit configs by default',
+      'read_only_viewer can view only scoped read-only metadata',
+    ],
+    futureScopeRules: [
+      'Every future OpenAI config must be scoped to clientId, campaignId, and projectId where applicable',
+      'No user may view configs outside assigned scope',
+      'No user may edit configs outside assigned scope',
+      'No user may approve configs outside assigned scope',
+      'No user may request rollback outside assigned scope',
+      'No user may view audit events outside assigned scope',
+      'Cross-client config leakage must be blocked',
+      'Campaign-level scope must not automatically imply access to all campaigns under a client',
+      'Project-level scope must be enforced when projectId exists',
+      'Scope checks must happen server-side in a future approved implementation',
+      'Browser-side filtering alone is not sufficient',
+      'Runtime must never load configs outside the active call/client/campaign/project scope',
+    ],
+    futureConfigVisibilityRules: [
+      'Super admin may view all future config metadata across authorized scope',
+      'Internal admin may view only assigned client/campaign/project config metadata',
+      'Client admin may view only authorized client-owned config metadata',
+      'Restricted user may view only explicitly assigned config metadata',
+      'Unassigned users must see no OpenAI config metadata',
+      'Draft config content may require stricter visibility than approved metadata',
+      'Prompt content may require role-based redaction',
+      'Knowledge base content may require role-based redaction',
+      'Tool boundary config may require role-based redaction',
+      'Credentials must never be visible in browser/admin UI',
+    ],
+    futureConfigEditRules: [
+      'Only authorized roles may create future drafts',
+      'Only authorized roles may edit future drafts',
+      'Approved configs must not be directly edited',
+      'Editing approved configs must create a new draft version in a future implementation',
+      'Users may edit only configs within assigned scope',
+      'Client admin edits must be limited to authorized client-owned configs',
+      'Restricted users cannot edit unless explicitly granted edit permission',
+      'Edit permissions must not imply approval permissions',
+      'Edit permissions must not imply runtime activation permissions',
+      'All edits must be auditable in a future phase',
+    ],
+    futureApprovalScopeRules: [
+      'Approval must be scoped to client/campaign/project',
+      'Approver must have approval permission for the same scope',
+      'Creator should not self-approve unless policy explicitly allows it',
+      'Super admin may approve across authorized scope',
+      'Internal admin may approve only assigned clients/campaigns/projects when explicitly permitted',
+      'Client admin may approve only authorized client-owned configs when policy allows it',
+      'Restricted user cannot approve unless explicitly granted approval permission',
+      'Approval must not expose credentials',
+      'Approval must not bypass staging/runtime approval',
+      'Approval must not activate runtime automatically',
+    ],
+    futureRollbackScopeRules: [
+      'Rollback request must be scoped to client/campaign/project',
+      'Rollback requester must have rollback request permission for the same scope',
+      'Rollback approver must have rollback approval permission for the same scope',
+      'Rollback candidate must belong to same client/campaign/project scope',
+      'Rollback cannot target another client config',
+      'Rollback cannot target another campaign unless policy explicitly allows it',
+      'Rollback approval must not expose credentials',
+      'Rollback approval must not activate runtime rollback automatically',
+      'Rollback must be auditable in a future phase',
+      'Emergency stop must override rollback permissions',
+    ],
+    futureAuditScopeRules: [
+      'Audit visibility must be scoped to client/campaign/project',
+      'Super admin may view all audit events across authorized scope',
+      'Internal admin may view only assigned clients/campaigns/projects',
+      'Client admin may view only authorized client-owned audit metadata',
+      'Restricted user may view only explicitly assigned audit metadata',
+      'Auditor role may view audit metadata only within assigned audit scope',
+      'Audit views must not leak cross-client config details',
+      'Audit views must not reveal credentials or secrets',
+      'Audit exports must be separately approved in a future phase',
+      'Audit visibility must be server-side enforced in a future implementation',
+    ],
+    futureRuntimeScopeRules: [
+      'Runtime must only load approved active configs for the active client/campaign/project scope',
+      'Runtime must not load configs from another client',
+      'Runtime must not load configs from another campaign unless explicitly mapped',
+      'Runtime must not load configs from another project unless explicitly mapped',
+      'Runtime must not use draft configs',
+      'Runtime must not use pending approval configs',
+      'Runtime must not use rejected configs',
+      'Runtime must log the scoped config version ID used in a future phase',
+      'Runtime scope enforcement requires separate staging/runtime approval',
+      'Emergency stop overrides all runtime scope permissions',
+    ],
+    futureCredentialBoundaryRules: [
+      'OpenAI credentials must never be visible in browser/admin UI',
+      'OpenAI credentials must never be exposed through readiness reports',
+      'OpenAI credentials must never be included in audit display',
+      'OpenAI credentials must never be included in config preview rows',
+      'OpenAI credentials require a future secret boundary',
+      'Credential access must be server-side only in a future approved implementation',
+      'Credential access must not be granted by config view permission',
+      'Credential access must not be granted by config edit permission',
+      'Credential access must not be granted by approval permission',
+      'Credential access must not be granted by audit permission',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create RBAC storage in this phase',
+      'Do not create RBAC CRUD endpoints in this phase',
+      'Do not create permission endpoints in this phase',
+      'Do not create scope assignment endpoints in this phase',
+      'Do not create RBAC database tables in this phase',
+      'Do not create RBAC migrations in this phase',
+      'Do not save role mappings in this phase',
+      'Do not save scope assignments in this phase',
+      'Do not change existing login behavior in this phase',
+      'Do not change existing auth middleware behavior in this phase',
+      'Do not grant real OpenAI permissions in this phase',
+      'Do not expose OpenAI credentials in this phase',
+      'Do not store OpenAI credentials in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'RBAC readiness display must not grant real permissions',
+      'Scope readiness display must not activate runtime',
+      'Runtime scope enforcement requires separately approved runtime implementation',
+      'Runtime may only use approved active config versions within active client/campaign/project scope',
+      'Runtime must not expose credentials to browser/admin UI',
+      'Runtime must log scoped config version IDs in a future approved phase',
+      'Runtime must apply server-side scope checks in a future approved phase',
+      'Emergency stop must override all runtime permissions',
+      'RBAC readiness must remain separate from OpenAI connection',
+      'RBAC readiness must remain separate from approval/runtime activation',
+    ],
+    nextSteps: [
+      'Keep OpenAI RBAC and scope readiness read-only, not ready, unapproved, unimplemented, and disconnected.',
+      'Define future role mappings, permission boundaries, client/campaign/project scope checks, audit visibility, and credential redaction before storage work.',
+      'Keep RBAC storage, RBAC CRUD, permission endpoints, scope assignment endpoints, role mapping saves, scope assignment saves, runtime scope enforcement, credential storage, OpenAI connection, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require separate runtime implementation approval before runtime scope enforcement can be added in a future phase.',
+      'Do not add RBAC persistence, permission endpoints, scope assignment controls, runtime authorization, credential fields, OpenAI calls, agent tools, FastAGI changes, Asterisk/Vicidial changes, auth behavior changes, or route behavior changes in this phase.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -5203,6 +5465,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI audit trail readiness is read-only, not approved, storage-unimplemented, write-blocked, export-blocked, runtime-audit-blocked, and exposes no audit write, export, search, filter, credential, OpenAI connection, or execution controls.',
     },
+    {
+      id: 'openai-rbac-scope-readiness-read-only',
+      label: 'OpenAI RBAC/scope readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI RBAC/scope readiness is read-only, not approved, storage-unimplemented, scope-assignment-blocked, runtime-scope-blocked, and exposes no RBAC, permission, scope assignment, credential, OpenAI connection, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -5316,6 +5584,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiApprovalWorkflowReadiness,
     openAiRollbackWorkflowReadiness,
     openAiAuditTrailReadiness,
+    openAiRbacScopeReadiness,
     checklist,
     risks,
     recommendations: [
@@ -5343,6 +5612,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI approval workflow readiness as read-only design visibility; it does not create approval storage, approval CRUD, migrations, endpoints, UI actions, approval records, OpenAI connection, or runtime activation.',
       'Treat OpenAI rollback workflow readiness as read-only design visibility; it does not create rollback storage, rollback CRUD, migrations, endpoints, UI actions, rollback records, rollback execution, OpenAI connection, or runtime rollback.',
       'Treat OpenAI audit trail readiness as read-only design visibility; it does not create audit storage, audit CRUD, migrations, endpoints, audit writes, exports, search, filters, runtime audit logging, OpenAI connection, or execution.',
+      'Treat OpenAI RBAC and scope enforcement readiness as read-only design visibility; it does not create RBAC storage, RBAC CRUD, permission endpoints, scope assignment endpoints, role mappings, scope assignments, runtime authorization, OpenAI connection, or execution.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

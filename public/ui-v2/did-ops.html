@@ -837,6 +837,15 @@
                   <div class="muted small">Loading OpenAI audit trail readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI RBAC / Scope Enforcement Readiness</h2>
+                  <span class="muted small">Read-only RBAC and scope design status. This does not create RBAC storage, save role mappings, save scope assignments, grant permissions, activate runtime scope enforcement, connect OpenAI, or execute AI requests.</span>
+                </div>
+                <div class="summary-grid" id="openAiRbacScopeCards"></div>
+                <div class="row" id="openAiRbacScopeBadges" style="margin-top:12px"></div>
+                <div id="openAiRbacScopeDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI RBAC / scope enforcement readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2792,10 +2801,13 @@ function renderRouteReadiness() {
   const openAiAuditTrailCards = $('#openAiAuditTrailCards');
   const openAiAuditTrailBadges = $('#openAiAuditTrailBadges');
   const openAiAuditTrailDetails = $('#openAiAuditTrailDetails');
+  const openAiRbacScopeCards = $('#openAiRbacScopeCards');
+  const openAiRbacScopeBadges = $('#openAiRbacScopeBadges');
+  const openAiRbacScopeDetails = $('#openAiRbacScopeDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2867,6 +2879,9 @@ function renderRouteReadiness() {
     openAiAuditTrailCards.innerHTML = '<div class="muted small">OpenAI audit trail readiness status not loaded.</div>';
     openAiAuditTrailBadges.innerHTML = '';
     openAiAuditTrailDetails.innerHTML = '<div class="muted small">OpenAI audit trail readiness details not loaded.</div>';
+    openAiRbacScopeCards.innerHTML = '<div class="muted small">OpenAI RBAC / scope enforcement readiness status not loaded.</div>';
+    openAiRbacScopeBadges.innerHTML = '';
+    openAiRbacScopeDetails.innerHTML = '<div class="muted small">OpenAI RBAC / scope enforcement readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -5000,6 +5015,133 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${auditNextSteps.length ? `<ul>${auditNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiRbacScope = report.openAiRbacScopeReadiness || {};
+  const openAiRbacScopeCardsData = [
+    ['Current state', openAiRbacScope.currentState || 'not_ready'],
+    ['RBAC scope approved', openAiRbacScope.rbacScopeApproved ? 'yes' : 'no'],
+    ['RBAC scope mode', openAiRbacScope.rbacScopeMode || 'read_only_design'],
+    ['RBAC storage', openAiRbacScope.rbacStorageStatus || 'not_implemented'],
+    ['RBAC CRUD', openAiRbacScope.rbacCrudStatus || 'not_implemented'],
+    ['RBAC migration', openAiRbacScope.rbacMigrationStatus || 'not_implemented'],
+    ['RBAC endpoint', openAiRbacScope.rbacEndpointStatus || 'not_implemented'],
+    ['RBAC UI action', openAiRbacScope.rbacUiActionStatus || 'not_allowed'],
+    ['RBAC runtime', openAiRbacScope.rbacRuntimeStatus || 'not_allowed'],
+    ['Scope assignment', openAiRbacScope.scopeAssignmentStatus || 'not_implemented'],
+    ['Scope enforcement', openAiRbacScope.scopeEnforcementStatus || 'required'],
+    ['Role mapping', openAiRbacScope.roleMappingStatus || 'required'],
+    ['Client scope', openAiRbacScope.clientScopeStatus || 'required'],
+    ['Campaign scope', openAiRbacScope.campaignScopeStatus || 'required'],
+    ['Project scope', openAiRbacScope.projectScopeStatus || 'required'],
+    ['Cross-client isolation', openAiRbacScope.crossClientIsolationStatus || 'required'],
+    ['Audit visibility scope', openAiRbacScope.auditVisibilityScopeStatus || 'required'],
+    ['Approval scope', openAiRbacScope.approvalScopeStatus || 'required'],
+    ['Rollback scope', openAiRbacScope.rollbackScopeStatus || 'required'],
+    ['Runtime scope', openAiRbacScope.runtimeScopeStatus || 'required'],
+    ['Credential visibility', openAiRbacScope.credentialVisibilityStatus || 'not_allowed'],
+    ['OpenAI runtime', openAiRbacScope.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiRbacScope.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['RBAC write allowed', openAiRbacScope.rbacWriteAllowed ? 'yes' : 'no'],
+    ['RBAC read allowed', openAiRbacScope.rbacReadAllowed ? 'yes' : 'no'],
+    ['RBAC edit allowed', openAiRbacScope.rbacEditAllowed ? 'yes' : 'no'],
+    ['RBAC delete allowed', openAiRbacScope.rbacDeleteAllowed ? 'yes' : 'no'],
+    ['Scope assignment allowed', openAiRbacScope.scopeAssignmentAllowed ? 'yes' : 'no'],
+    ['Permission save allowed', openAiRbacScope.permissionSaveAllowed ? 'yes' : 'no'],
+    ['Role mapping save allowed', openAiRbacScope.roleMappingSaveAllowed ? 'yes' : 'no'],
+    ['Runtime scope allowed', openAiRbacScope.runtimeScopeAllowed ? 'yes' : 'no'],
+    ['Credential storage allowed', openAiRbacScope.credentialStorageAllowed ? 'yes' : 'no'],
+    ['Credential visibility allowed', openAiRbacScope.credentialVisibilityAllowed ? 'yes' : 'no'],
+    ['Config storage allowed', openAiRbacScope.configStorageAllowed ? 'yes' : 'no'],
+    ['Config CRUD allowed', openAiRbacScope.configCrudAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiRbacScope.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiRbacScope.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiRbacScope.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiRbacScope.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiRbacScopeCards.innerHTML = openAiRbacScopeCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiRbacScopeBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only RBAC design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Scope assignments blocked', 'bad'),
+    readinessBadge('Runtime scope blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const futureRoles = Array.isArray(openAiRbacScope.futureRoles) ? openAiRbacScope.futureRoles : [];
+  const futureRoleCapabilities = Array.isArray(openAiRbacScope.futureRoleCapabilities) ? openAiRbacScope.futureRoleCapabilities : [];
+  const futureScopeRules = Array.isArray(openAiRbacScope.futureScopeRules) ? openAiRbacScope.futureScopeRules : [];
+  const futureConfigVisibilityRules = Array.isArray(openAiRbacScope.futureConfigVisibilityRules) ? openAiRbacScope.futureConfigVisibilityRules : [];
+  const futureConfigEditRules = Array.isArray(openAiRbacScope.futureConfigEditRules) ? openAiRbacScope.futureConfigEditRules : [];
+  const futureApprovalScopeRules = Array.isArray(openAiRbacScope.futureApprovalScopeRules) ? openAiRbacScope.futureApprovalScopeRules : [];
+  const futureRollbackScopeRules = Array.isArray(openAiRbacScope.futureRollbackScopeRules) ? openAiRbacScope.futureRollbackScopeRules : [];
+  const futureAuditScopeRules = Array.isArray(openAiRbacScope.futureAuditScopeRules) ? openAiRbacScope.futureAuditScopeRules : [];
+  const futureRuntimeScopeRules = Array.isArray(openAiRbacScope.futureRuntimeScopeRules) ? openAiRbacScope.futureRuntimeScopeRules : [];
+  const futureCredentialBoundaryRules = Array.isArray(openAiRbacScope.futureCredentialBoundaryRules) ? openAiRbacScope.futureCredentialBoundaryRules : [];
+  const rbacProhibitedActions = Array.isArray(openAiRbacScope.prohibitedCurrentActions) ? openAiRbacScope.prohibitedCurrentActions : [];
+  const rbacFutureRuntimeBoundaries = Array.isArray(openAiRbacScope.futureRuntimeBoundaries) ? openAiRbacScope.futureRuntimeBoundaries : [];
+  const rbacNextSteps = Array.isArray(openAiRbacScope.nextSteps) ? openAiRbacScope.nextSteps : [];
+  openAiRbacScopeDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Future roles</strong>
+        ${futureRoles.length ? `<ul>${futureRoles.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future roles returned.</div>'}
+      </div>
+      <div>
+        <strong>Future role capabilities</strong>
+        ${futureRoleCapabilities.length ? `<ul>${futureRoleCapabilities.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future role capabilities returned.</div>'}
+      </div>
+      <div>
+        <strong>Future scope rules</strong>
+        ${futureScopeRules.length ? `<ul>${futureScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future config visibility rules</strong>
+        ${futureConfigVisibilityRules.length ? `<ul>${futureConfigVisibilityRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future config visibility rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future config edit rules</strong>
+        ${futureConfigEditRules.length ? `<ul>${futureConfigEditRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future config edit rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future approval scope rules</strong>
+        ${futureApprovalScopeRules.length ? `<ul>${futureApprovalScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future approval scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future rollback scope rules</strong>
+        ${futureRollbackScopeRules.length ? `<ul>${futureRollbackScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future rollback scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future audit scope rules</strong>
+        ${futureAuditScopeRules.length ? `<ul>${futureAuditScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future audit scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime scope rules</strong>
+        ${futureRuntimeScopeRules.length ? `<ul>${futureRuntimeScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future credential boundary rules</strong>
+        ${futureCredentialBoundaryRules.length ? `<ul>${futureCredentialBoundaryRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future credential boundary rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${rbacProhibitedActions.length ? `<ul>${rbacProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${rbacFutureRuntimeBoundaries.length ? `<ul>${rbacFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${rbacNextSteps.length ? `<ul>${rbacNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;
