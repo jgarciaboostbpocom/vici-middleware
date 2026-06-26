@@ -1737,6 +1737,104 @@ export type OpenAiAiResponseEvaluationReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiQaReviewWorkflowReadiness = {
+  currentState: 'not_ready';
+  qaReviewWorkflowApproved: false;
+  qaReviewWorkflowMode: 'read_only_design';
+  qaReviewWorkflowStorageStatus: 'not_implemented';
+  qaReviewWorkflowCrudStatus: 'not_implemented';
+  qaReviewWorkflowMigrationStatus: 'not_implemented';
+  qaReviewWorkflowEndpointStatus: 'not_implemented';
+  qaReviewWorkflowUiActionStatus: 'not_allowed';
+  qaReviewWorkflowStatus: 'not_allowed';
+  qaReviewAssignmentStatus: 'not_allowed';
+  qaReviewQueueStatus: 'not_allowed';
+  qaReviewApprovalStatus: 'not_allowed';
+  qaReviewRejectionStatus: 'not_allowed';
+  qaReviewCorrectionStatus: 'not_allowed';
+  qaImprovementProposalStatus: 'not_allowed';
+  qaHumanReviewStatus: 'required';
+  qaReviewerNotesStatus: 'required';
+  qaDecisionStatus: 'required';
+  qaFindingStatus: 'required';
+  qaRiskReviewStatus: 'required';
+  qaPiiReviewStatus: 'required';
+  qaComplianceReviewStatus: 'required';
+  qaHandoffReviewStatus: 'required';
+  qaScoringReviewStatus: 'required';
+  qaTranscriptReviewStatus: 'required';
+  qaAiResponseReviewStatus: 'required';
+  qaEvidenceReviewStatus: 'required';
+  qaAuditCorrelationStatus: 'required';
+  qaLearningControlStatus: 'required';
+  autonomousLearningStatus: 'not_allowed';
+  aiResponseEvaluationGateStatus: 'required';
+  transcriptReviewGateStatus: 'required';
+  testResultScoringGateStatus: 'required';
+  sandboxEvidenceReviewGateStatus: 'required';
+  syntheticScenarioLibraryGateStatus: 'required';
+  stagingSandboxGateStatus: 'required';
+  runtimeActivationGateStatus: 'required';
+  emergencyStopGateStatus: 'required';
+  credentialBoundaryGateStatus: 'required';
+  rbacScopeGateStatus: 'required';
+  auditTrailGateStatus: 'required';
+  piiComplianceGateStatus: 'required';
+  loggingQaGateStatus: 'required';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  qaReviewWorkflowStorageAllowed: false;
+  qaReviewWorkflowCrudAllowed: false;
+  qaReviewWorkflowReadAllowed: false;
+  qaReviewWorkflowWriteAllowed: false;
+  qaReviewWorkflowUpdateAllowed: false;
+  qaReviewWorkflowDeleteAllowed: false;
+  qaReviewWorkflowAllowed: false;
+  qaReviewAssignmentAllowed: false;
+  qaReviewQueueAllowed: false;
+  qaReviewApproveAllowed: false;
+  qaReviewRejectAllowed: false;
+  qaReviewCorrectionAllowed: false;
+  qaImprovementProposalAllowed: false;
+  qaReviewEndpointAllowed: false;
+  qaReviewUiControlAllowed: false;
+  autonomousLearningAllowed: false;
+  realPiiAllowed: false;
+  realCredentialAllowed: false;
+  realOpenAiConnectionAllowed: false;
+  realCallAllowed: false;
+  asteriskChangeAllowed: false;
+  vicidialChangeAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  openAiConnectAllowed: false;
+  runtimeCredentialAccessAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  futureQaWorkflowStates: string[];
+  futureQaReviewArtifacts: string[];
+  futureQaFindingTypes: string[];
+  futureQaDecisionTypes: string[];
+  futureQaReviewerMetadata: string[];
+  futureQaRiskRules: string[];
+  futureQaPiiComplianceRules: string[];
+  futureQaHandoffRules: string[];
+  futureQaScoringRules: string[];
+  futureQaImprovementRules: string[];
+  futureQaRbacScopeRules: string[];
+  futureQaAuditRules: string[];
+  futureQaLearningControlRules: string[];
+  futureQaPromotionRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -1788,6 +1886,7 @@ export type RouteReadinessReport = {
   openAiTestResultScoringReadiness: OpenAiTestResultScoringReadiness;
   openAiTranscriptReviewReadiness: OpenAiTranscriptReviewReadiness;
   openAiAiResponseEvaluationReadiness: OpenAiAiResponseEvaluationReadiness;
+  openAiQaReviewWorkflowReadiness: OpenAiQaReviewWorkflowReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -8550,6 +8649,387 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiQaReviewWorkflowReadiness: OpenAiQaReviewWorkflowReadiness = {
+    currentState: 'not_ready',
+    qaReviewWorkflowApproved: false,
+    qaReviewWorkflowMode: 'read_only_design',
+    qaReviewWorkflowStorageStatus: 'not_implemented',
+    qaReviewWorkflowCrudStatus: 'not_implemented',
+    qaReviewWorkflowMigrationStatus: 'not_implemented',
+    qaReviewWorkflowEndpointStatus: 'not_implemented',
+    qaReviewWorkflowUiActionStatus: 'not_allowed',
+    qaReviewWorkflowStatus: 'not_allowed',
+    qaReviewAssignmentStatus: 'not_allowed',
+    qaReviewQueueStatus: 'not_allowed',
+    qaReviewApprovalStatus: 'not_allowed',
+    qaReviewRejectionStatus: 'not_allowed',
+    qaReviewCorrectionStatus: 'not_allowed',
+    qaImprovementProposalStatus: 'not_allowed',
+    qaHumanReviewStatus: 'required',
+    qaReviewerNotesStatus: 'required',
+    qaDecisionStatus: 'required',
+    qaFindingStatus: 'required',
+    qaRiskReviewStatus: 'required',
+    qaPiiReviewStatus: 'required',
+    qaComplianceReviewStatus: 'required',
+    qaHandoffReviewStatus: 'required',
+    qaScoringReviewStatus: 'required',
+    qaTranscriptReviewStatus: 'required',
+    qaAiResponseReviewStatus: 'required',
+    qaEvidenceReviewStatus: 'required',
+    qaAuditCorrelationStatus: 'required',
+    qaLearningControlStatus: 'required',
+    autonomousLearningStatus: 'not_allowed',
+    aiResponseEvaluationGateStatus: 'required',
+    transcriptReviewGateStatus: 'required',
+    testResultScoringGateStatus: 'required',
+    sandboxEvidenceReviewGateStatus: 'required',
+    syntheticScenarioLibraryGateStatus: 'required',
+    stagingSandboxGateStatus: 'required',
+    runtimeActivationGateStatus: 'required',
+    emergencyStopGateStatus: 'required',
+    credentialBoundaryGateStatus: 'required',
+    rbacScopeGateStatus: 'required',
+    auditTrailGateStatus: 'required',
+    piiComplianceGateStatus: 'required',
+    loggingQaGateStatus: 'required',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    qaReviewWorkflowStorageAllowed: false,
+    qaReviewWorkflowCrudAllowed: false,
+    qaReviewWorkflowReadAllowed: false,
+    qaReviewWorkflowWriteAllowed: false,
+    qaReviewWorkflowUpdateAllowed: false,
+    qaReviewWorkflowDeleteAllowed: false,
+    qaReviewWorkflowAllowed: false,
+    qaReviewAssignmentAllowed: false,
+    qaReviewQueueAllowed: false,
+    qaReviewApproveAllowed: false,
+    qaReviewRejectAllowed: false,
+    qaReviewCorrectionAllowed: false,
+    qaImprovementProposalAllowed: false,
+    qaReviewEndpointAllowed: false,
+    qaReviewUiControlAllowed: false,
+    autonomousLearningAllowed: false,
+    realPiiAllowed: false,
+    realCredentialAllowed: false,
+    realOpenAiConnectionAllowed: false,
+    realCallAllowed: false,
+    asteriskChangeAllowed: false,
+    vicidialChangeAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    openAiConnectAllowed: false,
+    runtimeCredentialAccessAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    futureQaWorkflowStates: [
+      'not_started',
+      'queued_for_review',
+      'assigned_to_reviewer',
+      'in_review',
+      'needs_more_evidence',
+      'passed',
+      'failed',
+      'blocked',
+      'needs_improvement_proposal',
+      'retest_required',
+      'escalated',
+      'archived',
+      'superseded',
+    ],
+    futureQaReviewArtifacts: [
+      'qaReviewId',
+      'qaReviewVersion',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'callId',
+      'transcriptId',
+      'transcriptTurnIds',
+      'aiResponseIds',
+      'evidenceReviewId',
+      'scoreId',
+      'syntheticScenarioId',
+      'sandboxRunId',
+      'configId',
+      'configVersion',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'providerId',
+      'credentialReferenceId',
+      'transcriptSummary',
+      'aiResponseSummary',
+      'scoreSummary',
+      'evidenceSummary',
+      'reviewerNotes',
+      'qaFindings',
+      'riskFindings',
+      'piiFindings',
+      'complianceFindings',
+      'handoffFindings',
+      'scoringFindings',
+      'improvementCandidates',
+      'auditCorrelationId',
+    ],
+    futureQaFindingTypes: [
+      'answer_correctness_issue',
+      'hallucination_risk',
+      'unsupported_claim',
+      'prompt_adherence_issue',
+      'knowledge_base_gap',
+      'knowledge_base_mismatch',
+      'pii_exposure_risk',
+      'pii_redaction_issue',
+      'compliance_consent_issue',
+      'handoff_missing',
+      'handoff_wrong_queue',
+      'escalation_missing',
+      'tone_issue',
+      'refusal_missing',
+      'refusal_incorrect',
+      'scope_mismatch',
+      'cross_client_leakage_risk',
+      'tool_boundary_issue',
+      'audit_metadata_missing',
+      'score_disagreement',
+      'emergency_stop_behavior_issue',
+      'rollback_comparison_issue',
+      'improvement_candidate',
+    ],
+    futureQaDecisionTypes: [
+      'pass',
+      'fail',
+      'block_promotion',
+      'require_retest',
+      'require_improvement_proposal',
+      'require_prompt_update_proposal',
+      'require_knowledge_base_update_proposal',
+      'require_policy_update_proposal',
+      'require_handoff_update_proposal',
+      'require_tool_boundary_update_proposal',
+      'escalate_to_super_admin',
+      'escalate_to_compliance',
+      'archive_no_action',
+      'mark_superseded',
+    ],
+    futureQaReviewerMetadata: [
+      'reviewedBy',
+      'reviewedAt',
+      'reviewerRole',
+      'reviewerScope',
+      'assignedBy',
+      'assignedAt',
+      'qaDecision',
+      'qaDecisionReason',
+      'qaReviewNotes',
+      'riskFindings',
+      'piiFindings',
+      'complianceFindings',
+      'handoffFindings',
+      'scoringFindings',
+      'transcriptFindings',
+      'aiResponseFindings',
+      'evidenceFindings',
+      'recommendedAction',
+      'requiresRetest',
+      'requiresImprovementProposal',
+      'auditCorrelationId',
+    ],
+    futureQaRiskRules: [
+      'High hallucination risk blocks promotion',
+      'Unsupported claim blocks promotion',
+      'Cross-client leakage risk blocks promotion',
+      'Tool boundary risk blocks promotion',
+      'Emergency stop bypass risk blocks promotion',
+      'Credential exposure risk blocks promotion',
+      'Missing audit metadata blocks promotion',
+      'Repeated QA failure requires improvement proposal',
+      'Medium risk requires human review',
+      'Risk uncertainty must fail closed',
+    ],
+    futureQaPiiComplianceRules: [
+      'QA must confirm PII was detected when present',
+      'QA must confirm PII was redacted when required',
+      'QA must confirm AI did not expose unauthorized raw customer PII',
+      'QA must confirm consent behavior',
+      'QA must confirm payment data handling',
+      'QA must confirm health data handling',
+      'QA must confirm government identifier handling',
+      'QA must confirm do-not-call handling where applicable',
+      'QA must confirm call recording disclosure where applicable',
+      'PII or compliance failure blocks promotion',
+    ],
+    futureQaHandoffRules: [
+      'QA must confirm handoff when customer requests human',
+      'QA must confirm handoff for unsupported intent where required',
+      'QA must confirm handoff for low confidence where policy requires it',
+      'QA must confirm complaint escalation',
+      'QA must confirm angry customer escalation where policy requires it',
+      'QA must confirm compliance escalation',
+      'QA must confirm correct handoff queue',
+      'Handoff failure blocks promotion',
+      'Handoff uncertainty requires human review',
+    ],
+    futureQaScoringRules: [
+      'QA must review score alignment',
+      'QA must review QA score',
+      'QA must review risk score',
+      'QA must review confidence score',
+      'QA must review PII handling score',
+      'QA must review compliance score',
+      'QA must review handoff score',
+      'QA must review scope score',
+      'QA must review promotion readiness score',
+      'Score disagreement requires reviewer notes',
+      'Incomplete scoring fails closed',
+    ],
+    futureQaImprovementRules: [
+      'QA may identify improvement candidates',
+      'Improvement candidates must reference QA review ID and source artifacts',
+      'Improvement candidates must explain the proposed correction',
+      'Improvement candidates must classify the target as prompt, knowledge base, policy, handoff, scoring, or tool boundary',
+      'QA findings must not update prompts automatically',
+      'QA findings must not update knowledge base automatically',
+      'QA findings must not update policies automatically',
+      'QA findings must not update tool behavior automatically',
+      'QA findings must not change runtime behavior automatically',
+      'Improvement candidates must require admin-reviewed proposal workflow before changes',
+      'Approved improvements must be versioned, auditable, and rollback-capable',
+    ],
+    futureQaRbacScopeRules: [
+      'QA review visibility must be scoped to client/campaign/project',
+      'QA review must not cross client boundaries',
+      'QA review must not expose artifacts to unauthorized users',
+      'Client admin QA access must be limited to authorized client-owned scope',
+      'Internal admin QA access must be limited to assigned campaigns/projects',
+      'Restricted users must not access QA reviews unless explicitly assigned',
+      'Auditor visibility must be scoped and read-only',
+      'QA assignment must respect RBAC in a future implementation',
+      'Browser-side filtering alone is not sufficient',
+      'Server-side scope checks are required in a future implementation',
+    ],
+    futureQaAuditRules: [
+      'QA review creation must be auditable in a future phase',
+      'QA assignment must be auditable in a future phase',
+      'QA decision must be auditable in a future phase',
+      'QA finding updates must be auditable in a future phase',
+      'QA improvement candidates must be auditable in a future phase',
+      'QA escalation must be auditable in a future phase',
+      'Audit events must include actor, timestamp, scope, QA review ID, source artifact IDs, decision, reason, and correlation ID',
+      'Audit events must not expose credentials',
+      'Audit events must not expose raw customer PII unless approved policy allows masked or restricted display',
+      'Audit visibility must be scoped to client/campaign/project',
+      'Audit retention must support QA and compliance review',
+    ],
+    futureQaLearningControlRules: [
+      'QA review may identify improvement candidates',
+      'QA findings must not train or alter the AI automatically',
+      'QA findings must not update prompts automatically',
+      'QA findings must not update knowledge base automatically',
+      'QA findings must not update policies automatically',
+      'QA findings must not update tool behavior automatically',
+      'QA findings must not change runtime behavior automatically',
+      'Admin approval is required before any prompt, knowledge base, policy, handoff, scoring, or tool change',
+      'Approved changes must be versioned',
+      'Approved changes must be auditable',
+      'Approved changes must support rollback',
+      'AI must not self-learn from QA findings',
+      'AI must not alter runtime behavior autonomously based on QA review',
+    ],
+    futureQaPromotionRules: [
+      'QA review workflow readiness must not review real QA items in this phase',
+      'QA review workflow readiness must not approve or reject QA items in this phase',
+      'QA review result must not automatically create improvement proposal',
+      'QA review result must not automatically approve prompt changes',
+      'QA review result must not automatically approve knowledge base changes',
+      'QA review result must not automatically activate runtime',
+      'QA review result must not automatically approve live runtime',
+      'QA review result must not override emergency stop',
+      'QA review result must not override credential boundary',
+      'QA review result must not override RBAC/scope gate',
+      'QA review result must not override audit trail gate',
+      'QA review result must not override PII/compliance gate',
+      'Runtime activation remains a separate future approval gate',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create QA review workflow storage in this phase',
+      'Do not create QA review workflow CRUD endpoints in this phase',
+      'Do not create QA review endpoints in this phase',
+      'Do not create approve/reject QA endpoints in this phase',
+      'Do not create QA assignment endpoints in this phase',
+      'Do not create QA queue endpoints in this phase',
+      'Do not create QA correction endpoints in this phase',
+      'Do not create improvement proposal endpoints in this phase',
+      'Do not create QA review workflow database tables in this phase',
+      'Do not create QA review workflow migrations in this phase',
+      'Do not save QA review workflow records in this phase',
+      'Do not review real QA items in this phase',
+      'Do not approve or reject QA items in this phase',
+      'Do not assign QA items in this phase',
+      'Do not queue QA items in this phase',
+      'Do not correct QA items in this phase',
+      'Do not create improvement proposals in this phase',
+      'Do not add QA review buttons in this phase',
+      'Do not add approve/reject QA controls in this phase',
+      'Do not add QA assignment controls in this phase',
+      'Do not add QA queue controls in this phase',
+      'Do not add correction controls in this phase',
+      'Do not add improvement proposal controls in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not use real OpenAI credentials',
+      'Do not enable autonomous learning',
+      'Do not allow AI to self-update prompts',
+      'Do not allow AI to self-update knowledge base',
+      'Do not allow AI to self-update policy',
+      'Do not allow QA findings to change runtime behavior automatically',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not enable FastAGI',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'QA review workflow readiness must not store QA reviews',
+      'QA review workflow readiness must not review real QA items',
+      'QA review workflow readiness must not approve or reject QA items',
+      'QA review workflow readiness must not assign QA items',
+      'QA review workflow readiness must not queue QA items',
+      'QA review workflow readiness must not correct QA items',
+      'QA review workflow readiness must not create improvement proposals',
+      'QA review workflow readiness must not execute scenarios',
+      'QA review workflow readiness must not activate sandbox execution',
+      'QA review workflow readiness must not activate runtime',
+      'QA review workflow readiness must not add QA controls',
+      'QA review workflow readiness must not change route behavior',
+      'QA review workflow readiness must not connect OpenAI',
+      'QA review workflow requires separately approved storage and review workflow implementation',
+      'Runtime activation must require reviewed QA evidence in a future implementation',
+      'Runtime must fail closed when required QA review evidence is missing in a future implementation',
+      'QA reviews must remain scoped to client/campaign/project',
+      'QA reviews must not contain credentials',
+      'Raw customer PII display requires future redaction/RBAC policy',
+      'AI must not self-learn or change behavior autonomously based on QA review',
+    ],
+    nextSteps: [
+      'Keep OpenAI QA review workflow readiness read-only, not ready, unapproved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, review-blocked, assignment-blocked, queue-blocked, approval-blocked, rejection-blocked, correction-blocked, and improvement-proposal-blocked.',
+      'Define future QA workflow states, reviewer metadata, finding types, decision types, risk review, PII/compliance review, handoff review, scoring review, RBAC/scope, audit, learning control, and promotion contracts in separately approved phases.',
+      'Keep QA review workflow storage, CRUD, migrations, endpoints, UI controls, review actions, assignment, queueing, approvals, rejections, corrections, improvement proposals, transcript review endpoints, AI response evaluation endpoints, scoring endpoints, evidence endpoints, scenario execution, sandbox runs, test calls, OpenAI connection, credential access, Realtime sessions, tool execution, autonomous learning, FastAGI, Asterisk/Vicidial changes, route changes, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require future human/admin QA evidence before any prompt, knowledge base, policy, handoff, scoring, tool, sandbox, runtime, pilot, or live change can be trusted.',
+      'Keep QA review workflow readiness separate from transcript review, AI response evaluation, evidence review, test result scoring, improvement proposals, and runtime activation gates.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -8811,6 +9291,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI AI response evaluation readiness is read-only, not approved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, evaluation-blocked, approval-blocked, rejection-blocked, correction-blocked, improvement-proposal-blocked, autonomous-learning-blocked, human-review-required, OpenAI-disconnected, and exposes no response evaluation, approve/reject, correction, improvement proposal, transcript, scoring, evidence, scenario, sandbox, test call, connection, runtime, or execution controls.',
     },
+    {
+      id: 'openai-qa-review-workflow-readiness-read-only',
+      label: 'OpenAI QA review workflow readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI QA review workflow readiness is read-only, not approved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, review-blocked, assignment-blocked, queue-blocked, approval-blocked, rejection-blocked, correction-blocked, improvement-proposal-blocked, autonomous-learning-blocked, human-review-required, OpenAI-disconnected, and exposes no QA review, assign, queue, approve/reject, correction, improvement proposal, transcript, AI response evaluation, scoring, evidence, scenario, sandbox, test call, connection, runtime, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -8934,6 +9420,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiTestResultScoringReadiness,
     openAiTranscriptReviewReadiness,
     openAiAiResponseEvaluationReadiness,
+    openAiQaReviewWorkflowReadiness,
     checklist,
     risks,
     recommendations: [
@@ -8971,6 +9458,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI test result scoring readiness as read-only design visibility; it does not create scoring storage, scoring CRUD, score calculation endpoints, approve/reject endpoints, scenario execution endpoints, sandbox run endpoints, test call endpoints, OpenAI connection, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat OpenAI transcript review readiness as read-only design visibility; it does not create transcript storage, transcript CRUD, transcript review endpoints, approve/reject endpoints, call recording endpoints, transcription endpoints, playback controls, OpenAI connection, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat OpenAI AI response evaluation readiness as read-only design visibility; it does not create AI response evaluation storage, evaluation CRUD endpoints, response evaluation endpoints, approve/reject response endpoints, response correction endpoints, improvement proposal endpoints, database tables, migrations, AI response evaluation records, real AI response evaluation, approve/reject response controls, correction controls, improvement proposal controls, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
+      'Treat OpenAI QA review workflow readiness as read-only design visibility; it does not create QA review workflow storage, workflow CRUD endpoints, QA review endpoints, approve/reject QA endpoints, assignment endpoints, queue endpoints, correction endpoints, improvement proposal endpoints, database tables, migrations, QA workflow records, real QA reviews, QA approvals, QA rejections, QA assignments, QA queues, QA corrections, improvement proposals, QA review controls, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

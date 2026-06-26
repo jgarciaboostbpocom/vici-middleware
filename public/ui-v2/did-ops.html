@@ -927,6 +927,15 @@
                   <div class="muted small">Loading OpenAI AI response evaluation readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI QA Review Workflow Readiness</h2>
+                  <span class="muted small">Read-only QA workflow design status. This does not create QA storage, QA review controls, assignment, queueing, approvals, corrections, improvement proposals, OpenAI connection, autonomous learning, execution controls, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="openAiQaReviewWorkflowCards"></div>
+                <div class="row" id="openAiQaReviewWorkflowBadges" style="margin-top:12px"></div>
+                <div id="openAiQaReviewWorkflowDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI QA review workflow readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2912,10 +2921,13 @@ function renderRouteReadiness() {
   const openAiAiResponseEvaluationCards = $('#openAiAiResponseEvaluationCards');
   const openAiAiResponseEvaluationBadges = $('#openAiAiResponseEvaluationBadges');
   const openAiAiResponseEvaluationDetails = $('#openAiAiResponseEvaluationDetails');
+  const openAiQaReviewWorkflowCards = $('#openAiQaReviewWorkflowCards');
+  const openAiQaReviewWorkflowBadges = $('#openAiQaReviewWorkflowBadges');
+  const openAiQaReviewWorkflowDetails = $('#openAiQaReviewWorkflowDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3017,6 +3029,9 @@ function renderRouteReadiness() {
     openAiAiResponseEvaluationCards.innerHTML = '<div class="muted small">OpenAI AI response evaluation readiness status not loaded.</div>';
     openAiAiResponseEvaluationBadges.innerHTML = '';
     openAiAiResponseEvaluationDetails.innerHTML = '<div class="muted small">OpenAI AI response evaluation readiness details not loaded.</div>';
+    openAiQaReviewWorkflowCards.innerHTML = '<div class="muted small">OpenAI QA review workflow readiness status not loaded.</div>';
+    openAiQaReviewWorkflowBadges.innerHTML = '';
+    openAiQaReviewWorkflowDetails.innerHTML = '<div class="muted small">OpenAI QA review workflow readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -6653,6 +6668,194 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${aiResponseEvaluationNextSteps.length ? `<ul>${aiResponseEvaluationNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiQaReviewWorkflow = report.openAiQaReviewWorkflowReadiness || {};
+  const openAiQaReviewWorkflowCardsData = [
+    ['Current state', openAiQaReviewWorkflow.currentState || 'not_ready'],
+    ['QA review workflow approved', openAiQaReviewWorkflow.qaReviewWorkflowApproved ? 'yes' : 'no'],
+    ['QA review workflow mode', openAiQaReviewWorkflow.qaReviewWorkflowMode || 'read_only_design'],
+    ['QA review workflow storage', openAiQaReviewWorkflow.qaReviewWorkflowStorageStatus || 'not_implemented'],
+    ['QA review workflow CRUD', openAiQaReviewWorkflow.qaReviewWorkflowCrudStatus || 'not_implemented'],
+    ['QA review workflow migration', openAiQaReviewWorkflow.qaReviewWorkflowMigrationStatus || 'not_implemented'],
+    ['QA review workflow endpoint', openAiQaReviewWorkflow.qaReviewWorkflowEndpointStatus || 'not_implemented'],
+    ['QA review workflow UI action', openAiQaReviewWorkflow.qaReviewWorkflowUiActionStatus || 'not_allowed'],
+    ['QA review workflow', openAiQaReviewWorkflow.qaReviewWorkflowStatus || 'not_allowed'],
+    ['QA review assignment', openAiQaReviewWorkflow.qaReviewAssignmentStatus || 'not_allowed'],
+    ['QA review queue', openAiQaReviewWorkflow.qaReviewQueueStatus || 'not_allowed'],
+    ['QA review approval', openAiQaReviewWorkflow.qaReviewApprovalStatus || 'not_allowed'],
+    ['QA review rejection', openAiQaReviewWorkflow.qaReviewRejectionStatus || 'not_allowed'],
+    ['QA review correction', openAiQaReviewWorkflow.qaReviewCorrectionStatus || 'not_allowed'],
+    ['QA improvement proposal', openAiQaReviewWorkflow.qaImprovementProposalStatus || 'not_allowed'],
+    ['QA human review', openAiQaReviewWorkflow.qaHumanReviewStatus || 'required'],
+    ['QA reviewer notes', openAiQaReviewWorkflow.qaReviewerNotesStatus || 'required'],
+    ['QA decision', openAiQaReviewWorkflow.qaDecisionStatus || 'required'],
+    ['QA finding', openAiQaReviewWorkflow.qaFindingStatus || 'required'],
+    ['QA risk review', openAiQaReviewWorkflow.qaRiskReviewStatus || 'required'],
+    ['QA PII review', openAiQaReviewWorkflow.qaPiiReviewStatus || 'required'],
+    ['QA compliance review', openAiQaReviewWorkflow.qaComplianceReviewStatus || 'required'],
+    ['QA handoff review', openAiQaReviewWorkflow.qaHandoffReviewStatus || 'required'],
+    ['QA scoring review', openAiQaReviewWorkflow.qaScoringReviewStatus || 'required'],
+    ['QA transcript review', openAiQaReviewWorkflow.qaTranscriptReviewStatus || 'required'],
+    ['QA AI response review', openAiQaReviewWorkflow.qaAiResponseReviewStatus || 'required'],
+    ['QA evidence review', openAiQaReviewWorkflow.qaEvidenceReviewStatus || 'required'],
+    ['QA audit correlation', openAiQaReviewWorkflow.qaAuditCorrelationStatus || 'required'],
+    ['QA learning control', openAiQaReviewWorkflow.qaLearningControlStatus || 'required'],
+    ['Autonomous learning', openAiQaReviewWorkflow.autonomousLearningStatus || 'not_allowed'],
+    ['AI response evaluation gate', openAiQaReviewWorkflow.aiResponseEvaluationGateStatus || 'required'],
+    ['Transcript review gate', openAiQaReviewWorkflow.transcriptReviewGateStatus || 'required'],
+    ['Test result scoring gate', openAiQaReviewWorkflow.testResultScoringGateStatus || 'required'],
+    ['Sandbox evidence review gate', openAiQaReviewWorkflow.sandboxEvidenceReviewGateStatus || 'required'],
+    ['Synthetic scenario library gate', openAiQaReviewWorkflow.syntheticScenarioLibraryGateStatus || 'required'],
+    ['Staging sandbox gate', openAiQaReviewWorkflow.stagingSandboxGateStatus || 'required'],
+    ['Runtime activation gate', openAiQaReviewWorkflow.runtimeActivationGateStatus || 'required'],
+    ['Emergency stop gate', openAiQaReviewWorkflow.emergencyStopGateStatus || 'required'],
+    ['Credential boundary gate', openAiQaReviewWorkflow.credentialBoundaryGateStatus || 'required'],
+    ['RBAC scope gate', openAiQaReviewWorkflow.rbacScopeGateStatus || 'required'],
+    ['Audit trail gate', openAiQaReviewWorkflow.auditTrailGateStatus || 'required'],
+    ['PII compliance gate', openAiQaReviewWorkflow.piiComplianceGateStatus || 'required'],
+    ['Logging QA gate', openAiQaReviewWorkflow.loggingQaGateStatus || 'required'],
+    ['OpenAI connection', openAiQaReviewWorkflow.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', openAiQaReviewWorkflow.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiQaReviewWorkflow.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['QA review workflow storage allowed', openAiQaReviewWorkflow.qaReviewWorkflowStorageAllowed ? 'yes' : 'no'],
+    ['QA review workflow CRUD allowed', openAiQaReviewWorkflow.qaReviewWorkflowCrudAllowed ? 'yes' : 'no'],
+    ['QA review workflow read allowed', openAiQaReviewWorkflow.qaReviewWorkflowReadAllowed ? 'yes' : 'no'],
+    ['QA review workflow write allowed', openAiQaReviewWorkflow.qaReviewWorkflowWriteAllowed ? 'yes' : 'no'],
+    ['QA review workflow update allowed', openAiQaReviewWorkflow.qaReviewWorkflowUpdateAllowed ? 'yes' : 'no'],
+    ['QA review workflow delete allowed', openAiQaReviewWorkflow.qaReviewWorkflowDeleteAllowed ? 'yes' : 'no'],
+    ['QA review workflow allowed', openAiQaReviewWorkflow.qaReviewWorkflowAllowed ? 'yes' : 'no'],
+    ['QA review assignment allowed', openAiQaReviewWorkflow.qaReviewAssignmentAllowed ? 'yes' : 'no'],
+    ['QA review queue allowed', openAiQaReviewWorkflow.qaReviewQueueAllowed ? 'yes' : 'no'],
+    ['QA review approve allowed', openAiQaReviewWorkflow.qaReviewApproveAllowed ? 'yes' : 'no'],
+    ['QA review reject allowed', openAiQaReviewWorkflow.qaReviewRejectAllowed ? 'yes' : 'no'],
+    ['QA review correction allowed', openAiQaReviewWorkflow.qaReviewCorrectionAllowed ? 'yes' : 'no'],
+    ['QA improvement proposal allowed', openAiQaReviewWorkflow.qaImprovementProposalAllowed ? 'yes' : 'no'],
+    ['QA review endpoint allowed', openAiQaReviewWorkflow.qaReviewEndpointAllowed ? 'yes' : 'no'],
+    ['QA review UI control allowed', openAiQaReviewWorkflow.qaReviewUiControlAllowed ? 'yes' : 'no'],
+    ['Autonomous learning allowed', openAiQaReviewWorkflow.autonomousLearningAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', openAiQaReviewWorkflow.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', openAiQaReviewWorkflow.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real OpenAI connection allowed', openAiQaReviewWorkflow.realOpenAiConnectionAllowed ? 'yes' : 'no'],
+    ['Real call allowed', openAiQaReviewWorkflow.realCallAllowed ? 'yes' : 'no'],
+    ['Asterisk change allowed', openAiQaReviewWorkflow.asteriskChangeAllowed ? 'yes' : 'no'],
+    ['Vicidial change allowed', openAiQaReviewWorkflow.vicidialChangeAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', openAiQaReviewWorkflow.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', openAiQaReviewWorkflow.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['OpenAI connect allowed', openAiQaReviewWorkflow.openAiConnectAllowed ? 'yes' : 'no'],
+    ['Runtime credential access allowed', openAiQaReviewWorkflow.runtimeCredentialAccessAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', openAiQaReviewWorkflow.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', openAiQaReviewWorkflow.toolExecutionAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiQaReviewWorkflow.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiQaReviewWorkflow.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiQaReviewWorkflow.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiQaReviewWorkflow.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiQaReviewWorkflowCards.innerHTML = openAiQaReviewWorkflowCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiQaReviewWorkflowBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only QA workflow design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('QA review blocked', 'bad'),
+    readinessBadge('QA assignment blocked', 'bad'),
+    readinessBadge('Human review required', 'warn'),
+    readinessBadge('Autonomous learning blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const futureQaWorkflowStates = Array.isArray(openAiQaReviewWorkflow.futureQaWorkflowStates) ? openAiQaReviewWorkflow.futureQaWorkflowStates : [];
+  const futureQaReviewArtifacts = Array.isArray(openAiQaReviewWorkflow.futureQaReviewArtifacts) ? openAiQaReviewWorkflow.futureQaReviewArtifacts : [];
+  const futureQaFindingTypes = Array.isArray(openAiQaReviewWorkflow.futureQaFindingTypes) ? openAiQaReviewWorkflow.futureQaFindingTypes : [];
+  const futureQaDecisionTypes = Array.isArray(openAiQaReviewWorkflow.futureQaDecisionTypes) ? openAiQaReviewWorkflow.futureQaDecisionTypes : [];
+  const futureQaReviewerMetadata = Array.isArray(openAiQaReviewWorkflow.futureQaReviewerMetadata) ? openAiQaReviewWorkflow.futureQaReviewerMetadata : [];
+  const futureQaRiskRules = Array.isArray(openAiQaReviewWorkflow.futureQaRiskRules) ? openAiQaReviewWorkflow.futureQaRiskRules : [];
+  const futureQaPiiComplianceRules = Array.isArray(openAiQaReviewWorkflow.futureQaPiiComplianceRules) ? openAiQaReviewWorkflow.futureQaPiiComplianceRules : [];
+  const futureQaHandoffRules = Array.isArray(openAiQaReviewWorkflow.futureQaHandoffRules) ? openAiQaReviewWorkflow.futureQaHandoffRules : [];
+  const futureQaScoringRules = Array.isArray(openAiQaReviewWorkflow.futureQaScoringRules) ? openAiQaReviewWorkflow.futureQaScoringRules : [];
+  const futureQaImprovementRules = Array.isArray(openAiQaReviewWorkflow.futureQaImprovementRules) ? openAiQaReviewWorkflow.futureQaImprovementRules : [];
+  const futureQaRbacScopeRules = Array.isArray(openAiQaReviewWorkflow.futureQaRbacScopeRules) ? openAiQaReviewWorkflow.futureQaRbacScopeRules : [];
+  const futureQaAuditRules = Array.isArray(openAiQaReviewWorkflow.futureQaAuditRules) ? openAiQaReviewWorkflow.futureQaAuditRules : [];
+  const futureQaLearningControlRules = Array.isArray(openAiQaReviewWorkflow.futureQaLearningControlRules) ? openAiQaReviewWorkflow.futureQaLearningControlRules : [];
+  const futureQaPromotionRules = Array.isArray(openAiQaReviewWorkflow.futureQaPromotionRules) ? openAiQaReviewWorkflow.futureQaPromotionRules : [];
+  const qaReviewWorkflowProhibitedActions = Array.isArray(openAiQaReviewWorkflow.prohibitedCurrentActions) ? openAiQaReviewWorkflow.prohibitedCurrentActions : [];
+  const qaReviewWorkflowFutureRuntimeBoundaries = Array.isArray(openAiQaReviewWorkflow.futureRuntimeBoundaries) ? openAiQaReviewWorkflow.futureRuntimeBoundaries : [];
+  const qaReviewWorkflowNextSteps = Array.isArray(openAiQaReviewWorkflow.nextSteps) ? openAiQaReviewWorkflow.nextSteps : [];
+  openAiQaReviewWorkflowDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Future QA workflow states</strong>
+        ${futureQaWorkflowStates.length ? `<ul>${futureQaWorkflowStates.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA workflow states returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA review artifacts</strong>
+        ${futureQaReviewArtifacts.length ? `<ul>${futureQaReviewArtifacts.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA review artifacts returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA finding types</strong>
+        ${futureQaFindingTypes.length ? `<ul>${futureQaFindingTypes.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA finding types returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA decision types</strong>
+        ${futureQaDecisionTypes.length ? `<ul>${futureQaDecisionTypes.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA decision types returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA reviewer metadata</strong>
+        ${futureQaReviewerMetadata.length ? `<ul>${futureQaReviewerMetadata.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA reviewer metadata returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA risk rules</strong>
+        ${futureQaRiskRules.length ? `<ul>${futureQaRiskRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA risk rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA PII/compliance rules</strong>
+        ${futureQaPiiComplianceRules.length ? `<ul>${futureQaPiiComplianceRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA PII/compliance rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA handoff rules</strong>
+        ${futureQaHandoffRules.length ? `<ul>${futureQaHandoffRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA handoff rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA scoring rules</strong>
+        ${futureQaScoringRules.length ? `<ul>${futureQaScoringRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA scoring rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA improvement rules</strong>
+        ${futureQaImprovementRules.length ? `<ul>${futureQaImprovementRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA improvement rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA RBAC/scope rules</strong>
+        ${futureQaRbacScopeRules.length ? `<ul>${futureQaRbacScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA RBAC/scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA audit rules</strong>
+        ${futureQaAuditRules.length ? `<ul>${futureQaAuditRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA audit rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA learning control rules</strong>
+        ${futureQaLearningControlRules.length ? `<ul>${futureQaLearningControlRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA learning control rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA promotion rules</strong>
+        ${futureQaPromotionRules.length ? `<ul>${futureQaPromotionRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA promotion rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${qaReviewWorkflowProhibitedActions.length ? `<ul>${qaReviewWorkflowProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${qaReviewWorkflowFutureRuntimeBoundaries.length ? `<ul>${qaReviewWorkflowFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${qaReviewWorkflowNextSteps.length ? `<ul>${qaReviewWorkflowNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;
