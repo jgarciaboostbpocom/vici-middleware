@@ -909,6 +909,15 @@
                   <div class="muted small">Loading OpenAI test result scoring readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Transcript Review Readiness</h2>
+                  <span class="muted small">Read-only transcript review design status. This does not create transcript storage, transcript review controls, transcription, recording access, playback, OpenAI connection, autonomous learning, test calls, FastAGI execution, Asterisk/Vicidial changes, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="openAiTranscriptReviewCards"></div>
+                <div class="row" id="openAiTranscriptReviewBadges" style="margin-top:12px"></div>
+                <div id="openAiTranscriptReviewDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI transcript review readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2888,10 +2897,13 @@ function renderRouteReadiness() {
   const openAiTestResultScoringCards = $('#openAiTestResultScoringCards');
   const openAiTestResultScoringBadges = $('#openAiTestResultScoringBadges');
   const openAiTestResultScoringDetails = $('#openAiTestResultScoringDetails');
+  const openAiTranscriptReviewCards = $('#openAiTranscriptReviewCards');
+  const openAiTranscriptReviewBadges = $('#openAiTranscriptReviewBadges');
+  const openAiTranscriptReviewDetails = $('#openAiTranscriptReviewDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2987,6 +2999,9 @@ function renderRouteReadiness() {
     openAiTestResultScoringCards.innerHTML = '<div class="muted small">OpenAI test result scoring readiness status not loaded.</div>';
     openAiTestResultScoringBadges.innerHTML = '';
     openAiTestResultScoringDetails.innerHTML = '<div class="muted small">OpenAI test result scoring readiness details not loaded.</div>';
+    openAiTranscriptReviewCards.innerHTML = '<div class="muted small">OpenAI transcript review readiness status not loaded.</div>';
+    openAiTranscriptReviewBadges.innerHTML = '';
+    openAiTranscriptReviewDetails.innerHTML = '<div class="muted small">OpenAI transcript review readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -6265,6 +6280,178 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${testResultScoringNextSteps.length ? `<ul>${testResultScoringNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiTranscriptReview = report.openAiTranscriptReviewReadiness || {};
+  const openAiTranscriptReviewCardsData = [
+    ['Current state', openAiTranscriptReview.currentState || 'not_ready'],
+    ['Transcript review approved', openAiTranscriptReview.transcriptReviewApproved ? 'yes' : 'no'],
+    ['Transcript review mode', openAiTranscriptReview.transcriptReviewMode || 'read_only_design'],
+    ['Transcript storage', openAiTranscriptReview.transcriptStorageStatus || 'not_implemented'],
+    ['Transcript CRUD', openAiTranscriptReview.transcriptCrudStatus || 'not_implemented'],
+    ['Transcript migration', openAiTranscriptReview.transcriptMigrationStatus || 'not_implemented'],
+    ['Transcript endpoint', openAiTranscriptReview.transcriptEndpointStatus || 'not_implemented'],
+    ['Transcript UI action', openAiTranscriptReview.transcriptUiActionStatus || 'not_allowed'],
+    ['Transcript review', openAiTranscriptReview.transcriptReviewStatus || 'not_allowed'],
+    ['Transcript approval', openAiTranscriptReview.transcriptApprovalStatus || 'not_allowed'],
+    ['Transcript rejection', openAiTranscriptReview.transcriptRejectionStatus || 'not_allowed'],
+    ['Transcription runtime', openAiTranscriptReview.transcriptionRuntimeStatus || 'not_allowed'],
+    ['Call recording access', openAiTranscriptReview.callRecordingAccessStatus || 'not_allowed'],
+    ['Transcript playback', openAiTranscriptReview.transcriptPlaybackStatus || 'not_allowed'],
+    ['Transcript human review', openAiTranscriptReview.transcriptHumanReviewStatus || 'required'],
+    ['Transcript reviewer notes', openAiTranscriptReview.transcriptReviewerNotesStatus || 'required'],
+    ['Transcript turn model', openAiTranscriptReview.transcriptTurnModelStatus || 'required'],
+    ['Transcript PII review', openAiTranscriptReview.transcriptPiiReviewStatus || 'required'],
+    ['Transcript compliance review', openAiTranscriptReview.transcriptComplianceReviewStatus || 'required'],
+    ['Transcript consent review', openAiTranscriptReview.transcriptConsentReviewStatus || 'required'],
+    ['Transcript handoff review', openAiTranscriptReview.transcriptHandoffReviewStatus || 'required'],
+    ['Transcript QA review', openAiTranscriptReview.transcriptQaReviewStatus || 'required'],
+    ['Transcript scoring review', openAiTranscriptReview.transcriptScoringReviewStatus || 'required'],
+    ['Transcript improvement candidate', openAiTranscriptReview.transcriptImprovementCandidateStatus || 'required'],
+    ['Transcript audit correlation', openAiTranscriptReview.transcriptAuditCorrelationStatus || 'required'],
+    ['Transcript learning control', openAiTranscriptReview.transcriptLearningControlStatus || 'required'],
+    ['Autonomous learning', openAiTranscriptReview.autonomousLearningStatus || 'not_allowed'],
+    ['Test result scoring gate', openAiTranscriptReview.testResultScoringGateStatus || 'required'],
+    ['Sandbox evidence review gate', openAiTranscriptReview.sandboxEvidenceReviewGateStatus || 'required'],
+    ['Synthetic scenario library gate', openAiTranscriptReview.syntheticScenarioLibraryGateStatus || 'required'],
+    ['Staging sandbox gate', openAiTranscriptReview.stagingSandboxGateStatus || 'required'],
+    ['Runtime activation gate', openAiTranscriptReview.runtimeActivationGateStatus || 'required'],
+    ['Emergency stop gate', openAiTranscriptReview.emergencyStopGateStatus || 'required'],
+    ['Credential boundary gate', openAiTranscriptReview.credentialBoundaryGateStatus || 'required'],
+    ['RBAC scope gate', openAiTranscriptReview.rbacScopeGateStatus || 'required'],
+    ['Audit trail gate', openAiTranscriptReview.auditTrailGateStatus || 'required'],
+    ['PII compliance gate', openAiTranscriptReview.piiComplianceGateStatus || 'required'],
+    ['Logging QA gate', openAiTranscriptReview.loggingQaGateStatus || 'required'],
+    ['OpenAI connection', openAiTranscriptReview.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', openAiTranscriptReview.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiTranscriptReview.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Transcript storage allowed', openAiTranscriptReview.transcriptStorageAllowed ? 'yes' : 'no'],
+    ['Transcript CRUD allowed', openAiTranscriptReview.transcriptCrudAllowed ? 'yes' : 'no'],
+    ['Transcript read allowed', openAiTranscriptReview.transcriptReadAllowed ? 'yes' : 'no'],
+    ['Transcript write allowed', openAiTranscriptReview.transcriptWriteAllowed ? 'yes' : 'no'],
+    ['Transcript update allowed', openAiTranscriptReview.transcriptUpdateAllowed ? 'yes' : 'no'],
+    ['Transcript delete allowed', openAiTranscriptReview.transcriptDeleteAllowed ? 'yes' : 'no'],
+    ['Transcript review allowed', openAiTranscriptReview.transcriptReviewAllowed ? 'yes' : 'no'],
+    ['Transcript approve allowed', openAiTranscriptReview.transcriptApproveAllowed ? 'yes' : 'no'],
+    ['Transcript reject allowed', openAiTranscriptReview.transcriptRejectAllowed ? 'yes' : 'no'],
+    ['Transcript playback allowed', openAiTranscriptReview.transcriptPlaybackAllowed ? 'yes' : 'no'],
+    ['Transcription allowed', openAiTranscriptReview.transcriptionAllowed ? 'yes' : 'no'],
+    ['Call recording access allowed', openAiTranscriptReview.callRecordingAccessAllowed ? 'yes' : 'no'],
+    ['Transcript endpoint allowed', openAiTranscriptReview.transcriptEndpointAllowed ? 'yes' : 'no'],
+    ['Transcript UI control allowed', openAiTranscriptReview.transcriptUiControlAllowed ? 'yes' : 'no'],
+    ['Autonomous learning allowed', openAiTranscriptReview.autonomousLearningAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', openAiTranscriptReview.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', openAiTranscriptReview.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real OpenAI connection allowed', openAiTranscriptReview.realOpenAiConnectionAllowed ? 'yes' : 'no'],
+    ['Real call allowed', openAiTranscriptReview.realCallAllowed ? 'yes' : 'no'],
+    ['Asterisk change allowed', openAiTranscriptReview.asteriskChangeAllowed ? 'yes' : 'no'],
+    ['Vicidial change allowed', openAiTranscriptReview.vicidialChangeAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', openAiTranscriptReview.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', openAiTranscriptReview.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['OpenAI connect allowed', openAiTranscriptReview.openAiConnectAllowed ? 'yes' : 'no'],
+    ['Runtime credential access allowed', openAiTranscriptReview.runtimeCredentialAccessAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', openAiTranscriptReview.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', openAiTranscriptReview.toolExecutionAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiTranscriptReview.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiTranscriptReview.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiTranscriptReview.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiTranscriptReview.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiTranscriptReviewCards.innerHTML = openAiTranscriptReviewCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiTranscriptReviewBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only transcript design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Transcript review blocked', 'bad'),
+    readinessBadge('Transcription blocked', 'bad'),
+    readinessBadge('Human review required', 'warn'),
+    readinessBadge('Autonomous learning blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const futureTranscriptArtifacts = Array.isArray(openAiTranscriptReview.futureTranscriptArtifacts) ? openAiTranscriptReview.futureTranscriptArtifacts : [];
+  const futureTranscriptTurnFields = Array.isArray(openAiTranscriptReview.futureTranscriptTurnFields) ? openAiTranscriptReview.futureTranscriptTurnFields : [];
+  const futureTranscriptReviewDimensions = Array.isArray(openAiTranscriptReview.futureTranscriptReviewDimensions) ? openAiTranscriptReview.futureTranscriptReviewDimensions : [];
+  const futureTranscriptPiiComplianceRules = Array.isArray(openAiTranscriptReview.futureTranscriptPiiComplianceRules) ? openAiTranscriptReview.futureTranscriptPiiComplianceRules : [];
+  const futureTranscriptConsentRules = Array.isArray(openAiTranscriptReview.futureTranscriptConsentRules) ? openAiTranscriptReview.futureTranscriptConsentRules : [];
+  const futureTranscriptHandoffRules = Array.isArray(openAiTranscriptReview.futureTranscriptHandoffRules) ? openAiTranscriptReview.futureTranscriptHandoffRules : [];
+  const futureTranscriptQaScoringRules = Array.isArray(openAiTranscriptReview.futureTranscriptQaScoringRules) ? openAiTranscriptReview.futureTranscriptQaScoringRules : [];
+  const futureTranscriptImprovementRules = Array.isArray(openAiTranscriptReview.futureTranscriptImprovementRules) ? openAiTranscriptReview.futureTranscriptImprovementRules : [];
+  const futureTranscriptRbacScopeRules = Array.isArray(openAiTranscriptReview.futureTranscriptRbacScopeRules) ? openAiTranscriptReview.futureTranscriptRbacScopeRules : [];
+  const futureTranscriptAuditRules = Array.isArray(openAiTranscriptReview.futureTranscriptAuditRules) ? openAiTranscriptReview.futureTranscriptAuditRules : [];
+  const futureTranscriptLearningControlRules = Array.isArray(openAiTranscriptReview.futureTranscriptLearningControlRules) ? openAiTranscriptReview.futureTranscriptLearningControlRules : [];
+  const futureTranscriptPromotionRules = Array.isArray(openAiTranscriptReview.futureTranscriptPromotionRules) ? openAiTranscriptReview.futureTranscriptPromotionRules : [];
+  const transcriptReviewProhibitedActions = Array.isArray(openAiTranscriptReview.prohibitedCurrentActions) ? openAiTranscriptReview.prohibitedCurrentActions : [];
+  const transcriptReviewFutureRuntimeBoundaries = Array.isArray(openAiTranscriptReview.futureRuntimeBoundaries) ? openAiTranscriptReview.futureRuntimeBoundaries : [];
+  const transcriptReviewNextSteps = Array.isArray(openAiTranscriptReview.nextSteps) ? openAiTranscriptReview.nextSteps : [];
+  openAiTranscriptReviewDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Future transcript artifacts</strong>
+        ${futureTranscriptArtifacts.length ? `<ul>${futureTranscriptArtifacts.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future transcript artifacts returned.</div>'}
+      </div>
+      <div>
+        <strong>Future transcript turn fields</strong>
+        ${futureTranscriptTurnFields.length ? `<ul>${futureTranscriptTurnFields.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future transcript turn fields returned.</div>'}
+      </div>
+      <div>
+        <strong>Future transcript review dimensions</strong>
+        ${futureTranscriptReviewDimensions.length ? `<ul>${futureTranscriptReviewDimensions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future transcript review dimensions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future transcript PII/compliance rules</strong>
+        ${futureTranscriptPiiComplianceRules.length ? `<ul>${futureTranscriptPiiComplianceRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future transcript PII/compliance rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future transcript consent rules</strong>
+        ${futureTranscriptConsentRules.length ? `<ul>${futureTranscriptConsentRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future transcript consent rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future transcript handoff rules</strong>
+        ${futureTranscriptHandoffRules.length ? `<ul>${futureTranscriptHandoffRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future transcript handoff rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future transcript QA/scoring rules</strong>
+        ${futureTranscriptQaScoringRules.length ? `<ul>${futureTranscriptQaScoringRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future transcript QA/scoring rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future transcript improvement rules</strong>
+        ${futureTranscriptImprovementRules.length ? `<ul>${futureTranscriptImprovementRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future transcript improvement rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future transcript RBAC/scope rules</strong>
+        ${futureTranscriptRbacScopeRules.length ? `<ul>${futureTranscriptRbacScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future transcript RBAC/scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future transcript audit rules</strong>
+        ${futureTranscriptAuditRules.length ? `<ul>${futureTranscriptAuditRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future transcript audit rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future transcript learning control rules</strong>
+        ${futureTranscriptLearningControlRules.length ? `<ul>${futureTranscriptLearningControlRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future transcript learning control rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future transcript promotion rules</strong>
+        ${futureTranscriptPromotionRules.length ? `<ul>${futureTranscriptPromotionRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future transcript promotion rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${transcriptReviewProhibitedActions.length ? `<ul>${transcriptReviewProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${transcriptReviewFutureRuntimeBoundaries.length ? `<ul>${transcriptReviewFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${transcriptReviewNextSteps.length ? `<ul>${transcriptReviewNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;
