@@ -945,6 +945,15 @@
                   <div class="muted small">Loading OpenAI improvement proposal readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>QA Center Readiness</h2>
+                  <span class="muted small">Read-only QA Center design status for AI Agent Inbound QA, AI Agent Outbound QA, Human Agent Inbound QA, and Human Agent Outbound QA. This does not create QA Center storage, ingestion, transcription, recording, playback, evaluation, review, coaching, calibration, report, scorecard, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.</span>
+                </div>
+                <div class="summary-grid" id="qaCenterReadinessCards"></div>
+                <div class="row" id="qaCenterReadinessBadges" style="margin-top:12px"></div>
+                <div id="qaCenterReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading QA Center readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2936,10 +2945,13 @@ function renderRouteReadiness() {
   const openAiImprovementProposalCards = $('#openAiImprovementProposalCards');
   const openAiImprovementProposalBadges = $('#openAiImprovementProposalBadges');
   const openAiImprovementProposalDetails = $('#openAiImprovementProposalDetails');
+  const qaCenterReadinessCards = $('#qaCenterReadinessCards');
+  const qaCenterReadinessBadges = $('#qaCenterReadinessBadges');
+  const qaCenterReadinessDetails = $('#qaCenterReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3047,6 +3059,9 @@ function renderRouteReadiness() {
     openAiImprovementProposalCards.innerHTML = '<div class="muted small">OpenAI improvement proposal readiness status not loaded.</div>';
     openAiImprovementProposalBadges.innerHTML = '';
     openAiImprovementProposalDetails.innerHTML = '<div class="muted small">OpenAI improvement proposal readiness details not loaded.</div>';
+    qaCenterReadinessCards.innerHTML = '<div class="muted small">QA Center readiness status not loaded.</div>';
+    qaCenterReadinessBadges.innerHTML = '';
+    qaCenterReadinessDetails.innerHTML = '<div class="muted small">QA Center readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -7050,6 +7065,227 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${improvementProposalNextSteps.length ? `<ul>${improvementProposalNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const qaCenter = report.qaCenterReadiness || {};
+  const qaCenterReadinessCardsData = [
+    ['Current state', qaCenter.currentState || 'not_ready'],
+    ['QA Center approved', qaCenter.qaCenterApproved ? 'yes' : 'no'],
+    ['QA Center mode', qaCenter.qaCenterMode || 'read_only_design'],
+    ['QA Center storage', qaCenter.qaCenterStorageStatus || 'not_implemented'],
+    ['QA Center CRUD', qaCenter.qaCenterCrudStatus || 'not_implemented'],
+    ['QA Center migration', qaCenter.qaCenterMigrationStatus || 'not_implemented'],
+    ['QA Center endpoint', qaCenter.qaCenterEndpointStatus || 'not_implemented'],
+    ['QA Center UI action', qaCenter.qaCenterUiActionStatus || 'not_allowed'],
+    ['QA Center execution', qaCenter.qaCenterExecutionStatus || 'not_allowed'],
+    ['QA call ingestion', qaCenter.qaCallIngestionStatus || 'not_allowed'],
+    ['QA recording access', qaCenter.qaRecordingAccessStatus || 'not_allowed'],
+    ['QA transcription', qaCenter.qaTranscriptionStatus || 'not_allowed'],
+    ['QA audio analysis', qaCenter.qaAudioAnalysisStatus || 'not_allowed'],
+    ['QA AI evaluation', qaCenter.qaAiEvaluationStatus || 'not_allowed'],
+    ['QA human review', qaCenter.qaHumanReviewStatus || 'not_allowed'],
+    ['QA supervisor review', qaCenter.qaSupervisorReviewStatus || 'not_allowed'],
+    ['QA final score', qaCenter.qaFinalScoreStatus || 'not_allowed'],
+    ['QA coaching', qaCenter.qaCoachingStatus || 'not_allowed'],
+    ['QA calibration', qaCenter.qaCalibrationStatus || 'not_allowed'],
+    ['QA reports', qaCenter.qaReportsStatus || 'not_allowed'],
+    ['QA scorecard configuration', qaCenter.qaScorecardConfigurationStatus || 'not_allowed'],
+    ['QA scorecard versioning', qaCenter.qaScorecardVersioningStatus || 'required'],
+    ['QA scorecard approval', qaCenter.qaScorecardApprovalStatus || 'required'],
+    ['QA audit', qaCenter.qaAuditStatus || 'required'],
+    ['QA RBAC scope', qaCenter.qaRbacScopeStatus || 'required'],
+    ['QA PII redaction', qaCenter.qaPiiRedactionStatus || 'required'],
+    ['QA compliance', qaCenter.qaComplianceStatus || 'required'],
+    ['QA learning control', qaCenter.qaLearningControlStatus || 'required'],
+    ['Autonomous learning', qaCenter.autonomousLearningStatus || 'not_allowed'],
+    ['AI Agent QA', qaCenter.aiAgentQaStatus || 'read_only_design'],
+    ['Human Agent QA', qaCenter.humanAgentQaStatus || 'read_only_design'],
+    ['AI inbound QA', qaCenter.aiInboundQaStatus || 'read_only_design'],
+    ['AI outbound QA', qaCenter.aiOutboundQaStatus || 'read_only_design'],
+    ['Human inbound QA', qaCenter.humanInboundQaStatus || 'read_only_design'],
+    ['Human outbound QA', qaCenter.humanOutboundQaStatus || 'read_only_design'],
+    ['OpenAI connection', qaCenter.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', qaCenter.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', qaCenter.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['QA Center storage allowed', qaCenter.qaCenterStorageAllowed ? 'yes' : 'no'],
+    ['QA Center CRUD allowed', qaCenter.qaCenterCrudAllowed ? 'yes' : 'no'],
+    ['QA Center read allowed', qaCenter.qaCenterReadAllowed ? 'yes' : 'no'],
+    ['QA Center write allowed', qaCenter.qaCenterWriteAllowed ? 'yes' : 'no'],
+    ['QA Center update allowed', qaCenter.qaCenterUpdateAllowed ? 'yes' : 'no'],
+    ['QA Center delete allowed', qaCenter.qaCenterDeleteAllowed ? 'yes' : 'no'],
+    ['QA call ingestion allowed', qaCenter.qaCallIngestionAllowed ? 'yes' : 'no'],
+    ['QA recording access allowed', qaCenter.qaRecordingAccessAllowed ? 'yes' : 'no'],
+    ['QA transcription allowed', qaCenter.qaTranscriptionAllowed ? 'yes' : 'no'],
+    ['QA audio analysis allowed', qaCenter.qaAudioAnalysisAllowed ? 'yes' : 'no'],
+    ['QA AI evaluation allowed', qaCenter.qaAiEvaluationAllowed ? 'yes' : 'no'],
+    ['QA human review allowed', qaCenter.qaHumanReviewAllowed ? 'yes' : 'no'],
+    ['QA supervisor review allowed', qaCenter.qaSupervisorReviewAllowed ? 'yes' : 'no'],
+    ['QA final score allowed', qaCenter.qaFinalScoreAllowed ? 'yes' : 'no'],
+    ['QA coaching allowed', qaCenter.qaCoachingAllowed ? 'yes' : 'no'],
+    ['QA calibration allowed', qaCenter.qaCalibrationAllowed ? 'yes' : 'no'],
+    ['QA reports allowed', qaCenter.qaReportsAllowed ? 'yes' : 'no'],
+    ['QA scorecard configuration allowed', qaCenter.qaScorecardConfigurationAllowed ? 'yes' : 'no'],
+    ['QA endpoint allowed', qaCenter.qaEndpointAllowed ? 'yes' : 'no'],
+    ['QA UI control allowed', qaCenter.qaUiControlAllowed ? 'yes' : 'no'],
+    ['Autonomous learning allowed', qaCenter.autonomousLearningAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', qaCenter.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', qaCenter.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real OpenAI connection allowed', qaCenter.realOpenAiConnectionAllowed ? 'yes' : 'no'],
+    ['Real call allowed', qaCenter.realCallAllowed ? 'yes' : 'no'],
+    ['Asterisk change allowed', qaCenter.asteriskChangeAllowed ? 'yes' : 'no'],
+    ['Vicidial change allowed', qaCenter.vicidialChangeAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', qaCenter.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', qaCenter.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['OpenAI connect allowed', qaCenter.openAiConnectAllowed ? 'yes' : 'no'],
+    ['Runtime credential access allowed', qaCenter.runtimeCredentialAccessAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', qaCenter.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', qaCenter.toolExecutionAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', qaCenter.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', qaCenter.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', qaCenter.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', qaCenter.liveAllowed ? 'yes' : 'no'],
+  ];
+  qaCenterReadinessCards.innerHTML = qaCenterReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  qaCenterReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only QA Center design', 'info'),
+    readinessBadge('Four QA routes mapped', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Ingestion blocked', 'bad'),
+    readinessBadge('Evaluation blocked', 'bad'),
+    readinessBadge('Human review blocked', 'bad'),
+    readinessBadge('Autonomous learning blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const futureQaCenterTracks = Array.isArray(qaCenter.futureQaCenterTracks) ? qaCenter.futureQaCenterTracks : [];
+  const futureQaCallRoutes = Array.isArray(qaCenter.futureQaCallRoutes) ? qaCenter.futureQaCallRoutes : [];
+  const futureQaCallActorTypes = Array.isArray(qaCenter.futureQaCallActorTypes) ? qaCenter.futureQaCallActorTypes : [];
+  const futureQaCallDirections = Array.isArray(qaCenter.futureQaCallDirections) ? qaCenter.futureQaCallDirections : [];
+  const futureQaModules = Array.isArray(qaCenter.futureQaModules) ? qaCenter.futureQaModules : [];
+  const futureQaCallMetadata = Array.isArray(qaCenter.futureQaCallMetadata) ? qaCenter.futureQaCallMetadata : [];
+  const futureAiAgentQaRules = Array.isArray(qaCenter.futureAiAgentQaRules) ? qaCenter.futureAiAgentQaRules : [];
+  const futureHumanAgentQaRules = Array.isArray(qaCenter.futureHumanAgentQaRules) ? qaCenter.futureHumanAgentQaRules : [];
+  const futureInboundQaRules = Array.isArray(qaCenter.futureInboundQaRules) ? qaCenter.futureInboundQaRules : [];
+  const futureOutboundQaRules = Array.isArray(qaCenter.futureOutboundQaRules) ? qaCenter.futureOutboundQaRules : [];
+  const futureQaScorecardRules = Array.isArray(qaCenter.futureQaScorecardRules) ? qaCenter.futureQaScorecardRules : [];
+  const futureQaReviewRules = Array.isArray(qaCenter.futureQaReviewRules) ? qaCenter.futureQaReviewRules : [];
+  const futureQaCoachingRules = Array.isArray(qaCenter.futureQaCoachingRules) ? qaCenter.futureQaCoachingRules : [];
+  const futureQaCalibrationRules = Array.isArray(qaCenter.futureQaCalibrationRules) ? qaCenter.futureQaCalibrationRules : [];
+  const futureQaReportRules = Array.isArray(qaCenter.futureQaReportRules) ? qaCenter.futureQaReportRules : [];
+  const futureQaRbacScopeRules = Array.isArray(qaCenter.futureQaRbacScopeRules) ? qaCenter.futureQaRbacScopeRules : [];
+  const futureQaAuditRules = Array.isArray(qaCenter.futureQaAuditRules) ? qaCenter.futureQaAuditRules : [];
+  const futureQaLearningControlRules = Array.isArray(qaCenter.futureQaLearningControlRules) ? qaCenter.futureQaLearningControlRules : [];
+  const futureQaPromotionRules = Array.isArray(qaCenter.futureQaPromotionRules) ? qaCenter.futureQaPromotionRules : [];
+  const qaCenterProhibitedActions = Array.isArray(qaCenter.prohibitedCurrentActions) ? qaCenter.prohibitedCurrentActions : [];
+  const qaCenterFutureRuntimeBoundaries = Array.isArray(qaCenter.futureRuntimeBoundaries) ? qaCenter.futureRuntimeBoundaries : [];
+  const qaCenterNextSteps = Array.isArray(qaCenter.nextSteps) ? qaCenter.nextSteps : [];
+  const qaCenterRouteLabels = [
+    'AI Agent Inbound QA',
+    'AI Agent Outbound QA',
+    'Human Agent Inbound QA',
+    'Human Agent Outbound QA',
+  ];
+  qaCenterReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Future QA Center tracks</strong>
+        ${futureQaCenterTracks.length ? `<ul>${futureQaCenterTracks.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA Center tracks returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA call routes</strong>
+        ${futureQaCallRoutes.length ? `<ul>${futureQaCallRoutes.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA call routes returned.</div>'}
+      </div>
+      <div>
+        <strong>Four QA route labels</strong>
+        <ul>${qaCenterRouteLabels.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+      </div>
+      <div>
+        <strong>Future QA call actor types</strong>
+        ${futureQaCallActorTypes.length ? `<ul>${futureQaCallActorTypes.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA call actor types returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA call directions</strong>
+        ${futureQaCallDirections.length ? `<ul>${futureQaCallDirections.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA call directions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA modules</strong>
+        ${futureQaModules.length ? `<ul>${futureQaModules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA modules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA call metadata</strong>
+        ${futureQaCallMetadata.length ? `<ul>${futureQaCallMetadata.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA call metadata returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI Agent QA rules</strong>
+        ${futureAiAgentQaRules.length ? `<ul>${futureAiAgentQaRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI Agent QA rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future Human Agent QA rules</strong>
+        ${futureHumanAgentQaRules.length ? `<ul>${futureHumanAgentQaRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future Human Agent QA rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future inbound QA rules</strong>
+        ${futureInboundQaRules.length ? `<ul>${futureInboundQaRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future inbound QA rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future outbound QA rules</strong>
+        ${futureOutboundQaRules.length ? `<ul>${futureOutboundQaRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future outbound QA rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA scorecard rules</strong>
+        ${futureQaScorecardRules.length ? `<ul>${futureQaScorecardRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA scorecard rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA review rules</strong>
+        ${futureQaReviewRules.length ? `<ul>${futureQaReviewRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA review rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA coaching rules</strong>
+        ${futureQaCoachingRules.length ? `<ul>${futureQaCoachingRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA coaching rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA calibration rules</strong>
+        ${futureQaCalibrationRules.length ? `<ul>${futureQaCalibrationRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA calibration rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA report rules</strong>
+        ${futureQaReportRules.length ? `<ul>${futureQaReportRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA report rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA RBAC/scope rules</strong>
+        ${futureQaRbacScopeRules.length ? `<ul>${futureQaRbacScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA RBAC/scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA audit rules</strong>
+        ${futureQaAuditRules.length ? `<ul>${futureQaAuditRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA audit rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA learning control rules</strong>
+        ${futureQaLearningControlRules.length ? `<ul>${futureQaLearningControlRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA learning control rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future QA promotion rules</strong>
+        ${futureQaPromotionRules.length ? `<ul>${futureQaPromotionRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future QA promotion rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${qaCenterProhibitedActions.length ? `<ul>${qaCenterProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${qaCenterFutureRuntimeBoundaries.length ? `<ul>${qaCenterFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${qaCenterNextSteps.length ? `<ul>${qaCenterNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;
