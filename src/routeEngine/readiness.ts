@@ -1835,6 +1835,103 @@ export type OpenAiQaReviewWorkflowReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiImprovementProposalReadiness = {
+  currentState: 'not_ready';
+  improvementProposalApproved: false;
+  improvementProposalMode: 'read_only_design';
+  improvementProposalStorageStatus: 'not_implemented';
+  improvementProposalCrudStatus: 'not_implemented';
+  improvementProposalMigrationStatus: 'not_implemented';
+  improvementProposalEndpointStatus: 'not_implemented';
+  improvementProposalUiActionStatus: 'not_allowed';
+  improvementProposalCreationStatus: 'not_allowed';
+  improvementProposalApprovalStatus: 'not_allowed';
+  improvementProposalRejectionStatus: 'not_allowed';
+  improvementProposalApplyStatus: 'not_allowed';
+  promptUpdateStatus: 'not_allowed';
+  knowledgeBaseUpdateStatus: 'not_allowed';
+  policyUpdateStatus: 'not_allowed';
+  handoffUpdateStatus: 'not_allowed';
+  scoringUpdateStatus: 'not_allowed';
+  toolBoundaryUpdateStatus: 'not_allowed';
+  improvementProposalHumanReviewStatus: 'required';
+  improvementProposalReviewerNotesStatus: 'required';
+  improvementProposalSourceArtifactStatus: 'required';
+  improvementProposalScopeStatus: 'required';
+  improvementProposalVersioningStatus: 'required';
+  improvementProposalAuditStatus: 'required';
+  improvementProposalRollbackStatus: 'required';
+  improvementProposalLearningControlStatus: 'required';
+  autonomousLearningStatus: 'not_allowed';
+  qaReviewWorkflowGateStatus: 'required';
+  aiResponseEvaluationGateStatus: 'required';
+  transcriptReviewGateStatus: 'required';
+  testResultScoringGateStatus: 'required';
+  sandboxEvidenceReviewGateStatus: 'required';
+  syntheticScenarioLibraryGateStatus: 'required';
+  stagingSandboxGateStatus: 'required';
+  runtimeActivationGateStatus: 'required';
+  emergencyStopGateStatus: 'required';
+  credentialBoundaryGateStatus: 'required';
+  rbacScopeGateStatus: 'required';
+  auditTrailGateStatus: 'required';
+  piiComplianceGateStatus: 'required';
+  loggingQaGateStatus: 'required';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  improvementProposalStorageAllowed: false;
+  improvementProposalCrudAllowed: false;
+  improvementProposalReadAllowed: false;
+  improvementProposalWriteAllowed: false;
+  improvementProposalUpdateAllowed: false;
+  improvementProposalDeleteAllowed: false;
+  improvementProposalCreateAllowed: false;
+  improvementProposalApproveAllowed: false;
+  improvementProposalRejectAllowed: false;
+  improvementProposalApplyAllowed: false;
+  promptUpdateAllowed: false;
+  knowledgeBaseUpdateAllowed: false;
+  policyUpdateAllowed: false;
+  handoffUpdateAllowed: false;
+  scoringUpdateAllowed: false;
+  toolBoundaryUpdateAllowed: false;
+  improvementProposalEndpointAllowed: false;
+  improvementProposalUiControlAllowed: false;
+  autonomousLearningAllowed: false;
+  realPiiAllowed: false;
+  realCredentialAllowed: false;
+  realOpenAiConnectionAllowed: false;
+  realCallAllowed: false;
+  asteriskChangeAllowed: false;
+  vicidialChangeAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  openAiConnectAllowed: false;
+  runtimeCredentialAccessAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  futureImprovementProposalStates: string[];
+  futureImprovementSourceArtifacts: string[];
+  futureImprovementTargetTypes: string[];
+  futureImprovementProposalMetadata: string[];
+  futureImprovementDecisionTypes: string[];
+  futureImprovementReviewRules: string[];
+  futureImprovementVersioningRules: string[];
+  futureImprovementRbacScopeRules: string[];
+  futureImprovementAuditRules: string[];
+  futureImprovementRollbackRules: string[];
+  futureImprovementLearningControlRules: string[];
+  futureImprovementPromotionRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -1887,6 +1984,7 @@ export type RouteReadinessReport = {
   openAiTranscriptReviewReadiness: OpenAiTranscriptReviewReadiness;
   openAiAiResponseEvaluationReadiness: OpenAiAiResponseEvaluationReadiness;
   openAiQaReviewWorkflowReadiness: OpenAiQaReviewWorkflowReadiness;
+  openAiImprovementProposalReadiness: OpenAiImprovementProposalReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -9030,6 +9128,371 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiImprovementProposalReadiness: OpenAiImprovementProposalReadiness = {
+    currentState: 'not_ready',
+    improvementProposalApproved: false,
+    improvementProposalMode: 'read_only_design',
+    improvementProposalStorageStatus: 'not_implemented',
+    improvementProposalCrudStatus: 'not_implemented',
+    improvementProposalMigrationStatus: 'not_implemented',
+    improvementProposalEndpointStatus: 'not_implemented',
+    improvementProposalUiActionStatus: 'not_allowed',
+    improvementProposalCreationStatus: 'not_allowed',
+    improvementProposalApprovalStatus: 'not_allowed',
+    improvementProposalRejectionStatus: 'not_allowed',
+    improvementProposalApplyStatus: 'not_allowed',
+    promptUpdateStatus: 'not_allowed',
+    knowledgeBaseUpdateStatus: 'not_allowed',
+    policyUpdateStatus: 'not_allowed',
+    handoffUpdateStatus: 'not_allowed',
+    scoringUpdateStatus: 'not_allowed',
+    toolBoundaryUpdateStatus: 'not_allowed',
+    improvementProposalHumanReviewStatus: 'required',
+    improvementProposalReviewerNotesStatus: 'required',
+    improvementProposalSourceArtifactStatus: 'required',
+    improvementProposalScopeStatus: 'required',
+    improvementProposalVersioningStatus: 'required',
+    improvementProposalAuditStatus: 'required',
+    improvementProposalRollbackStatus: 'required',
+    improvementProposalLearningControlStatus: 'required',
+    autonomousLearningStatus: 'not_allowed',
+    qaReviewWorkflowGateStatus: 'required',
+    aiResponseEvaluationGateStatus: 'required',
+    transcriptReviewGateStatus: 'required',
+    testResultScoringGateStatus: 'required',
+    sandboxEvidenceReviewGateStatus: 'required',
+    syntheticScenarioLibraryGateStatus: 'required',
+    stagingSandboxGateStatus: 'required',
+    runtimeActivationGateStatus: 'required',
+    emergencyStopGateStatus: 'required',
+    credentialBoundaryGateStatus: 'required',
+    rbacScopeGateStatus: 'required',
+    auditTrailGateStatus: 'required',
+    piiComplianceGateStatus: 'required',
+    loggingQaGateStatus: 'required',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    improvementProposalStorageAllowed: false,
+    improvementProposalCrudAllowed: false,
+    improvementProposalReadAllowed: false,
+    improvementProposalWriteAllowed: false,
+    improvementProposalUpdateAllowed: false,
+    improvementProposalDeleteAllowed: false,
+    improvementProposalCreateAllowed: false,
+    improvementProposalApproveAllowed: false,
+    improvementProposalRejectAllowed: false,
+    improvementProposalApplyAllowed: false,
+    promptUpdateAllowed: false,
+    knowledgeBaseUpdateAllowed: false,
+    policyUpdateAllowed: false,
+    handoffUpdateAllowed: false,
+    scoringUpdateAllowed: false,
+    toolBoundaryUpdateAllowed: false,
+    improvementProposalEndpointAllowed: false,
+    improvementProposalUiControlAllowed: false,
+    autonomousLearningAllowed: false,
+    realPiiAllowed: false,
+    realCredentialAllowed: false,
+    realOpenAiConnectionAllowed: false,
+    realCallAllowed: false,
+    asteriskChangeAllowed: false,
+    vicidialChangeAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    openAiConnectAllowed: false,
+    runtimeCredentialAccessAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    futureImprovementProposalStates: [
+      'not_started',
+      'candidate_identified',
+      'draft',
+      'submitted_for_review',
+      'pending_admin_review',
+      'needs_more_evidence',
+      'approved_for_versioning',
+      'rejected',
+      'blocked',
+      'superseded',
+      'archived',
+      'retest_required',
+      'rollback_candidate',
+    ],
+    futureImprovementSourceArtifacts: [
+      'qaReviewId',
+      'qaFindingId',
+      'transcriptId',
+      'transcriptTurnId',
+      'aiResponseId',
+      'evidenceReviewId',
+      'scoreId',
+      'syntheticScenarioId',
+      'sandboxRunId',
+      'callId',
+      'configId',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'policyVersion',
+      'handoffRuleVersion',
+      'scoringRuleVersion',
+      'toolBoundaryVersion',
+      'auditCorrelationId',
+    ],
+    futureImprovementTargetTypes: [
+      'prompt_update',
+      'knowledge_base_update',
+      'policy_update',
+      'handoff_rule_update',
+      'scoring_rule_update',
+      'tool_boundary_update',
+      'agent_behavior_config_update',
+      'compliance_rule_update',
+      'pii_redaction_rule_update',
+      'escalation_rule_update',
+      'refusal_rule_update',
+      'qa_scoring_policy_update',
+    ],
+    futureImprovementProposalMetadata: [
+      'improvementProposalId',
+      'improvementProposalVersion',
+      'proposalStatus',
+      'proposalTitle',
+      'proposalSummary',
+      'sourceArtifactType',
+      'sourceArtifactId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'configId',
+      'configVersion',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'policyVersion',
+      'handoffRuleVersion',
+      'scoringRuleVersion',
+      'toolBoundaryVersion',
+      'targetChangeType',
+      'proposedChangeSummary',
+      'proposedBeforeValue',
+      'proposedAfterValue',
+      'riskAssessment',
+      'piiAssessment',
+      'complianceAssessment',
+      'handoffAssessment',
+      'scoringAssessment',
+      'rollbackPlan',
+      'retestPlan',
+      'submittedBy',
+      'submittedAt',
+      'reviewedBy',
+      'reviewedAt',
+      'reviewDecision',
+      'reviewReason',
+      'reviewerNotes',
+      'auditCorrelationId',
+    ],
+    futureImprovementDecisionTypes: [
+      'approve_for_versioning',
+      'reject',
+      'request_more_evidence',
+      'request_retest',
+      'request_prompt_update',
+      'request_knowledge_base_update',
+      'request_policy_update',
+      'request_handoff_update',
+      'request_scoring_update',
+      'request_tool_boundary_update',
+      'escalate_to_super_admin',
+      'escalate_to_compliance',
+      'mark_duplicate',
+      'mark_superseded',
+      'archive_no_action',
+    ],
+    futureImprovementReviewRules: [
+      'Every proposal must reference at least one source artifact',
+      'Every proposal must identify a target change type',
+      'Every proposal must include reviewer notes before approval',
+      'Every proposal must include risk assessment before approval',
+      'Every proposal must include PII/compliance assessment before approval',
+      'Every proposal must include rollback plan before approval',
+      'Every proposal must include retest plan before approval',
+      'Proposal approval must be performed by an authorized admin in a future implementation',
+      'Proposal approval must not automatically activate runtime',
+      'Proposal rejection must preserve audit history',
+    ],
+    futureImprovementVersioningRules: [
+      'Approved prompt changes must create a new prompt version in a future implementation',
+      'Approved knowledge base changes must create a new knowledge base version in a future implementation',
+      'Approved policy changes must create a new policy version in a future implementation',
+      'Approved handoff changes must create a new handoff rule version in a future implementation',
+      'Approved scoring changes must create a new scoring rule version in a future implementation',
+      'Approved tool boundary changes must create a new tool boundary version in a future implementation',
+      'Approved changes must not overwrite active runtime config in place',
+      'Approved changes must require sandbox retest before runtime activation',
+      'Approved changes must remain rollback-capable',
+      'Version comparison must be required before promotion',
+    ],
+    futureImprovementRbacScopeRules: [
+      'Improvement proposal visibility must be scoped to client/campaign/project',
+      'Improvement proposal creation must respect source artifact scope in a future implementation',
+      'Improvement proposal approval must respect admin role and assigned scope in a future implementation',
+      'Client admins may only review proposals for authorized client-owned scope when policy allows it',
+      'Internal admins may only review proposals for assigned campaigns/projects',
+      'Restricted users must not create or approve proposals unless explicitly granted permission',
+      'Auditor visibility must be scoped and read-only',
+      'Proposal export must respect RBAC and redaction',
+      'Browser-side filtering alone is not sufficient',
+      'Server-side scope checks are required in a future implementation',
+    ],
+    futureImprovementAuditRules: [
+      'Proposal candidate identification must be auditable in a future phase',
+      'Proposal creation must be auditable in a future phase',
+      'Proposal submission must be auditable in a future phase',
+      'Proposal review decision must be auditable in a future phase',
+      'Proposal approval must be auditable in a future phase',
+      'Proposal rejection must be auditable in a future phase',
+      'Proposal versioning handoff must be auditable in a future phase',
+      'Proposal rollback linkage must be auditable in a future phase',
+      'Audit events must include actor, timestamp, scope, proposal ID, source artifact IDs, target change type, decision, reason, and correlation ID',
+      'Audit events must not expose credentials',
+      'Audit events must not expose raw customer PII unless approved policy allows masked or restricted display',
+    ],
+    futureImprovementRollbackRules: [
+      'Every approved proposal must define rollback expectations in a future implementation',
+      'Proposal-created versions must be rollback-capable',
+      'Rollback candidates must reference the source proposal',
+      'Rollback approval must remain separate from proposal approval',
+      'Rollback must not automatically activate runtime',
+      'Rollback must not bypass emergency stop',
+      'Rollback must not bypass credential boundary',
+      'Rollback must not bypass RBAC/scope gate',
+      'Rollback must not bypass audit trail gate',
+      'Rollback must be auditable',
+    ],
+    futureImprovementLearningControlRules: [
+      'Improvement proposals may be created from QA findings in a future implementation',
+      'Improvement proposals may be created from transcript findings in a future implementation',
+      'Improvement proposals may be created from AI response evaluations in a future implementation',
+      'Improvement proposals may be created from scoring failures in a future implementation',
+      'Improvement proposals may be created from sandbox evidence in a future implementation',
+      'Improvement proposals must not update prompts automatically',
+      'Improvement proposals must not update knowledge base automatically',
+      'Improvement proposals must not update policies automatically',
+      'Improvement proposals must not update handoff behavior automatically',
+      'Improvement proposals must not update scoring behavior automatically',
+      'Improvement proposals must not update tool behavior automatically',
+      'Improvement proposals must not change runtime behavior automatically',
+      'Admin approval is required before any change',
+      'Approved changes must be versioned',
+      'Approved changes must be auditable',
+      'Approved changes must support rollback',
+      'AI must not self-learn from improvement proposals',
+      'AI must not alter runtime behavior autonomously based on improvement proposals',
+    ],
+    futureImprovementPromotionRules: [
+      'Improvement proposal readiness must not create real proposals in this phase',
+      'Improvement proposal readiness must not approve or reject real proposals in this phase',
+      'Improvement proposal readiness must not apply real proposals in this phase',
+      'Proposal approval must not automatically activate runtime',
+      'Proposal approval must not automatically approve live runtime',
+      'Proposal approval must not override emergency stop',
+      'Proposal approval must not override credential boundary',
+      'Proposal approval must not override RBAC/scope gate',
+      'Proposal approval must not override audit trail gate',
+      'Proposal approval must not override PII/compliance gate',
+      'Proposal approval must require versioning before promotion',
+      'Proposal-created versions must require sandbox testing before promotion',
+      'Runtime activation remains a separate future approval gate',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create improvement proposal storage in this phase',
+      'Do not create improvement proposal CRUD endpoints in this phase',
+      'Do not create improvement proposal approval endpoints in this phase',
+      'Do not create improvement proposal rejection endpoints in this phase',
+      'Do not create improvement proposal apply endpoints in this phase',
+      'Do not create prompt update endpoints in this phase',
+      'Do not create knowledge base update endpoints in this phase',
+      'Do not create policy update endpoints in this phase',
+      'Do not create handoff update endpoints in this phase',
+      'Do not create scoring update endpoints in this phase',
+      'Do not create tool boundary update endpoints in this phase',
+      'Do not create improvement proposal database tables in this phase',
+      'Do not create improvement proposal migrations in this phase',
+      'Do not save improvement proposal records in this phase',
+      'Do not create real improvement proposals in this phase',
+      'Do not approve or reject real improvement proposals in this phase',
+      'Do not apply real improvement proposals in this phase',
+      'Do not update prompts in this phase',
+      'Do not update knowledge base in this phase',
+      'Do not update policies in this phase',
+      'Do not update handoff rules in this phase',
+      'Do not update scoring rules in this phase',
+      'Do not update tool boundary rules in this phase',
+      'Do not add improvement proposal buttons in this phase',
+      'Do not add create/approve/reject/apply proposal controls in this phase',
+      'Do not add prompt update controls in this phase',
+      'Do not add knowledge base update controls in this phase',
+      'Do not add policy update controls in this phase',
+      'Do not add handoff update controls in this phase',
+      'Do not add scoring update controls in this phase',
+      'Do not add tool boundary update controls in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not use real OpenAI credentials',
+      'Do not enable autonomous learning',
+      'Do not allow AI to self-update prompts',
+      'Do not allow AI to self-update knowledge base',
+      'Do not allow AI to self-update policy',
+      'Do not allow proposals to change runtime behavior automatically',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not enable FastAGI',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Improvement proposal readiness must not store proposals',
+      'Improvement proposal readiness must not create real proposals',
+      'Improvement proposal readiness must not approve or reject proposals',
+      'Improvement proposal readiness must not apply proposals',
+      'Improvement proposal readiness must not update prompts',
+      'Improvement proposal readiness must not update knowledge base',
+      'Improvement proposal readiness must not update policies',
+      'Improvement proposal readiness must not update handoff rules',
+      'Improvement proposal readiness must not update scoring rules',
+      'Improvement proposal readiness must not update tool boundary rules',
+      'Improvement proposal readiness must not execute scenarios',
+      'Improvement proposal readiness must not activate sandbox execution',
+      'Improvement proposal readiness must not activate runtime',
+      'Improvement proposal readiness must not add proposal controls',
+      'Improvement proposal readiness must not change route behavior',
+      'Improvement proposal readiness must not connect OpenAI',
+      'Improvement proposal implementation requires separately approved storage, workflow, RBAC, audit, versioning, and rollback implementation',
+      'Runtime activation must require approved proposal-created versions to pass sandbox testing in a future implementation',
+      'Runtime must fail closed when required proposal evidence/versioning is missing in a future implementation',
+      'Proposals must remain scoped to client/campaign/project',
+      'Proposals must not contain credentials',
+      'Raw customer PII display requires future redaction/RBAC policy',
+      'AI must not self-learn or change behavior autonomously based on improvement proposals',
+    ],
+    nextSteps: [
+      'Keep OpenAI improvement proposal readiness read-only, not ready, unapproved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, proposal-creation-blocked, proposal-approval-blocked, proposal-rejection-blocked, proposal-apply-blocked, and update-blocked.',
+      'Define future proposal storage, source artifact links, target change types, reviewer metadata, RBAC/scope, audit, versioning, rollback, retest, and learning control contracts in separately approved phases.',
+      'Keep improvement proposal storage, CRUD, migrations, endpoints, UI controls, proposal creation, proposal approval, proposal rejection, proposal apply behavior, prompt updates, knowledge base updates, policy updates, handoff updates, scoring updates, tool boundary updates, OpenAI connection, credential access, Realtime sessions, tool execution, autonomous learning, FastAGI, Asterisk/Vicidial changes, route changes, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require future human/admin-approved proposal-created versions, sandbox testing, audit correlation, RBAC/scope checks, and rollback plans before any future runtime promotion can be trusted.',
+      'Keep improvement proposal readiness separate from QA review workflow, transcript review, AI response evaluation, scoring, evidence review, sandbox execution, and runtime activation gates.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -9297,6 +9760,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI QA review workflow readiness is read-only, not approved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, review-blocked, assignment-blocked, queue-blocked, approval-blocked, rejection-blocked, correction-blocked, improvement-proposal-blocked, autonomous-learning-blocked, human-review-required, OpenAI-disconnected, and exposes no QA review, assign, queue, approve/reject, correction, improvement proposal, transcript, AI response evaluation, scoring, evidence, scenario, sandbox, test call, connection, runtime, or execution controls.',
     },
+    {
+      id: 'openai-improvement-proposal-readiness-read-only',
+      label: 'OpenAI improvement proposal readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI improvement proposal readiness is read-only, not approved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, creation-blocked, approval-blocked, rejection-blocked, apply-blocked, prompt-update-blocked, knowledge-base-update-blocked, policy-update-blocked, handoff-update-blocked, scoring-update-blocked, tool-boundary-update-blocked, autonomous-learning-blocked, human-review-required, OpenAI-disconnected, and exposes no proposal, create/approve/reject/apply, prompt update, knowledge base update, policy update, handoff update, scoring update, tool boundary update, QA review, transcript, AI response evaluation, scoring, evidence, scenario, sandbox, test call, connection, runtime, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -9421,6 +9890,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiTranscriptReviewReadiness,
     openAiAiResponseEvaluationReadiness,
     openAiQaReviewWorkflowReadiness,
+    openAiImprovementProposalReadiness,
     checklist,
     risks,
     recommendations: [
@@ -9459,6 +9929,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI transcript review readiness as read-only design visibility; it does not create transcript storage, transcript CRUD, transcript review endpoints, approve/reject endpoints, call recording endpoints, transcription endpoints, playback controls, OpenAI connection, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat OpenAI AI response evaluation readiness as read-only design visibility; it does not create AI response evaluation storage, evaluation CRUD endpoints, response evaluation endpoints, approve/reject response endpoints, response correction endpoints, improvement proposal endpoints, database tables, migrations, AI response evaluation records, real AI response evaluation, approve/reject response controls, correction controls, improvement proposal controls, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat OpenAI QA review workflow readiness as read-only design visibility; it does not create QA review workflow storage, workflow CRUD endpoints, QA review endpoints, approve/reject QA endpoints, assignment endpoints, queue endpoints, correction endpoints, improvement proposal endpoints, database tables, migrations, QA workflow records, real QA reviews, QA approvals, QA rejections, QA assignments, QA queues, QA corrections, improvement proposals, QA review controls, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
+      'Treat OpenAI improvement proposal readiness as read-only design visibility; it does not create improvement proposal storage, proposal CRUD endpoints, proposal approval endpoints, proposal rejection endpoints, proposal apply endpoints, prompt update endpoints, knowledge base update endpoints, policy update endpoints, handoff update endpoints, scoring update endpoints, tool boundary update endpoints, database tables, migrations, proposal records, real proposals, proposal approvals, proposal rejections, proposal apply behavior, prompt updates, knowledge base updates, policy updates, handoff updates, scoring updates, tool boundary updates, proposal controls, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

@@ -936,6 +936,15 @@
                   <div class="muted small">Loading OpenAI QA review workflow readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Improvement Proposal Readiness</h2>
+                  <span class="muted small">Read-only improvement proposal design status. This does not create proposal storage, proposal controls, prompt updates, knowledge base updates, policy updates, handoff updates, scoring updates, tool boundary updates, OpenAI connection, autonomous learning, execution controls, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="openAiImprovementProposalCards"></div>
+                <div class="row" id="openAiImprovementProposalBadges" style="margin-top:12px"></div>
+                <div id="openAiImprovementProposalDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI improvement proposal readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2924,10 +2933,13 @@ function renderRouteReadiness() {
   const openAiQaReviewWorkflowCards = $('#openAiQaReviewWorkflowCards');
   const openAiQaReviewWorkflowBadges = $('#openAiQaReviewWorkflowBadges');
   const openAiQaReviewWorkflowDetails = $('#openAiQaReviewWorkflowDetails');
+  const openAiImprovementProposalCards = $('#openAiImprovementProposalCards');
+  const openAiImprovementProposalBadges = $('#openAiImprovementProposalBadges');
+  const openAiImprovementProposalDetails = $('#openAiImprovementProposalDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3032,6 +3044,9 @@ function renderRouteReadiness() {
     openAiQaReviewWorkflowCards.innerHTML = '<div class="muted small">OpenAI QA review workflow readiness status not loaded.</div>';
     openAiQaReviewWorkflowBadges.innerHTML = '';
     openAiQaReviewWorkflowDetails.innerHTML = '<div class="muted small">OpenAI QA review workflow readiness details not loaded.</div>';
+    openAiImprovementProposalCards.innerHTML = '<div class="muted small">OpenAI improvement proposal readiness status not loaded.</div>';
+    openAiImprovementProposalBadges.innerHTML = '';
+    openAiImprovementProposalDetails.innerHTML = '<div class="muted small">OpenAI improvement proposal readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -6856,6 +6871,185 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${qaReviewWorkflowNextSteps.length ? `<ul>${qaReviewWorkflowNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiImprovementProposal = report.openAiImprovementProposalReadiness || {};
+  const openAiImprovementProposalCardsData = [
+    ['Current state', openAiImprovementProposal.currentState || 'not_ready'],
+    ['Improvement proposal approved', openAiImprovementProposal.improvementProposalApproved ? 'yes' : 'no'],
+    ['Improvement proposal mode', openAiImprovementProposal.improvementProposalMode || 'read_only_design'],
+    ['Improvement proposal storage', openAiImprovementProposal.improvementProposalStorageStatus || 'not_implemented'],
+    ['Improvement proposal CRUD', openAiImprovementProposal.improvementProposalCrudStatus || 'not_implemented'],
+    ['Improvement proposal migration', openAiImprovementProposal.improvementProposalMigrationStatus || 'not_implemented'],
+    ['Improvement proposal endpoint', openAiImprovementProposal.improvementProposalEndpointStatus || 'not_implemented'],
+    ['Improvement proposal UI action', openAiImprovementProposal.improvementProposalUiActionStatus || 'not_allowed'],
+    ['Improvement proposal creation', openAiImprovementProposal.improvementProposalCreationStatus || 'not_allowed'],
+    ['Improvement proposal approval', openAiImprovementProposal.improvementProposalApprovalStatus || 'not_allowed'],
+    ['Improvement proposal rejection', openAiImprovementProposal.improvementProposalRejectionStatus || 'not_allowed'],
+    ['Improvement proposal apply', openAiImprovementProposal.improvementProposalApplyStatus || 'not_allowed'],
+    ['Prompt update', openAiImprovementProposal.promptUpdateStatus || 'not_allowed'],
+    ['Knowledge base update', openAiImprovementProposal.knowledgeBaseUpdateStatus || 'not_allowed'],
+    ['Policy update', openAiImprovementProposal.policyUpdateStatus || 'not_allowed'],
+    ['Handoff update', openAiImprovementProposal.handoffUpdateStatus || 'not_allowed'],
+    ['Scoring update', openAiImprovementProposal.scoringUpdateStatus || 'not_allowed'],
+    ['Tool boundary update', openAiImprovementProposal.toolBoundaryUpdateStatus || 'not_allowed'],
+    ['Improvement proposal human review', openAiImprovementProposal.improvementProposalHumanReviewStatus || 'required'],
+    ['Improvement proposal reviewer notes', openAiImprovementProposal.improvementProposalReviewerNotesStatus || 'required'],
+    ['Improvement proposal source artifact', openAiImprovementProposal.improvementProposalSourceArtifactStatus || 'required'],
+    ['Improvement proposal scope', openAiImprovementProposal.improvementProposalScopeStatus || 'required'],
+    ['Improvement proposal versioning', openAiImprovementProposal.improvementProposalVersioningStatus || 'required'],
+    ['Improvement proposal audit', openAiImprovementProposal.improvementProposalAuditStatus || 'required'],
+    ['Improvement proposal rollback', openAiImprovementProposal.improvementProposalRollbackStatus || 'required'],
+    ['Improvement proposal learning control', openAiImprovementProposal.improvementProposalLearningControlStatus || 'required'],
+    ['Autonomous learning', openAiImprovementProposal.autonomousLearningStatus || 'not_allowed'],
+    ['QA review workflow gate', openAiImprovementProposal.qaReviewWorkflowGateStatus || 'required'],
+    ['AI response evaluation gate', openAiImprovementProposal.aiResponseEvaluationGateStatus || 'required'],
+    ['Transcript review gate', openAiImprovementProposal.transcriptReviewGateStatus || 'required'],
+    ['Test result scoring gate', openAiImprovementProposal.testResultScoringGateStatus || 'required'],
+    ['Sandbox evidence review gate', openAiImprovementProposal.sandboxEvidenceReviewGateStatus || 'required'],
+    ['Synthetic scenario library gate', openAiImprovementProposal.syntheticScenarioLibraryGateStatus || 'required'],
+    ['Staging sandbox gate', openAiImprovementProposal.stagingSandboxGateStatus || 'required'],
+    ['Runtime activation gate', openAiImprovementProposal.runtimeActivationGateStatus || 'required'],
+    ['Emergency stop gate', openAiImprovementProposal.emergencyStopGateStatus || 'required'],
+    ['Credential boundary gate', openAiImprovementProposal.credentialBoundaryGateStatus || 'required'],
+    ['RBAC scope gate', openAiImprovementProposal.rbacScopeGateStatus || 'required'],
+    ['Audit trail gate', openAiImprovementProposal.auditTrailGateStatus || 'required'],
+    ['PII compliance gate', openAiImprovementProposal.piiComplianceGateStatus || 'required'],
+    ['Logging QA gate', openAiImprovementProposal.loggingQaGateStatus || 'required'],
+    ['OpenAI connection', openAiImprovementProposal.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', openAiImprovementProposal.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiImprovementProposal.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Improvement proposal storage allowed', openAiImprovementProposal.improvementProposalStorageAllowed ? 'yes' : 'no'],
+    ['Improvement proposal CRUD allowed', openAiImprovementProposal.improvementProposalCrudAllowed ? 'yes' : 'no'],
+    ['Improvement proposal read allowed', openAiImprovementProposal.improvementProposalReadAllowed ? 'yes' : 'no'],
+    ['Improvement proposal write allowed', openAiImprovementProposal.improvementProposalWriteAllowed ? 'yes' : 'no'],
+    ['Improvement proposal update allowed', openAiImprovementProposal.improvementProposalUpdateAllowed ? 'yes' : 'no'],
+    ['Improvement proposal delete allowed', openAiImprovementProposal.improvementProposalDeleteAllowed ? 'yes' : 'no'],
+    ['Improvement proposal create allowed', openAiImprovementProposal.improvementProposalCreateAllowed ? 'yes' : 'no'],
+    ['Improvement proposal approve allowed', openAiImprovementProposal.improvementProposalApproveAllowed ? 'yes' : 'no'],
+    ['Improvement proposal reject allowed', openAiImprovementProposal.improvementProposalRejectAllowed ? 'yes' : 'no'],
+    ['Improvement proposal apply allowed', openAiImprovementProposal.improvementProposalApplyAllowed ? 'yes' : 'no'],
+    ['Prompt update allowed', openAiImprovementProposal.promptUpdateAllowed ? 'yes' : 'no'],
+    ['Knowledge base update allowed', openAiImprovementProposal.knowledgeBaseUpdateAllowed ? 'yes' : 'no'],
+    ['Policy update allowed', openAiImprovementProposal.policyUpdateAllowed ? 'yes' : 'no'],
+    ['Handoff update allowed', openAiImprovementProposal.handoffUpdateAllowed ? 'yes' : 'no'],
+    ['Scoring update allowed', openAiImprovementProposal.scoringUpdateAllowed ? 'yes' : 'no'],
+    ['Tool boundary update allowed', openAiImprovementProposal.toolBoundaryUpdateAllowed ? 'yes' : 'no'],
+    ['Improvement proposal endpoint allowed', openAiImprovementProposal.improvementProposalEndpointAllowed ? 'yes' : 'no'],
+    ['Improvement proposal UI control allowed', openAiImprovementProposal.improvementProposalUiControlAllowed ? 'yes' : 'no'],
+    ['Autonomous learning allowed', openAiImprovementProposal.autonomousLearningAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', openAiImprovementProposal.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', openAiImprovementProposal.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real OpenAI connection allowed', openAiImprovementProposal.realOpenAiConnectionAllowed ? 'yes' : 'no'],
+    ['Real call allowed', openAiImprovementProposal.realCallAllowed ? 'yes' : 'no'],
+    ['Asterisk change allowed', openAiImprovementProposal.asteriskChangeAllowed ? 'yes' : 'no'],
+    ['Vicidial change allowed', openAiImprovementProposal.vicidialChangeAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', openAiImprovementProposal.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', openAiImprovementProposal.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['OpenAI connect allowed', openAiImprovementProposal.openAiConnectAllowed ? 'yes' : 'no'],
+    ['Runtime credential access allowed', openAiImprovementProposal.runtimeCredentialAccessAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', openAiImprovementProposal.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', openAiImprovementProposal.toolExecutionAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiImprovementProposal.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiImprovementProposal.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiImprovementProposal.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiImprovementProposal.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiImprovementProposalCards.innerHTML = openAiImprovementProposalCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiImprovementProposalBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only improvement proposal design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Proposal creation blocked', 'bad'),
+    readinessBadge('Proposal approval blocked', 'bad'),
+    readinessBadge('Apply blocked', 'bad'),
+    readinessBadge('Autonomous learning blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const futureImprovementProposalStates = Array.isArray(openAiImprovementProposal.futureImprovementProposalStates) ? openAiImprovementProposal.futureImprovementProposalStates : [];
+  const futureImprovementSourceArtifacts = Array.isArray(openAiImprovementProposal.futureImprovementSourceArtifacts) ? openAiImprovementProposal.futureImprovementSourceArtifacts : [];
+  const futureImprovementTargetTypes = Array.isArray(openAiImprovementProposal.futureImprovementTargetTypes) ? openAiImprovementProposal.futureImprovementTargetTypes : [];
+  const futureImprovementProposalMetadata = Array.isArray(openAiImprovementProposal.futureImprovementProposalMetadata) ? openAiImprovementProposal.futureImprovementProposalMetadata : [];
+  const futureImprovementDecisionTypes = Array.isArray(openAiImprovementProposal.futureImprovementDecisionTypes) ? openAiImprovementProposal.futureImprovementDecisionTypes : [];
+  const futureImprovementReviewRules = Array.isArray(openAiImprovementProposal.futureImprovementReviewRules) ? openAiImprovementProposal.futureImprovementReviewRules : [];
+  const futureImprovementVersioningRules = Array.isArray(openAiImprovementProposal.futureImprovementVersioningRules) ? openAiImprovementProposal.futureImprovementVersioningRules : [];
+  const futureImprovementRbacScopeRules = Array.isArray(openAiImprovementProposal.futureImprovementRbacScopeRules) ? openAiImprovementProposal.futureImprovementRbacScopeRules : [];
+  const futureImprovementAuditRules = Array.isArray(openAiImprovementProposal.futureImprovementAuditRules) ? openAiImprovementProposal.futureImprovementAuditRules : [];
+  const futureImprovementRollbackRules = Array.isArray(openAiImprovementProposal.futureImprovementRollbackRules) ? openAiImprovementProposal.futureImprovementRollbackRules : [];
+  const futureImprovementLearningControlRules = Array.isArray(openAiImprovementProposal.futureImprovementLearningControlRules) ? openAiImprovementProposal.futureImprovementLearningControlRules : [];
+  const futureImprovementPromotionRules = Array.isArray(openAiImprovementProposal.futureImprovementPromotionRules) ? openAiImprovementProposal.futureImprovementPromotionRules : [];
+  const improvementProposalProhibitedActions = Array.isArray(openAiImprovementProposal.prohibitedCurrentActions) ? openAiImprovementProposal.prohibitedCurrentActions : [];
+  const improvementProposalFutureRuntimeBoundaries = Array.isArray(openAiImprovementProposal.futureRuntimeBoundaries) ? openAiImprovementProposal.futureRuntimeBoundaries : [];
+  const improvementProposalNextSteps = Array.isArray(openAiImprovementProposal.nextSteps) ? openAiImprovementProposal.nextSteps : [];
+  openAiImprovementProposalDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Future improvement proposal states</strong>
+        ${futureImprovementProposalStates.length ? `<ul>${futureImprovementProposalStates.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future improvement proposal states returned.</div>'}
+      </div>
+      <div>
+        <strong>Future improvement source artifacts</strong>
+        ${futureImprovementSourceArtifacts.length ? `<ul>${futureImprovementSourceArtifacts.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future improvement source artifacts returned.</div>'}
+      </div>
+      <div>
+        <strong>Future improvement target types</strong>
+        ${futureImprovementTargetTypes.length ? `<ul>${futureImprovementTargetTypes.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future improvement target types returned.</div>'}
+      </div>
+      <div>
+        <strong>Future improvement proposal metadata</strong>
+        ${futureImprovementProposalMetadata.length ? `<ul>${futureImprovementProposalMetadata.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future improvement proposal metadata returned.</div>'}
+      </div>
+      <div>
+        <strong>Future improvement decision types</strong>
+        ${futureImprovementDecisionTypes.length ? `<ul>${futureImprovementDecisionTypes.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future improvement decision types returned.</div>'}
+      </div>
+      <div>
+        <strong>Future improvement review rules</strong>
+        ${futureImprovementReviewRules.length ? `<ul>${futureImprovementReviewRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future improvement review rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future improvement versioning rules</strong>
+        ${futureImprovementVersioningRules.length ? `<ul>${futureImprovementVersioningRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future improvement versioning rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future improvement RBAC/scope rules</strong>
+        ${futureImprovementRbacScopeRules.length ? `<ul>${futureImprovementRbacScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future improvement RBAC/scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future improvement audit rules</strong>
+        ${futureImprovementAuditRules.length ? `<ul>${futureImprovementAuditRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future improvement audit rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future improvement rollback rules</strong>
+        ${futureImprovementRollbackRules.length ? `<ul>${futureImprovementRollbackRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future improvement rollback rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future improvement learning control rules</strong>
+        ${futureImprovementLearningControlRules.length ? `<ul>${futureImprovementLearningControlRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future improvement learning control rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future improvement promotion rules</strong>
+        ${futureImprovementPromotionRules.length ? `<ul>${futureImprovementPromotionRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future improvement promotion rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${improvementProposalProhibitedActions.length ? `<ul>${improvementProposalProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${improvementProposalFutureRuntimeBoundaries.length ? `<ul>${improvementProposalFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${improvementProposalNextSteps.length ? `<ul>${improvementProposalNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;
