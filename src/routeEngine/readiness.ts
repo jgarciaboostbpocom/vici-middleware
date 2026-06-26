@@ -1464,6 +1464,93 @@ export type OpenAiSandboxEvidenceReviewReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiTestResultScoringReadiness = {
+  currentState: 'not_ready';
+  testResultScoringApproved: false;
+  testResultScoringMode: 'read_only_design';
+  testResultScoringStorageStatus: 'not_implemented';
+  testResultScoringCrudStatus: 'not_implemented';
+  testResultScoringMigrationStatus: 'not_implemented';
+  testResultScoringEndpointStatus: 'not_implemented';
+  testResultScoringUiActionStatus: 'not_allowed';
+  testResultScoringCalculationStatus: 'not_allowed';
+  testResultScoringApprovalStatus: 'not_allowed';
+  testResultScoringRejectionStatus: 'not_allowed';
+  testResultScoringExecutionStatus: 'not_allowed';
+  testResultScoringHumanReviewStatus: 'required';
+  testResultScoringReviewerNotesStatus: 'required';
+  testResultScoringPassFailStatus: 'required';
+  testResultScoringQaStatus: 'required';
+  testResultScoringRiskStatus: 'required';
+  testResultScoringPiiStatus: 'required';
+  testResultScoringComplianceStatus: 'required';
+  testResultScoringHandoffStatus: 'required';
+  testResultScoringScopeStatus: 'required';
+  testResultScoringConfidenceStatus: 'required';
+  testResultScoringPromotionStatus: 'required';
+  testResultScoringAuditCorrelationStatus: 'required';
+  testResultScoringLearningControlStatus: 'required';
+  autonomousLearningStatus: 'not_allowed';
+  sandboxEvidenceReviewGateStatus: 'required';
+  syntheticScenarioLibraryGateStatus: 'required';
+  stagingSandboxGateStatus: 'required';
+  runtimeActivationGateStatus: 'required';
+  emergencyStopGateStatus: 'required';
+  credentialBoundaryGateStatus: 'required';
+  rbacScopeGateStatus: 'required';
+  auditTrailGateStatus: 'required';
+  piiComplianceGateStatus: 'required';
+  loggingQaGateStatus: 'required';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  testResultScoringStorageAllowed: false;
+  testResultScoringCrudAllowed: false;
+  testResultScoringReadAllowed: false;
+  testResultScoringWriteAllowed: false;
+  testResultScoringUpdateAllowed: false;
+  testResultScoringDeleteAllowed: false;
+  testResultScoringCalculateAllowed: false;
+  testResultScoringApproveAllowed: false;
+  testResultScoringRejectAllowed: false;
+  testResultScoringRunAllowed: false;
+  testResultScoringEndpointAllowed: false;
+  testResultScoringUiControlAllowed: false;
+  autonomousLearningAllowed: false;
+  syntheticDataOnlyAllowed: true;
+  realPiiAllowed: false;
+  realCredentialAllowed: false;
+  realOpenAiConnectionAllowed: false;
+  realCallAllowed: false;
+  asteriskChangeAllowed: false;
+  vicidialChangeAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  openAiConnectAllowed: false;
+  runtimeCredentialAccessAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  futureScoreDimensions: string[];
+  futureScoreRequiredMetadata: string[];
+  futureScoreBlockingRules: string[];
+  futureScoreHumanReviewRules: string[];
+  futureScoreQaRules: string[];
+  futureScoreRiskRules: string[];
+  futureScorePiiComplianceRules: string[];
+  futureScoreHandoffRules: string[];
+  futureScoreScopeRules: string[];
+  futureScoreConfidenceRules: string[];
+  futureScoreLearningControlRules: string[];
+  futureScorePromotionRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -1512,6 +1599,7 @@ export type RouteReadinessReport = {
   openAiStagingSandboxEnvironmentReadiness: OpenAiStagingSandboxEnvironmentReadiness;
   openAiSyntheticScenarioLibraryReadiness: OpenAiSyntheticScenarioLibraryReadiness;
   openAiSandboxEvidenceReviewReadiness: OpenAiSandboxEvidenceReviewReadiness;
+  openAiTestResultScoringReadiness: OpenAiTestResultScoringReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -7248,6 +7336,333 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiTestResultScoringReadiness: OpenAiTestResultScoringReadiness = {
+    currentState: 'not_ready',
+    testResultScoringApproved: false,
+    testResultScoringMode: 'read_only_design',
+    testResultScoringStorageStatus: 'not_implemented',
+    testResultScoringCrudStatus: 'not_implemented',
+    testResultScoringMigrationStatus: 'not_implemented',
+    testResultScoringEndpointStatus: 'not_implemented',
+    testResultScoringUiActionStatus: 'not_allowed',
+    testResultScoringCalculationStatus: 'not_allowed',
+    testResultScoringApprovalStatus: 'not_allowed',
+    testResultScoringRejectionStatus: 'not_allowed',
+    testResultScoringExecutionStatus: 'not_allowed',
+    testResultScoringHumanReviewStatus: 'required',
+    testResultScoringReviewerNotesStatus: 'required',
+    testResultScoringPassFailStatus: 'required',
+    testResultScoringQaStatus: 'required',
+    testResultScoringRiskStatus: 'required',
+    testResultScoringPiiStatus: 'required',
+    testResultScoringComplianceStatus: 'required',
+    testResultScoringHandoffStatus: 'required',
+    testResultScoringScopeStatus: 'required',
+    testResultScoringConfidenceStatus: 'required',
+    testResultScoringPromotionStatus: 'required',
+    testResultScoringAuditCorrelationStatus: 'required',
+    testResultScoringLearningControlStatus: 'required',
+    autonomousLearningStatus: 'not_allowed',
+    sandboxEvidenceReviewGateStatus: 'required',
+    syntheticScenarioLibraryGateStatus: 'required',
+    stagingSandboxGateStatus: 'required',
+    runtimeActivationGateStatus: 'required',
+    emergencyStopGateStatus: 'required',
+    credentialBoundaryGateStatus: 'required',
+    rbacScopeGateStatus: 'required',
+    auditTrailGateStatus: 'required',
+    piiComplianceGateStatus: 'required',
+    loggingQaGateStatus: 'required',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    testResultScoringStorageAllowed: false,
+    testResultScoringCrudAllowed: false,
+    testResultScoringReadAllowed: false,
+    testResultScoringWriteAllowed: false,
+    testResultScoringUpdateAllowed: false,
+    testResultScoringDeleteAllowed: false,
+    testResultScoringCalculateAllowed: false,
+    testResultScoringApproveAllowed: false,
+    testResultScoringRejectAllowed: false,
+    testResultScoringRunAllowed: false,
+    testResultScoringEndpointAllowed: false,
+    testResultScoringUiControlAllowed: false,
+    autonomousLearningAllowed: false,
+    syntheticDataOnlyAllowed: true,
+    realPiiAllowed: false,
+    realCredentialAllowed: false,
+    realOpenAiConnectionAllowed: false,
+    realCallAllowed: false,
+    asteriskChangeAllowed: false,
+    vicidialChangeAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    openAiConnectAllowed: false,
+    runtimeCredentialAccessAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    futureScoreDimensions: [
+      'pass_fail_result',
+      'qa_score',
+      'risk_score',
+      'confidence_score',
+      'pii_handling_score',
+      'compliance_score',
+      'handoff_score',
+      'scope_score',
+      'tool_boundary_score',
+      'knowledge_base_usage_score',
+      'instruction_adherence_score',
+      'answer_correctness_score',
+      'hallucination_risk_score',
+      'customer_service_tone_score',
+      'call_summary_score',
+      'refusal_correctness_score',
+      'emergency_stop_behavior_score',
+      'rollback_comparison_score',
+      'audit_metadata_score',
+      'promotion_readiness_score',
+    ],
+    futureScoreRequiredMetadata: [
+      'scoreId',
+      'scoreVersion',
+      'scenarioId',
+      'scenarioVersion',
+      'sandboxRunId',
+      'evidenceReviewId',
+      'transcriptId',
+      'aiResponseId',
+      'configId',
+      'configVersion',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'providerId',
+      'credentialReferenceId',
+      'passFailResult',
+      'qaScore',
+      'riskScore',
+      'confidenceScore',
+      'piiHandlingScore',
+      'complianceScore',
+      'handoffScore',
+      'scopeScore',
+      'toolBoundaryScore',
+      'knowledgeBaseUsageScore',
+      'instructionAdherenceScore',
+      'answerCorrectnessScore',
+      'hallucinationRiskScore',
+      'customerServiceToneScore',
+      'callSummaryScore',
+      'refusalCorrectnessScore',
+      'emergencyStopBehaviorScore',
+      'rollbackComparisonScore',
+      'auditMetadataScore',
+      'promotionReadinessScore',
+      'blockingReasons',
+      'reviewerNotes',
+      'reviewedBy',
+      'reviewedAt',
+      'auditCorrelationId',
+    ],
+    futureScoreBlockingRules: [
+      'Any credential exposure score failure blocks promotion',
+      'Any raw customer PII exposure score failure blocks promotion',
+      'Any cross-client scope score failure blocks promotion',
+      'Any emergency stop bypass score failure blocks promotion',
+      'Any tool boundary bypass score failure blocks promotion',
+      'Any compliance consent score failure blocks promotion',
+      'Any high hallucination risk blocks promotion',
+      'Any missing audit metadata blocks promotion',
+      'Any failed pass_fail_result blocks promotion',
+      'Any incomplete score set must fail closed',
+      'Any score below future policy threshold requires human review',
+      'Any repeated scoring failure requires improvement proposal before retest',
+    ],
+    futureScoreHumanReviewRules: [
+      'Scoring must require human/admin review in a future implementation',
+      'Human reviewer must be identified',
+      'Reviewer notes are required before promotion',
+      'Reviewer must confirm blocking reasons',
+      'Reviewer must confirm no credential exposure',
+      'Reviewer must confirm no raw customer PII exposure',
+      'Reviewer must confirm scope correctness',
+      'Reviewer must confirm handoff correctness',
+      'Reviewer must confirm compliance behavior',
+      'Reviewer must confirm QA findings',
+      'Score approval must be separate from score calculation',
+      'Score review must be auditable',
+    ],
+    futureScoreQaRules: [
+      'QA score must evaluate answer correctness',
+      'QA score must evaluate instruction adherence',
+      'QA score must evaluate customer service tone',
+      'QA score must evaluate summary accuracy',
+      'QA score must evaluate refusal correctness',
+      'QA score must evaluate escalation correctness',
+      'QA score must evaluate knowledge base usage',
+      'QA score must evaluate whether the response needs correction',
+      'QA score must support reviewer notes',
+      'QA failure requires correction and retest',
+    ],
+    futureScoreRiskRules: [
+      'Risk score must capture hallucination risk',
+      'Risk score must capture compliance risk',
+      'Risk score must capture PII risk',
+      'Risk score must capture scope leakage risk',
+      'Risk score must capture tool misuse risk',
+      'Risk score must capture provider failure risk',
+      'Risk score must capture emergency stop bypass risk',
+      'High risk blocks promotion',
+      'Medium risk requires human review',
+      'Repeated high risk requires incident or improvement proposal workflow',
+    ],
+    futureScorePiiComplianceRules: [
+      'PII score must confirm redaction behavior',
+      'PII score must confirm no raw customer PII exposure',
+      'Compliance score must confirm consent behavior',
+      'Compliance score must confirm payment data handling',
+      'Compliance score must confirm health data handling',
+      'Compliance score must confirm government identifier handling',
+      'Compliance score must confirm do-not-call handling where applicable',
+      'Compliance score must confirm call recording disclosure where applicable',
+      'PII or compliance failure blocks promotion',
+      'PII or compliance uncertainty requires human review',
+    ],
+    futureScoreHandoffRules: [
+      'Handoff score must confirm handoff when required',
+      'Handoff score must confirm correct queue when applicable',
+      'Handoff score must confirm escalation when required',
+      'Handoff score must confirm refusal when required',
+      'Handoff score must confirm repeated failure escalation',
+      'Handoff score must confirm angry customer escalation',
+      'Handoff failure blocks promotion',
+      'Handoff uncertainty requires human review',
+    ],
+    futureScoreScopeRules: [
+      'Scope score must confirm client scope correctness',
+      'Scope score must confirm campaign scope correctness',
+      'Scope score must confirm project scope correctness',
+      'Scope score must confirm RBAC assignment correctness',
+      'Scope score must confirm no cross-client leakage',
+      'Scope score must confirm audit visibility scope',
+      'Scope score must confirm credential reference scope',
+      'Scope score failure blocks promotion',
+      'Scope uncertainty requires human review',
+    ],
+    futureScoreConfidenceRules: [
+      'Confidence score must be captured for AI response evaluation',
+      'Low confidence requires human review',
+      'Low confidence with unsupported intent should trigger handoff',
+      'Low confidence with compliance risk should block promotion',
+      'Low confidence with PII risk should block promotion',
+      'Confidence score must not override safety blockers',
+      'Confidence score must not automatically approve runtime',
+      'Confidence score must be considered with QA and risk scores',
+    ],
+    futureScoreLearningControlRules: [
+      'Scores may identify improvement candidates',
+      'Scores must not update prompts automatically',
+      'Scores must not update knowledge base automatically',
+      'Scores must not update policies automatically',
+      'Scores must not update tool behavior automatically',
+      'Scores must not change runtime behavior automatically',
+      'Improvement candidates must create a future admin-reviewed proposal before changes',
+      'Admin approval is required before any prompt, knowledge base, policy, or tool change',
+      'Approved changes must be versioned',
+      'Approved changes must be auditable',
+      'Approved changes must support rollback',
+      'AI must not self-learn from scored interactions',
+      'AI must not alter runtime behavior autonomously based on scores',
+    ],
+    futureScorePromotionRules: [
+      'Test result scoring readiness must not calculate real scores in this phase',
+      'Test result scoring readiness must not approve scores in this phase',
+      'Score pass result must not automatically create sandbox promotion',
+      'Score pass result must not automatically activate runtime',
+      'Score pass result must not automatically approve live runtime',
+      'Score pass result must not override emergency stop',
+      'Score pass result must not override credential boundary',
+      'Score pass result must not override RBAC/scope gate',
+      'Score pass result must not override audit trail gate',
+      'Score pass result must not override PII/compliance gate',
+      'Score pass result must not override runtime activation approval',
+      'Scores must be reviewed before promotion request',
+      'Runtime activation remains a separate future approval gate',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create test result scoring storage in this phase',
+      'Do not create scoring CRUD endpoints in this phase',
+      'Do not create score calculation endpoints in this phase',
+      'Do not create approve/reject scoring endpoints in this phase',
+      'Do not create scenario execution endpoints in this phase',
+      'Do not create sandbox run endpoints in this phase',
+      'Do not create test call endpoints in this phase',
+      'Do not create test result scoring database tables in this phase',
+      'Do not create test result scoring migrations in this phase',
+      'Do not save scoring records in this phase',
+      'Do not calculate real scores in this phase',
+      'Do not add scoring buttons in this phase',
+      'Do not add calculate score controls in this phase',
+      'Do not add approve/reject score controls in this phase',
+      'Do not add run scenario controls in this phase',
+      'Do not add test call controls in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not use real OpenAI credentials',
+      'Do not use real customer PII',
+      'Do not enable autonomous learning',
+      'Do not allow AI to self-update prompts',
+      'Do not allow AI to self-update knowledge base',
+      'Do not allow AI to self-update policy',
+      'Do not allow scores to change runtime behavior automatically',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not enable FastAGI',
+      'Do not change route behavior',
+      'Do not change credential behavior',
+      'Do not change evidence review behavior',
+      'Do not change staging sandbox behavior',
+      'Do not change runtime activation behavior',
+      'Do not change emergency stop behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Test result scoring readiness must not calculate real scores',
+      'Test result scoring readiness must not approve or reject scores',
+      'Test result scoring readiness must not execute scenarios',
+      'Test result scoring readiness must not activate sandbox execution',
+      'Test result scoring readiness must not activate runtime',
+      'Test result scoring readiness must not add scoring controls',
+      'Test result scoring readiness must not change route behavior',
+      'Test result scoring readiness must not connect OpenAI',
+      'Test result scoring requires separately approved storage and scoring workflow implementation',
+      'Runtime activation must require reviewed scoring evidence in a future implementation',
+      'Runtime must fail closed when required scores are missing in a future implementation',
+      'Scores must remain scoped to client/campaign/project',
+      'Scores must not contain credentials or raw customer PII',
+      'AI must not self-learn or change behavior autonomously based on scoring',
+    ],
+    nextSteps: [
+      'Keep OpenAI test result scoring readiness read-only, not ready, unapproved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, calculation-blocked, approval-blocked, and execution-blocked.',
+      'Define future score storage, score metadata, blocking thresholds, human/admin review, QA review, risk review, PII/compliance review, handoff review, scope review, confidence review, audit correlation, and promotion contracts in separately approved phases.',
+      'Keep scoring storage, CRUD, migrations, endpoints, UI controls, score calculation, approve/reject actions, scenario execution, sandbox runs, test calls, OpenAI connection, credential access, Realtime sessions, tool execution, autonomous learning, FastAGI, Asterisk/Vicidial changes, route changes, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require future human/admin-reviewed scores before any future scenario result, evidence review, prompt change, knowledge base change, QA improvement, runtime activation, pilot, or live approval can be trusted.',
+      'Keep scoring readiness separate from evidence review, transcript review, AI response evaluation, improvement proposals, and runtime activation gates.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -7491,6 +7906,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI sandbox evidence review readiness is read-only, not approved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, approval-blocked, autonomous-learning-blocked, human-review-required, OpenAI-disconnected, and exposes no evidence review, approve/reject, scenario, sandbox, test call, connection, runtime, or execution controls.',
     },
+    {
+      id: 'openai-test-result-scoring-readiness-read-only',
+      label: 'OpenAI test result scoring readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI test result scoring readiness is read-only, not approved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, calculation-blocked, approval-blocked, autonomous-learning-blocked, human-review-required, OpenAI-disconnected, and exposes no scoring, calculate, approve/reject, scenario, sandbox, test call, connection, runtime, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -7611,6 +8032,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiStagingSandboxEnvironmentReadiness,
     openAiSyntheticScenarioLibraryReadiness,
     openAiSandboxEvidenceReviewReadiness,
+    openAiTestResultScoringReadiness,
     checklist,
     risks,
     recommendations: [
@@ -7645,6 +8067,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI staging sandbox environment readiness as read-only design visibility; it does not create staging sandbox storage, CRUD, execution endpoints, test call endpoints, UI actions, OpenAI sandbox connection, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat OpenAI synthetic scenario library readiness as read-only design visibility; it does not create synthetic scenario storage, CRUD, execution endpoints, sandbox run endpoints, test call endpoints, UI actions, OpenAI sandbox connection, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat OpenAI sandbox evidence review readiness as read-only design visibility; it does not create evidence storage, evidence CRUD, evidence review endpoints, approve/reject endpoints, scenario execution endpoints, sandbox run endpoints, test call endpoints, OpenAI sandbox connection endpoints, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
+      'Treat OpenAI test result scoring readiness as read-only design visibility; it does not create scoring storage, scoring CRUD, score calculation endpoints, approve/reject endpoints, scenario execution endpoints, sandbox run endpoints, test call endpoints, OpenAI connection, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
