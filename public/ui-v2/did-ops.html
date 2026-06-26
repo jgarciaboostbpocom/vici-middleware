@@ -918,6 +918,15 @@
                   <div class="muted small">Loading OpenAI transcript review readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI AI Response Evaluation Readiness</h2>
+                  <span class="muted small">Read-only AI response evaluation design status. This does not create AI response evaluation storage, approve/reject controls, correction controls, improvement proposal controls, OpenAI connection, autonomous learning, test calls, FastAGI execution, Asterisk/Vicidial changes, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="openAiAiResponseEvaluationCards"></div>
+                <div class="row" id="openAiAiResponseEvaluationBadges" style="margin-top:12px"></div>
+                <div id="openAiAiResponseEvaluationDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI AI response evaluation readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2900,10 +2909,13 @@ function renderRouteReadiness() {
   const openAiTranscriptReviewCards = $('#openAiTranscriptReviewCards');
   const openAiTranscriptReviewBadges = $('#openAiTranscriptReviewBadges');
   const openAiTranscriptReviewDetails = $('#openAiTranscriptReviewDetails');
+  const openAiAiResponseEvaluationCards = $('#openAiAiResponseEvaluationCards');
+  const openAiAiResponseEvaluationBadges = $('#openAiAiResponseEvaluationBadges');
+  const openAiAiResponseEvaluationDetails = $('#openAiAiResponseEvaluationDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3002,6 +3014,9 @@ function renderRouteReadiness() {
     openAiTranscriptReviewCards.innerHTML = '<div class="muted small">OpenAI transcript review readiness status not loaded.</div>';
     openAiTranscriptReviewBadges.innerHTML = '';
     openAiTranscriptReviewDetails.innerHTML = '<div class="muted small">OpenAI transcript review readiness details not loaded.</div>';
+    openAiAiResponseEvaluationCards.innerHTML = '<div class="muted small">OpenAI AI response evaluation readiness status not loaded.</div>';
+    openAiAiResponseEvaluationBadges.innerHTML = '';
+    openAiAiResponseEvaluationDetails.innerHTML = '<div class="muted small">OpenAI AI response evaluation readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -6452,6 +6467,192 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${transcriptReviewNextSteps.length ? `<ul>${transcriptReviewNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiAiResponseEvaluation = report.openAiAiResponseEvaluationReadiness || {};
+  const openAiAiResponseEvaluationCardsData = [
+    ['Current state', openAiAiResponseEvaluation.currentState || 'not_ready'],
+    ['AI response evaluation approved', openAiAiResponseEvaluation.aiResponseEvaluationApproved ? 'yes' : 'no'],
+    ['AI response evaluation mode', openAiAiResponseEvaluation.aiResponseEvaluationMode || 'read_only_design'],
+    ['AI response evaluation storage', openAiAiResponseEvaluation.aiResponseEvaluationStorageStatus || 'not_implemented'],
+    ['AI response evaluation CRUD', openAiAiResponseEvaluation.aiResponseEvaluationCrudStatus || 'not_implemented'],
+    ['AI response evaluation migration', openAiAiResponseEvaluation.aiResponseEvaluationMigrationStatus || 'not_implemented'],
+    ['AI response evaluation endpoint', openAiAiResponseEvaluation.aiResponseEvaluationEndpointStatus || 'not_implemented'],
+    ['AI response evaluation UI action', openAiAiResponseEvaluation.aiResponseEvaluationUiActionStatus || 'not_allowed'],
+    ['AI response evaluation', openAiAiResponseEvaluation.aiResponseEvaluationStatus || 'not_allowed'],
+    ['AI response approval', openAiAiResponseEvaluation.aiResponseApprovalStatus || 'not_allowed'],
+    ['AI response rejection', openAiAiResponseEvaluation.aiResponseRejectionStatus || 'not_allowed'],
+    ['AI response correction', openAiAiResponseEvaluation.aiResponseCorrectionStatus || 'not_allowed'],
+    ['AI response improvement proposal', openAiAiResponseEvaluation.aiResponseImprovementProposalStatus || 'not_allowed'],
+    ['AI response human review', openAiAiResponseEvaluation.aiResponseHumanReviewStatus || 'required'],
+    ['AI response reviewer notes', openAiAiResponseEvaluation.aiResponseReviewerNotesStatus || 'required'],
+    ['AI response correctness', openAiAiResponseEvaluation.aiResponseCorrectnessStatus || 'required'],
+    ['AI response refusal review', openAiAiResponseEvaluation.aiResponseRefusalReviewStatus || 'required'],
+    ['AI response handoff review', openAiAiResponseEvaluation.aiResponseHandoffReviewStatus || 'required'],
+    ['AI response knowledge base review', openAiAiResponseEvaluation.aiResponseKnowledgeBaseReviewStatus || 'required'],
+    ['AI response prompt adherence', openAiAiResponseEvaluation.aiResponsePromptAdherenceStatus || 'required'],
+    ['AI response hallucination review', openAiAiResponseEvaluation.aiResponseHallucinationReviewStatus || 'required'],
+    ['AI response PII review', openAiAiResponseEvaluation.aiResponsePiiReviewStatus || 'required'],
+    ['AI response compliance review', openAiAiResponseEvaluation.aiResponseComplianceReviewStatus || 'required'],
+    ['AI response consent review', openAiAiResponseEvaluation.aiResponseConsentReviewStatus || 'required'],
+    ['AI response scope review', openAiAiResponseEvaluation.aiResponseScopeReviewStatus || 'required'],
+    ['AI response tone review', openAiAiResponseEvaluation.aiResponseToneReviewStatus || 'required'],
+    ['AI response scoring review', openAiAiResponseEvaluation.aiResponseScoringReviewStatus || 'required'],
+    ['AI response transcript link', openAiAiResponseEvaluation.aiResponseTranscriptLinkStatus || 'required'],
+    ['AI response audit correlation', openAiAiResponseEvaluation.aiResponseAuditCorrelationStatus || 'required'],
+    ['AI response learning control', openAiAiResponseEvaluation.aiResponseLearningControlStatus || 'required'],
+    ['Autonomous learning', openAiAiResponseEvaluation.autonomousLearningStatus || 'not_allowed'],
+    ['Transcript review gate', openAiAiResponseEvaluation.transcriptReviewGateStatus || 'required'],
+    ['Test result scoring gate', openAiAiResponseEvaluation.testResultScoringGateStatus || 'required'],
+    ['Sandbox evidence review gate', openAiAiResponseEvaluation.sandboxEvidenceReviewGateStatus || 'required'],
+    ['Synthetic scenario library gate', openAiAiResponseEvaluation.syntheticScenarioLibraryGateStatus || 'required'],
+    ['Staging sandbox gate', openAiAiResponseEvaluation.stagingSandboxGateStatus || 'required'],
+    ['Runtime activation gate', openAiAiResponseEvaluation.runtimeActivationGateStatus || 'required'],
+    ['Emergency stop gate', openAiAiResponseEvaluation.emergencyStopGateStatus || 'required'],
+    ['Credential boundary gate', openAiAiResponseEvaluation.credentialBoundaryGateStatus || 'required'],
+    ['RBAC scope gate', openAiAiResponseEvaluation.rbacScopeGateStatus || 'required'],
+    ['Audit trail gate', openAiAiResponseEvaluation.auditTrailGateStatus || 'required'],
+    ['PII compliance gate', openAiAiResponseEvaluation.piiComplianceGateStatus || 'required'],
+    ['Logging QA gate', openAiAiResponseEvaluation.loggingQaGateStatus || 'required'],
+    ['OpenAI connection', openAiAiResponseEvaluation.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', openAiAiResponseEvaluation.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiAiResponseEvaluation.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['AI response evaluation storage allowed', openAiAiResponseEvaluation.aiResponseEvaluationStorageAllowed ? 'yes' : 'no'],
+    ['AI response evaluation CRUD allowed', openAiAiResponseEvaluation.aiResponseEvaluationCrudAllowed ? 'yes' : 'no'],
+    ['AI response evaluation read allowed', openAiAiResponseEvaluation.aiResponseEvaluationReadAllowed ? 'yes' : 'no'],
+    ['AI response evaluation write allowed', openAiAiResponseEvaluation.aiResponseEvaluationWriteAllowed ? 'yes' : 'no'],
+    ['AI response evaluation update allowed', openAiAiResponseEvaluation.aiResponseEvaluationUpdateAllowed ? 'yes' : 'no'],
+    ['AI response evaluation delete allowed', openAiAiResponseEvaluation.aiResponseEvaluationDeleteAllowed ? 'yes' : 'no'],
+    ['AI response evaluation allowed', openAiAiResponseEvaluation.aiResponseEvaluationAllowed ? 'yes' : 'no'],
+    ['AI response approve allowed', openAiAiResponseEvaluation.aiResponseApproveAllowed ? 'yes' : 'no'],
+    ['AI response reject allowed', openAiAiResponseEvaluation.aiResponseRejectAllowed ? 'yes' : 'no'],
+    ['AI response correction allowed', openAiAiResponseEvaluation.aiResponseCorrectionAllowed ? 'yes' : 'no'],
+    ['AI response improvement proposal allowed', openAiAiResponseEvaluation.aiResponseImprovementProposalAllowed ? 'yes' : 'no'],
+    ['AI response endpoint allowed', openAiAiResponseEvaluation.aiResponseEndpointAllowed ? 'yes' : 'no'],
+    ['AI response UI control allowed', openAiAiResponseEvaluation.aiResponseUiControlAllowed ? 'yes' : 'no'],
+    ['Autonomous learning allowed', openAiAiResponseEvaluation.autonomousLearningAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', openAiAiResponseEvaluation.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', openAiAiResponseEvaluation.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real OpenAI connection allowed', openAiAiResponseEvaluation.realOpenAiConnectionAllowed ? 'yes' : 'no'],
+    ['Real call allowed', openAiAiResponseEvaluation.realCallAllowed ? 'yes' : 'no'],
+    ['Asterisk change allowed', openAiAiResponseEvaluation.asteriskChangeAllowed ? 'yes' : 'no'],
+    ['Vicidial change allowed', openAiAiResponseEvaluation.vicidialChangeAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', openAiAiResponseEvaluation.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', openAiAiResponseEvaluation.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['OpenAI connect allowed', openAiAiResponseEvaluation.openAiConnectAllowed ? 'yes' : 'no'],
+    ['Runtime credential access allowed', openAiAiResponseEvaluation.runtimeCredentialAccessAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', openAiAiResponseEvaluation.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', openAiAiResponseEvaluation.toolExecutionAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiAiResponseEvaluation.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiAiResponseEvaluation.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiAiResponseEvaluation.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiAiResponseEvaluation.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiAiResponseEvaluationCards.innerHTML = openAiAiResponseEvaluationCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiAiResponseEvaluationBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only response evaluation design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Response evaluation blocked', 'bad'),
+    readinessBadge('Response correction blocked', 'bad'),
+    readinessBadge('Human review required', 'warn'),
+    readinessBadge('Autonomous learning blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const futureAiResponseArtifacts = Array.isArray(openAiAiResponseEvaluation.futureAiResponseArtifacts) ? openAiAiResponseEvaluation.futureAiResponseArtifacts : [];
+  const futureAiResponseEvaluationDimensions = Array.isArray(openAiAiResponseEvaluation.futureAiResponseEvaluationDimensions) ? openAiAiResponseEvaluation.futureAiResponseEvaluationDimensions : [];
+  const futureAiResponseCorrectnessRules = Array.isArray(openAiAiResponseEvaluation.futureAiResponseCorrectnessRules) ? openAiAiResponseEvaluation.futureAiResponseCorrectnessRules : [];
+  const futureAiResponseRefusalRules = Array.isArray(openAiAiResponseEvaluation.futureAiResponseRefusalRules) ? openAiAiResponseEvaluation.futureAiResponseRefusalRules : [];
+  const futureAiResponseHandoffRules = Array.isArray(openAiAiResponseEvaluation.futureAiResponseHandoffRules) ? openAiAiResponseEvaluation.futureAiResponseHandoffRules : [];
+  const futureAiResponseKnowledgeBaseRules = Array.isArray(openAiAiResponseEvaluation.futureAiResponseKnowledgeBaseRules) ? openAiAiResponseEvaluation.futureAiResponseKnowledgeBaseRules : [];
+  const futureAiResponsePiiComplianceRules = Array.isArray(openAiAiResponseEvaluation.futureAiResponsePiiComplianceRules) ? openAiAiResponseEvaluation.futureAiResponsePiiComplianceRules : [];
+  const futureAiResponseScopeRules = Array.isArray(openAiAiResponseEvaluation.futureAiResponseScopeRules) ? openAiAiResponseEvaluation.futureAiResponseScopeRules : [];
+  const futureAiResponseToneQaRules = Array.isArray(openAiAiResponseEvaluation.futureAiResponseToneQaRules) ? openAiAiResponseEvaluation.futureAiResponseToneQaRules : [];
+  const futureAiResponseImprovementRules = Array.isArray(openAiAiResponseEvaluation.futureAiResponseImprovementRules) ? openAiAiResponseEvaluation.futureAiResponseImprovementRules : [];
+  const futureAiResponseRbacScopeRules = Array.isArray(openAiAiResponseEvaluation.futureAiResponseRbacScopeRules) ? openAiAiResponseEvaluation.futureAiResponseRbacScopeRules : [];
+  const futureAiResponseAuditRules = Array.isArray(openAiAiResponseEvaluation.futureAiResponseAuditRules) ? openAiAiResponseEvaluation.futureAiResponseAuditRules : [];
+  const futureAiResponseLearningControlRules = Array.isArray(openAiAiResponseEvaluation.futureAiResponseLearningControlRules) ? openAiAiResponseEvaluation.futureAiResponseLearningControlRules : [];
+  const futureAiResponsePromotionRules = Array.isArray(openAiAiResponseEvaluation.futureAiResponsePromotionRules) ? openAiAiResponseEvaluation.futureAiResponsePromotionRules : [];
+  const aiResponseEvaluationProhibitedActions = Array.isArray(openAiAiResponseEvaluation.prohibitedCurrentActions) ? openAiAiResponseEvaluation.prohibitedCurrentActions : [];
+  const aiResponseEvaluationFutureRuntimeBoundaries = Array.isArray(openAiAiResponseEvaluation.futureRuntimeBoundaries) ? openAiAiResponseEvaluation.futureRuntimeBoundaries : [];
+  const aiResponseEvaluationNextSteps = Array.isArray(openAiAiResponseEvaluation.nextSteps) ? openAiAiResponseEvaluation.nextSteps : [];
+  openAiAiResponseEvaluationDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Future AI response artifacts</strong>
+        ${futureAiResponseArtifacts.length ? `<ul>${futureAiResponseArtifacts.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response artifacts returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response evaluation dimensions</strong>
+        ${futureAiResponseEvaluationDimensions.length ? `<ul>${futureAiResponseEvaluationDimensions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response evaluation dimensions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response correctness rules</strong>
+        ${futureAiResponseCorrectnessRules.length ? `<ul>${futureAiResponseCorrectnessRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response correctness rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response refusal rules</strong>
+        ${futureAiResponseRefusalRules.length ? `<ul>${futureAiResponseRefusalRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response refusal rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response handoff rules</strong>
+        ${futureAiResponseHandoffRules.length ? `<ul>${futureAiResponseHandoffRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response handoff rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response knowledge base rules</strong>
+        ${futureAiResponseKnowledgeBaseRules.length ? `<ul>${futureAiResponseKnowledgeBaseRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response knowledge base rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response PII/compliance rules</strong>
+        ${futureAiResponsePiiComplianceRules.length ? `<ul>${futureAiResponsePiiComplianceRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response PII/compliance rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response scope rules</strong>
+        ${futureAiResponseScopeRules.length ? `<ul>${futureAiResponseScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response tone/QA rules</strong>
+        ${futureAiResponseToneQaRules.length ? `<ul>${futureAiResponseToneQaRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response tone/QA rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response improvement rules</strong>
+        ${futureAiResponseImprovementRules.length ? `<ul>${futureAiResponseImprovementRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response improvement rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response RBAC/scope rules</strong>
+        ${futureAiResponseRbacScopeRules.length ? `<ul>${futureAiResponseRbacScopeRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response RBAC/scope rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response audit rules</strong>
+        ${futureAiResponseAuditRules.length ? `<ul>${futureAiResponseAuditRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response audit rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response learning control rules</strong>
+        ${futureAiResponseLearningControlRules.length ? `<ul>${futureAiResponseLearningControlRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response learning control rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future AI response promotion rules</strong>
+        ${futureAiResponsePromotionRules.length ? `<ul>${futureAiResponsePromotionRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future AI response promotion rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${aiResponseEvaluationProhibitedActions.length ? `<ul>${aiResponseEvaluationProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${aiResponseEvaluationFutureRuntimeBoundaries.length ? `<ul>${aiResponseEvaluationFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${aiResponseEvaluationNextSteps.length ? `<ul>${aiResponseEvaluationNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;

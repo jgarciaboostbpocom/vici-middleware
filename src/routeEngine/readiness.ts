@@ -1641,6 +1641,102 @@ export type OpenAiTranscriptReviewReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiAiResponseEvaluationReadiness = {
+  currentState: 'not_ready';
+  aiResponseEvaluationApproved: false;
+  aiResponseEvaluationMode: 'read_only_design';
+  aiResponseEvaluationStorageStatus: 'not_implemented';
+  aiResponseEvaluationCrudStatus: 'not_implemented';
+  aiResponseEvaluationMigrationStatus: 'not_implemented';
+  aiResponseEvaluationEndpointStatus: 'not_implemented';
+  aiResponseEvaluationUiActionStatus: 'not_allowed';
+  aiResponseEvaluationStatus: 'not_allowed';
+  aiResponseApprovalStatus: 'not_allowed';
+  aiResponseRejectionStatus: 'not_allowed';
+  aiResponseCorrectionStatus: 'not_allowed';
+  aiResponseImprovementProposalStatus: 'not_allowed';
+  aiResponseHumanReviewStatus: 'required';
+  aiResponseReviewerNotesStatus: 'required';
+  aiResponseCorrectnessStatus: 'required';
+  aiResponseRefusalReviewStatus: 'required';
+  aiResponseHandoffReviewStatus: 'required';
+  aiResponseKnowledgeBaseReviewStatus: 'required';
+  aiResponsePromptAdherenceStatus: 'required';
+  aiResponseHallucinationReviewStatus: 'required';
+  aiResponsePiiReviewStatus: 'required';
+  aiResponseComplianceReviewStatus: 'required';
+  aiResponseConsentReviewStatus: 'required';
+  aiResponseScopeReviewStatus: 'required';
+  aiResponseToneReviewStatus: 'required';
+  aiResponseScoringReviewStatus: 'required';
+  aiResponseTranscriptLinkStatus: 'required';
+  aiResponseAuditCorrelationStatus: 'required';
+  aiResponseLearningControlStatus: 'required';
+  autonomousLearningStatus: 'not_allowed';
+  transcriptReviewGateStatus: 'required';
+  testResultScoringGateStatus: 'required';
+  sandboxEvidenceReviewGateStatus: 'required';
+  syntheticScenarioLibraryGateStatus: 'required';
+  stagingSandboxGateStatus: 'required';
+  runtimeActivationGateStatus: 'required';
+  emergencyStopGateStatus: 'required';
+  credentialBoundaryGateStatus: 'required';
+  rbacScopeGateStatus: 'required';
+  auditTrailGateStatus: 'required';
+  piiComplianceGateStatus: 'required';
+  loggingQaGateStatus: 'required';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  aiResponseEvaluationStorageAllowed: false;
+  aiResponseEvaluationCrudAllowed: false;
+  aiResponseEvaluationReadAllowed: false;
+  aiResponseEvaluationWriteAllowed: false;
+  aiResponseEvaluationUpdateAllowed: false;
+  aiResponseEvaluationDeleteAllowed: false;
+  aiResponseEvaluationAllowed: false;
+  aiResponseApproveAllowed: false;
+  aiResponseRejectAllowed: false;
+  aiResponseCorrectionAllowed: false;
+  aiResponseImprovementProposalAllowed: false;
+  aiResponseEndpointAllowed: false;
+  aiResponseUiControlAllowed: false;
+  autonomousLearningAllowed: false;
+  realPiiAllowed: false;
+  realCredentialAllowed: false;
+  realOpenAiConnectionAllowed: false;
+  realCallAllowed: false;
+  asteriskChangeAllowed: false;
+  vicidialChangeAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  openAiConnectAllowed: false;
+  runtimeCredentialAccessAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  futureAiResponseArtifacts: string[];
+  futureAiResponseEvaluationDimensions: string[];
+  futureAiResponseCorrectnessRules: string[];
+  futureAiResponseRefusalRules: string[];
+  futureAiResponseHandoffRules: string[];
+  futureAiResponseKnowledgeBaseRules: string[];
+  futureAiResponsePiiComplianceRules: string[];
+  futureAiResponseScopeRules: string[];
+  futureAiResponseToneQaRules: string[];
+  futureAiResponseImprovementRules: string[];
+  futureAiResponseRbacScopeRules: string[];
+  futureAiResponseAuditRules: string[];
+  futureAiResponseLearningControlRules: string[];
+  futureAiResponsePromotionRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -1691,6 +1787,7 @@ export type RouteReadinessReport = {
   openAiSandboxEvidenceReviewReadiness: OpenAiSandboxEvidenceReviewReadiness;
   openAiTestResultScoringReadiness: OpenAiTestResultScoringReadiness;
   openAiTranscriptReviewReadiness: OpenAiTranscriptReviewReadiness;
+  openAiAiResponseEvaluationReadiness: OpenAiAiResponseEvaluationReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -8091,6 +8188,368 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiAiResponseEvaluationReadiness: OpenAiAiResponseEvaluationReadiness = {
+    currentState: 'not_ready',
+    aiResponseEvaluationApproved: false,
+    aiResponseEvaluationMode: 'read_only_design',
+    aiResponseEvaluationStorageStatus: 'not_implemented',
+    aiResponseEvaluationCrudStatus: 'not_implemented',
+    aiResponseEvaluationMigrationStatus: 'not_implemented',
+    aiResponseEvaluationEndpointStatus: 'not_implemented',
+    aiResponseEvaluationUiActionStatus: 'not_allowed',
+    aiResponseEvaluationStatus: 'not_allowed',
+    aiResponseApprovalStatus: 'not_allowed',
+    aiResponseRejectionStatus: 'not_allowed',
+    aiResponseCorrectionStatus: 'not_allowed',
+    aiResponseImprovementProposalStatus: 'not_allowed',
+    aiResponseHumanReviewStatus: 'required',
+    aiResponseReviewerNotesStatus: 'required',
+    aiResponseCorrectnessStatus: 'required',
+    aiResponseRefusalReviewStatus: 'required',
+    aiResponseHandoffReviewStatus: 'required',
+    aiResponseKnowledgeBaseReviewStatus: 'required',
+    aiResponsePromptAdherenceStatus: 'required',
+    aiResponseHallucinationReviewStatus: 'required',
+    aiResponsePiiReviewStatus: 'required',
+    aiResponseComplianceReviewStatus: 'required',
+    aiResponseConsentReviewStatus: 'required',
+    aiResponseScopeReviewStatus: 'required',
+    aiResponseToneReviewStatus: 'required',
+    aiResponseScoringReviewStatus: 'required',
+    aiResponseTranscriptLinkStatus: 'required',
+    aiResponseAuditCorrelationStatus: 'required',
+    aiResponseLearningControlStatus: 'required',
+    autonomousLearningStatus: 'not_allowed',
+    transcriptReviewGateStatus: 'required',
+    testResultScoringGateStatus: 'required',
+    sandboxEvidenceReviewGateStatus: 'required',
+    syntheticScenarioLibraryGateStatus: 'required',
+    stagingSandboxGateStatus: 'required',
+    runtimeActivationGateStatus: 'required',
+    emergencyStopGateStatus: 'required',
+    credentialBoundaryGateStatus: 'required',
+    rbacScopeGateStatus: 'required',
+    auditTrailGateStatus: 'required',
+    piiComplianceGateStatus: 'required',
+    loggingQaGateStatus: 'required',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    aiResponseEvaluationStorageAllowed: false,
+    aiResponseEvaluationCrudAllowed: false,
+    aiResponseEvaluationReadAllowed: false,
+    aiResponseEvaluationWriteAllowed: false,
+    aiResponseEvaluationUpdateAllowed: false,
+    aiResponseEvaluationDeleteAllowed: false,
+    aiResponseEvaluationAllowed: false,
+    aiResponseApproveAllowed: false,
+    aiResponseRejectAllowed: false,
+    aiResponseCorrectionAllowed: false,
+    aiResponseImprovementProposalAllowed: false,
+    aiResponseEndpointAllowed: false,
+    aiResponseUiControlAllowed: false,
+    autonomousLearningAllowed: false,
+    realPiiAllowed: false,
+    realCredentialAllowed: false,
+    realOpenAiConnectionAllowed: false,
+    realCallAllowed: false,
+    asteriskChangeAllowed: false,
+    vicidialChangeAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    openAiConnectAllowed: false,
+    runtimeCredentialAccessAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    futureAiResponseArtifacts: [
+      'aiResponseId',
+      'aiResponseVersion',
+      'transcriptId',
+      'transcriptTurnId',
+      'callId',
+      'callDirection',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'agentConfigId',
+      'configVersion',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'providerId',
+      'credentialReferenceId',
+      'syntheticScenarioId',
+      'sandboxRunId',
+      'evidenceReviewId',
+      'scoreId',
+      'responseText',
+      'redactedResponseText',
+      'responseLanguage',
+      'responseConfidence',
+      'detectedIntent',
+      'expectedBehavior',
+      'observedBehavior',
+      'refusalDecision',
+      'handoffDecision',
+      'escalationDecision',
+      'knowledgeBaseReferences',
+      'piiFlags',
+      'complianceFlags',
+      'consentFlags',
+      'scopeDecision',
+      'toolBoundaryDecision',
+      'hallucinationRisk',
+      'qaFindings',
+      'riskFindings',
+      'reviewerNotes',
+      'improvementCandidates',
+      'auditCorrelationId',
+    ],
+    futureAiResponseEvaluationDimensions: [
+      'answer correctness',
+      'response completeness',
+      'instruction adherence',
+      'prompt adherence',
+      'knowledge base grounding',
+      'unsupported claim detection',
+      'hallucination risk',
+      'refusal correctness',
+      'handoff correctness',
+      'escalation correctness',
+      'compliance consent handling',
+      'PII detection',
+      'PII redaction',
+      'scope correctness',
+      'tool boundary correctness',
+      'customer service tone',
+      'empathy',
+      'clarity',
+      'language match',
+      'call summary alignment',
+      'QA score alignment',
+      'risk score alignment',
+      'audit metadata completeness',
+      'no credential exposure',
+      'no unauthorized raw customer PII exposure',
+    ],
+    futureAiResponseCorrectnessRules: [
+      'AI response must answer only within approved prompt and knowledge base boundaries',
+      'AI response must not invent unsupported facts',
+      'AI response must not contradict approved knowledge base content',
+      'AI response must not expose credentials',
+      'AI response must not expose unauthorized raw customer PII',
+      'AI response must preserve client/campaign/project scope',
+      'Incorrect response must block promotion',
+      'Unsupported claim must require human review',
+      'Hallucination risk must be captured',
+      'High hallucination risk blocks promotion',
+    ],
+    futureAiResponseRefusalRules: [
+      'AI response must refuse unsupported unsafe requests when policy requires refusal',
+      'AI response must refuse requests for credentials or secrets',
+      'AI response must refuse unauthorized PII disclosure',
+      'AI response must refuse policy-bypassing requests',
+      'AI response must refuse unauthorized requests to modify Asterisk or Vicidial',
+      'AI response must refuse unauthorized requests to place calls',
+      'Refusal must be polite and clear',
+      'Missing refusal where required blocks promotion',
+      'Incorrect refusal requires human review',
+      'Refusal reason must be auditable',
+    ],
+    futureAiResponseHandoffRules: [
+      'AI response must hand off when customer requests human',
+      'AI response must hand off for unsupported intent where required',
+      'AI response must hand off for low confidence where policy requires it',
+      'AI response must hand off for complaint escalation',
+      'AI response must hand off for angry customer escalation when policy requires it',
+      'AI response must hand off for compliance escalation',
+      'AI response must route to correct handoff queue when applicable',
+      'Missing handoff blocks promotion',
+      'Incorrect handoff queue requires human review',
+      'Handoff reason must be auditable',
+    ],
+    futureAiResponseKnowledgeBaseRules: [
+      'AI response must use approved knowledge base when applicable',
+      'AI response must not use unapproved knowledge base content',
+      'AI response must not mix client knowledge bases across scopes',
+      'AI response must identify missing knowledge base coverage as an improvement candidate',
+      'Knowledge base mismatch must require human review',
+      'Knowledge base contradiction blocks promotion',
+      'Knowledge base reference must be auditable',
+      'Knowledge base updates must require admin approval',
+    ],
+    futureAiResponsePiiComplianceRules: [
+      'AI response must not expose raw customer PII unless approved policy allows restricted display',
+      'AI response must redact PII where required',
+      'AI response must respect consent state',
+      'AI response must not request payment data unless policy and scope allow it',
+      'AI response must not request health data unless policy and scope allow it',
+      'AI response must not request government identifiers unless policy and scope allow it',
+      'AI response must respect do-not-call concerns where applicable',
+      'AI response must include call recording disclosure where applicable',
+      'PII or compliance failure blocks promotion',
+      'PII or compliance uncertainty requires human review',
+    ],
+    futureAiResponseScopeRules: [
+      'AI response must remain scoped to client/campaign/project',
+      'AI response must not leak data across clients',
+      'AI response must not use wrong campaign config',
+      'AI response must not use wrong project config',
+      'AI response must not use wrong credential reference',
+      'AI response must respect RBAC/scope context',
+      'AI response must preserve audit scope',
+      'Scope failure blocks promotion',
+      'Scope uncertainty requires human review',
+      'Browser-side filtering alone is not sufficient for future implementation',
+    ],
+    futureAiResponseToneQaRules: [
+      'AI response must be clear',
+      'AI response must be professional',
+      'AI response must be empathetic where applicable',
+      'AI response must avoid overpromising',
+      'AI response must avoid unsupported guarantees',
+      'AI response must match customer language where policy allows',
+      'AI response must be appropriate for customer service',
+      'Tone failure requires QA review',
+      'Repeated tone failure requires improvement proposal',
+      'QA reviewer notes are required before promotion',
+    ],
+    futureAiResponseImprovementRules: [
+      'AI response evaluation may identify improvement candidates',
+      'Improvement candidates must reference aiResponseId and transcriptTurnId',
+      'Improvement candidates must explain the proposed correction',
+      'Improvement candidates must identify whether prompt, knowledge base, policy, handoff, scoring, or tool boundary needs change',
+      'Improvement candidates must not update prompts automatically',
+      'Improvement candidates must not update knowledge base automatically',
+      'Improvement candidates must not update policies automatically',
+      'Improvement candidates must not update tool behavior automatically',
+      'Improvement candidates must not change runtime behavior automatically',
+      'Improvement candidates must require admin-reviewed proposal workflow before changes',
+      'Approved improvements must be versioned, auditable, and rollback-capable',
+    ],
+    futureAiResponseRbacScopeRules: [
+      'AI response visibility must be scoped to client/campaign/project',
+      'AI response evaluation must not cross client boundaries',
+      'AI response evaluation must not expose responses to unauthorized users',
+      'Client admin AI response access must be limited to authorized client-owned scope',
+      'Internal admin AI response access must be limited to assigned campaigns/projects',
+      'Restricted users must not access AI response evaluations unless explicitly assigned',
+      'Auditor visibility must be scoped and read-only',
+      'Browser-side filtering alone is not sufficient',
+      'Server-side scope checks are required in a future implementation',
+      'AI response export must respect RBAC and redaction',
+    ],
+    futureAiResponseAuditRules: [
+      'AI response creation must be auditable in a future phase',
+      'AI response evaluation must be auditable in a future phase',
+      'AI response correction suggestions must be auditable in a future phase',
+      'AI response refusal decisions must be auditable in a future phase',
+      'AI response handoff decisions must be auditable in a future phase',
+      'AI response improvement candidates must be auditable in a future phase',
+      'Audit events must include actor, timestamp, scope, aiResponseId, transcriptTurnId, decision, reason, and correlation ID',
+      'Audit events must not expose credentials',
+      'Audit events must not expose raw customer PII unless approved policy allows masked or restricted display',
+      'Audit visibility must be scoped to client/campaign/project',
+      'Audit retention must support QA and compliance review',
+    ],
+    futureAiResponseLearningControlRules: [
+      'AI response evaluation may identify improvement candidates',
+      'AI responses must not train or alter the AI automatically',
+      'AI response findings must not update prompts automatically',
+      'AI response findings must not update knowledge base automatically',
+      'AI response findings must not update policies automatically',
+      'AI response findings must not update tool behavior automatically',
+      'AI response findings must not change runtime behavior automatically',
+      'Admin approval is required before any prompt, knowledge base, policy, handoff, scoring, or tool change',
+      'Approved changes must be versioned',
+      'Approved changes must be auditable',
+      'Approved changes must support rollback',
+      'AI must not self-learn from evaluated responses',
+      'AI must not alter runtime behavior autonomously based on response evaluations',
+    ],
+    futureAiResponsePromotionRules: [
+      'AI response evaluation readiness must not evaluate real responses in this phase',
+      'AI response evaluation readiness must not approve or reject responses in this phase',
+      'AI response evaluation result must not automatically create improvement proposal',
+      'AI response evaluation result must not automatically approve prompt changes',
+      'AI response evaluation result must not automatically approve knowledge base changes',
+      'AI response evaluation result must not automatically activate runtime',
+      'AI response evaluation result must not automatically approve live runtime',
+      'AI response evaluation result must not override emergency stop',
+      'AI response evaluation result must not override credential boundary',
+      'AI response evaluation result must not override RBAC/scope gate',
+      'AI response evaluation result must not override audit trail gate',
+      'AI response evaluation result must not override PII/compliance gate',
+      'Runtime activation remains a separate future approval gate',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create AI response evaluation storage in this phase',
+      'Do not create AI response evaluation CRUD endpoints in this phase',
+      'Do not create response evaluation endpoints in this phase',
+      'Do not create approve/reject response endpoints in this phase',
+      'Do not create response correction endpoints in this phase',
+      'Do not create improvement proposal endpoints in this phase',
+      'Do not create AI response evaluation database tables in this phase',
+      'Do not create AI response evaluation migrations in this phase',
+      'Do not save AI response evaluation records in this phase',
+      'Do not evaluate real AI responses in this phase',
+      'Do not approve or reject AI responses in this phase',
+      'Do not correct AI responses in this phase',
+      'Do not create improvement proposals in this phase',
+      'Do not add AI response evaluation buttons in this phase',
+      'Do not add approve/reject response controls in this phase',
+      'Do not add correction controls in this phase',
+      'Do not add improvement proposal controls in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not use real OpenAI credentials',
+      'Do not enable autonomous learning',
+      'Do not allow AI to self-update prompts',
+      'Do not allow AI to self-update knowledge base',
+      'Do not allow AI to self-update policy',
+      'Do not allow AI responses to change runtime behavior automatically',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not enable FastAGI',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'AI response evaluation readiness must not store evaluations',
+      'AI response evaluation readiness must not evaluate real responses',
+      'AI response evaluation readiness must not approve or reject responses',
+      'AI response evaluation readiness must not correct responses',
+      'AI response evaluation readiness must not create improvement proposals',
+      'AI response evaluation readiness must not execute scenarios',
+      'AI response evaluation readiness must not activate sandbox execution',
+      'AI response evaluation readiness must not activate runtime',
+      'AI response evaluation readiness must not add evaluation controls',
+      'AI response evaluation readiness must not change route behavior',
+      'AI response evaluation readiness must not connect OpenAI',
+      'AI response evaluation requires separately approved storage and review workflow implementation',
+      'Runtime activation must require reviewed AI response evaluation evidence in a future implementation',
+      'Runtime must fail closed when required AI response evaluation evidence is missing in a future implementation',
+      'AI response evaluations must remain scoped to client/campaign/project',
+      'AI response evaluations must not contain credentials',
+      'Raw customer PII display requires future redaction/RBAC policy',
+      'AI must not self-learn or change behavior autonomously based on AI response evaluations',
+    ],
+    nextSteps: [
+      'Keep OpenAI AI response evaluation readiness read-only, not ready, unapproved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, evaluation-blocked, approval-blocked, rejection-blocked, correction-blocked, and improvement-proposal-blocked.',
+      'Define future AI response evaluation storage, response artifacts, transcript links, config/prompt/knowledge/provider version links, human/admin review, correctness, refusal, handoff, knowledge base, PII/compliance/consent, scope, tone/QA, audit, and learning control contracts in separately approved phases.',
+      'Keep AI response evaluation storage, CRUD, migrations, endpoints, UI controls, response evaluation, approve/reject actions, correction, improvement proposals, transcript review endpoints, scoring endpoints, scenario execution, sandbox runs, test calls, OpenAI connection, credential access, Realtime sessions, tool execution, autonomous learning, FastAGI, Asterisk/Vicidial changes, route changes, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require future human/admin-reviewed AI response evaluation evidence before any future QA finding, score, transcript review, improvement proposal, runtime activation, pilot, or live approval can be trusted.',
+      'Keep AI response evaluation readiness separate from response correction storage, improvement proposal workflows, transcript review runtime, scoring calculation, sandbox execution, and runtime activation gates.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -8346,6 +8805,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI transcript review readiness is read-only, not approved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, review-blocked, transcription-blocked, playback-blocked, recording-access-blocked, autonomous-learning-blocked, human-review-required, OpenAI-disconnected, and exposes no transcript, review, approve/reject, playback, transcription, recording, scenario, sandbox, test call, connection, runtime, or execution controls.',
     },
+    {
+      id: 'openai-ai-response-evaluation-readiness-read-only',
+      label: 'OpenAI AI response evaluation readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI AI response evaluation readiness is read-only, not approved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, evaluation-blocked, approval-blocked, rejection-blocked, correction-blocked, improvement-proposal-blocked, autonomous-learning-blocked, human-review-required, OpenAI-disconnected, and exposes no response evaluation, approve/reject, correction, improvement proposal, transcript, scoring, evidence, scenario, sandbox, test call, connection, runtime, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -8468,6 +8933,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiSandboxEvidenceReviewReadiness,
     openAiTestResultScoringReadiness,
     openAiTranscriptReviewReadiness,
+    openAiAiResponseEvaluationReadiness,
     checklist,
     risks,
     recommendations: [
@@ -8504,6 +8970,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI sandbox evidence review readiness as read-only design visibility; it does not create evidence storage, evidence CRUD, evidence review endpoints, approve/reject endpoints, scenario execution endpoints, sandbox run endpoints, test call endpoints, OpenAI sandbox connection endpoints, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat OpenAI test result scoring readiness as read-only design visibility; it does not create scoring storage, scoring CRUD, score calculation endpoints, approve/reject endpoints, scenario execution endpoints, sandbox run endpoints, test call endpoints, OpenAI connection, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat OpenAI transcript review readiness as read-only design visibility; it does not create transcript storage, transcript CRUD, transcript review endpoints, approve/reject endpoints, call recording endpoints, transcription endpoints, playback controls, OpenAI connection, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
+      'Treat OpenAI AI response evaluation readiness as read-only design visibility; it does not create AI response evaluation storage, evaluation CRUD endpoints, response evaluation endpoints, approve/reject response endpoints, response correction endpoints, improvement proposal endpoints, database tables, migrations, AI response evaluation records, real AI response evaluation, approve/reject response controls, correction controls, improvement proposal controls, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
