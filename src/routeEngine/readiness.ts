@@ -2032,6 +2032,102 @@ export type QaCenterReadiness = {
   nextSteps: string[];
 };
 
+export type HumanAgentQaReadiness = {
+  currentState: 'not_ready';
+  humanAgentQaApproved: false;
+  humanAgentQaMode: 'read_only_design';
+  humanAgentQaStorageStatus: 'not_implemented';
+  humanAgentQaCrudStatus: 'not_implemented';
+  humanAgentQaMigrationStatus: 'not_implemented';
+  humanAgentQaEndpointStatus: 'not_implemented';
+  humanAgentQaUiActionStatus: 'not_allowed';
+  humanAgentQaExecutionStatus: 'not_allowed';
+  humanInboundQaStatus: 'read_only_design';
+  humanOutboundQaStatus: 'read_only_design';
+  humanCallIngestionStatus: 'not_allowed';
+  humanRecordingAccessStatus: 'not_allowed';
+  humanTranscriptionStatus: 'not_allowed';
+  humanAudioAnalysisStatus: 'not_allowed';
+  humanAiAssistedEvaluationStatus: 'not_allowed';
+  humanAiSuggestedScoreStatus: 'not_allowed';
+  humanSupervisorReviewStatus: 'not_allowed';
+  humanFinalScoreStatus: 'not_allowed';
+  humanCoachingStatus: 'not_allowed';
+  humanCalibrationStatus: 'not_allowed';
+  humanDisputeStatus: 'not_allowed';
+  humanReportsStatus: 'not_allowed';
+  humanScorecardConfigurationStatus: 'not_allowed';
+  humanScorecardVersioningStatus: 'required';
+  humanScorecardApprovalStatus: 'required';
+  humanAuditStatus: 'required';
+  humanRbacScopeStatus: 'required';
+  humanPiiRedactionStatus: 'required';
+  humanComplianceStatus: 'required';
+  humanLearningControlStatus: 'required';
+  autonomousLearningStatus: 'not_allowed';
+  qaCenterGateStatus: 'required';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  humanAgentQaStorageAllowed: false;
+  humanAgentQaCrudAllowed: false;
+  humanAgentQaReadAllowed: false;
+  humanAgentQaWriteAllowed: false;
+  humanAgentQaUpdateAllowed: false;
+  humanAgentQaDeleteAllowed: false;
+  humanCallIngestionAllowed: false;
+  humanRecordingAccessAllowed: false;
+  humanTranscriptionAllowed: false;
+  humanAudioAnalysisAllowed: false;
+  humanAiAssistedEvaluationAllowed: false;
+  humanAiSuggestedScoreAllowed: false;
+  humanSupervisorReviewAllowed: false;
+  humanFinalScoreAllowed: false;
+  humanCoachingAllowed: false;
+  humanCalibrationAllowed: false;
+  humanDisputeAllowed: false;
+  humanReportsAllowed: false;
+  humanScorecardConfigurationAllowed: false;
+  humanEndpointAllowed: false;
+  humanUiControlAllowed: false;
+  autonomousLearningAllowed: false;
+  realPiiAllowed: false;
+  realCredentialAllowed: false;
+  realOpenAiConnectionAllowed: false;
+  realCallAllowed: false;
+  asteriskChangeAllowed: false;
+  vicidialChangeAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  openAiConnectAllowed: false;
+  runtimeCredentialAccessAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  futureHumanQaRoutes: string[];
+  futureHumanQaCallDirections: string[];
+  futureHumanQaMetadata: string[];
+  futureHumanInboundQaRules: string[];
+  futureHumanOutboundQaRules: string[];
+  futureHumanQaEvaluationCriteria: string[];
+  futureHumanQaScorecardRules: string[];
+  futureHumanQaSupervisorReviewRules: string[];
+  futureHumanQaCoachingRules: string[];
+  futureHumanQaCalibrationRules: string[];
+  futureHumanQaDisputeRules: string[];
+  futureHumanQaReportRules: string[];
+  futureHumanQaRbacScopeRules: string[];
+  futureHumanQaAuditRules: string[];
+  futureHumanQaLearningControlRules: string[];
+  futureHumanQaPromotionRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -2086,6 +2182,7 @@ export type RouteReadinessReport = {
   openAiQaReviewWorkflowReadiness: OpenAiQaReviewWorkflowReadiness;
   openAiImprovementProposalReadiness: OpenAiImprovementProposalReadiness;
   qaCenterReadiness: QaCenterReadiness;
+  humanAgentQaReadiness: HumanAgentQaReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -9977,6 +10074,358 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const humanAgentQaReadiness: HumanAgentQaReadiness = {
+    currentState: 'not_ready',
+    humanAgentQaApproved: false,
+    humanAgentQaMode: 'read_only_design',
+    humanAgentQaStorageStatus: 'not_implemented',
+    humanAgentQaCrudStatus: 'not_implemented',
+    humanAgentQaMigrationStatus: 'not_implemented',
+    humanAgentQaEndpointStatus: 'not_implemented',
+    humanAgentQaUiActionStatus: 'not_allowed',
+    humanAgentQaExecutionStatus: 'not_allowed',
+    humanInboundQaStatus: 'read_only_design',
+    humanOutboundQaStatus: 'read_only_design',
+    humanCallIngestionStatus: 'not_allowed',
+    humanRecordingAccessStatus: 'not_allowed',
+    humanTranscriptionStatus: 'not_allowed',
+    humanAudioAnalysisStatus: 'not_allowed',
+    humanAiAssistedEvaluationStatus: 'not_allowed',
+    humanAiSuggestedScoreStatus: 'not_allowed',
+    humanSupervisorReviewStatus: 'not_allowed',
+    humanFinalScoreStatus: 'not_allowed',
+    humanCoachingStatus: 'not_allowed',
+    humanCalibrationStatus: 'not_allowed',
+    humanDisputeStatus: 'not_allowed',
+    humanReportsStatus: 'not_allowed',
+    humanScorecardConfigurationStatus: 'not_allowed',
+    humanScorecardVersioningStatus: 'required',
+    humanScorecardApprovalStatus: 'required',
+    humanAuditStatus: 'required',
+    humanRbacScopeStatus: 'required',
+    humanPiiRedactionStatus: 'required',
+    humanComplianceStatus: 'required',
+    humanLearningControlStatus: 'required',
+    autonomousLearningStatus: 'not_allowed',
+    qaCenterGateStatus: 'required',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    humanAgentQaStorageAllowed: false,
+    humanAgentQaCrudAllowed: false,
+    humanAgentQaReadAllowed: false,
+    humanAgentQaWriteAllowed: false,
+    humanAgentQaUpdateAllowed: false,
+    humanAgentQaDeleteAllowed: false,
+    humanCallIngestionAllowed: false,
+    humanRecordingAccessAllowed: false,
+    humanTranscriptionAllowed: false,
+    humanAudioAnalysisAllowed: false,
+    humanAiAssistedEvaluationAllowed: false,
+    humanAiSuggestedScoreAllowed: false,
+    humanSupervisorReviewAllowed: false,
+    humanFinalScoreAllowed: false,
+    humanCoachingAllowed: false,
+    humanCalibrationAllowed: false,
+    humanDisputeAllowed: false,
+    humanReportsAllowed: false,
+    humanScorecardConfigurationAllowed: false,
+    humanEndpointAllowed: false,
+    humanUiControlAllowed: false,
+    autonomousLearningAllowed: false,
+    realPiiAllowed: false,
+    realCredentialAllowed: false,
+    realOpenAiConnectionAllowed: false,
+    realCallAllowed: false,
+    asteriskChangeAllowed: false,
+    vicidialChangeAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    openAiConnectAllowed: false,
+    runtimeCredentialAccessAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    futureHumanQaRoutes: [
+      'human_inbound',
+      'human_outbound',
+    ],
+    futureHumanQaCallDirections: [
+      'inbound',
+      'outbound',
+    ],
+    futureHumanQaMetadata: [
+      'qaCallId',
+      'callId',
+      'vicidialUniqueId',
+      'recordingReference',
+      'recordingUrl',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'agentId',
+      'agentName',
+      'supervisorId',
+      'callActorType',
+      'callDirection',
+      'qaTrack',
+      'qaRoute',
+      'callDateTime',
+      'duration',
+      'disposition',
+      'leadId',
+      'maskedPhoneNumber',
+      'queueOrIngroup',
+      'hangupReason',
+      'callStatus',
+      'transcriptId',
+      'audioAnalysisId',
+      'scorecardId',
+      'evaluationId',
+      'aiSuggestedScore',
+      'finalScore',
+      'riskLevel',
+      'complianceFlags',
+      'reviewStatus',
+      'reviewedBy',
+      'reviewedAt',
+      'disputeStatus',
+      'coachingStatus',
+      'calibrationStatus',
+      'auditCorrelationId',
+    ],
+    futureHumanInboundQaRules: [
+      'Human inbound QA evaluates calls received or answered by human agents',
+      'Human inbound QA must evaluate greeting, identification, customer intent recognition, listening, empathy, resolution, hold handling, transfer handling, compliance, call recording disclosure where applicable, and close',
+      'Human inbound QA must verify whether the agent handled the inbound request correctly',
+      'Human inbound QA scorecards may differ from outbound scorecards',
+      'Human inbound QA must respect client, campaign, project, queue or ingroup, language, product, call type, and compliance scope',
+    ],
+    futureHumanOutboundQaRules: [
+      'Human outbound QA evaluates calls placed or made by human agents',
+      'Human outbound QA must evaluate consent, introduction, purpose of call, script adherence, objection handling, compliance disclosures, callback handling, disposition accuracy, professionalism, call control, and close',
+      'Human outbound QA must verify campaign permission, dialer context, DNC and consent handling where applicable',
+      'Human outbound QA scorecards may differ from inbound scorecards',
+      'Human outbound QA must respect client, campaign, project, language, call type, dialer, DNC, consent, and compliance scope',
+    ],
+    futureHumanQaEvaluationCriteria: [
+      'greeting_and_identification',
+      'tone_and_professionalism',
+      'active_listening',
+      'empathy',
+      'script_adherence',
+      'customer_intent_recognition',
+      'objection_handling',
+      'resolution_quality',
+      'call_control',
+      'hold_and_dead_air_handling',
+      'transfer_handling',
+      'disclosure_and_consent',
+      'compliance_adherence',
+      'pii_handling',
+      'prohibited_language',
+      'disposition_accuracy',
+      'closing_quality',
+      'customer_experience',
+      'risk_flags',
+      'coaching_opportunities',
+    ],
+    futureHumanQaScorecardRules: [
+      'Human QA scorecards must be configurable by client, campaign, project, direction, QA route, language, product, call type, agent group, and compliance scope',
+      'Human QA scorecards must not be hardcoded',
+      'Human inbound and outbound scorecards may differ',
+      'Human QA scorecards must support weighted categories',
+      'Human QA scorecards must support compliance-critical criteria',
+      'Human QA scorecards must support evidence references from transcript, metadata, and future audio analysis',
+      'Human QA scorecards must support AI suggested scores in a future implementation',
+      'Human QA final scores must remain supervisor/admin reviewable',
+      'Human QA scorecard changes must be versioned, approved, auditable, and rollback-capable in a future implementation',
+    ],
+    futureHumanQaSupervisorReviewRules: [
+      'AI suggested score must not become final human QA score automatically',
+      'Final human QA score must remain supervisor/admin reviewable',
+      'Supervisor may approve, edit, dispute, request coaching, request calibration, or close in a future implementation',
+      'Supervisor edits must require notes and reason in a future implementation',
+      'Supervisor review must preserve before/after score changes in audit history',
+      'Supervisor review must be scoped to assigned agents/campaigns/projects',
+      'Supervisor review must not update scorecards automatically',
+      'Supervisor review must not update evaluator prompts automatically',
+      'Supervisor review must not change runtime behavior automatically',
+    ],
+    futureHumanQaCoachingRules: [
+      'Human QA may generate coaching recommendations in a future implementation',
+      'Coaching recommendations may be based on transcript, metadata, future audio analysis, scorecard failures, compliance flags, and supervisor notes',
+      'Coaching must not be auto-assigned in this readiness phase',
+      'Coaching must require authorized supervisor/admin action in a future implementation',
+      'Coaching must reference QA call, agent, campaign, issue type, recommendation, assigned by, assigned to, status, due date, and audit correlation ID',
+      'Coaching must support follow-up and closure in a future implementation',
+      'Coaching records must be scoped and auditable',
+    ],
+    futureHumanQaCalibrationRules: [
+      'Calibration compares AI suggested score to supervisor final score in a future implementation',
+      'Calibration may compare multiple reviewers on the same call in a future implementation',
+      'Large score differences must be marked as calibration needed in a future implementation',
+      'Calibration must help tune scorecards and evaluator prompts only through approved workflows',
+      'Calibration must not automatically change scorecards',
+      'Calibration must not automatically change evaluator prompts',
+      'Calibration must not automatically change QA policy',
+      'Calibration must be auditable and scoped',
+    ],
+    futureHumanQaDisputeRules: [
+      'Human QA must support disputed evaluations in a future implementation',
+      'Disputes may be opened by authorized users only',
+      'Disputes must include reason, disputed criteria, requested correction, and audit correlation ID',
+      'Disputes must not automatically change final score',
+      'Disputes must be resolved by authorized supervisor/admin or QA analyst where policy allows it',
+      'Dispute resolution must preserve before/after values and reviewer notes',
+      'Disputes must be scoped and auditable',
+    ],
+    futureHumanQaReportRules: [
+      'Human QA reports should support filters by client, campaign, project, agent, supervisor, QA analyst, direction, QA route, date, score, risk, disposition, compliance flag, coaching status, calibration status, dispute status, and review status in a future implementation',
+      'Human QA reports should include inbound and outbound views',
+      'Human QA reports should include agent trends, campaign trends, compliance trends, coaching trends, calibration gaps, and supervisor review productivity',
+      'Human QA report export must respect RBAC and redaction in a future implementation',
+      'Human QA reporting must not expose unauthorized PII',
+      'Human QA reporting must be auditable where required',
+    ],
+    futureHumanQaRbacScopeRules: [
+      'Human Agent QA visibility must be scoped to client/campaign/project',
+      'Supervisors may only review assigned agents/campaigns where policy allows it',
+      'Client admins may only view authorized client-owned Human QA data',
+      'Internal admins may only view assigned clients/campaigns/projects',
+      'QA analysts may only review assigned Human QA items',
+      'Agents may only view their own QA/coaching history if enabled',
+      'Human QA recording/transcript visibility must respect RBAC and redaction',
+      'Browser-side filtering alone is not sufficient',
+      'Server-side scope checks are required in a future implementation',
+    ],
+    futureHumanQaAuditRules: [
+      'Human call ingestion must be auditable in a future phase',
+      'Recording reference access must be auditable in a future phase',
+      'Transcription must be auditable in a future phase',
+      'AI-assisted evaluation must be auditable in a future phase',
+      'AI suggested score generation must be auditable in a future phase',
+      'Supervisor review decisions must be auditable in a future phase',
+      'Final score edits must be auditable in a future phase',
+      'Coaching assignment must be auditable in a future phase',
+      'Calibration decisions must be auditable in a future phase',
+      'Dispute decisions must be auditable in a future phase',
+      'Scorecard changes must be auditable in a future phase',
+      'Audit events must include actor, timestamp, scope, QA call ID, source artifact IDs, action, before/after where applicable, reason, and correlation ID',
+      'Audit events must not expose credentials or unauthorized raw customer PII',
+    ],
+    futureHumanQaLearningControlRules: [
+      'Human Agent QA findings may identify coaching opportunities',
+      'Human Agent QA findings may identify scorecard improvement candidates',
+      'Human Agent QA findings may identify evaluator prompt improvement candidates',
+      'Human Agent QA findings must not train or alter the AI automatically',
+      'Human Agent QA findings must not update scorecards automatically',
+      'Human Agent QA findings must not update evaluator prompts automatically',
+      'Human Agent QA findings must not update policies automatically',
+      'Human Agent QA findings must not change runtime behavior automatically',
+      'Calibration findings must not update scorecards automatically',
+      'Calibration findings must not update evaluator prompts automatically',
+      'Approved changes must be versioned, auditable, sandbox-tested where applicable, and rollback-capable',
+      'AI must not self-learn from Human Agent QA findings',
+    ],
+    futureHumanQaPromotionRules: [
+      'Human Agent QA readiness must not ingest calls in this phase',
+      'Human Agent QA readiness must not access recordings in this phase',
+      'Human Agent QA readiness must not transcribe calls in this phase',
+      'Human Agent QA readiness must not analyze audio in this phase',
+      'Human Agent QA readiness must not evaluate calls in this phase',
+      'Human Agent QA readiness must not create AI suggested scores in this phase',
+      'Human Agent QA readiness must not create final scores in this phase',
+      'Human Agent QA readiness must not create coaching records in this phase',
+      'Human Agent QA readiness must not create calibration records in this phase',
+      'Human Agent QA readiness must not create dispute records in this phase',
+      'Human Agent QA readiness must not generate real reports in this phase',
+      'Human Agent QA readiness must not update scorecards in this phase',
+      'Human Agent QA readiness must not connect OpenAI',
+      'Human Agent QA readiness must not change route behavior',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create Human Agent QA storage in this phase',
+      'Do not create Human Agent QA CRUD endpoints in this phase',
+      'Do not create human call ingestion endpoints in this phase',
+      'Do not create recording access endpoints in this phase',
+      'Do not create audio playback endpoints in this phase',
+      'Do not create transcription endpoints in this phase',
+      'Do not create audio analysis endpoints in this phase',
+      'Do not create human QA evaluation endpoints in this phase',
+      'Do not create AI-assisted scoring endpoints in this phase',
+      'Do not create supervisor review endpoints in this phase',
+      'Do not create final score endpoints in this phase',
+      'Do not create coaching endpoints in this phase',
+      'Do not create calibration endpoints in this phase',
+      'Do not create dispute endpoints in this phase',
+      'Do not create QA report endpoints in this phase',
+      'Do not create scorecard endpoints in this phase',
+      'Do not create Human Agent QA database tables in this phase',
+      'Do not create Human Agent QA migrations in this phase',
+      'Do not save Human Agent QA records in this phase',
+      'Do not ingest human calls in this phase',
+      'Do not access recordings in this phase',
+      'Do not transcribe calls in this phase',
+      'Do not analyze audio in this phase',
+      'Do not evaluate human calls in this phase',
+      'Do not create AI suggested scores in this phase',
+      'Do not create final QA scores in this phase',
+      'Do not perform supervisor review in this phase',
+      'Do not assign coaching in this phase',
+      'Do not run calibration in this phase',
+      'Do not open disputes in this phase',
+      'Do not generate real Human QA reports in this phase',
+      'Do not update scorecards in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not use real OpenAI credentials',
+      'Do not enable autonomous learning',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not enable FastAGI',
+      'Do not change route behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Human Agent QA readiness must not store Human QA data',
+      'Human Agent QA readiness must not ingest calls',
+      'Human Agent QA readiness must not access recordings',
+      'Human Agent QA readiness must not transcribe calls',
+      'Human Agent QA readiness must not analyze audio',
+      'Human Agent QA readiness must not evaluate human calls',
+      'Human Agent QA readiness must not create AI suggested scores',
+      'Human Agent QA readiness must not create final QA scores',
+      'Human Agent QA readiness must not perform supervisor review',
+      'Human Agent QA readiness must not assign coaching',
+      'Human Agent QA readiness must not run calibration',
+      'Human Agent QA readiness must not open disputes',
+      'Human Agent QA readiness must not generate real reports',
+      'Human Agent QA readiness must not update scorecards',
+      'Human Agent QA readiness must not connect OpenAI',
+      'Human Agent QA readiness must not activate runtime',
+      'Human Agent QA readiness must not add Human QA controls',
+      'Human Agent QA readiness must not change route behavior',
+      'Human Agent QA implementation requires separately approved storage, ingestion, recording reference, transcription, audio analysis, evaluation, supervisor review, final score, coaching, calibration, dispute, reporting, scorecard, RBAC, audit, redaction, versioning, and rollback phases',
+      'Human QA data must remain scoped to client/campaign/project and supervisor assignment',
+      'Human QA data must not contain credentials',
+      'Raw customer PII display requires future redaction/RBAC policy',
+      'AI must not self-learn or change behavior autonomously based on Human Agent QA data',
+    ],
+    nextSteps: [
+      'Keep Human Agent QA readiness read-only, not ready, unapproved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, and execution-blocked.',
+      'Model human inbound and human outbound QA as separate future routes before any implementation.',
+      'Define future Human Agent QA storage, ingestion, recording reference, transcription, audio analysis, scorecard, supervisor review, final score, coaching, calibration, dispute, reporting, RBAC, audit, redaction, versioning, and rollback contracts in separately approved phases.',
+      'Keep Human Agent QA controls, recording access, playback, transcription, evaluation, AI-assisted scoring, supervisor review, final scores, coaching, calibration, disputes, reports, scorecards, OpenAI connection, call execution, FastAGI, Asterisk/Vicidial changes, and route behavior changes blocked.',
+      'Require future supervisor/admin review before AI-assisted scores can become final Human QA outcomes.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -10256,6 +10705,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'QA Center readiness is read-only, not approved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, ingestion-blocked, recording-access-blocked, transcription-blocked, audio-analysis-blocked, AI-evaluation-blocked, human-review-blocked, supervisor-review-blocked, final-score-blocked, coaching-blocked, calibration-blocked, reporting-blocked, scorecard-configuration-blocked, autonomous-learning-blocked, OpenAI-disconnected, and exposes no QA Center, ingestion, transcription, recording, playback, evaluation, review, coaching, calibration, report, scorecard, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.',
     },
+    {
+      id: 'human-agent-qa-readiness-read-only',
+      label: 'Human Agent QA readiness read-only',
+      status: 'pass',
+      detail: 'Human Agent QA readiness is read-only, not approved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, human-inbound-mapped, human-outbound-mapped, ingestion-blocked, recording-access-blocked, transcription-blocked, audio-analysis-blocked, AI-assisted-evaluation-blocked, AI-suggested-score-blocked, supervisor-review-blocked, final-score-blocked, coaching-blocked, calibration-blocked, dispute-blocked, reporting-blocked, scorecard-configuration-blocked, autonomous-learning-blocked, OpenAI-disconnected, and exposes no Human Agent QA, ingestion, recording, playback, transcription, audio-analysis, evaluation, scoring, review, coaching, calibration, dispute, report, scorecard, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -10382,6 +10837,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiQaReviewWorkflowReadiness,
     openAiImprovementProposalReadiness,
     qaCenterReadiness,
+    humanAgentQaReadiness,
     checklist,
     risks,
     recommendations: [
@@ -10422,6 +10878,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI QA review workflow readiness as read-only design visibility; it does not create QA review workflow storage, workflow CRUD endpoints, QA review endpoints, approve/reject QA endpoints, assignment endpoints, queue endpoints, correction endpoints, improvement proposal endpoints, database tables, migrations, QA workflow records, real QA reviews, QA approvals, QA rejections, QA assignments, QA queues, QA corrections, improvement proposals, QA review controls, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat OpenAI improvement proposal readiness as read-only design visibility; it does not create improvement proposal storage, proposal CRUD endpoints, proposal approval endpoints, proposal rejection endpoints, proposal apply endpoints, prompt update endpoints, knowledge base update endpoints, policy update endpoints, handoff update endpoints, scoring update endpoints, tool boundary update endpoints, database tables, migrations, proposal records, real proposals, proposal approvals, proposal rejections, proposal apply behavior, prompt updates, knowledge base updates, policy updates, handoff updates, scoring updates, tool boundary updates, proposal controls, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat QA Center readiness as read-only design visibility; it does not create QA Center storage, QA Center CRUD endpoints, call ingestion endpoints, transcription endpoints, evaluation endpoints, review endpoints, approval endpoints, dispute endpoints, coaching endpoints, calibration endpoints, report endpoints, scorecard CRUD endpoints, recording access endpoints, audio playback endpoints, database tables, migrations, QA records, call ingestion, recording access, transcription, audio analysis, evaluations, AI suggested scores, final QA scores, coaching, calibration, reports, scorecard updates, improvement proposals, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, call execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
+      'Treat Human Agent QA readiness as read-only design visibility; it does not create Human Agent QA storage, CRUD endpoints, human call ingestion endpoints, recording access endpoints, audio playback endpoints, transcription endpoints, audio analysis endpoints, human QA evaluation endpoints, AI-assisted scoring endpoints, supervisor review endpoints, final score endpoints, coaching endpoints, calibration endpoints, dispute endpoints, report endpoints, scorecard endpoints, database tables, migrations, Human QA records, call ingestion, recording access, transcription, audio analysis, evaluations, AI suggested scores, final QA scores, supervisor review, coaching, calibration, disputes, reports, scorecard updates, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, call execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
