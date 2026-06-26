@@ -1382,6 +1382,88 @@ export type OpenAiSyntheticScenarioLibraryReadiness = {
   nextSteps: string[];
 };
 
+export type OpenAiSandboxEvidenceReviewReadiness = {
+  currentState: 'not_ready';
+  sandboxEvidenceReviewApproved: false;
+  sandboxEvidenceReviewMode: 'read_only_design';
+  sandboxEvidenceStorageStatus: 'not_implemented';
+  sandboxEvidenceCrudStatus: 'not_implemented';
+  sandboxEvidenceMigrationStatus: 'not_implemented';
+  sandboxEvidenceEndpointStatus: 'not_implemented';
+  sandboxEvidenceUiActionStatus: 'not_allowed';
+  sandboxEvidenceApprovalStatus: 'not_allowed';
+  sandboxEvidenceRejectionStatus: 'not_allowed';
+  sandboxEvidenceExecutionStatus: 'not_allowed';
+  sandboxEvidenceHumanReviewStatus: 'required';
+  sandboxEvidenceReviewerNotesStatus: 'required';
+  sandboxEvidencePassFailStatus: 'required';
+  sandboxEvidenceRiskReviewStatus: 'required';
+  sandboxEvidencePiiReviewStatus: 'required';
+  sandboxEvidenceComplianceReviewStatus: 'required';
+  sandboxEvidenceHandoffReviewStatus: 'required';
+  sandboxEvidenceQaReviewStatus: 'required';
+  sandboxEvidenceRollbackReviewStatus: 'required';
+  sandboxEvidenceEmergencyStopReviewStatus: 'required';
+  sandboxEvidenceAuditCorrelationStatus: 'required';
+  sandboxEvidenceLearningControlStatus: 'required';
+  autonomousLearningStatus: 'not_allowed';
+  stagingSandboxGateStatus: 'required';
+  syntheticScenarioLibraryGateStatus: 'required';
+  runtimeActivationGateStatus: 'required';
+  emergencyStopGateStatus: 'required';
+  credentialBoundaryGateStatus: 'required';
+  rbacScopeGateStatus: 'required';
+  auditTrailGateStatus: 'required';
+  piiComplianceGateStatus: 'required';
+  loggingQaGateStatus: 'required';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  openAiExecutionAllowed: false;
+  sandboxEvidenceStorageAllowed: false;
+  sandboxEvidenceCrudAllowed: false;
+  sandboxEvidenceReadAllowed: false;
+  sandboxEvidenceWriteAllowed: false;
+  sandboxEvidenceUpdateAllowed: false;
+  sandboxEvidenceDeleteAllowed: false;
+  sandboxEvidenceApproveAllowed: false;
+  sandboxEvidenceRejectAllowed: false;
+  sandboxEvidenceRunAllowed: false;
+  sandboxEvidenceEndpointAllowed: false;
+  sandboxEvidenceUiControlAllowed: false;
+  autonomousLearningAllowed: false;
+  syntheticDataOnlyAllowed: true;
+  realPiiAllowed: false;
+  realCredentialAllowed: false;
+  realOpenAiConnectionAllowed: false;
+  realCallAllowed: false;
+  asteriskChangeAllowed: false;
+  vicidialChangeAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  openAiConnectAllowed: false;
+  runtimeCredentialAccessAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  futureEvidenceRequiredArtifacts: string[];
+  futureEvidenceReviewDimensions: string[];
+  futureEvidenceReviewerMetadata: string[];
+  futureEvidencePassFailRules: string[];
+  futureEvidenceRiskRules: string[];
+  futureEvidencePiiComplianceRules: string[];
+  futureEvidenceHandoffQaRules: string[];
+  futureEvidenceRollbackRules: string[];
+  futureEvidenceEmergencyStopRules: string[];
+  futureEvidenceLearningControlRules: string[];
+  futureEvidencePromotionRules: string[];
+  prohibitedCurrentActions: string[];
+  futureRuntimeBoundaries: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -1429,6 +1511,7 @@ export type RouteReadinessReport = {
   openAiRuntimeActivationGateReadiness: OpenAiRuntimeActivationGateReadiness;
   openAiStagingSandboxEnvironmentReadiness: OpenAiStagingSandboxEnvironmentReadiness;
   openAiSyntheticScenarioLibraryReadiness: OpenAiSyntheticScenarioLibraryReadiness;
+  openAiSandboxEvidenceReviewReadiness: OpenAiSandboxEvidenceReviewReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -6853,6 +6936,318 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const openAiSandboxEvidenceReviewReadiness: OpenAiSandboxEvidenceReviewReadiness = {
+    currentState: 'not_ready',
+    sandboxEvidenceReviewApproved: false,
+    sandboxEvidenceReviewMode: 'read_only_design',
+    sandboxEvidenceStorageStatus: 'not_implemented',
+    sandboxEvidenceCrudStatus: 'not_implemented',
+    sandboxEvidenceMigrationStatus: 'not_implemented',
+    sandboxEvidenceEndpointStatus: 'not_implemented',
+    sandboxEvidenceUiActionStatus: 'not_allowed',
+    sandboxEvidenceApprovalStatus: 'not_allowed',
+    sandboxEvidenceRejectionStatus: 'not_allowed',
+    sandboxEvidenceExecutionStatus: 'not_allowed',
+    sandboxEvidenceHumanReviewStatus: 'required',
+    sandboxEvidenceReviewerNotesStatus: 'required',
+    sandboxEvidencePassFailStatus: 'required',
+    sandboxEvidenceRiskReviewStatus: 'required',
+    sandboxEvidencePiiReviewStatus: 'required',
+    sandboxEvidenceComplianceReviewStatus: 'required',
+    sandboxEvidenceHandoffReviewStatus: 'required',
+    sandboxEvidenceQaReviewStatus: 'required',
+    sandboxEvidenceRollbackReviewStatus: 'required',
+    sandboxEvidenceEmergencyStopReviewStatus: 'required',
+    sandboxEvidenceAuditCorrelationStatus: 'required',
+    sandboxEvidenceLearningControlStatus: 'required',
+    autonomousLearningStatus: 'not_allowed',
+    stagingSandboxGateStatus: 'required',
+    syntheticScenarioLibraryGateStatus: 'required',
+    runtimeActivationGateStatus: 'required',
+    emergencyStopGateStatus: 'required',
+    credentialBoundaryGateStatus: 'required',
+    rbacScopeGateStatus: 'required',
+    auditTrailGateStatus: 'required',
+    piiComplianceGateStatus: 'required',
+    loggingQaGateStatus: 'required',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    openAiExecutionAllowed: false,
+    sandboxEvidenceStorageAllowed: false,
+    sandboxEvidenceCrudAllowed: false,
+    sandboxEvidenceReadAllowed: false,
+    sandboxEvidenceWriteAllowed: false,
+    sandboxEvidenceUpdateAllowed: false,
+    sandboxEvidenceDeleteAllowed: false,
+    sandboxEvidenceApproveAllowed: false,
+    sandboxEvidenceRejectAllowed: false,
+    sandboxEvidenceRunAllowed: false,
+    sandboxEvidenceEndpointAllowed: false,
+    sandboxEvidenceUiControlAllowed: false,
+    autonomousLearningAllowed: false,
+    syntheticDataOnlyAllowed: true,
+    realPiiAllowed: false,
+    realCredentialAllowed: false,
+    realOpenAiConnectionAllowed: false,
+    realCallAllowed: false,
+    asteriskChangeAllowed: false,
+    vicidialChangeAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    openAiConnectAllowed: false,
+    runtimeCredentialAccessAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    futureEvidenceRequiredArtifacts: [
+      'scenarioId',
+      'scenarioVersion',
+      'sandboxRunId',
+      'configId',
+      'configVersion',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'providerId',
+      'credentialReferenceId',
+      'syntheticInputSummary',
+      'syntheticTranscript',
+      'expectedBehavior',
+      'observedBehavior',
+      'generatedAssistantResponse',
+      'generatedCallSummary',
+      'expectedPassFail',
+      'observedPassFail',
+      'blockedReason',
+      'refusalReason',
+      'handoffDecision',
+      'handoffQueue',
+      'piiDecision',
+      'complianceConsentDecision',
+      'toolBoundaryDecision',
+      'scopeDecision',
+      'emergencyStopDecision',
+      'rollbackComparison',
+      'qaScore',
+      'riskScore',
+      'confidenceScore',
+      'reviewerNotes',
+      'auditCorrelationId',
+    ],
+    futureEvidenceReviewDimensions: [
+      'answer correctness',
+      'instruction adherence',
+      'scope correctness',
+      'client/campaign/project isolation',
+      'prompt safety',
+      'PII handling',
+      'compliance consent',
+      'human handoff correctness',
+      'tool boundary correctness',
+      'knowledge base usage',
+      'hallucination risk',
+      'tone and customer service quality',
+      'call summary accuracy',
+      'QA score accuracy',
+      'risk score accuracy',
+      'refusal correctness',
+      'blocked reason correctness',
+      'emergency stop behavior',
+      'rollback comparison behavior',
+      'audit metadata completeness',
+      'no credential exposure',
+      'no raw customer PII exposure',
+    ],
+    futureEvidenceReviewerMetadata: [
+      'reviewedBy',
+      'reviewedAt',
+      'reviewerRole',
+      'reviewerScope',
+      'reviewDecision',
+      'reviewReason',
+      'reviewNotes',
+      'riskFindings',
+      'piiFindings',
+      'complianceFindings',
+      'handoffFindings',
+      'qaFindings',
+      'toolBoundaryFindings',
+      'scopeFindings',
+      'rollbackFindings',
+      'emergencyStopFindings',
+      'recommendedAction',
+      'improvementCandidate',
+      'requiresPromptUpdate',
+      'requiresKnowledgeBaseUpdate',
+      'requiresPolicyUpdate',
+      'requiresToolBoundaryUpdate',
+      'requiresHumanHandoffUpdate',
+      'requiresRetest',
+      'auditCorrelationId',
+    ],
+    futureEvidencePassFailRules: [
+      'Evidence pass must require all mandatory review dimensions to pass',
+      'Evidence pass must require reviewer notes',
+      'Evidence pass must require audit correlation ID',
+      'Evidence pass must not automatically activate runtime',
+      'Evidence pass must not automatically approve prompt changes',
+      'Evidence pass must not automatically approve knowledge base changes',
+      'Evidence fail must capture reason and recommended next action',
+      'Evidence fail must block runtime promotion',
+      'Evidence fail must require retest after correction',
+      'Evidence incomplete must fail closed',
+    ],
+    futureEvidenceRiskRules: [
+      'High hallucination risk blocks promotion',
+      'High PII risk blocks promotion',
+      'High compliance risk blocks promotion',
+      'Cross-client scope issue blocks promotion',
+      'Tool boundary issue blocks promotion',
+      'Emergency stop bypass issue blocks promotion',
+      'Credential exposure issue blocks promotion',
+      'Missing audit metadata blocks promotion',
+      'Low confidence answer requires review',
+      'Repeated failure requires improvement proposal before retest',
+    ],
+    futureEvidencePiiComplianceRules: [
+      'Evidence must not include raw customer PII unless approved policy allows masked data',
+      'Evidence must confirm PII redaction behavior',
+      'Evidence must confirm consent behavior',
+      'Evidence must confirm payment data handling',
+      'Evidence must confirm health data handling',
+      'Evidence must confirm government identifier handling',
+      'Evidence must confirm do-not-call handling where applicable',
+      'Evidence must confirm call recording disclosure where applicable',
+      'Evidence must capture compliance findings',
+      'PII/compliance failure blocks promotion',
+    ],
+    futureEvidenceHandoffQaRules: [
+      'Evidence must confirm human handoff when required',
+      'Evidence must confirm correct handoff queue when applicable',
+      'Evidence must confirm refusal when required',
+      'Evidence must confirm escalation when required',
+      'Evidence must confirm call summary accuracy',
+      'Evidence must confirm QA scoring behavior',
+      'Evidence must confirm customer service tone',
+      'Evidence must capture reviewer QA notes',
+      'Handoff failure blocks promotion',
+      'QA failure requires correction and retest',
+    ],
+    futureEvidenceRollbackRules: [
+      'Evidence must compare current config to rollback candidate when rollback is involved',
+      'Rollback comparison must include reviewer notes',
+      'Rollback evidence must not automatically activate rollback',
+      'Rollback evidence must not bypass runtime activation gate',
+      'Rollback evidence must not bypass emergency stop',
+      'Rollback evidence must not bypass credential boundary',
+      'Rollback evidence must be auditable',
+      'Rollback evidence failure blocks promotion',
+    ],
+    futureEvidenceEmergencyStopRules: [
+      'Evidence must confirm emergency stop blocks affected scope',
+      'Evidence must confirm emergency stop blocks inbound AI',
+      'Evidence must confirm emergency stop blocks outbound AI',
+      'Evidence must confirm emergency stop blocks Realtime sessions',
+      'Evidence must confirm emergency stop blocks tool execution',
+      'Evidence must confirm emergency stop blocks credential access',
+      'Evidence must confirm emergency stop fail-closed behavior',
+      'Emergency stop evidence failure blocks promotion',
+    ],
+    futureEvidenceLearningControlRules: [
+      'Evidence review may identify improvement candidates',
+      'Improvement candidates must not update prompts automatically',
+      'Improvement candidates must not update knowledge base automatically',
+      'Improvement candidates must not update policies automatically',
+      'Improvement candidates must not update tool behavior automatically',
+      'Improvement candidates must create a future admin-reviewed proposal before changes',
+      'Admin approval is required before any prompt, knowledge base, policy, or tool change',
+      'Approved changes must be versioned',
+      'Approved changes must be auditable',
+      'Approved changes must support rollback',
+      'AI must not self-learn from interactions',
+      'AI must not alter runtime behavior autonomously',
+    ],
+    futureEvidencePromotionRules: [
+      'Evidence review readiness must not approve evidence in this phase',
+      'Evidence pass result must not automatically create sandbox promotion',
+      'Evidence pass result must not automatically activate runtime',
+      'Evidence pass result must not automatically approve live runtime',
+      'Evidence pass result must not override emergency stop',
+      'Evidence pass result must not override credential boundary',
+      'Evidence pass result must not override RBAC/scope gate',
+      'Evidence pass result must not override audit trail gate',
+      'Evidence pass result must not override PII/compliance gate',
+      'Evidence pass result must not override runtime activation approval',
+      'Evidence must be reviewed before promotion request',
+      'Runtime activation remains a separate future approval gate',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create sandbox evidence storage in this phase',
+      'Do not create sandbox evidence CRUD endpoints in this phase',
+      'Do not create evidence review endpoints in this phase',
+      'Do not create approve/reject evidence endpoints in this phase',
+      'Do not create scenario execution endpoints in this phase',
+      'Do not create sandbox run endpoints in this phase',
+      'Do not create test call endpoints in this phase',
+      'Do not create OpenAI sandbox connection endpoints in this phase',
+      'Do not create sandbox evidence database tables in this phase',
+      'Do not create sandbox evidence migrations in this phase',
+      'Do not save sandbox evidence records in this phase',
+      'Do not add evidence review buttons in this phase',
+      'Do not add approve/reject evidence controls in this phase',
+      'Do not add run scenario controls in this phase',
+      'Do not add test call controls in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not use real OpenAI credentials',
+      'Do not use real customer PII',
+      'Do not enable autonomous learning',
+      'Do not allow AI to self-update prompts',
+      'Do not allow AI to self-update knowledge base',
+      'Do not allow AI to self-update policy',
+      'Do not enable inbound AI',
+      'Do not enable outbound AI',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not enable FastAGI',
+      'Do not change route behavior',
+      'Do not change credential behavior',
+      'Do not change staging sandbox behavior',
+      'Do not change runtime activation behavior',
+      'Do not change emergency stop behavior',
+    ],
+    futureRuntimeBoundaries: [
+      'Sandbox evidence review readiness must not approve evidence',
+      'Sandbox evidence review readiness must not execute scenarios',
+      'Sandbox evidence review readiness must not activate sandbox execution',
+      'Sandbox evidence review readiness must not activate runtime',
+      'Sandbox evidence review readiness must not add evidence review controls',
+      'Sandbox evidence review readiness must not change route behavior',
+      'Sandbox evidence review readiness must not connect OpenAI',
+      'Sandbox evidence review requires separately approved storage and review workflow implementation',
+      'Runtime activation must require reviewed evidence in a future implementation',
+      'Runtime must fail closed when required evidence is missing in a future implementation',
+      'Evidence must remain scoped to client/campaign/project',
+      'Evidence must not contain credentials or raw customer PII',
+      'AI must not self-learn or change behavior autonomously',
+    ],
+    nextSteps: [
+      'Keep OpenAI sandbox evidence review readiness read-only, not ready, unapproved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, disconnected, and execution-blocked.',
+      'Define future sandbox evidence storage, evidence review workflow, reviewer metadata, pass/fail rules, risk review, PII/compliance review, handoff/QA review, rollback comparison, emergency stop validation, audit correlation, and learning control contracts in separately approved phases.',
+      'Keep evidence storage, CRUD, migrations, endpoints, UI controls, approve/reject actions, scenario execution, sandbox runs, test calls, OpenAI connection, credential access, Realtime sessions, tool execution, autonomous learning, FastAGI, Asterisk/Vicidial changes, route changes, inbound AI, outbound AI, pilot, and live behavior blocked.',
+      'Require future human/admin-reviewed evidence before any future scenario result, prompt change, knowledge base change, QA improvement, runtime activation, pilot, or live approval can be trusted.',
+      'Keep evidence review readiness separate from staging sandbox execution, synthetic scenario library definition, improvement proposals, and runtime activation gates.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -7090,6 +7485,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'OpenAI synthetic scenario library readiness is read-only, not approved, storage-unimplemented, execution-blocked, OpenAI-disconnected, synthetic-data-only, and exposes no scenario, sandbox run, test call, connection, runtime, or execution controls.',
     },
+    {
+      id: 'openai-sandbox-evidence-review-readiness-read-only',
+      label: 'OpenAI sandbox evidence review readiness read-only',
+      status: 'pass',
+      detail: 'OpenAI sandbox evidence review readiness is read-only, not approved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, approval-blocked, autonomous-learning-blocked, human-review-required, OpenAI-disconnected, and exposes no evidence review, approve/reject, scenario, sandbox, test call, connection, runtime, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -7209,6 +7610,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiRuntimeActivationGateReadiness,
     openAiStagingSandboxEnvironmentReadiness,
     openAiSyntheticScenarioLibraryReadiness,
+    openAiSandboxEvidenceReviewReadiness,
     checklist,
     risks,
     recommendations: [
@@ -7242,6 +7644,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI runtime activation gate readiness as read-only design visibility; it does not create runtime activation storage, CRUD, toggle endpoints, enable/disable endpoints, UI actions, runtime activation approvals, runtime enforcement, OpenAI connection, or execution controls.',
       'Treat OpenAI staging sandbox environment readiness as read-only design visibility; it does not create staging sandbox storage, CRUD, execution endpoints, test call endpoints, UI actions, OpenAI sandbox connection, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat OpenAI synthetic scenario library readiness as read-only design visibility; it does not create synthetic scenario storage, CRUD, execution endpoints, sandbox run endpoints, test call endpoints, UI actions, OpenAI sandbox connection, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
+      'Treat OpenAI sandbox evidence review readiness as read-only design visibility; it does not create evidence storage, evidence CRUD, evidence review endpoints, approve/reject endpoints, scenario execution endpoints, sandbox run endpoints, test call endpoints, OpenAI sandbox connection endpoints, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

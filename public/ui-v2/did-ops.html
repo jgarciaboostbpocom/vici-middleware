@@ -891,6 +891,15 @@
                   <div class="muted small">Loading OpenAI synthetic scenario library readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>OpenAI Sandbox Evidence Review Readiness</h2>
+                  <span class="muted small">Read-only sandbox evidence review design status. This does not create evidence storage, evidence review controls, scenario execution, sandbox runs, OpenAI connection, autonomous learning, test calls, FastAGI execution, Asterisk/Vicidial changes, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="openAiSandboxEvidenceReviewCards"></div>
+                <div class="row" id="openAiSandboxEvidenceReviewBadges" style="margin-top:12px"></div>
+                <div id="openAiSandboxEvidenceReviewDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading OpenAI sandbox evidence review readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2864,10 +2873,13 @@ function renderRouteReadiness() {
   const openAiSyntheticScenarioLibraryCards = $('#openAiSyntheticScenarioLibraryCards');
   const openAiSyntheticScenarioLibraryBadges = $('#openAiSyntheticScenarioLibraryBadges');
   const openAiSyntheticScenarioLibraryDetails = $('#openAiSyntheticScenarioLibraryDetails');
+  const openAiSandboxEvidenceReviewCards = $('#openAiSandboxEvidenceReviewCards');
+  const openAiSandboxEvidenceReviewBadges = $('#openAiSandboxEvidenceReviewBadges');
+  const openAiSandboxEvidenceReviewDetails = $('#openAiSandboxEvidenceReviewDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -2957,6 +2969,9 @@ function renderRouteReadiness() {
     openAiSyntheticScenarioLibraryCards.innerHTML = '<div class="muted small">OpenAI synthetic scenario library readiness status not loaded.</div>';
     openAiSyntheticScenarioLibraryBadges.innerHTML = '';
     openAiSyntheticScenarioLibraryDetails.innerHTML = '<div class="muted small">OpenAI synthetic scenario library readiness details not loaded.</div>';
+    openAiSandboxEvidenceReviewCards.innerHTML = '<div class="muted small">OpenAI sandbox evidence review readiness status not loaded.</div>';
+    openAiSandboxEvidenceReviewBadges.innerHTML = '';
+    openAiSandboxEvidenceReviewDetails.innerHTML = '<div class="muted small">OpenAI sandbox evidence review readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -5908,6 +5923,165 @@ function renderRouteReadiness() {
       <div>
         <strong>Next steps</strong>
         ${syntheticScenarioNextSteps.length ? `<ul>${syntheticScenarioNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
+      </div>
+    </div>
+  `;
+
+  const openAiSandboxEvidenceReview = report.openAiSandboxEvidenceReviewReadiness || {};
+  const openAiSandboxEvidenceReviewCardsData = [
+    ['Current state', openAiSandboxEvidenceReview.currentState || 'not_ready'],
+    ['Sandbox evidence review approved', openAiSandboxEvidenceReview.sandboxEvidenceReviewApproved ? 'yes' : 'no'],
+    ['Sandbox evidence review mode', openAiSandboxEvidenceReview.sandboxEvidenceReviewMode || 'read_only_design'],
+    ['Sandbox evidence storage', openAiSandboxEvidenceReview.sandboxEvidenceStorageStatus || 'not_implemented'],
+    ['Sandbox evidence CRUD', openAiSandboxEvidenceReview.sandboxEvidenceCrudStatus || 'not_implemented'],
+    ['Sandbox evidence migration', openAiSandboxEvidenceReview.sandboxEvidenceMigrationStatus || 'not_implemented'],
+    ['Sandbox evidence endpoint', openAiSandboxEvidenceReview.sandboxEvidenceEndpointStatus || 'not_implemented'],
+    ['Sandbox evidence UI action', openAiSandboxEvidenceReview.sandboxEvidenceUiActionStatus || 'not_allowed'],
+    ['Sandbox evidence approval', openAiSandboxEvidenceReview.sandboxEvidenceApprovalStatus || 'not_allowed'],
+    ['Sandbox evidence rejection', openAiSandboxEvidenceReview.sandboxEvidenceRejectionStatus || 'not_allowed'],
+    ['Sandbox evidence execution', openAiSandboxEvidenceReview.sandboxEvidenceExecutionStatus || 'not_allowed'],
+    ['Sandbox evidence human review', openAiSandboxEvidenceReview.sandboxEvidenceHumanReviewStatus || 'required'],
+    ['Sandbox evidence reviewer notes', openAiSandboxEvidenceReview.sandboxEvidenceReviewerNotesStatus || 'required'],
+    ['Sandbox evidence pass/fail', openAiSandboxEvidenceReview.sandboxEvidencePassFailStatus || 'required'],
+    ['Sandbox evidence risk review', openAiSandboxEvidenceReview.sandboxEvidenceRiskReviewStatus || 'required'],
+    ['Sandbox evidence PII review', openAiSandboxEvidenceReview.sandboxEvidencePiiReviewStatus || 'required'],
+    ['Sandbox evidence compliance review', openAiSandboxEvidenceReview.sandboxEvidenceComplianceReviewStatus || 'required'],
+    ['Sandbox evidence handoff review', openAiSandboxEvidenceReview.sandboxEvidenceHandoffReviewStatus || 'required'],
+    ['Sandbox evidence QA review', openAiSandboxEvidenceReview.sandboxEvidenceQaReviewStatus || 'required'],
+    ['Sandbox evidence rollback review', openAiSandboxEvidenceReview.sandboxEvidenceRollbackReviewStatus || 'required'],
+    ['Sandbox evidence emergency stop review', openAiSandboxEvidenceReview.sandboxEvidenceEmergencyStopReviewStatus || 'required'],
+    ['Sandbox evidence audit correlation', openAiSandboxEvidenceReview.sandboxEvidenceAuditCorrelationStatus || 'required'],
+    ['Sandbox evidence learning control', openAiSandboxEvidenceReview.sandboxEvidenceLearningControlStatus || 'required'],
+    ['Autonomous learning', openAiSandboxEvidenceReview.autonomousLearningStatus || 'not_allowed'],
+    ['Staging sandbox gate', openAiSandboxEvidenceReview.stagingSandboxGateStatus || 'required'],
+    ['Synthetic scenario library gate', openAiSandboxEvidenceReview.syntheticScenarioLibraryGateStatus || 'required'],
+    ['Runtime activation gate', openAiSandboxEvidenceReview.runtimeActivationGateStatus || 'required'],
+    ['Emergency stop gate', openAiSandboxEvidenceReview.emergencyStopGateStatus || 'required'],
+    ['Credential boundary gate', openAiSandboxEvidenceReview.credentialBoundaryGateStatus || 'required'],
+    ['RBAC scope gate', openAiSandboxEvidenceReview.rbacScopeGateStatus || 'required'],
+    ['Audit trail gate', openAiSandboxEvidenceReview.auditTrailGateStatus || 'required'],
+    ['PII compliance gate', openAiSandboxEvidenceReview.piiComplianceGateStatus || 'required'],
+    ['Logging QA gate', openAiSandboxEvidenceReview.loggingQaGateStatus || 'required'],
+    ['OpenAI connection', openAiSandboxEvidenceReview.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', openAiSandboxEvidenceReview.openAiRuntimeStatus || 'not_connected'],
+    ['OpenAI execution allowed', openAiSandboxEvidenceReview.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Sandbox evidence storage allowed', openAiSandboxEvidenceReview.sandboxEvidenceStorageAllowed ? 'yes' : 'no'],
+    ['Sandbox evidence CRUD allowed', openAiSandboxEvidenceReview.sandboxEvidenceCrudAllowed ? 'yes' : 'no'],
+    ['Sandbox evidence read allowed', openAiSandboxEvidenceReview.sandboxEvidenceReadAllowed ? 'yes' : 'no'],
+    ['Sandbox evidence write allowed', openAiSandboxEvidenceReview.sandboxEvidenceWriteAllowed ? 'yes' : 'no'],
+    ['Sandbox evidence update allowed', openAiSandboxEvidenceReview.sandboxEvidenceUpdateAllowed ? 'yes' : 'no'],
+    ['Sandbox evidence delete allowed', openAiSandboxEvidenceReview.sandboxEvidenceDeleteAllowed ? 'yes' : 'no'],
+    ['Sandbox evidence approve allowed', openAiSandboxEvidenceReview.sandboxEvidenceApproveAllowed ? 'yes' : 'no'],
+    ['Sandbox evidence reject allowed', openAiSandboxEvidenceReview.sandboxEvidenceRejectAllowed ? 'yes' : 'no'],
+    ['Sandbox evidence run allowed', openAiSandboxEvidenceReview.sandboxEvidenceRunAllowed ? 'yes' : 'no'],
+    ['Sandbox evidence endpoint allowed', openAiSandboxEvidenceReview.sandboxEvidenceEndpointAllowed ? 'yes' : 'no'],
+    ['Sandbox evidence UI control allowed', openAiSandboxEvidenceReview.sandboxEvidenceUiControlAllowed ? 'yes' : 'no'],
+    ['Autonomous learning allowed', openAiSandboxEvidenceReview.autonomousLearningAllowed ? 'yes' : 'no'],
+    ['Synthetic data only allowed', openAiSandboxEvidenceReview.syntheticDataOnlyAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', openAiSandboxEvidenceReview.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', openAiSandboxEvidenceReview.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real OpenAI connection allowed', openAiSandboxEvidenceReview.realOpenAiConnectionAllowed ? 'yes' : 'no'],
+    ['Real call allowed', openAiSandboxEvidenceReview.realCallAllowed ? 'yes' : 'no'],
+    ['Asterisk change allowed', openAiSandboxEvidenceReview.asteriskChangeAllowed ? 'yes' : 'no'],
+    ['Vicidial change allowed', openAiSandboxEvidenceReview.vicidialChangeAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', openAiSandboxEvidenceReview.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', openAiSandboxEvidenceReview.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['OpenAI connect allowed', openAiSandboxEvidenceReview.openAiConnectAllowed ? 'yes' : 'no'],
+    ['Runtime credential access allowed', openAiSandboxEvidenceReview.runtimeCredentialAccessAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', openAiSandboxEvidenceReview.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', openAiSandboxEvidenceReview.toolExecutionAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', openAiSandboxEvidenceReview.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', openAiSandboxEvidenceReview.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', openAiSandboxEvidenceReview.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', openAiSandboxEvidenceReview.liveAllowed ? 'yes' : 'no'],
+  ];
+  openAiSandboxEvidenceReviewCards.innerHTML = openAiSandboxEvidenceReviewCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  openAiSandboxEvidenceReviewBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only evidence design', 'info'),
+    readinessBadge('Storage not implemented', 'warn'),
+    readinessBadge('Evidence approval blocked', 'bad'),
+    readinessBadge('Human review required', 'warn'),
+    readinessBadge('Autonomous learning blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const futureEvidenceRequiredArtifacts = Array.isArray(openAiSandboxEvidenceReview.futureEvidenceRequiredArtifacts) ? openAiSandboxEvidenceReview.futureEvidenceRequiredArtifacts : [];
+  const futureEvidenceReviewDimensions = Array.isArray(openAiSandboxEvidenceReview.futureEvidenceReviewDimensions) ? openAiSandboxEvidenceReview.futureEvidenceReviewDimensions : [];
+  const futureEvidenceReviewerMetadata = Array.isArray(openAiSandboxEvidenceReview.futureEvidenceReviewerMetadata) ? openAiSandboxEvidenceReview.futureEvidenceReviewerMetadata : [];
+  const futureEvidencePassFailRules = Array.isArray(openAiSandboxEvidenceReview.futureEvidencePassFailRules) ? openAiSandboxEvidenceReview.futureEvidencePassFailRules : [];
+  const futureEvidenceRiskRules = Array.isArray(openAiSandboxEvidenceReview.futureEvidenceRiskRules) ? openAiSandboxEvidenceReview.futureEvidenceRiskRules : [];
+  const futureEvidencePiiComplianceRules = Array.isArray(openAiSandboxEvidenceReview.futureEvidencePiiComplianceRules) ? openAiSandboxEvidenceReview.futureEvidencePiiComplianceRules : [];
+  const futureEvidenceHandoffQaRules = Array.isArray(openAiSandboxEvidenceReview.futureEvidenceHandoffQaRules) ? openAiSandboxEvidenceReview.futureEvidenceHandoffQaRules : [];
+  const futureEvidenceRollbackRules = Array.isArray(openAiSandboxEvidenceReview.futureEvidenceRollbackRules) ? openAiSandboxEvidenceReview.futureEvidenceRollbackRules : [];
+  const futureEvidenceEmergencyStopRules = Array.isArray(openAiSandboxEvidenceReview.futureEvidenceEmergencyStopRules) ? openAiSandboxEvidenceReview.futureEvidenceEmergencyStopRules : [];
+  const futureEvidenceLearningControlRules = Array.isArray(openAiSandboxEvidenceReview.futureEvidenceLearningControlRules) ? openAiSandboxEvidenceReview.futureEvidenceLearningControlRules : [];
+  const futureEvidencePromotionRules = Array.isArray(openAiSandboxEvidenceReview.futureEvidencePromotionRules) ? openAiSandboxEvidenceReview.futureEvidencePromotionRules : [];
+  const sandboxEvidenceProhibitedActions = Array.isArray(openAiSandboxEvidenceReview.prohibitedCurrentActions) ? openAiSandboxEvidenceReview.prohibitedCurrentActions : [];
+  const sandboxEvidenceFutureRuntimeBoundaries = Array.isArray(openAiSandboxEvidenceReview.futureRuntimeBoundaries) ? openAiSandboxEvidenceReview.futureRuntimeBoundaries : [];
+  const sandboxEvidenceNextSteps = Array.isArray(openAiSandboxEvidenceReview.nextSteps) ? openAiSandboxEvidenceReview.nextSteps : [];
+  openAiSandboxEvidenceReviewDetails.innerHTML = `
+    <div class="summary-grid">
+      <div>
+        <strong>Future evidence required artifacts</strong>
+        ${futureEvidenceRequiredArtifacts.length ? `<ul>${futureEvidenceRequiredArtifacts.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future evidence required artifacts returned.</div>'}
+      </div>
+      <div>
+        <strong>Future evidence review dimensions</strong>
+        ${futureEvidenceReviewDimensions.length ? `<ul>${futureEvidenceReviewDimensions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future evidence review dimensions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future evidence reviewer metadata</strong>
+        ${futureEvidenceReviewerMetadata.length ? `<ul>${futureEvidenceReviewerMetadata.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future evidence reviewer metadata returned.</div>'}
+      </div>
+      <div>
+        <strong>Future evidence pass/fail rules</strong>
+        ${futureEvidencePassFailRules.length ? `<ul>${futureEvidencePassFailRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future evidence pass/fail rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future evidence risk rules</strong>
+        ${futureEvidenceRiskRules.length ? `<ul>${futureEvidenceRiskRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future evidence risk rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future evidence PII/compliance rules</strong>
+        ${futureEvidencePiiComplianceRules.length ? `<ul>${futureEvidencePiiComplianceRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future evidence PII/compliance rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future evidence handoff/QA rules</strong>
+        ${futureEvidenceHandoffQaRules.length ? `<ul>${futureEvidenceHandoffQaRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future evidence handoff/QA rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future evidence rollback rules</strong>
+        ${futureEvidenceRollbackRules.length ? `<ul>${futureEvidenceRollbackRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future evidence rollback rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future evidence emergency stop rules</strong>
+        ${futureEvidenceEmergencyStopRules.length ? `<ul>${futureEvidenceEmergencyStopRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future evidence emergency stop rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future evidence learning control rules</strong>
+        ${futureEvidenceLearningControlRules.length ? `<ul>${futureEvidenceLearningControlRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future evidence learning control rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Future evidence promotion rules</strong>
+        ${futureEvidencePromotionRules.length ? `<ul>${futureEvidencePromotionRules.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future evidence promotion rules returned.</div>'}
+      </div>
+      <div>
+        <strong>Prohibited current actions</strong>
+        ${sandboxEvidenceProhibitedActions.length ? `<ul>${sandboxEvidenceProhibitedActions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No prohibited current actions returned.</div>'}
+      </div>
+      <div>
+        <strong>Future runtime boundaries</strong>
+        ${sandboxEvidenceFutureRuntimeBoundaries.length ? `<ul>${sandboxEvidenceFutureRuntimeBoundaries.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No future runtime boundaries returned.</div>'}
+      </div>
+      <div>
+        <strong>Next steps</strong>
+        ${sandboxEvidenceNextSteps.length ? `<ul>${sandboxEvidenceNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
     </div>
   `;
