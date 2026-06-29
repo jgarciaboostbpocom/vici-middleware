@@ -999,6 +999,15 @@
                   <div class="muted small">Loading Campaign Prompt / KB Scope readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Campaign QA Provisioning Readiness</h2>
+                  <span class="muted small">Read-only campaign QA provisioning design status for future campaign-scoped QA and AI Agent access structures. This does not create provisioning storage, campaign storage, QA storage, AI agent storage, prompt storage, KB storage, policy storage, scorecard storage, report storage, access grants, CRUD, endpoints, migrations, provisioning execution, campaign creation hooks, OpenAI connection, AI call execution, FastAGI, Asterisk/Vicidial changes, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="campaignQaProvisioningReadinessCards"></div>
+                <div class="row" id="campaignQaProvisioningReadinessBadges" style="margin-top:12px"></div>
+                <div id="campaignQaProvisioningReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading Campaign QA Provisioning readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3008,10 +3017,13 @@ function renderRouteReadiness() {
   const campaignPromptKbScopeReadinessCards = $('#campaignPromptKbScopeReadinessCards');
   const campaignPromptKbScopeReadinessBadges = $('#campaignPromptKbScopeReadinessBadges');
   const campaignPromptKbScopeReadinessDetails = $('#campaignPromptKbScopeReadinessDetails');
+  const campaignQaProvisioningReadinessCards = $('#campaignQaProvisioningReadinessCards');
+  const campaignQaProvisioningReadinessBadges = $('#campaignQaProvisioningReadinessBadges');
+  const campaignQaProvisioningReadinessDetails = $('#campaignQaProvisioningReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3137,6 +3149,9 @@ function renderRouteReadiness() {
     campaignPromptKbScopeReadinessCards.innerHTML = '<div class="muted small">Campaign Prompt / KB Scope readiness status not loaded.</div>';
     campaignPromptKbScopeReadinessBadges.innerHTML = '';
     campaignPromptKbScopeReadinessDetails.innerHTML = '<div class="muted small">Campaign Prompt / KB Scope readiness details not loaded.</div>';
+    campaignQaProvisioningReadinessCards.innerHTML = '<div class="muted small">Campaign QA Provisioning readiness status not loaded.</div>';
+    campaignQaProvisioningReadinessBadges.innerHTML = '';
+    campaignQaProvisioningReadinessDetails.innerHTML = '<div class="muted small">Campaign QA Provisioning readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -8064,6 +8079,152 @@ function renderRouteReadiness() {
   campaignPromptKbScopeReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${campaignPromptKbScopeDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const campaignQaProvisioning = report.campaignQaProvisioningReadiness || {};
+  const campaignQaProvisioningReadinessCardsData = [
+    ['Current state', campaignQaProvisioning.currentState || 'not_ready'],
+    ['Campaign QA provisioning approved', campaignQaProvisioning.campaignQaProvisioningApproved ? 'yes' : 'no'],
+    ['Campaign QA provisioning mode', campaignQaProvisioning.campaignQaProvisioningMode || 'read_only_design'],
+    ['Campaign creation hook', campaignQaProvisioning.campaignCreationHookStatus || 'read_only_design'],
+    ['Campaign-scoped QA structure', campaignQaProvisioning.campaignScopedQaStructureStatus || 'read_only_design'],
+    ['Campaign-scoped AI Agent structure', campaignQaProvisioning.campaignScopedAiAgentStructureStatus || 'read_only_design'],
+    ['Campaign-scoped prompt/KB/policy structure', campaignQaProvisioning.campaignScopedPromptKbPolicyStructureStatus || 'read_only_design'],
+    ['Campaign-scoped scorecard structure', campaignQaProvisioning.campaignScopedScorecardStructureStatus || 'read_only_design'],
+    ['Campaign-scoped report structure', campaignQaProvisioning.campaignScopedReportStructureStatus || 'read_only_design'],
+    ['Campaign-scoped coaching structure', campaignQaProvisioning.campaignScopedCoachingStructureStatus || 'read_only_design'],
+    ['Campaign-scoped calibration structure', campaignQaProvisioning.campaignScopedCalibrationStructureStatus || 'read_only_design'],
+    ['Campaign-scoped audit structure', campaignQaProvisioning.campaignScopedAuditStructureStatus || 'read_only_design'],
+    ['Client admin access structure', campaignQaProvisioning.clientAdminAccessStructureStatus || 'read_only_design'],
+    ['Supervisor access structure', campaignQaProvisioning.supervisorAccessStructureStatus || 'read_only_design'],
+    ['QA analyst access structure', campaignQaProvisioning.qaAnalystAccessStructureStatus || 'read_only_design'],
+    ['Redaction policy access structure', campaignQaProvisioning.redactionPolicyAccessStructureStatus || 'read_only_design'],
+    ['Server-side RBAC', campaignQaProvisioning.serverSideRbacStatus || 'read_only_design'],
+    ['Idempotency', campaignQaProvisioning.idempotencyStatus || 'read_only_design'],
+    ['Rollback', campaignQaProvisioning.rollbackStatus || 'read_only_design'],
+    ['Audit trail', campaignQaProvisioning.auditTrailStatus || 'read_only_design'],
+    ['Disabled-by-default runtime', campaignQaProvisioning.disabledByDefaultRuntimeStatus || 'read_only_design'],
+    ['Provisioning storage', campaignQaProvisioning.provisioningStorageStatus || 'not_implemented'],
+    ['Campaign storage', campaignQaProvisioning.campaignStorageStatus || 'not_implemented'],
+    ['QA storage', campaignQaProvisioning.qaStorageStatus || 'not_implemented'],
+    ['AI agent storage', campaignQaProvisioning.aiAgentStorageStatus || 'not_implemented'],
+    ['Prompt storage', campaignQaProvisioning.promptStorageStatus || 'not_implemented'],
+    ['Knowledge base storage', campaignQaProvisioning.knowledgeBaseStorageStatus || 'not_implemented'],
+    ['Policy storage', campaignQaProvisioning.policyStorageStatus || 'not_implemented'],
+    ['Scorecard storage', campaignQaProvisioning.scorecardStorageStatus || 'not_implemented'],
+    ['Report storage', campaignQaProvisioning.reportStorageStatus || 'not_implemented'],
+    ['Access grant storage', campaignQaProvisioning.accessGrantStorageStatus || 'not_implemented'],
+    ['Audit storage', campaignQaProvisioning.auditStorageStatus || 'not_implemented'],
+    ['Endpoint', campaignQaProvisioning.endpointStatus || 'not_implemented'],
+    ['CRUD', campaignQaProvisioning.crudStatus || 'not_implemented'],
+    ['Migration', campaignQaProvisioning.migrationStatus || 'not_implemented'],
+    ['Provisioning execution', campaignQaProvisioning.provisioningExecutionStatus || 'not_allowed'],
+    ['Campaign creation hook execution', campaignQaProvisioning.campaignCreationHookExecutionStatus || 'not_allowed'],
+    ['Access grant execution', campaignQaProvisioning.accessGrantExecutionStatus || 'not_allowed'],
+    ['QA record creation', campaignQaProvisioning.qaRecordCreationStatus || 'not_allowed'],
+    ['AI agent creation', campaignQaProvisioning.aiAgentCreationStatus || 'not_allowed'],
+    ['Prompt creation', campaignQaProvisioning.promptCreationStatus || 'not_allowed'],
+    ['Knowledge base creation', campaignQaProvisioning.knowledgeBaseCreationStatus || 'not_allowed'],
+    ['Policy creation', campaignQaProvisioning.policyCreationStatus || 'not_allowed'],
+    ['Scorecard creation', campaignQaProvisioning.scorecardCreationStatus || 'not_allowed'],
+    ['Report generation', campaignQaProvisioning.reportGenerationStatus || 'not_allowed'],
+    ['OpenAI connection', campaignQaProvisioning.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', campaignQaProvisioning.openAiRuntimeStatus || 'not_connected'],
+    ['Realtime session', campaignQaProvisioning.realtimeSessionStatus || 'not_connected'],
+    ['Tool execution', campaignQaProvisioning.toolExecutionStatus || 'not_allowed'],
+    ['AI inbound execution', campaignQaProvisioning.aiInboundExecutionStatus || 'not_allowed'],
+    ['AI outbound execution', campaignQaProvisioning.aiOutboundExecutionStatus || 'not_allowed'],
+    ['FastAGI', campaignQaProvisioning.fastAgiStatus || 'not_allowed'],
+    ['Route behavior change', campaignQaProvisioning.routeBehaviorChangeStatus || 'not_allowed'],
+    ['Autonomous learning', campaignQaProvisioning.autonomousLearningStatus || 'not_allowed'],
+    ['Campaign QA provisioning storage allowed', campaignQaProvisioning.campaignQaProvisioningStorageAllowed ? 'yes' : 'no'],
+    ['Campaign storage allowed', campaignQaProvisioning.campaignStorageAllowed ? 'yes' : 'no'],
+    ['QA storage allowed', campaignQaProvisioning.qaStorageAllowed ? 'yes' : 'no'],
+    ['AI agent storage allowed', campaignQaProvisioning.aiAgentStorageAllowed ? 'yes' : 'no'],
+    ['Prompt storage allowed', campaignQaProvisioning.promptStorageAllowed ? 'yes' : 'no'],
+    ['Knowledge base storage allowed', campaignQaProvisioning.knowledgeBaseStorageAllowed ? 'yes' : 'no'],
+    ['Policy storage allowed', campaignQaProvisioning.policyStorageAllowed ? 'yes' : 'no'],
+    ['Scorecard storage allowed', campaignQaProvisioning.scorecardStorageAllowed ? 'yes' : 'no'],
+    ['Report storage allowed', campaignQaProvisioning.reportStorageAllowed ? 'yes' : 'no'],
+    ['Access grant storage allowed', campaignQaProvisioning.accessGrantStorageAllowed ? 'yes' : 'no'],
+    ['Audit storage allowed', campaignQaProvisioning.auditStorageAllowed ? 'yes' : 'no'],
+    ['Endpoint allowed', campaignQaProvisioning.endpointAllowed ? 'yes' : 'no'],
+    ['CRUD allowed', campaignQaProvisioning.crudAllowed ? 'yes' : 'no'],
+    ['Migration allowed', campaignQaProvisioning.migrationAllowed ? 'yes' : 'no'],
+    ['Provisioning execution allowed', campaignQaProvisioning.provisioningExecutionAllowed ? 'yes' : 'no'],
+    ['Campaign creation hook execution allowed', campaignQaProvisioning.campaignCreationHookExecutionAllowed ? 'yes' : 'no'],
+    ['Access grant execution allowed', campaignQaProvisioning.accessGrantExecutionAllowed ? 'yes' : 'no'],
+    ['QA record creation allowed', campaignQaProvisioning.qaRecordCreationAllowed ? 'yes' : 'no'],
+    ['AI agent creation allowed', campaignQaProvisioning.aiAgentCreationAllowed ? 'yes' : 'no'],
+    ['Prompt creation allowed', campaignQaProvisioning.promptCreationAllowed ? 'yes' : 'no'],
+    ['Knowledge base creation allowed', campaignQaProvisioning.knowledgeBaseCreationAllowed ? 'yes' : 'no'],
+    ['Policy creation allowed', campaignQaProvisioning.policyCreationAllowed ? 'yes' : 'no'],
+    ['Scorecard creation allowed', campaignQaProvisioning.scorecardCreationAllowed ? 'yes' : 'no'],
+    ['Report generation allowed', campaignQaProvisioning.reportGenerationAllowed ? 'yes' : 'no'],
+    ['OpenAI connection allowed', campaignQaProvisioning.openAiConnectionAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', campaignQaProvisioning.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', campaignQaProvisioning.toolExecutionAllowed ? 'yes' : 'no'],
+    ['AI inbound execution allowed', campaignQaProvisioning.aiInboundExecutionAllowed ? 'yes' : 'no'],
+    ['AI outbound execution allowed', campaignQaProvisioning.aiOutboundExecutionAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', campaignQaProvisioning.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', campaignQaProvisioning.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['Autonomous learning allowed', campaignQaProvisioning.autonomousLearningAllowed ? 'yes' : 'no'],
+    ['Client admin cross-client access allowed', campaignQaProvisioning.clientAdminCrossClientAccessAllowed ? 'yes' : 'no'],
+    ['Client admin cross-campaign access allowed', campaignQaProvisioning.clientAdminCrossCampaignAccessAllowed ? 'yes' : 'no'],
+    ['Raw PII access allowed', campaignQaProvisioning.rawPiiAccessAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', campaignQaProvisioning.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', campaignQaProvisioning.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real call allowed', campaignQaProvisioning.realCallAllowed ? 'yes' : 'no'],
+  ];
+  campaignQaProvisioningReadinessCards.innerHTML = campaignQaProvisioningReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  campaignQaProvisioningReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only provisioning design', 'info'),
+    readinessBadge('Campaign-scoped QA structure mapped', 'info'),
+    readinessBadge('AI Agent access mapped', 'info'),
+    readinessBadge('QA Center access mapped', 'info'),
+    readinessBadge('Scorecard access mapped', 'info'),
+    readinessBadge('Client admin scope mapped', 'info'),
+    readinessBadge('Idempotency mapped', 'info'),
+    readinessBadge('Runtime disabled by default', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const campaignQaProvisioningDetailGroups = [
+    ['Future provisioning scope fields', campaignQaProvisioning.futureProvisioningScopeFields],
+    ['Future provisioning artifacts', campaignQaProvisioning.futureProvisioningArtifacts],
+    ['Future QA access structures', campaignQaProvisioning.futureQaAccessStructures],
+    ['Future AI Agent access structures', campaignQaProvisioning.futureAiAgentAccessStructures],
+    ['Future prompt/KB/policy access structures', campaignQaProvisioning.futurePromptKbPolicyAccessStructures],
+    ['Future scorecard access structures', campaignQaProvisioning.futureScorecardAccessStructures],
+    ['Future report/coaching/calibration structures', campaignQaProvisioning.futureReportCoachingCalibrationStructures],
+    ['Future role access rules', campaignQaProvisioning.futureRoleAccessRules],
+    ['Future client admin scope rules', campaignQaProvisioning.futureClientAdminScopeRules],
+    ['Future server-side RBAC rules', campaignQaProvisioning.futureServerSideRbacRules],
+    ['Future idempotency rules', campaignQaProvisioning.futureIdempotencyRules],
+    ['Future audit rules', campaignQaProvisioning.futureAuditRules],
+    ['Future rollback rules', campaignQaProvisioning.futureRollbackRules],
+    ['Future runtime boundaries', campaignQaProvisioning.futureRuntimeBoundaries],
+    ['Prohibited current actions', campaignQaProvisioning.prohibitedCurrentActions],
+    ['Next steps', campaignQaProvisioning.nextSteps],
+  ];
+  campaignQaProvisioningReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${campaignQaProvisioningDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>
