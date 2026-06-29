@@ -1026,6 +1026,15 @@
                   <div class="muted small">Loading QA Evaluation Workflow readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>QA Reports &amp; Analytics Readiness</h2>
+                  <span class="muted small">Read-only QA reports and analytics design status for future AI Agent QA, Human Agent QA, ai_inbound, ai_outbound, human_inbound, human_outbound, score trends, criteria metrics, compliance trends, coverage, agent performance, coaching, calibration, disputes, audit visibility, RBAC, PII boundaries, approval, versioning, rollback, and effective dates. This does not create report storage, analytics storage, dashboards, exports, metrics, CRUD, endpoints, migrations, live data queries, runtime aggregation, chart runtime, transcript access, recording access, raw PII access, OpenAI connection, AI call execution, FastAGI, Asterisk/Vicidial changes, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="qaReportsAnalyticsReadinessCards"></div>
+                <div class="row" id="qaReportsAnalyticsReadinessBadges" style="margin-top:12px"></div>
+                <div id="qaReportsAnalyticsReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading QA Reports &amp; Analytics readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3044,10 +3053,13 @@ function renderRouteReadiness() {
   const qaEvaluationWorkflowReadinessCards = $('#qaEvaluationWorkflowReadinessCards');
   const qaEvaluationWorkflowReadinessBadges = $('#qaEvaluationWorkflowReadinessBadges');
   const qaEvaluationWorkflowReadinessDetails = $('#qaEvaluationWorkflowReadinessDetails');
+  const qaReportsAnalyticsReadinessCards = $('#qaReportsAnalyticsReadinessCards');
+  const qaReportsAnalyticsReadinessBadges = $('#qaReportsAnalyticsReadinessBadges');
+  const qaReportsAnalyticsReadinessDetails = $('#qaReportsAnalyticsReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3182,6 +3194,9 @@ function renderRouteReadiness() {
     qaEvaluationWorkflowReadinessCards.innerHTML = '<div class="muted small">QA Evaluation Workflow readiness status not loaded.</div>';
     qaEvaluationWorkflowReadinessBadges.innerHTML = '';
     qaEvaluationWorkflowReadinessDetails.innerHTML = '<div class="muted small">QA Evaluation Workflow readiness details not loaded.</div>';
+    qaReportsAnalyticsReadinessCards.innerHTML = '<div class="muted small">QA Reports &amp; Analytics readiness status not loaded.</div>';
+    qaReportsAnalyticsReadinessBadges.innerHTML = '';
+    qaReportsAnalyticsReadinessDetails.innerHTML = '<div class="muted small">QA Reports &amp; Analytics readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -8568,6 +8583,157 @@ function renderRouteReadiness() {
   qaEvaluationWorkflowReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${qaEvaluationWorkflowDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const qaReportsAnalytics = report.qaReportsAnalyticsReadiness || {};
+  const qaReportsAnalyticsReadinessCardsData = [
+    ['Current state', qaReportsAnalytics.currentState || 'not_ready'],
+    ['QA reports analytics approved', qaReportsAnalytics.qaReportsAnalyticsApproved ? 'yes' : 'no'],
+    ['QA reports analytics mode', qaReportsAnalytics.qaReportsAnalyticsMode || 'read_only_design'],
+    ['AI Agent QA reporting', qaReportsAnalytics.aiAgentQaReportingStatus || 'read_only_design'],
+    ['Human Agent QA reporting', qaReportsAnalytics.humanAgentQaReportingStatus || 'read_only_design'],
+    ['AI inbound reporting', qaReportsAnalytics.aiInboundReportingStatus || 'read_only_design'],
+    ['AI outbound reporting', qaReportsAnalytics.aiOutboundReportingStatus || 'read_only_design'],
+    ['Human inbound reporting', qaReportsAnalytics.humanInboundReportingStatus || 'read_only_design'],
+    ['Human outbound reporting', qaReportsAnalytics.humanOutboundReportingStatus || 'read_only_design'],
+    ['Campaign-scoped reporting', qaReportsAnalytics.campaignScopedReportingStatus || 'read_only_design'],
+    ['Score trend', qaReportsAnalytics.scoreTrendStatus || 'read_only_design'],
+    ['Criteria performance', qaReportsAnalytics.criteriaPerformanceStatus || 'read_only_design'],
+    ['Critical fail trend', qaReportsAnalytics.criticalFailTrendStatus || 'read_only_design'],
+    ['Compliance trend', qaReportsAnalytics.complianceTrendStatus || 'read_only_design'],
+    ['PII redaction trend', qaReportsAnalytics.piiRedactionTrendStatus || 'read_only_design'],
+    ['Consent/DNC trend', qaReportsAnalytics.consentDncTrendStatus || 'read_only_design'],
+    ['Healthcare safe-response trend', qaReportsAnalytics.healthcareSafeResponseTrendStatus || 'read_only_design'],
+    ['Evaluation coverage', qaReportsAnalytics.evaluationCoverageStatus || 'read_only_design'],
+    ['Sampling coverage', qaReportsAnalytics.samplingCoverageStatus || 'read_only_design'],
+    ['Coaching trend', qaReportsAnalytics.coachingTrendStatus || 'read_only_design'],
+    ['Calibration trend', qaReportsAnalytics.calibrationTrendStatus || 'read_only_design'],
+    ['Dispute trend', qaReportsAnalytics.disputeTrendStatus || 'read_only_design'],
+    ['Supervisor review activity', qaReportsAnalytics.supervisorReviewActivityStatus || 'read_only_design'],
+    ['QA analyst activity', qaReportsAnalytics.qaAnalystActivityStatus || 'read_only_design'],
+    ['Audit visibility', qaReportsAnalytics.auditVisibilityStatus || 'read_only_design'],
+    ['Server-side RBAC', qaReportsAnalytics.serverSideRbacStatus || 'read_only_design'],
+    ['Raw PII access boundary', qaReportsAnalytics.rawPiiAccessBoundaryStatus || 'read_only_design'],
+    ['Report approval', qaReportsAnalytics.reportApprovalStatus || 'read_only_design'],
+    ['Report versioning', qaReportsAnalytics.reportVersioningStatus || 'read_only_design'],
+    ['Report rollback', qaReportsAnalytics.reportRollbackStatus || 'read_only_design'],
+    ['Effective date', qaReportsAnalytics.effectiveDateStatus || 'read_only_design'],
+    ['Report storage', qaReportsAnalytics.reportStorageStatus || 'not_implemented'],
+    ['Analytics storage', qaReportsAnalytics.analyticsStorageStatus || 'not_implemented'],
+    ['Dashboard storage', qaReportsAnalytics.dashboardStorageStatus || 'not_implemented'],
+    ['Export storage', qaReportsAnalytics.exportStorageStatus || 'not_implemented'],
+    ['Metric storage', qaReportsAnalytics.metricStorageStatus || 'not_implemented'],
+    ['Endpoint', qaReportsAnalytics.endpointStatus || 'not_implemented'],
+    ['CRUD', qaReportsAnalytics.crudStatus || 'not_implemented'],
+    ['Migration', qaReportsAnalytics.migrationStatus || 'not_implemented'],
+    ['Report generation', qaReportsAnalytics.reportGenerationStatus || 'not_allowed'],
+    ['Export generation', qaReportsAnalytics.exportGenerationStatus || 'not_allowed'],
+    ['Live data query', qaReportsAnalytics.liveDataQueryStatus || 'not_allowed'],
+    ['Runtime aggregation', qaReportsAnalytics.runtimeAggregationStatus || 'not_allowed'],
+    ['Chart runtime', qaReportsAnalytics.chartRuntimeStatus || 'not_allowed'],
+    ['Transcript access', qaReportsAnalytics.transcriptAccessStatus || 'not_allowed'],
+    ['Recording access', qaReportsAnalytics.recordingAccessStatus || 'not_allowed'],
+    ['Raw PII access', qaReportsAnalytics.rawPiiAccessStatus || 'not_allowed'],
+    ['Dashboard execution', qaReportsAnalytics.dashboardExecutionStatus || 'not_allowed'],
+    ['Filter execution', qaReportsAnalytics.filterExecutionStatus || 'not_allowed'],
+    ['Analytics execution', qaReportsAnalytics.analyticsExecutionStatus || 'not_allowed'],
+    ['Audit record creation', qaReportsAnalytics.auditRecordCreationStatus || 'not_allowed'],
+    ['OpenAI connection', qaReportsAnalytics.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', qaReportsAnalytics.openAiRuntimeStatus || 'not_connected'],
+    ['Realtime session', qaReportsAnalytics.realtimeSessionStatus || 'not_connected'],
+    ['Tool execution', qaReportsAnalytics.toolExecutionStatus || 'not_allowed'],
+    ['AI inbound execution', qaReportsAnalytics.aiInboundExecutionStatus || 'not_allowed'],
+    ['AI outbound execution', qaReportsAnalytics.aiOutboundExecutionStatus || 'not_allowed'],
+    ['FastAGI', qaReportsAnalytics.fastAgiStatus || 'not_allowed'],
+    ['Route behavior change', qaReportsAnalytics.routeBehaviorChangeStatus || 'not_allowed'],
+    ['Autonomous learning', qaReportsAnalytics.autonomousLearningStatus || 'not_allowed'],
+    ['Report storage allowed', qaReportsAnalytics.reportStorageAllowed ? 'yes' : 'no'],
+    ['Analytics storage allowed', qaReportsAnalytics.analyticsStorageAllowed ? 'yes' : 'no'],
+    ['Dashboard storage allowed', qaReportsAnalytics.dashboardStorageAllowed ? 'yes' : 'no'],
+    ['Export storage allowed', qaReportsAnalytics.exportStorageAllowed ? 'yes' : 'no'],
+    ['Metric storage allowed', qaReportsAnalytics.metricStorageAllowed ? 'yes' : 'no'],
+    ['Endpoint allowed', qaReportsAnalytics.endpointAllowed ? 'yes' : 'no'],
+    ['CRUD allowed', qaReportsAnalytics.crudAllowed ? 'yes' : 'no'],
+    ['Migration allowed', qaReportsAnalytics.migrationAllowed ? 'yes' : 'no'],
+    ['Report generation allowed', qaReportsAnalytics.reportGenerationAllowed ? 'yes' : 'no'],
+    ['Export generation allowed', qaReportsAnalytics.exportGenerationAllowed ? 'yes' : 'no'],
+    ['Live data query allowed', qaReportsAnalytics.liveDataQueryAllowed ? 'yes' : 'no'],
+    ['Runtime aggregation allowed', qaReportsAnalytics.runtimeAggregationAllowed ? 'yes' : 'no'],
+    ['Chart runtime allowed', qaReportsAnalytics.chartRuntimeAllowed ? 'yes' : 'no'],
+    ['Transcript access allowed', qaReportsAnalytics.transcriptAccessAllowed ? 'yes' : 'no'],
+    ['Recording access allowed', qaReportsAnalytics.recordingAccessAllowed ? 'yes' : 'no'],
+    ['Raw PII access allowed', qaReportsAnalytics.rawPiiAccessAllowed ? 'yes' : 'no'],
+    ['Dashboard execution allowed', qaReportsAnalytics.dashboardExecutionAllowed ? 'yes' : 'no'],
+    ['Filter execution allowed', qaReportsAnalytics.filterExecutionAllowed ? 'yes' : 'no'],
+    ['Analytics execution allowed', qaReportsAnalytics.analyticsExecutionAllowed ? 'yes' : 'no'],
+    ['Audit record creation allowed', qaReportsAnalytics.auditRecordCreationAllowed ? 'yes' : 'no'],
+    ['Report auto action allowed', qaReportsAnalytics.reportAutoActionAllowed ? 'yes' : 'no'],
+    ['Scorecard auto change allowed', qaReportsAnalytics.scorecardAutoChangeAllowed ? 'yes' : 'no'],
+    ['Prompt/KB/policy auto change allowed', qaReportsAnalytics.promptKbPolicyAutoChangeAllowed ? 'yes' : 'no'],
+    ['Coaching auto apply allowed', qaReportsAnalytics.coachingAutoApplyAllowed ? 'yes' : 'no'],
+    ['Calibration auto apply allowed', qaReportsAnalytics.calibrationAutoApplyAllowed ? 'yes' : 'no'],
+    ['Dispute auto apply allowed', qaReportsAnalytics.disputeAutoApplyAllowed ? 'yes' : 'no'],
+    ['OpenAI connection allowed', qaReportsAnalytics.openAiConnectionAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', qaReportsAnalytics.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', qaReportsAnalytics.toolExecutionAllowed ? 'yes' : 'no'],
+    ['AI inbound execution allowed', qaReportsAnalytics.aiInboundExecutionAllowed ? 'yes' : 'no'],
+    ['AI outbound execution allowed', qaReportsAnalytics.aiOutboundExecutionAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', qaReportsAnalytics.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', qaReportsAnalytics.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['Autonomous learning allowed', qaReportsAnalytics.autonomousLearningAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', qaReportsAnalytics.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', qaReportsAnalytics.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real call allowed', qaReportsAnalytics.realCallAllowed ? 'yes' : 'no'],
+  ];
+  qaReportsAnalyticsReadinessCards.innerHTML = qaReportsAnalyticsReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  qaReportsAnalyticsReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only reports design', 'info'),
+    readinessBadge('AI Agent QA reports mapped', 'info'),
+    readinessBadge('Human Agent QA reports mapped', 'info'),
+    readinessBadge('Inbound/outbound reports mapped', 'info'),
+    readinessBadge('Score trends mapped', 'info'),
+    readinessBadge('Criteria metrics mapped', 'info'),
+    readinessBadge('RBAC and PII boundaries mapped', 'info'),
+    readinessBadge('No live data queries', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const qaReportsAnalyticsDetailGroups = [
+    ['Future report scope fields', qaReportsAnalytics.futureReportScopeFields],
+    ['Future QA report routes', qaReportsAnalytics.futureQaReportRoutes],
+    ['Future report types', qaReportsAnalytics.futureReportTypes],
+    ['Future score trend metrics', qaReportsAnalytics.futureScoreTrendMetrics],
+    ['Future criteria metrics', qaReportsAnalytics.futureCriteriaMetrics],
+    ['Future compliance metrics', qaReportsAnalytics.futureComplianceMetrics],
+    ['Future coverage metrics', qaReportsAnalytics.futureCoverageMetrics],
+    ['Future agent performance metrics', qaReportsAnalytics.futureAgentPerformanceMetrics],
+    ['Future coaching/calibration/dispute metrics', qaReportsAnalytics.futureCoachingCalibrationDisputeMetrics],
+    ['Future RBAC report visibility rules', qaReportsAnalytics.futureRbacReportVisibilityRules],
+    ['Future PII/redaction rules', qaReportsAnalytics.futurePiiRedactionRules],
+    ['Future approval/versioning rules', qaReportsAnalytics.futureApprovalVersioningRules],
+    ['Future audit rules', qaReportsAnalytics.futureAuditRules],
+    ['Future runtime boundaries', qaReportsAnalytics.futureRuntimeBoundaries],
+    ['Prohibited current actions', qaReportsAnalytics.prohibitedCurrentActions],
+    ['Next steps', qaReportsAnalytics.nextSteps],
+  ];
+  qaReportsAnalyticsReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${qaReportsAnalyticsDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>
