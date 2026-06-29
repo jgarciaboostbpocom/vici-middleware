@@ -234,7 +234,7 @@ const statusPhrases = [
 
 check(readiness.includes('aiAgentQaReadiness'), 'readiness.ts must contain aiAgentQaReadiness');
 check(aiAgentQaSource, 'aiAgentQaReadiness source section missing');
-check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'readiness response payload must include aiAgentQaReadiness');
+check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*(?:qaScorecardConfigurationReadiness,\s*)?humanAgentQaReadiness/s.test(readiness), 'readiness response payload must include aiAgentQaReadiness');
 for (const [key, value] of scalarChecks) {
   check(sourceContainsValue(aiAgentQaSource, key, value), `readiness response must contain ${key}: ${JSON.stringify(value)}`);
 }

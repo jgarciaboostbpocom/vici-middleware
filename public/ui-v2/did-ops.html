@@ -963,6 +963,15 @@
                   <div class="muted small">Loading AI Agent QA readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>QA Scorecard Configuration Readiness</h2>
+                  <span class="muted small">Read-only QA scorecard configuration design status for future campaign-scoped AI Agent QA and Human Agent QA scorecards. This does not create scorecard storage, templates, records, CRUD, endpoints, migrations, scoring execution, QA records, reports, OpenAI connection, Realtime sessions, tool execution, AI call execution, FastAGI, Asterisk/Vicidial changes, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="qaScorecardConfigurationReadinessCards"></div>
+                <div class="row" id="qaScorecardConfigurationReadinessBadges" style="margin-top:12px"></div>
+                <div id="qaScorecardConfigurationReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading QA Scorecard Configuration readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Human Agent QA Readiness</h2>
                   <span class="muted small">Read-only Human Agent QA design status for human inbound calls and human outbound calls. This does not create Human Agent QA storage, ingestion, recording, playback, transcription, audio analysis, evaluation, AI-assisted scoring, supervisor review, final score, coaching, calibration, dispute, report, scorecard, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.</span>
                 </div>
@@ -2978,6 +2987,9 @@ function renderRouteReadiness() {
   const aiAgentQaReadinessCards = $('#aiAgentQaReadinessCards');
   const aiAgentQaReadinessBadges = $('#aiAgentQaReadinessBadges');
   const aiAgentQaReadinessDetails = $('#aiAgentQaReadinessDetails');
+  const qaScorecardConfigurationReadinessCards = $('#qaScorecardConfigurationReadinessCards');
+  const qaScorecardConfigurationReadinessBadges = $('#qaScorecardConfigurationReadinessBadges');
+  const qaScorecardConfigurationReadinessDetails = $('#qaScorecardConfigurationReadinessDetails');
   const humanAgentQaReadinessCards = $('#humanAgentQaReadinessCards');
   const humanAgentQaReadinessBadges = $('#humanAgentQaReadinessBadges');
   const humanAgentQaReadinessDetails = $('#humanAgentQaReadinessDetails');
@@ -2987,7 +2999,7 @@ function renderRouteReadiness() {
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3101,6 +3113,9 @@ function renderRouteReadiness() {
     aiAgentQaReadinessCards.innerHTML = '<div class="muted small">AI Agent QA readiness status not loaded.</div>';
     aiAgentQaReadinessBadges.innerHTML = '';
     aiAgentQaReadinessDetails.innerHTML = '<div class="muted small">AI Agent QA readiness details not loaded.</div>';
+    qaScorecardConfigurationReadinessCards.innerHTML = '<div class="muted small">QA Scorecard Configuration readiness status not loaded.</div>';
+    qaScorecardConfigurationReadinessBadges.innerHTML = '';
+    qaScorecardConfigurationReadinessDetails.innerHTML = '<div class="muted small">QA Scorecard Configuration readiness details not loaded.</div>';
     humanAgentQaReadinessCards.innerHTML = '<div class="muted small">Human Agent QA readiness status not loaded.</div>';
     humanAgentQaReadinessBadges.innerHTML = '';
     humanAgentQaReadinessDetails.innerHTML = '<div class="muted small">Human Agent QA readiness details not loaded.</div>';
@@ -7444,6 +7459,125 @@ function renderRouteReadiness() {
   aiAgentQaReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${aiAgentQaDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const qaScorecardConfiguration = report.qaScorecardConfigurationReadiness || {};
+  const qaScorecardConfigurationReadinessCardsData = [
+    ['Current state', qaScorecardConfiguration.currentState || 'not_ready'],
+    ['QA scorecard configuration approved', qaScorecardConfiguration.qaScorecardConfigurationApproved ? 'yes' : 'no'],
+    ['QA scorecard configuration mode', qaScorecardConfiguration.qaScorecardConfigurationMode || 'read_only_design'],
+    ['Campaign scoped', qaScorecardConfiguration.campaignScopedStatus || 'read_only_design'],
+    ['Multi-program', qaScorecardConfiguration.multiProgramStatus || 'read_only_design'],
+    ['AI Agent QA scorecard', qaScorecardConfiguration.aiAgentQaScorecardStatus || 'read_only_design'],
+    ['Human Agent QA scorecard', qaScorecardConfiguration.humanAgentQaScorecardStatus || 'read_only_design'],
+    ['AI inbound scorecard', qaScorecardConfiguration.aiInboundScorecardStatus || 'read_only_design'],
+    ['AI outbound scorecard', qaScorecardConfiguration.aiOutboundScorecardStatus || 'read_only_design'],
+    ['Human inbound scorecard', qaScorecardConfiguration.humanInboundScorecardStatus || 'read_only_design'],
+    ['Human outbound scorecard', qaScorecardConfiguration.humanOutboundScorecardStatus || 'read_only_design'],
+    ['Weighted criteria', qaScorecardConfiguration.weightedCriteriaStatus || 'read_only_design'],
+    ['Critical-fail criteria', qaScorecardConfiguration.criticalFailCriteriaStatus || 'read_only_design'],
+    ['Compliance criteria', qaScorecardConfiguration.complianceCriteriaStatus || 'read_only_design'],
+    ['PII criteria', qaScorecardConfiguration.piiCriteriaStatus || 'read_only_design'],
+    ['Consent/DNC criteria', qaScorecardConfiguration.consentDncCriteriaStatus || 'read_only_design'],
+    ['Healthcare safe-response criteria', qaScorecardConfiguration.healthcareSafeResponseCriteriaStatus || 'read_only_design'],
+    ['Versioning', qaScorecardConfiguration.versioningStatus || 'read_only_design'],
+    ['Approval workflow', qaScorecardConfiguration.approvalWorkflowStatus || 'read_only_design'],
+    ['Audit trail', qaScorecardConfiguration.auditTrailStatus || 'read_only_design'],
+    ['Rollback', qaScorecardConfiguration.rollbackStatus || 'read_only_design'],
+    ['Effective date', qaScorecardConfiguration.effectiveDateStatus || 'read_only_design'],
+    ['Client admin scope', qaScorecardConfiguration.clientAdminScopeStatus || 'read_only_design'],
+    ['Server-side RBAC', qaScorecardConfiguration.serverSideRbacStatus || 'read_only_design'],
+    ['Storage', qaScorecardConfiguration.storageStatus || 'not_implemented'],
+    ['Endpoint', qaScorecardConfiguration.endpointStatus || 'not_implemented'],
+    ['CRUD', qaScorecardConfiguration.crudStatus || 'not_implemented'],
+    ['Migration', qaScorecardConfiguration.migrationStatus || 'not_implemented'],
+    ['Scorecard template', qaScorecardConfiguration.scorecardTemplateStatus || 'not_implemented'],
+    ['Scorecard record', qaScorecardConfiguration.scorecardRecordStatus || 'not_implemented'],
+    ['Scoring execution', qaScorecardConfiguration.scoringExecutionStatus || 'not_allowed'],
+    ['AI suggested score', qaScorecardConfiguration.aiSuggestedScoreStatus || 'not_allowed'],
+    ['Final score', qaScorecardConfiguration.finalScoreStatus || 'not_allowed'],
+    ['Scorecard UI configuration', qaScorecardConfiguration.scorecardUiConfigurationStatus || 'not_allowed'],
+    ['Report generation', qaScorecardConfiguration.reportGenerationStatus || 'not_allowed'],
+    ['OpenAI connection', qaScorecardConfiguration.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', qaScorecardConfiguration.openAiRuntimeStatus || 'not_connected'],
+    ['Realtime session', qaScorecardConfiguration.realtimeSessionStatus || 'not_connected'],
+    ['Tool execution', qaScorecardConfiguration.toolExecutionStatus || 'not_allowed'],
+    ['AI inbound execution', qaScorecardConfiguration.aiInboundExecutionStatus || 'not_allowed'],
+    ['AI outbound execution', qaScorecardConfiguration.aiOutboundExecutionStatus || 'not_allowed'],
+    ['FastAGI', qaScorecardConfiguration.fastAgiStatus || 'not_allowed'],
+    ['Route behavior change', qaScorecardConfiguration.routeBehaviorChangeStatus || 'not_allowed'],
+    ['Autonomous learning', qaScorecardConfiguration.autonomousLearningStatus || 'not_allowed'],
+    ['QA scorecard storage allowed', qaScorecardConfiguration.qaScorecardStorageAllowed ? 'yes' : 'no'],
+    ['QA scorecard endpoint allowed', qaScorecardConfiguration.qaScorecardEndpointAllowed ? 'yes' : 'no'],
+    ['QA scorecard CRUD allowed', qaScorecardConfiguration.qaScorecardCrudAllowed ? 'yes' : 'no'],
+    ['QA scorecard migration allowed', qaScorecardConfiguration.qaScorecardMigrationAllowed ? 'yes' : 'no'],
+    ['Scorecard template allowed', qaScorecardConfiguration.scorecardTemplateAllowed ? 'yes' : 'no'],
+    ['Scorecard record allowed', qaScorecardConfiguration.scorecardRecordAllowed ? 'yes' : 'no'],
+    ['Scoring execution allowed', qaScorecardConfiguration.scoringExecutionAllowed ? 'yes' : 'no'],
+    ['AI suggested score allowed', qaScorecardConfiguration.aiSuggestedScoreAllowed ? 'yes' : 'no'],
+    ['Final score allowed', qaScorecardConfiguration.finalScoreAllowed ? 'yes' : 'no'],
+    ['Scorecard UI configuration allowed', qaScorecardConfiguration.scorecardUiConfigurationAllowed ? 'yes' : 'no'],
+    ['Report generation allowed', qaScorecardConfiguration.reportGenerationAllowed ? 'yes' : 'no'],
+    ['OpenAI connection allowed', qaScorecardConfiguration.openAiConnectionAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', qaScorecardConfiguration.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', qaScorecardConfiguration.toolExecutionAllowed ? 'yes' : 'no'],
+    ['AI inbound execution allowed', qaScorecardConfiguration.aiInboundExecutionAllowed ? 'yes' : 'no'],
+    ['AI outbound execution allowed', qaScorecardConfiguration.aiOutboundExecutionAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', qaScorecardConfiguration.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', qaScorecardConfiguration.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['Autonomous learning allowed', qaScorecardConfiguration.autonomousLearningAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', qaScorecardConfiguration.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', qaScorecardConfiguration.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real call allowed', qaScorecardConfiguration.realCallAllowed ? 'yes' : 'no'],
+  ];
+  qaScorecardConfigurationReadinessCards.innerHTML = qaScorecardConfigurationReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  qaScorecardConfigurationReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only scorecard design', 'info'),
+    readinessBadge('Campaign-scoped scorecards mapped', 'info'),
+    readinessBadge('AI Agent QA scorecards mapped', 'info'),
+    readinessBadge('Human Agent QA scorecards mapped', 'info'),
+    readinessBadge('Inbound/outbound scorecards mapped', 'info'),
+    readinessBadge('Weighted criteria mapped', 'info'),
+    readinessBadge('Critical-fail criteria mapped', 'info'),
+    readinessBadge('Versioning and approval mapped', 'info'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const qaScorecardConfigurationDetailGroups = [
+    ['Future scorecard scope fields', qaScorecardConfiguration.futureScorecardScopeFields],
+    ['Future scorecard tracks', qaScorecardConfiguration.futureScorecardTracks],
+    ['Future scorecard routes', qaScorecardConfiguration.futureScorecardRoutes],
+    ['Future program types', qaScorecardConfiguration.futureProgramTypes],
+    ['Future criteria types', qaScorecardConfiguration.futureCriteriaTypes],
+    ['Future AI Agent QA scorecard rules', qaScorecardConfiguration.futureAiAgentQaScorecardRules],
+    ['Future Human Agent QA scorecard rules', qaScorecardConfiguration.futureHumanAgentQaScorecardRules],
+    ['Future inbound/outbound scorecard rules', qaScorecardConfiguration.futureInboundOutboundScorecardRules],
+    ['Future healthcare scorecard rules', qaScorecardConfiguration.futureHealthcareScorecardRules],
+    ['Future versioning/approval rules', qaScorecardConfiguration.futureVersioningApprovalRules],
+    ['Future RBAC/scope rules', qaScorecardConfiguration.futureRbacScopeRules],
+    ['Future audit rules', qaScorecardConfiguration.futureAuditRules],
+    ['Future runtime boundaries', qaScorecardConfiguration.futureRuntimeBoundaries],
+    ['Prohibited current actions', qaScorecardConfiguration.prohibitedCurrentActions],
+    ['Next steps', qaScorecardConfiguration.nextSteps],
+  ];
+  qaScorecardConfigurationReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${qaScorecardConfigurationDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>
