@@ -2410,6 +2410,98 @@ export type CampaignAiQaScopeReadiness = {
   nextSteps: string[];
 };
 
+export type CampaignPromptKbScopeReadiness = {
+  currentState: 'not_ready';
+  campaignPromptKbScopeApproved: false;
+  campaignPromptKbScopeMode: 'read_only_design';
+  campaignScopedPromptStatus: 'read_only_design';
+  campaignScopedKnowledgeBaseStatus: 'read_only_design';
+  campaignScopedPolicyStatus: 'read_only_design';
+  campaignScopedHandoffStatus: 'read_only_design';
+  campaignScopedScoringStatus: 'read_only_design';
+  campaignScopedToolBoundaryStatus: 'read_only_design';
+  aiAgentConfigScopeStatus: 'read_only_design';
+  lineOfBusinessScopeStatus: 'read_only_design';
+  promptVersioningStatus: 'read_only_design';
+  knowledgeBaseVersioningStatus: 'read_only_design';
+  policyVersioningStatus: 'read_only_design';
+  handoffRuleVersioningStatus: 'read_only_design';
+  scoringRuleVersioningStatus: 'read_only_design';
+  toolBoundaryVersioningStatus: 'read_only_design';
+  approvalWorkflowStatus: 'read_only_design';
+  auditTrailStatus: 'read_only_design';
+  rollbackStatus: 'read_only_design';
+  clientAdminScopeStatus: 'read_only_design';
+  serverSideRbacStatus: 'read_only_design';
+  improvementProposalBoundaryStatus: 'read_only_design';
+  promptStorageStatus: 'not_implemented';
+  knowledgeBaseStorageStatus: 'not_implemented';
+  policyStorageStatus: 'not_implemented';
+  handoffRuleStorageStatus: 'not_implemented';
+  scoringRuleStorageStatus: 'not_implemented';
+  toolBoundaryStorageStatus: 'not_implemented';
+  endpointStatus: 'not_implemented';
+  crudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  promptExecutionStatus: 'not_allowed';
+  knowledgeBaseIngestionStatus: 'not_allowed';
+  policyExecutionStatus: 'not_allowed';
+  handoffExecutionStatus: 'not_allowed';
+  scoringExecutionStatus: 'not_allowed';
+  toolExecutionStatus: 'not_allowed';
+  uiConfigurationStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  autonomousLearningStatus: 'not_allowed';
+  promptStorageAllowed: false;
+  knowledgeBaseStorageAllowed: false;
+  policyStorageAllowed: false;
+  handoffRuleStorageAllowed: false;
+  scoringRuleStorageAllowed: false;
+  toolBoundaryStorageAllowed: false;
+  endpointAllowed: false;
+  crudAllowed: false;
+  migrationAllowed: false;
+  promptExecutionAllowed: false;
+  knowledgeBaseIngestionAllowed: false;
+  policyExecutionAllowed: false;
+  handoffExecutionAllowed: false;
+  scoringExecutionAllowed: false;
+  toolExecutionAllowed: false;
+  uiConfigurationAllowed: false;
+  openAiConnectionAllowed: false;
+  realtimeSessionAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  autonomousLearningAllowed: false;
+  improvementProposalAutoApplyAllowed: false;
+  realPiiAllowed: false;
+  realCredentialAllowed: false;
+  realCallAllowed: false;
+  futurePromptKbScopeFields: string[];
+  futureProgramTypes: string[];
+  futurePromptScopeRules: string[];
+  futureKnowledgeBaseScopeRules: string[];
+  futurePolicyScopeRules: string[];
+  futureHandoffRuleScopeRules: string[];
+  futureScoringRuleScopeRules: string[];
+  futureToolBoundaryScopeRules: string[];
+  futureVersioningApprovalRules: string[];
+  futureImprovementProposalBoundaryRules: string[];
+  futureRbacScopeRules: string[];
+  futureAuditRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -2468,6 +2560,7 @@ export type RouteReadinessReport = {
   qaScorecardConfigurationReadiness: QaScorecardConfigurationReadiness;
   humanAgentQaReadiness: HumanAgentQaReadiness;
   campaignAiQaScopeReadiness: CampaignAiQaScopeReadiness;
+  campaignPromptKbScopeReadiness: CampaignPromptKbScopeReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -11495,6 +11588,251 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const campaignPromptKbScopeReadiness: CampaignPromptKbScopeReadiness = {
+    currentState: 'not_ready',
+    campaignPromptKbScopeApproved: false,
+    campaignPromptKbScopeMode: 'read_only_design',
+    campaignScopedPromptStatus: 'read_only_design',
+    campaignScopedKnowledgeBaseStatus: 'read_only_design',
+    campaignScopedPolicyStatus: 'read_only_design',
+    campaignScopedHandoffStatus: 'read_only_design',
+    campaignScopedScoringStatus: 'read_only_design',
+    campaignScopedToolBoundaryStatus: 'read_only_design',
+    aiAgentConfigScopeStatus: 'read_only_design',
+    lineOfBusinessScopeStatus: 'read_only_design',
+    promptVersioningStatus: 'read_only_design',
+    knowledgeBaseVersioningStatus: 'read_only_design',
+    policyVersioningStatus: 'read_only_design',
+    handoffRuleVersioningStatus: 'read_only_design',
+    scoringRuleVersioningStatus: 'read_only_design',
+    toolBoundaryVersioningStatus: 'read_only_design',
+    approvalWorkflowStatus: 'read_only_design',
+    auditTrailStatus: 'read_only_design',
+    rollbackStatus: 'read_only_design',
+    clientAdminScopeStatus: 'read_only_design',
+    serverSideRbacStatus: 'read_only_design',
+    improvementProposalBoundaryStatus: 'read_only_design',
+    promptStorageStatus: 'not_implemented',
+    knowledgeBaseStorageStatus: 'not_implemented',
+    policyStorageStatus: 'not_implemented',
+    handoffRuleStorageStatus: 'not_implemented',
+    scoringRuleStorageStatus: 'not_implemented',
+    toolBoundaryStorageStatus: 'not_implemented',
+    endpointStatus: 'not_implemented',
+    crudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    promptExecutionStatus: 'not_allowed',
+    knowledgeBaseIngestionStatus: 'not_allowed',
+    policyExecutionStatus: 'not_allowed',
+    handoffExecutionStatus: 'not_allowed',
+    scoringExecutionStatus: 'not_allowed',
+    toolExecutionStatus: 'not_allowed',
+    uiConfigurationStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    autonomousLearningStatus: 'not_allowed',
+    promptStorageAllowed: false,
+    knowledgeBaseStorageAllowed: false,
+    policyStorageAllowed: false,
+    handoffRuleStorageAllowed: false,
+    scoringRuleStorageAllowed: false,
+    toolBoundaryStorageAllowed: false,
+    endpointAllowed: false,
+    crudAllowed: false,
+    migrationAllowed: false,
+    promptExecutionAllowed: false,
+    knowledgeBaseIngestionAllowed: false,
+    policyExecutionAllowed: false,
+    handoffExecutionAllowed: false,
+    scoringExecutionAllowed: false,
+    toolExecutionAllowed: false,
+    uiConfigurationAllowed: false,
+    openAiConnectionAllowed: false,
+    realtimeSessionAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    autonomousLearningAllowed: false,
+    improvementProposalAutoApplyAllowed: false,
+    realPiiAllowed: false,
+    realCredentialAllowed: false,
+    realCallAllowed: false,
+    futurePromptKbScopeFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'programType',
+      'aiAgentConfigId',
+      'promptScopeId',
+      'knowledgeBaseScopeId',
+      'policyScopeId',
+      'complianceScope',
+      'callRoute',
+      'qaRoute',
+      'toolBoundaryScopeId',
+      'versionId',
+      'approvalStatus',
+      'effectiveDate',
+    ],
+    futureProgramTypes: [
+      'sales',
+      'customer_service',
+      'healthcare',
+      'appointment_setting',
+      'collections',
+      'support',
+      'billing',
+      'retention',
+      'lead_qualification',
+      'custom',
+    ],
+    futurePromptScopeRules: [
+      'Prompts must be scoped by company/client/campaign/project/lineOfBusiness/aiAgentConfig',
+      'Prompts must not be global-only',
+      'Sales prompts may differ from customer service prompts',
+      'Healthcare prompts may differ from sales prompts and require additional compliance, PII, and safe-response policies',
+      'Appointment setting, collections, support, billing, retention, lead qualification, and custom programs may require separate prompt versions',
+      'Prompt versions must be approved before future activation',
+      'Prompt changes must not be applied automatically from QA findings or improvement proposals',
+      'Prompt scope must remain read-only in this phase',
+    ],
+    futureKnowledgeBaseScopeRules: [
+      'Knowledge bases must be scoped by company/client/campaign/project/lineOfBusiness',
+      'Knowledge bases must not be global-only',
+      'Sales, customer service, healthcare, appointment setting, collections, support, billing, retention, lead qualification, and custom programs may require separate knowledge bases',
+      'Healthcare knowledge bases may require stricter PII, consent, retention, and compliance boundaries',
+      'Knowledge base versions must be approved before future activation',
+      'Knowledge base changes must not be applied automatically from QA findings or improvement proposals',
+      'Knowledge base scope must remain read-only in this phase',
+    ],
+    futurePolicyScopeRules: [
+      'Policies must be scoped by company/client/campaign/project/lineOfBusiness/compliance scope',
+      'Policies must not be global-only',
+      'Healthcare policies may require stricter PII, consent, safe-response, and compliance handling than sales policies',
+      'Sales, customer service, appointment setting, collections, support, billing, retention, lead qualification, and custom programs may require separate policies',
+      'Policy versions must be approved before future activation',
+      'Policy changes must not be applied automatically from QA findings or improvement proposals',
+      'Policy scope must remain read-only in this phase',
+    ],
+    futureHandoffRuleScopeRules: [
+      'Handoff rules must be scoped by company/client/campaign/project/call route',
+      'Handoff rules must not be global-only',
+      'Inbound, outbound, healthcare, collections, support, billing, retention, and custom routes may require separate handoff rules',
+      'Handoff rule changes must be versioned, approved, auditable, and rollback-capable in a future implementation',
+      'Handoff rules must not be changed automatically from QA findings or improvement proposals',
+      'Handoff execution must remain blocked in this phase',
+    ],
+    futureScoringRuleScopeRules: [
+      'Scoring rules must be scoped by company/client/campaign/project/QA route',
+      'Scoring rules must not be global-only',
+      'AI Agent QA, Human Agent QA, inbound QA, outbound QA, healthcare QA, sales QA, and custom QA may require separate scoring rules',
+      'Scoring rule changes must be versioned, approved, auditable, and rollback-capable in a future implementation',
+      'Scoring rules must not be changed automatically from QA findings or improvement proposals',
+      'Scoring execution must remain blocked in this phase',
+    ],
+    futureToolBoundaryScopeRules: [
+      'Tool boundaries must be scoped by company/client/campaign/project/AI agent config',
+      'Tool boundaries must not be global-only',
+      'AI agents may require different tool boundaries by campaign, route, and line of business',
+      'Healthcare and collections tool boundaries may require stricter action, PII, and compliance limits',
+      'Tool boundary changes must be versioned, approved, auditable, and rollback-capable in a future implementation',
+      'Agent tools must not be exposed or executed in this phase',
+    ],
+    futureVersioningApprovalRules: [
+      'Prompt versions must be versioned, approved, auditable, rollback-capable, and effective-date controlled in a future implementation',
+      'Knowledge base versions must be versioned, approved, auditable, rollback-capable, and effective-date controlled in a future implementation',
+      'Policy versions must be versioned, approved, auditable, rollback-capable, and effective-date controlled in a future implementation',
+      'Handoff rule changes must be versioned, approved, auditable, rollback-capable, and effective-date controlled in a future implementation',
+      'Scoring rule changes must be versioned, approved, auditable, rollback-capable, and effective-date controlled in a future implementation',
+      'Tool boundary changes must be versioned, approved, auditable, rollback-capable, and effective-date controlled in a future implementation',
+      'Approvals must identify actor, role, scope, version, reason, timestamp, and effective date in a future implementation',
+    ],
+    futureImprovementProposalBoundaryRules: [
+      'QA findings must not automatically change prompts, knowledge bases, policies, handoff rules, scoring rules, tool boundaries, route behavior, or runtime behavior',
+      'Improvement proposals must not automatically apply prompt changes',
+      'Improvement proposals must not automatically apply knowledge base changes',
+      'Improvement proposals must not automatically apply policy changes',
+      'Improvement proposals must not automatically apply handoff, scoring, or tool boundary changes',
+      'Improvement proposals require future human review, approval, audit, versioning, rollback, and effective-date controls before activation',
+      'Autonomous learning must remain blocked',
+    ],
+    futureRbacScopeRules: [
+      'Client admins must only manage prompts inside assigned client/campaign scope in a future implementation',
+      'Client admins must only manage knowledge bases inside assigned client/campaign scope in a future implementation',
+      'Client admins must only manage policies, handoff rules, scoring rules, and tool boundaries inside assigned client/campaign scope in a future implementation',
+      'Client admins must not access other clients or campaigns unless explicitly assigned',
+      'Server-side RBAC is required in a future implementation',
+      'Browser-side filtering alone is not sufficient',
+      'Cross-client and cross-campaign access must default to denied',
+    ],
+    futureAuditRules: [
+      'Prompt, knowledge base, policy, handoff rule, scoring rule, and tool boundary changes must be auditable in a future implementation',
+      'Audit records must include actor, role, timestamp, company/client/campaign/project scope, line of business, route or AI agent config scope, action, before/after version, reason, approval, rollback reference, and correlation ID',
+      'Audit records must not expose credentials',
+      'Audit records must not expose unauthorized raw customer PII',
+      'Rollback actions must be auditable before any future activation',
+      'Effective-date changes must be auditable before any future activation',
+    ],
+    futureRuntimeBoundaries: [
+      'Campaign Prompt / KB Scope readiness must not create prompt storage',
+      'Campaign Prompt / KB Scope readiness must not create knowledge base storage',
+      'Campaign Prompt / KB Scope readiness must not create policy, handoff, scoring, or tool boundary storage',
+      'Campaign Prompt / KB Scope readiness must not create endpoints, CRUD, migrations, tables, or records',
+      'Campaign Prompt / KB Scope readiness must not create prompt templates or knowledge base documents',
+      'Campaign Prompt / KB Scope readiness must not connect OpenAI or execute OpenAI API calls',
+      'Campaign Prompt / KB Scope readiness must not open Realtime sessions',
+      'Campaign Prompt / KB Scope readiness must not expose or execute agent tools',
+      'Campaign Prompt / KB Scope readiness must not enable AI inbound calls, AI outbound calls, FastAGI, or AI voice',
+      'Campaign Prompt / KB Scope readiness must not modify Asterisk/Vicidial or route behavior',
+      'Campaign Prompt / KB Scope readiness must not add prompt builder, knowledge base upload, policy editor, handoff editor, scoring rule editor, tool boundary editor, OpenAI, call, route, FastAGI, or provisioning controls',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create prompt storage',
+      'Do not create knowledge base storage',
+      'Do not create policy storage',
+      'Do not create handoff rule storage',
+      'Do not create scoring rule storage',
+      'Do not create tool boundary storage',
+      'Do not create CRUD',
+      'Do not create endpoints',
+      'Do not create migrations',
+      'Do not create database tables',
+      'Do not create prompt records or prompt templates',
+      'Do not create knowledge base records or knowledge base documents',
+      'Do not create policy records',
+      'Do not create handoff rules',
+      'Do not create scoring rules',
+      'Do not create tool boundary records',
+      'Do not create approval or rollback records',
+      'Do not execute prompts, knowledge base ingestion, policies, handoff rules, scoring rules, or tool behavior',
+      'Do not connect OpenAI',
+      'Do not configure OpenAI credentials',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime sessions',
+      'Do not expose agent tools',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+      'Do not add UI configuration controls',
+      'Do not auto-apply improvement proposals',
+    ],
+    nextSteps: [
+      'Keep Campaign Prompt / KB Scope Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, OpenAI-disconnected, and execution-blocked.',
+      'Define future campaign-scoped prompt, knowledge base, policy, handoff, scoring, and tool boundary contracts in a separately approved phase.',
+      'Define future versioning, approval, audit, rollback, effective-date, server-side RBAC, and client admin scope controls before any storage or UI configuration work.',
+      'Keep QA findings and improvement proposals informational until a future approved workflow can review, approve, version, audit, schedule, and roll back changes.',
+      'Keep OpenAI connection, Realtime sessions, agent tools, prompt execution, knowledge base ingestion, policy execution, handoff execution, scoring execution, AI inbound, AI outbound, FastAGI, Asterisk/Vicidial changes, and route behavior changes blocked.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -11798,6 +12136,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Campaign AI Agent & QA Scope readiness is read-only, not ready, not approved, multi-company/multi-campaign/multi-program mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, provisioning-blocked, OpenAI-disconnected, execution-blocked, and exposes no company, campaign, AI agent, prompt, knowledge base, QA, scorecard, provisioning, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.',
     },
+    {
+      id: 'campaign-prompt-kb-scope-readiness-read-only',
+      label: 'Campaign Prompt / KB Scope readiness read-only',
+      status: 'pass',
+      detail: 'Campaign Prompt / KB Scope readiness is read-only, not ready, not approved, campaign-scoped prompt/knowledge-base/policy/handoff/scoring/tool-boundary mapped, versioning/approval/audit/rollback mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, OpenAI-disconnected, execution-blocked, and exposes no prompt builder, KB upload, policy, handoff, scoring, tool boundary, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -11928,6 +12272,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     qaScorecardConfigurationReadiness,
     humanAgentQaReadiness,
     campaignAiQaScopeReadiness,
+    campaignPromptKbScopeReadiness,
     checklist,
     risks,
     recommendations: [
@@ -11972,6 +12317,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat QA Scorecard Configuration readiness as read-only design visibility; it maps future configurable campaign-scoped scorecards for AI Agent QA, Human Agent QA, ai_inbound, ai_outbound, human_inbound, human_outbound, weighted criteria, critical-fail criteria, compliance flags, versioning, approval, audit, rollback, effective dates, RBAC, and client admin scope only and does not create scorecard storage, templates, records, CRUD, endpoints, migrations, scoring execution, QA records, reports, OpenAI connection, Realtime sessions, tool execution, AI inbound or outbound execution, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Treat Human Agent QA readiness as read-only design visibility; it does not create Human Agent QA storage, CRUD endpoints, human call ingestion endpoints, recording access endpoints, audio playback endpoints, transcription endpoints, audio analysis endpoints, human QA evaluation endpoints, AI-assisted scoring endpoints, supervisor review endpoints, final score endpoints, coaching endpoints, calibration endpoints, dispute endpoints, report endpoints, scorecard endpoints, database tables, migrations, Human QA records, call ingestion, recording access, transcription, audio analysis, evaluations, AI suggested scores, final QA scores, supervisor review, coaching, calibration, disputes, reports, scorecard updates, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, call execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat Campaign AI Agent & QA Scope readiness as read-only design visibility; it maps future multi-company, multi-campaign, multi-program, campaign-scoped AI agent and QA scope only and does not create storage, CRUD, endpoints, provisioning, AI agents, prompts, knowledge bases, QA records, scorecards, reports, client admin access grants, OpenAI connection, AI inbound or outbound execution, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
+      'Treat Campaign Prompt / KB Scope readiness as read-only design visibility; it maps future campaign-scoped prompts, knowledge bases, policies, handoff rules, scoring rules, tool boundaries, versioning, approvals, audit, rollback, effective dates, RBAC, client admin scope, and improvement proposal boundaries only and does not create prompt storage, KB storage, policy storage, handoff storage, scoring storage, tool boundary storage, CRUD, endpoints, migrations, prompt execution, KB ingestion, policy execution, handoff execution, scoring execution, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
