@@ -2613,6 +2613,120 @@ export type CampaignQaProvisioningReadiness = {
   nextSteps: string[];
 };
 
+export type QaRbacAccessScopeReadiness = {
+  currentState: 'not_ready';
+  qaRbacAccessScopeApproved: false;
+  qaRbacAccessScopeMode: 'read_only_design';
+  serverSideRbacStatus: 'read_only_design';
+  browserFilteringBoundaryStatus: 'read_only_design';
+  companyScopeStatus: 'read_only_design';
+  clientScopeStatus: 'read_only_design';
+  campaignScopeStatus: 'read_only_design';
+  projectScopeStatus: 'read_only_design';
+  lineOfBusinessScopeStatus: 'read_only_design';
+  qaCenterAccessStatus: 'read_only_design';
+  aiAgentQaAccessStatus: 'read_only_design';
+  humanAgentQaAccessStatus: 'read_only_design';
+  aiInboundQaAccessStatus: 'read_only_design';
+  aiOutboundQaAccessStatus: 'read_only_design';
+  humanInboundQaAccessStatus: 'read_only_design';
+  humanOutboundQaAccessStatus: 'read_only_design';
+  scorecardAccessStatus: 'read_only_design';
+  promptKbPolicyAccessStatus: 'read_only_design';
+  handoffScoringToolBoundaryAccessStatus: 'read_only_design';
+  reportAccessStatus: 'read_only_design';
+  coachingAccessStatus: 'read_only_design';
+  calibrationAccessStatus: 'read_only_design';
+  auditAccessStatus: 'read_only_design';
+  redactionPolicyAccessStatus: 'read_only_design';
+  rawPiiAccessBoundaryStatus: 'read_only_design';
+  accessApprovalStatus: 'read_only_design';
+  accessVersioningStatus: 'read_only_design';
+  accessRollbackStatus: 'read_only_design';
+  accessAuditTrailStatus: 'read_only_design';
+  effectiveDateStatus: 'read_only_design';
+  rbacStorageStatus: 'not_implemented';
+  roleStorageStatus: 'not_implemented';
+  permissionStorageStatus: 'not_implemented';
+  assignmentStorageStatus: 'not_implemented';
+  accessGrantStorageStatus: 'not_implemented';
+  auditStorageStatus: 'not_implemented';
+  endpointStatus: 'not_implemented';
+  crudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  authChangeStatus: 'not_allowed';
+  authorizationChangeStatus: 'not_allowed';
+  loginSessionChangeStatus: 'not_allowed';
+  rbacEnforcementExecutionStatus: 'not_allowed';
+  accessGrantExecutionStatus: 'not_allowed';
+  assignmentExecutionStatus: 'not_allowed';
+  auditRecordCreationStatus: 'not_allowed';
+  uiRbacConfigurationStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  toolExecutionStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  autonomousLearningStatus: 'not_allowed';
+  rbacStorageAllowed: false;
+  roleStorageAllowed: false;
+  permissionStorageAllowed: false;
+  assignmentStorageAllowed: false;
+  accessGrantStorageAllowed: false;
+  auditStorageAllowed: false;
+  endpointAllowed: false;
+  crudAllowed: false;
+  migrationAllowed: false;
+  authChangeAllowed: false;
+  authorizationChangeAllowed: false;
+  loginSessionChangeAllowed: false;
+  rbacEnforcementExecutionAllowed: false;
+  accessGrantExecutionAllowed: false;
+  assignmentExecutionAllowed: false;
+  auditRecordCreationAllowed: false;
+  uiRbacConfigurationAllowed: false;
+  superAdminGlobalRuntimeChangeAllowed: false;
+  internalAdminUnassignedScopeAccessAllowed: false;
+  clientAdminCrossClientAccessAllowed: false;
+  clientAdminCrossCampaignAccessAllowed: false;
+  supervisorUnassignedScopeAccessAllowed: false;
+  qaAnalystUnassignedScopeAccessAllowed: false;
+  aiQaReviewerHumanQaAccessAllowed: false;
+  humanQaReviewerAiQaAccessAllowed: false;
+  rawPiiAccessAllowed: false;
+  openAiConnectionAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  autonomousLearningAllowed: false;
+  realPiiAllowed: false;
+  realCredentialAllowed: false;
+  realCallAllowed: false;
+  futureRbacScopeFields: string[];
+  futureRoles: string[];
+  futureQaAccessScopes: string[];
+  futureRoleRules: string[];
+  futureSuperAdminRules: string[];
+  futureInternalAdminRules: string[];
+  futureClientAdminRules: string[];
+  futureSupervisorRules: string[];
+  futureQaAnalystRules: string[];
+  futureAiQaReviewerRules: string[];
+  futureHumanQaReviewerRules: string[];
+  futurePiiRedactionRules: string[];
+  futureApprovalVersioningRules: string[];
+  futureAuditRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -2673,6 +2787,7 @@ export type RouteReadinessReport = {
   campaignAiQaScopeReadiness: CampaignAiQaScopeReadiness;
   campaignPromptKbScopeReadiness: CampaignPromptKbScopeReadiness;
   campaignQaProvisioningReadiness: CampaignQaProvisioningReadiness;
+  qaRbacAccessScopeReadiness: QaRbacAccessScopeReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -12241,6 +12356,281 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const qaRbacAccessScopeReadiness: QaRbacAccessScopeReadiness = {
+    currentState: 'not_ready',
+    qaRbacAccessScopeApproved: false,
+    qaRbacAccessScopeMode: 'read_only_design',
+    serverSideRbacStatus: 'read_only_design',
+    browserFilteringBoundaryStatus: 'read_only_design',
+    companyScopeStatus: 'read_only_design',
+    clientScopeStatus: 'read_only_design',
+    campaignScopeStatus: 'read_only_design',
+    projectScopeStatus: 'read_only_design',
+    lineOfBusinessScopeStatus: 'read_only_design',
+    qaCenterAccessStatus: 'read_only_design',
+    aiAgentQaAccessStatus: 'read_only_design',
+    humanAgentQaAccessStatus: 'read_only_design',
+    aiInboundQaAccessStatus: 'read_only_design',
+    aiOutboundQaAccessStatus: 'read_only_design',
+    humanInboundQaAccessStatus: 'read_only_design',
+    humanOutboundQaAccessStatus: 'read_only_design',
+    scorecardAccessStatus: 'read_only_design',
+    promptKbPolicyAccessStatus: 'read_only_design',
+    handoffScoringToolBoundaryAccessStatus: 'read_only_design',
+    reportAccessStatus: 'read_only_design',
+    coachingAccessStatus: 'read_only_design',
+    calibrationAccessStatus: 'read_only_design',
+    auditAccessStatus: 'read_only_design',
+    redactionPolicyAccessStatus: 'read_only_design',
+    rawPiiAccessBoundaryStatus: 'read_only_design',
+    accessApprovalStatus: 'read_only_design',
+    accessVersioningStatus: 'read_only_design',
+    accessRollbackStatus: 'read_only_design',
+    accessAuditTrailStatus: 'read_only_design',
+    effectiveDateStatus: 'read_only_design',
+    rbacStorageStatus: 'not_implemented',
+    roleStorageStatus: 'not_implemented',
+    permissionStorageStatus: 'not_implemented',
+    assignmentStorageStatus: 'not_implemented',
+    accessGrantStorageStatus: 'not_implemented',
+    auditStorageStatus: 'not_implemented',
+    endpointStatus: 'not_implemented',
+    crudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    authChangeStatus: 'not_allowed',
+    authorizationChangeStatus: 'not_allowed',
+    loginSessionChangeStatus: 'not_allowed',
+    rbacEnforcementExecutionStatus: 'not_allowed',
+    accessGrantExecutionStatus: 'not_allowed',
+    assignmentExecutionStatus: 'not_allowed',
+    auditRecordCreationStatus: 'not_allowed',
+    uiRbacConfigurationStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    toolExecutionStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    autonomousLearningStatus: 'not_allowed',
+    rbacStorageAllowed: false,
+    roleStorageAllowed: false,
+    permissionStorageAllowed: false,
+    assignmentStorageAllowed: false,
+    accessGrantStorageAllowed: false,
+    auditStorageAllowed: false,
+    endpointAllowed: false,
+    crudAllowed: false,
+    migrationAllowed: false,
+    authChangeAllowed: false,
+    authorizationChangeAllowed: false,
+    loginSessionChangeAllowed: false,
+    rbacEnforcementExecutionAllowed: false,
+    accessGrantExecutionAllowed: false,
+    assignmentExecutionAllowed: false,
+    auditRecordCreationAllowed: false,
+    uiRbacConfigurationAllowed: false,
+    superAdminGlobalRuntimeChangeAllowed: false,
+    internalAdminUnassignedScopeAccessAllowed: false,
+    clientAdminCrossClientAccessAllowed: false,
+    clientAdminCrossCampaignAccessAllowed: false,
+    supervisorUnassignedScopeAccessAllowed: false,
+    qaAnalystUnassignedScopeAccessAllowed: false,
+    aiQaReviewerHumanQaAccessAllowed: false,
+    humanQaReviewerAiQaAccessAllowed: false,
+    rawPiiAccessAllowed: false,
+    openAiConnectionAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    autonomousLearningAllowed: false,
+    realPiiAllowed: false,
+    realCredentialAllowed: false,
+    realCallAllowed: false,
+    futureRbacScopeFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'qaTrack',
+      'qaRoute',
+      'qaScopeId',
+      'aiAgentScopeId',
+      'scorecardScopeId',
+      'promptKbPolicyScopeId',
+      'handoffScoringToolBoundaryScopeId',
+      'reportScopeId',
+      'coachingScopeId',
+      'calibrationScopeId',
+      'auditScopeId',
+      'redactionPolicyScopeId',
+      'effectiveDate',
+    ],
+    futureRoles: [
+      'super_admin',
+      'internal_admin',
+      'client_admin',
+      'supervisor',
+      'qa_analyst',
+      'ai_qa_reviewer',
+      'human_qa_reviewer',
+    ],
+    futureQaAccessScopes: [
+      'QA Center',
+      'AI Agent QA',
+      'Human Agent QA',
+      'AI inbound QA',
+      'AI outbound QA',
+      'Human inbound QA',
+      'Human outbound QA',
+      'Scorecard configuration',
+      'Prompt/KB/policy scope',
+      'Handoff/scoring/tool boundary scope',
+      'Reports',
+      'Coaching',
+      'Calibration',
+      'Audit',
+      'Redaction policy',
+    ],
+    futureRoleRules: [
+      'RBAC must be enforced server-side in a future implementation',
+      'Browser-side filtering alone is not sufficient',
+      'Access must be scoped by company/client/campaign/project/lineOfBusiness',
+      'Access must support QA tracks and QA routes',
+      'No role should get cross-client or cross-campaign access by default',
+      'Scorecard access must be scoped',
+      'Prompt/KB/policy access must be scoped',
+      'Reports, coaching, calibration, and audit access must be scoped',
+    ],
+    futureSuperAdminRules: [
+      'super_admin may have global visibility in a future implementation',
+      'super_admin global visibility must still be auditable',
+      'super_admin actions must support approval, versioning, rollback, and effective-date controls where required',
+      'super_admin global visibility must not change runtime behavior automatically',
+    ],
+    futureInternalAdminRules: [
+      'internal_admin must only manage assigned companies/clients/campaigns/projects',
+      'internal_admin must not access unassigned scopes by default',
+      'internal_admin access changes must be auditable in a future implementation',
+      'internal_admin assignments must support approval, versioning, rollback, and effective-date controls in a future implementation',
+    ],
+    futureClientAdminRules: [
+      'client_admin must only see assigned client/campaign scope',
+      'client_admin must only manage assigned client/campaign scope',
+      'client_admin must not access other clients or campaigns by default',
+      'client_admin may only manage QA and AI Agent tools inside assigned scope in a future implementation',
+      'client_admin raw PII access must default to denied unless future RBAC/redaction policy allows it',
+    ],
+    futureSupervisorRules: [
+      'supervisor must only see assigned campaigns/teams/QA scopes',
+      'supervisor must not access unassigned campaign or team scopes by default',
+      'supervisor scorecard, coaching, calibration, and report access must be scoped',
+      'supervisor raw PII access must default to denied unless future RBAC/redaction policy allows it',
+    ],
+    futureQaAnalystRules: [
+      'qa_analyst must only see assigned QA review scopes',
+      'qa_analyst must not access unassigned QA review scopes by default',
+      'qa_analyst report, audit, scorecard, and calibration access must be scoped',
+      'qa_analyst raw PII access must default to denied unless future RBAC/redaction policy allows it',
+    ],
+    futureAiQaReviewerRules: [
+      'ai_qa_reviewer must only see assigned AI Agent QA scopes',
+      'ai_qa_reviewer must only see assigned AI inbound QA and AI outbound QA scopes',
+      'ai_qa_reviewer must not receive Human Agent QA access by default',
+      'ai_qa_reviewer prompt, KB, policy, handoff, scoring, and tool boundary visibility must be scoped',
+    ],
+    futureHumanQaReviewerRules: [
+      'human_qa_reviewer must only see assigned Human Agent QA scopes',
+      'human_qa_reviewer must only see assigned Human inbound QA and Human outbound QA scopes',
+      'human_qa_reviewer must not receive AI Agent QA access by default',
+      'human_qa_reviewer scorecard, coaching, calibration, report, and audit visibility must be scoped',
+    ],
+    futurePiiRedactionRules: [
+      'Access to raw PII must default to denied unless future RBAC and redaction policy explicitly allow it',
+      'Redaction policy access must be scoped by company/client/campaign/project/lineOfBusiness',
+      'Raw PII display must require future server-side authorization',
+      'Raw PII access must be audited in a future implementation',
+      'Browser-side filtering must not be trusted for PII protection',
+    ],
+    futureApprovalVersioningRules: [
+      'Access changes must support approval in a future implementation',
+      'Access changes must support versioning in a future implementation',
+      'Access changes must support rollback in a future implementation',
+      'Access changes must support effective-date controls in a future implementation',
+      'Role assignments must identify actor, role, scope, approval status, version, reason, timestamp, and effective date in a future implementation',
+      'Access changes must not automatically enable OpenAI, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes',
+    ],
+    futureAuditRules: [
+      'Access changes must be auditable in a future implementation',
+      'RBAC policy changes must be auditable in a future implementation',
+      'Assignment changes must be auditable in a future implementation',
+      'Permission changes must be auditable in a future implementation',
+      'Audit events must include actor, role, timestamp, company/client/campaign/project scope, QA scope, action, before/after state, reason, approval, version, effective date, and correlation ID',
+      'Audit records must not expose credentials or unauthorized raw PII',
+      'This readiness phase must not create audit records',
+    ],
+    futureRuntimeBoundaries: [
+      'QA RBAC / Access Scope readiness must not create RBAC storage',
+      'QA RBAC / Access Scope readiness must not create role, permission, assignment, access grant, or audit storage',
+      'QA RBAC / Access Scope readiness must not create CRUD, endpoints, migrations, users, roles, permissions, access grants, assignments, or audit records',
+      'QA RBAC / Access Scope readiness must not change existing authentication',
+      'QA RBAC / Access Scope readiness must not change existing authorization',
+      'QA RBAC / Access Scope readiness must not change login/session behavior',
+      'QA RBAC / Access Scope readiness must not create policy enforcement middleware',
+      'QA RBAC / Access Scope readiness must not expose RBAC or assignment controls',
+      'QA RBAC / Access Scope readiness must not connect OpenAI or execute OpenAI API calls',
+      'QA RBAC / Access Scope readiness must not open Realtime sessions or expose agent tools',
+      'QA RBAC / Access Scope readiness must not enable AI voice, AI inbound calls, AI outbound calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create RBAC storage',
+      'Do not create role storage',
+      'Do not create permission storage',
+      'Do not create assignment storage',
+      'Do not create access grant storage',
+      'Do not create audit storage',
+      'Do not create CRUD',
+      'Do not create endpoints',
+      'Do not create migrations',
+      'Do not create database tables',
+      'Do not create users',
+      'Do not create roles',
+      'Do not create permissions',
+      'Do not create access grants',
+      'Do not create client admin assignments',
+      'Do not create supervisor assignments',
+      'Do not create QA analyst assignments',
+      'Do not create AI QA reviewer assignments',
+      'Do not create Human QA reviewer assignments',
+      'Do not change authentication',
+      'Do not change authorization',
+      'Do not change login/session behavior',
+      'Do not create policy enforcement middleware',
+      'Do not create audit records',
+      'Do not expose RBAC controls',
+      'Do not expose assignment controls',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime sessions',
+      'Do not expose agent tools',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    nextSteps: [
+      'Keep QA RBAC / Access Scope Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, OpenAI-disconnected, and execution-blocked.',
+      'Define future server-side RBAC and scoped QA/AI Agent access contracts in a separately approved phase.',
+      'Define future role, permission, assignment, access grant, approval, versioning, rollback, effective-date, audit, and redaction controls before any RBAC implementation.',
+      'Keep users, roles, permissions, assignments, access grants, auth changes, authorization changes, login/session changes, policy enforcement middleware, audit writes, OpenAI connection, Realtime sessions, AI inbound, AI outbound, FastAGI, Asterisk/Vicidial changes, and route behavior changes blocked.',
+      'Require future server-side scope checks for company/client/campaign/project/lineOfBusiness, QA tracks, QA routes, scorecards, prompts, KBs, reports, coaching, calibration, audit, and redaction policy access.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -12556,6 +12946,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Campaign QA Provisioning readiness is read-only, not ready, not approved, campaign-scoped QA and AI Agent access structures mapped, client-admin/supervisor/QA-analyst access mapped, idempotency/audit/rollback mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, provisioning-blocked, OpenAI-disconnected, execution-blocked, and exposes no provisioning, access grant, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.',
     },
+    {
+      id: 'qa-rbac-access-scope-readiness-read-only',
+      label: 'QA RBAC / Access Scope readiness read-only',
+      status: 'pass',
+      detail: 'QA RBAC / Access Scope readiness is read-only, not ready, not approved, server-side RBAC mapped, company/client/campaign/project/line-of-business scope mapped, QA reviewer scope mapped, raw PII denied by default, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, RBAC enforcement-blocked, OpenAI-disconnected, execution-blocked, and exposes no users, roles, permissions, assignments, access grants, RBAC controls, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -12688,6 +13084,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     campaignAiQaScopeReadiness,
     campaignPromptKbScopeReadiness,
     campaignQaProvisioningReadiness,
+    qaRbacAccessScopeReadiness,
     checklist,
     risks,
     recommendations: [
@@ -12734,6 +13131,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat Campaign AI Agent & QA Scope readiness as read-only design visibility; it maps future multi-company, multi-campaign, multi-program, campaign-scoped AI agent and QA scope only and does not create storage, CRUD, endpoints, provisioning, AI agents, prompts, knowledge bases, QA records, scorecards, reports, client admin access grants, OpenAI connection, AI inbound or outbound execution, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Treat Campaign Prompt / KB Scope readiness as read-only design visibility; it maps future campaign-scoped prompts, knowledge bases, policies, handoff rules, scoring rules, tool boundaries, versioning, approvals, audit, rollback, effective dates, RBAC, client admin scope, and improvement proposal boundaries only and does not create prompt storage, KB storage, policy storage, handoff storage, scoring storage, tool boundary storage, CRUD, endpoints, migrations, prompt execution, KB ingestion, policy execution, handoff execution, scoring execution, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Treat Campaign QA Provisioning readiness as read-only design visibility; it maps future campaign-scoped QA and AI Agent access structures, QA Center access, AI Agent QA access, Human Agent QA access, scorecard access, prompt/KB/policy scope access, reports, coaching, calibration, audit, redaction access, client admin scope, server-side RBAC, idempotency, rollback, and disabled-by-default runtime controls only and does not create provisioning storage, campaign storage, QA storage, AI agent storage, prompt storage, KB storage, policy storage, scorecard storage, report storage, access grant storage, CRUD, endpoints, migrations, provisioning execution, campaign creation hooks, access grants, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
+      'Treat QA RBAC / Access Scope readiness as read-only design visibility; it maps future server-side RBAC and scoped QA/AI Agent access across companies, clients, campaigns, projects, line of business, QA tracks, QA routes, scorecards, prompts, KBs, reports, coaching, calibration, audit, and redaction policies only and does not create RBAC storage, role storage, permission storage, assignment storage, access grant storage, audit storage, CRUD, endpoints, migrations, users, roles, permissions, access grants, assignments, audit records, auth changes, authorization changes, login/session changes, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

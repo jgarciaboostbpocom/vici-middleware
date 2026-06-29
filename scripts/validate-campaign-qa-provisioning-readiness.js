@@ -63,8 +63,8 @@ const readiness = read(readinessPath);
 const ui = read(uiPath);
 const docs = exists(docsPath) ? read(docsPath) : '';
 const statusDoc = read(statusPath);
-const campaignQaProvisioningSource = sectionBetween(readiness, 'const campaignQaProvisioningReadiness', 'const checklist');
-const campaignQaProvisioningUiSection = sectionBetween(ui, 'Campaign QA Provisioning Readiness', 'Safety Checklist');
+const campaignQaProvisioningSource = sectionBetween(readiness, 'const campaignQaProvisioningReadiness', 'const qaRbacAccessScopeReadiness');
+const campaignQaProvisioningUiSection = sectionBetween(ui, 'Campaign QA Provisioning Readiness', 'QA RBAC / Access Scope Readiness');
 
 const scalarChecks = [
   ['currentState', 'not_ready'],
@@ -302,7 +302,7 @@ const statusPhrases = [
 
 check(readiness.includes('campaignQaProvisioningReadiness'), 'readiness.ts must contain campaignQaProvisioningReadiness');
 check(campaignQaProvisioningSource, 'campaignQaProvisioningReadiness source section missing');
-check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*checklist/s.test(readiness), 'readiness response payload must include campaignQaProvisioningReadiness after campaignPromptKbScopeReadiness');
+check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*(qaRbacAccessScopeReadiness,\s*)?checklist/s.test(readiness), 'readiness response payload must include campaignQaProvisioningReadiness after campaignPromptKbScopeReadiness');
 check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*qaScorecardConfigurationReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'existing QA readiness payload order must remain unchanged');
 for (const [key, value] of scalarChecks) {
   check(sourceContainsValue(campaignQaProvisioningSource, key, value), `readiness response must contain ${key}: ${JSON.stringify(value)}`);

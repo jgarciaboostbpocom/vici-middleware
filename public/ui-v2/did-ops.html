@@ -1008,6 +1008,15 @@
                   <div class="muted small">Loading Campaign QA Provisioning readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>QA RBAC / Access Scope Readiness</h2>
+                  <span class="muted small">Read-only QA RBAC and access scope design status for future server-side role-based access across companies, clients, campaigns, projects, line of business, QA tracks, QA routes, scorecards, prompts, knowledge bases, reports, coaching, calibration, audit, and redaction policies. This does not create RBAC storage, users, roles, permissions, assignments, access grants, audit records, auth changes, authorization changes, login/session changes, OpenAI connection, AI call execution, FastAGI, Asterisk/Vicidial changes, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="qaRbacAccessScopeReadinessCards"></div>
+                <div class="row" id="qaRbacAccessScopeReadinessBadges" style="margin-top:12px"></div>
+                <div id="qaRbacAccessScopeReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading QA RBAC / Access Scope readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3020,10 +3029,13 @@ function renderRouteReadiness() {
   const campaignQaProvisioningReadinessCards = $('#campaignQaProvisioningReadinessCards');
   const campaignQaProvisioningReadinessBadges = $('#campaignQaProvisioningReadinessBadges');
   const campaignQaProvisioningReadinessDetails = $('#campaignQaProvisioningReadinessDetails');
+  const qaRbacAccessScopeReadinessCards = $('#qaRbacAccessScopeReadinessCards');
+  const qaRbacAccessScopeReadinessBadges = $('#qaRbacAccessScopeReadinessBadges');
+  const qaRbacAccessScopeReadinessDetails = $('#qaRbacAccessScopeReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3152,6 +3164,9 @@ function renderRouteReadiness() {
     campaignQaProvisioningReadinessCards.innerHTML = '<div class="muted small">Campaign QA Provisioning readiness status not loaded.</div>';
     campaignQaProvisioningReadinessBadges.innerHTML = '';
     campaignQaProvisioningReadinessDetails.innerHTML = '<div class="muted small">Campaign QA Provisioning readiness details not loaded.</div>';
+    qaRbacAccessScopeReadinessCards.innerHTML = '<div class="muted small">QA RBAC / Access Scope readiness status not loaded.</div>';
+    qaRbacAccessScopeReadinessBadges.innerHTML = '';
+    qaRbacAccessScopeReadinessDetails.innerHTML = '<div class="muted small">QA RBAC / Access Scope readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -8225,6 +8240,155 @@ function renderRouteReadiness() {
   campaignQaProvisioningReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${campaignQaProvisioningDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const qaRbacAccessScope = report.qaRbacAccessScopeReadiness || {};
+  const qaRbacAccessScopeReadinessCardsData = [
+    ['Current state', qaRbacAccessScope.currentState || 'not_ready'],
+    ['QA RBAC access scope approved', qaRbacAccessScope.qaRbacAccessScopeApproved ? 'yes' : 'no'],
+    ['QA RBAC access scope mode', qaRbacAccessScope.qaRbacAccessScopeMode || 'read_only_design'],
+    ['Server-side RBAC', qaRbacAccessScope.serverSideRbacStatus || 'read_only_design'],
+    ['Browser filtering boundary', qaRbacAccessScope.browserFilteringBoundaryStatus || 'read_only_design'],
+    ['Company scope', qaRbacAccessScope.companyScopeStatus || 'read_only_design'],
+    ['Client scope', qaRbacAccessScope.clientScopeStatus || 'read_only_design'],
+    ['Campaign scope', qaRbacAccessScope.campaignScopeStatus || 'read_only_design'],
+    ['Project scope', qaRbacAccessScope.projectScopeStatus || 'read_only_design'],
+    ['Line of business scope', qaRbacAccessScope.lineOfBusinessScopeStatus || 'read_only_design'],
+    ['QA Center access', qaRbacAccessScope.qaCenterAccessStatus || 'read_only_design'],
+    ['AI Agent QA access', qaRbacAccessScope.aiAgentQaAccessStatus || 'read_only_design'],
+    ['Human Agent QA access', qaRbacAccessScope.humanAgentQaAccessStatus || 'read_only_design'],
+    ['AI inbound QA access', qaRbacAccessScope.aiInboundQaAccessStatus || 'read_only_design'],
+    ['AI outbound QA access', qaRbacAccessScope.aiOutboundQaAccessStatus || 'read_only_design'],
+    ['Human inbound QA access', qaRbacAccessScope.humanInboundQaAccessStatus || 'read_only_design'],
+    ['Human outbound QA access', qaRbacAccessScope.humanOutboundQaAccessStatus || 'read_only_design'],
+    ['Scorecard access', qaRbacAccessScope.scorecardAccessStatus || 'read_only_design'],
+    ['Prompt/KB/policy access', qaRbacAccessScope.promptKbPolicyAccessStatus || 'read_only_design'],
+    ['Handoff/scoring/tool boundary access', qaRbacAccessScope.handoffScoringToolBoundaryAccessStatus || 'read_only_design'],
+    ['Report access', qaRbacAccessScope.reportAccessStatus || 'read_only_design'],
+    ['Coaching access', qaRbacAccessScope.coachingAccessStatus || 'read_only_design'],
+    ['Calibration access', qaRbacAccessScope.calibrationAccessStatus || 'read_only_design'],
+    ['Audit access', qaRbacAccessScope.auditAccessStatus || 'read_only_design'],
+    ['Redaction policy access', qaRbacAccessScope.redactionPolicyAccessStatus || 'read_only_design'],
+    ['Raw PII access boundary', qaRbacAccessScope.rawPiiAccessBoundaryStatus || 'read_only_design'],
+    ['Access approval', qaRbacAccessScope.accessApprovalStatus || 'read_only_design'],
+    ['Access versioning', qaRbacAccessScope.accessVersioningStatus || 'read_only_design'],
+    ['Access rollback', qaRbacAccessScope.accessRollbackStatus || 'read_only_design'],
+    ['Access audit trail', qaRbacAccessScope.accessAuditTrailStatus || 'read_only_design'],
+    ['Effective date', qaRbacAccessScope.effectiveDateStatus || 'read_only_design'],
+    ['RBAC storage', qaRbacAccessScope.rbacStorageStatus || 'not_implemented'],
+    ['Role storage', qaRbacAccessScope.roleStorageStatus || 'not_implemented'],
+    ['Permission storage', qaRbacAccessScope.permissionStorageStatus || 'not_implemented'],
+    ['Assignment storage', qaRbacAccessScope.assignmentStorageStatus || 'not_implemented'],
+    ['Access grant storage', qaRbacAccessScope.accessGrantStorageStatus || 'not_implemented'],
+    ['Audit storage', qaRbacAccessScope.auditStorageStatus || 'not_implemented'],
+    ['Endpoint', qaRbacAccessScope.endpointStatus || 'not_implemented'],
+    ['CRUD', qaRbacAccessScope.crudStatus || 'not_implemented'],
+    ['Migration', qaRbacAccessScope.migrationStatus || 'not_implemented'],
+    ['Auth change', qaRbacAccessScope.authChangeStatus || 'not_allowed'],
+    ['Authorization change', qaRbacAccessScope.authorizationChangeStatus || 'not_allowed'],
+    ['Login/session change', qaRbacAccessScope.loginSessionChangeStatus || 'not_allowed'],
+    ['RBAC enforcement execution', qaRbacAccessScope.rbacEnforcementExecutionStatus || 'not_allowed'],
+    ['Access grant execution', qaRbacAccessScope.accessGrantExecutionStatus || 'not_allowed'],
+    ['Assignment execution', qaRbacAccessScope.assignmentExecutionStatus || 'not_allowed'],
+    ['Audit record creation', qaRbacAccessScope.auditRecordCreationStatus || 'not_allowed'],
+    ['UI RBAC configuration', qaRbacAccessScope.uiRbacConfigurationStatus || 'not_allowed'],
+    ['OpenAI connection', qaRbacAccessScope.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', qaRbacAccessScope.openAiRuntimeStatus || 'not_connected'],
+    ['Realtime session', qaRbacAccessScope.realtimeSessionStatus || 'not_connected'],
+    ['Tool execution', qaRbacAccessScope.toolExecutionStatus || 'not_allowed'],
+    ['AI inbound execution', qaRbacAccessScope.aiInboundExecutionStatus || 'not_allowed'],
+    ['AI outbound execution', qaRbacAccessScope.aiOutboundExecutionStatus || 'not_allowed'],
+    ['FastAGI', qaRbacAccessScope.fastAgiStatus || 'not_allowed'],
+    ['Route behavior change', qaRbacAccessScope.routeBehaviorChangeStatus || 'not_allowed'],
+    ['Autonomous learning', qaRbacAccessScope.autonomousLearningStatus || 'not_allowed'],
+    ['RBAC storage allowed', qaRbacAccessScope.rbacStorageAllowed ? 'yes' : 'no'],
+    ['Role storage allowed', qaRbacAccessScope.roleStorageAllowed ? 'yes' : 'no'],
+    ['Permission storage allowed', qaRbacAccessScope.permissionStorageAllowed ? 'yes' : 'no'],
+    ['Assignment storage allowed', qaRbacAccessScope.assignmentStorageAllowed ? 'yes' : 'no'],
+    ['Access grant storage allowed', qaRbacAccessScope.accessGrantStorageAllowed ? 'yes' : 'no'],
+    ['Audit storage allowed', qaRbacAccessScope.auditStorageAllowed ? 'yes' : 'no'],
+    ['Endpoint allowed', qaRbacAccessScope.endpointAllowed ? 'yes' : 'no'],
+    ['CRUD allowed', qaRbacAccessScope.crudAllowed ? 'yes' : 'no'],
+    ['Migration allowed', qaRbacAccessScope.migrationAllowed ? 'yes' : 'no'],
+    ['Auth change allowed', qaRbacAccessScope.authChangeAllowed ? 'yes' : 'no'],
+    ['Authorization change allowed', qaRbacAccessScope.authorizationChangeAllowed ? 'yes' : 'no'],
+    ['Login/session change allowed', qaRbacAccessScope.loginSessionChangeAllowed ? 'yes' : 'no'],
+    ['RBAC enforcement execution allowed', qaRbacAccessScope.rbacEnforcementExecutionAllowed ? 'yes' : 'no'],
+    ['Access grant execution allowed', qaRbacAccessScope.accessGrantExecutionAllowed ? 'yes' : 'no'],
+    ['Assignment execution allowed', qaRbacAccessScope.assignmentExecutionAllowed ? 'yes' : 'no'],
+    ['Audit record creation allowed', qaRbacAccessScope.auditRecordCreationAllowed ? 'yes' : 'no'],
+    ['UI RBAC configuration allowed', qaRbacAccessScope.uiRbacConfigurationAllowed ? 'yes' : 'no'],
+    ['Super admin global runtime change allowed', qaRbacAccessScope.superAdminGlobalRuntimeChangeAllowed ? 'yes' : 'no'],
+    ['Internal admin unassigned scope access allowed', qaRbacAccessScope.internalAdminUnassignedScopeAccessAllowed ? 'yes' : 'no'],
+    ['Client admin cross-client access allowed', qaRbacAccessScope.clientAdminCrossClientAccessAllowed ? 'yes' : 'no'],
+    ['Client admin cross-campaign access allowed', qaRbacAccessScope.clientAdminCrossCampaignAccessAllowed ? 'yes' : 'no'],
+    ['Supervisor unassigned scope access allowed', qaRbacAccessScope.supervisorUnassignedScopeAccessAllowed ? 'yes' : 'no'],
+    ['QA analyst unassigned scope access allowed', qaRbacAccessScope.qaAnalystUnassignedScopeAccessAllowed ? 'yes' : 'no'],
+    ['AI QA reviewer Human QA access allowed', qaRbacAccessScope.aiQaReviewerHumanQaAccessAllowed ? 'yes' : 'no'],
+    ['Human QA reviewer AI QA access allowed', qaRbacAccessScope.humanQaReviewerAiQaAccessAllowed ? 'yes' : 'no'],
+    ['Raw PII access allowed', qaRbacAccessScope.rawPiiAccessAllowed ? 'yes' : 'no'],
+    ['OpenAI connection allowed', qaRbacAccessScope.openAiConnectionAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', qaRbacAccessScope.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', qaRbacAccessScope.toolExecutionAllowed ? 'yes' : 'no'],
+    ['AI inbound execution allowed', qaRbacAccessScope.aiInboundExecutionAllowed ? 'yes' : 'no'],
+    ['AI outbound execution allowed', qaRbacAccessScope.aiOutboundExecutionAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', qaRbacAccessScope.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', qaRbacAccessScope.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['Autonomous learning allowed', qaRbacAccessScope.autonomousLearningAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', qaRbacAccessScope.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', qaRbacAccessScope.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real call allowed', qaRbacAccessScope.realCallAllowed ? 'yes' : 'no'],
+  ];
+  qaRbacAccessScopeReadinessCards.innerHTML = qaRbacAccessScopeReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  qaRbacAccessScopeReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only RBAC design', 'info'),
+    readinessBadge('Server-side RBAC mapped', 'info'),
+    readinessBadge('Company/client/campaign scope mapped', 'info'),
+    readinessBadge('Client admin scope mapped', 'info'),
+    readinessBadge('QA reviewer scope mapped', 'info'),
+    readinessBadge('Raw PII denied by default', 'bad'),
+    readinessBadge('Approval and rollback mapped', 'info'),
+    readinessBadge('Audit mapped', 'info'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const qaRbacAccessScopeDetailGroups = [
+    ['Future RBAC scope fields', qaRbacAccessScope.futureRbacScopeFields],
+    ['Future roles', qaRbacAccessScope.futureRoles],
+    ['Future QA access scopes', qaRbacAccessScope.futureQaAccessScopes],
+    ['Future role rules', qaRbacAccessScope.futureRoleRules],
+    ['Future super admin rules', qaRbacAccessScope.futureSuperAdminRules],
+    ['Future internal admin rules', qaRbacAccessScope.futureInternalAdminRules],
+    ['Future client admin rules', qaRbacAccessScope.futureClientAdminRules],
+    ['Future supervisor rules', qaRbacAccessScope.futureSupervisorRules],
+    ['Future QA analyst rules', qaRbacAccessScope.futureQaAnalystRules],
+    ['Future AI QA reviewer rules', qaRbacAccessScope.futureAiQaReviewerRules],
+    ['Future Human QA reviewer rules', qaRbacAccessScope.futureHumanQaReviewerRules],
+    ['Future PII/redaction rules', qaRbacAccessScope.futurePiiRedactionRules],
+    ['Future approval/versioning rules', qaRbacAccessScope.futureApprovalVersioningRules],
+    ['Future audit rules', qaRbacAccessScope.futureAuditRules],
+    ['Future runtime boundaries', qaRbacAccessScope.futureRuntimeBoundaries],
+    ['Prohibited current actions', qaRbacAccessScope.prohibitedCurrentActions],
+    ['Next steps', qaRbacAccessScope.nextSteps],
+  ];
+  qaRbacAccessScopeReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${qaRbacAccessScopeDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>
