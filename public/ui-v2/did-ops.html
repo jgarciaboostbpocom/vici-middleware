@@ -963,6 +963,15 @@
                   <div class="muted small">Loading Human Agent QA readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Campaign AI Agent &amp; QA Scope Readiness</h2>
+                  <span class="muted small">Read-only campaign AI Agent and QA scope design status for future multi-company, multi-campaign, and multi-program AI agents, QA Center, AI Agent QA, Human Agent QA, prompts, knowledge bases, policies, scorecards, reports, coaching, calibration, and client admin access. This does not create storage, CRUD, endpoints, provisioning, OpenAI connection, execution controls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="campaignAiQaScopeReadinessCards"></div>
+                <div class="row" id="campaignAiQaScopeReadinessBadges" style="margin-top:12px"></div>
+                <div id="campaignAiQaScopeReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading Campaign AI Agent &amp; QA Scope readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -2960,10 +2969,13 @@ function renderRouteReadiness() {
   const humanAgentQaReadinessCards = $('#humanAgentQaReadinessCards');
   const humanAgentQaReadinessBadges = $('#humanAgentQaReadinessBadges');
   const humanAgentQaReadinessDetails = $('#humanAgentQaReadinessDetails');
+  const campaignAiQaScopeReadinessCards = $('#campaignAiQaScopeReadinessCards');
+  const campaignAiQaScopeReadinessBadges = $('#campaignAiQaScopeReadinessBadges');
+  const campaignAiQaScopeReadinessDetails = $('#campaignAiQaScopeReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3077,6 +3089,9 @@ function renderRouteReadiness() {
     humanAgentQaReadinessCards.innerHTML = '<div class="muted small">Human Agent QA readiness status not loaded.</div>';
     humanAgentQaReadinessBadges.innerHTML = '';
     humanAgentQaReadinessDetails.innerHTML = '<div class="muted small">Human Agent QA readiness details not loaded.</div>';
+    campaignAiQaScopeReadinessCards.innerHTML = '<div class="muted small">Campaign AI Agent &amp; QA Scope readiness status not loaded.</div>';
+    campaignAiQaScopeReadinessBadges.innerHTML = '';
+    campaignAiQaScopeReadinessDetails.innerHTML = '<div class="muted small">Campaign AI Agent &amp; QA Scope readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -7498,6 +7513,154 @@ function renderRouteReadiness() {
         <strong>Next steps</strong>
         ${humanAgentQaNextSteps.length ? `<ul>${humanAgentQaNextSteps.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No next steps returned.</div>'}
       </div>
+    </div>
+  `;
+
+  const campaignAiQaScope = report.campaignAiQaScopeReadiness || {};
+  const campaignAiQaScopeReadinessCardsData = [
+    ['Current state', campaignAiQaScope.currentState || 'not_ready'],
+    ['Campaign AI/QA scope approved', campaignAiQaScope.campaignAiQaScopeApproved ? 'yes' : 'no'],
+    ['Campaign AI/QA scope mode', campaignAiQaScope.campaignAiQaScopeMode || 'read_only_design'],
+    ['Multi-company', campaignAiQaScope.multiCompanyStatus || 'read_only_design'],
+    ['Multi-campaign', campaignAiQaScope.multiCampaignStatus || 'read_only_design'],
+    ['Multi-program', campaignAiQaScope.multiProgramStatus || 'read_only_design'],
+    ['Line of business scope', campaignAiQaScope.lineOfBusinessScopeStatus || 'read_only_design'],
+    ['Campaign-scoped AI agents', campaignAiQaScope.campaignScopedAiAgentsStatus || 'read_only_design'],
+    ['Campaign-scoped prompts', campaignAiQaScope.campaignScopedPromptsStatus || 'read_only_design'],
+    ['Campaign-scoped knowledge base', campaignAiQaScope.campaignScopedKnowledgeBaseStatus || 'read_only_design'],
+    ['Campaign-scoped policies', campaignAiQaScope.campaignScopedPoliciesStatus || 'read_only_design'],
+    ['Campaign-scoped handoff rules', campaignAiQaScope.campaignScopedHandoffRulesStatus || 'read_only_design'],
+    ['Campaign-scoped scoring rules', campaignAiQaScope.campaignScopedScoringRulesStatus || 'read_only_design'],
+    ['Campaign-scoped tool boundaries', campaignAiQaScope.campaignScopedToolBoundariesStatus || 'read_only_design'],
+    ['Campaign-scoped QA Center', campaignAiQaScope.campaignScopedQaCenterStatus || 'read_only_design'],
+    ['Campaign-scoped AI Agent QA', campaignAiQaScope.campaignScopedAiAgentQaStatus || 'read_only_design'],
+    ['Campaign-scoped Human Agent QA', campaignAiQaScope.campaignScopedHumanAgentQaStatus || 'read_only_design'],
+    ['Campaign-scoped scorecards', campaignAiQaScope.campaignScopedScorecardsStatus || 'read_only_design'],
+    ['Campaign-scoped reports', campaignAiQaScope.campaignScopedReportsStatus || 'read_only_design'],
+    ['Campaign-scoped coaching', campaignAiQaScope.campaignScopedCoachingStatus || 'read_only_design'],
+    ['Campaign-scoped calibration', campaignAiQaScope.campaignScopedCalibrationStatus || 'read_only_design'],
+    ['Client admin campaign access', campaignAiQaScope.campaignClientAdminAccessStatus || 'read_only_design'],
+    ['Campaign QA provisioning', campaignAiQaScope.campaignQaProvisioningStatus || 'read_only_design'],
+    ['Campaign AI agent provisioning', campaignAiQaScope.campaignAiAgentProvisioningStatus || 'read_only_design'],
+    ['Campaign prompt provisioning', campaignAiQaScope.campaignPromptProvisioningStatus || 'read_only_design'],
+    ['Campaign scorecard provisioning', campaignAiQaScope.campaignScorecardProvisioningStatus || 'read_only_design'],
+    ['Campaign tool access provisioning', campaignAiQaScope.campaignToolAccessProvisioningStatus || 'read_only_design'],
+    ['Company storage', campaignAiQaScope.companyStorageStatus || 'not_implemented'],
+    ['Campaign storage', campaignAiQaScope.campaignStorageStatus || 'not_implemented'],
+    ['AI agent storage', campaignAiQaScope.aiAgentStorageStatus || 'not_implemented'],
+    ['Prompt storage', campaignAiQaScope.promptStorageStatus || 'not_implemented'],
+    ['Knowledge base storage', campaignAiQaScope.knowledgeBaseStorageStatus || 'not_implemented'],
+    ['QA storage', campaignAiQaScope.qaStorageStatus || 'not_implemented'],
+    ['Scorecard storage', campaignAiQaScope.scorecardStorageStatus || 'not_implemented'],
+    ['Provisioning storage', campaignAiQaScope.provisioningStorageStatus || 'not_implemented'],
+    ['CRUD', campaignAiQaScope.crudStatus || 'not_implemented'],
+    ['Migration', campaignAiQaScope.migrationStatus || 'not_implemented'],
+    ['Endpoint', campaignAiQaScope.endpointStatus || 'not_implemented'],
+    ['UI action', campaignAiQaScope.uiActionStatus || 'not_allowed'],
+    ['Provisioning execution', campaignAiQaScope.provisioningExecutionStatus || 'not_allowed'],
+    ['Campaign creation hook', campaignAiQaScope.campaignCreationHookStatus || 'not_allowed'],
+    ['AI agent creation', campaignAiQaScope.aiAgentCreationStatus || 'not_allowed'],
+    ['Prompt creation', campaignAiQaScope.promptCreationStatus || 'not_allowed'],
+    ['Knowledge base creation', campaignAiQaScope.knowledgeBaseCreationStatus || 'not_allowed'],
+    ['QA creation', campaignAiQaScope.qaCreationStatus || 'not_allowed'],
+    ['Scorecard creation', campaignAiQaScope.scorecardCreationStatus || 'not_allowed'],
+    ['Report generation', campaignAiQaScope.reportGenerationStatus || 'not_allowed'],
+    ['OpenAI connection', campaignAiQaScope.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', campaignAiQaScope.openAiRuntimeStatus || 'not_connected'],
+    ['Autonomous learning', campaignAiQaScope.autonomousLearningStatus || 'not_allowed'],
+    ['OpenAI execution allowed', campaignAiQaScope.openAiExecutionAllowed ? 'yes' : 'no'],
+    ['Campaign AI/QA scope storage allowed', campaignAiQaScope.campaignAiQaScopeStorageAllowed ? 'yes' : 'no'],
+    ['Company storage allowed', campaignAiQaScope.companyStorageAllowed ? 'yes' : 'no'],
+    ['Campaign storage allowed', campaignAiQaScope.campaignStorageAllowed ? 'yes' : 'no'],
+    ['AI agent storage allowed', campaignAiQaScope.aiAgentStorageAllowed ? 'yes' : 'no'],
+    ['Prompt storage allowed', campaignAiQaScope.promptStorageAllowed ? 'yes' : 'no'],
+    ['Knowledge base storage allowed', campaignAiQaScope.knowledgeBaseStorageAllowed ? 'yes' : 'no'],
+    ['QA storage allowed', campaignAiQaScope.qaStorageAllowed ? 'yes' : 'no'],
+    ['Scorecard storage allowed', campaignAiQaScope.scorecardStorageAllowed ? 'yes' : 'no'],
+    ['Provisioning storage allowed', campaignAiQaScope.provisioningStorageAllowed ? 'yes' : 'no'],
+    ['CRUD allowed', campaignAiQaScope.crudAllowed ? 'yes' : 'no'],
+    ['Migration allowed', campaignAiQaScope.migrationAllowed ? 'yes' : 'no'],
+    ['Endpoint allowed', campaignAiQaScope.endpointAllowed ? 'yes' : 'no'],
+    ['UI control allowed', campaignAiQaScope.uiControlAllowed ? 'yes' : 'no'],
+    ['Campaign auto provisioning allowed', campaignAiQaScope.campaignAutoProvisioningAllowed ? 'yes' : 'no'],
+    ['Campaign creation hook allowed', campaignAiQaScope.campaignCreationHookAllowed ? 'yes' : 'no'],
+    ['AI agent creation allowed', campaignAiQaScope.aiAgentCreationAllowed ? 'yes' : 'no'],
+    ['Prompt creation allowed', campaignAiQaScope.promptCreationAllowed ? 'yes' : 'no'],
+    ['Knowledge base creation allowed', campaignAiQaScope.knowledgeBaseCreationAllowed ? 'yes' : 'no'],
+    ['QA creation allowed', campaignAiQaScope.qaCreationAllowed ? 'yes' : 'no'],
+    ['Scorecard creation allowed', campaignAiQaScope.scorecardCreationAllowed ? 'yes' : 'no'],
+    ['Report generation allowed', campaignAiQaScope.reportGenerationAllowed ? 'yes' : 'no'],
+    ['Client admin cross-campaign access allowed', campaignAiQaScope.clientAdminCrossCampaignAccessAllowed ? 'yes' : 'no'],
+    ['Client admin cross-client access allowed', campaignAiQaScope.clientAdminCrossClientAccessAllowed ? 'yes' : 'no'],
+    ['Autonomous learning allowed', campaignAiQaScope.autonomousLearningAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', campaignAiQaScope.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', campaignAiQaScope.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real OpenAI connection allowed', campaignAiQaScope.realOpenAiConnectionAllowed ? 'yes' : 'no'],
+    ['Real call allowed', campaignAiQaScope.realCallAllowed ? 'yes' : 'no'],
+    ['AI inbound execution allowed', campaignAiQaScope.aiInboundExecutionAllowed ? 'yes' : 'no'],
+    ['AI outbound execution allowed', campaignAiQaScope.aiOutboundExecutionAllowed ? 'yes' : 'no'],
+    ['Asterisk change allowed', campaignAiQaScope.asteriskChangeAllowed ? 'yes' : 'no'],
+    ['Vicidial change allowed', campaignAiQaScope.vicidialChangeAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', campaignAiQaScope.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', campaignAiQaScope.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['OpenAI connect allowed', campaignAiQaScope.openAiConnectAllowed ? 'yes' : 'no'],
+    ['Runtime credential access allowed', campaignAiQaScope.runtimeCredentialAccessAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', campaignAiQaScope.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['Tool execution allowed', campaignAiQaScope.toolExecutionAllowed ? 'yes' : 'no'],
+    ['Inbound allowed', campaignAiQaScope.inboundAllowed ? 'yes' : 'no'],
+    ['Outbound allowed', campaignAiQaScope.outboundAllowed ? 'yes' : 'no'],
+    ['Pilot allowed', campaignAiQaScope.pilotAllowed ? 'yes' : 'no'],
+    ['Live allowed', campaignAiQaScope.liveAllowed ? 'yes' : 'no'],
+  ];
+  campaignAiQaScopeReadinessCards.innerHTML = campaignAiQaScopeReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  campaignAiQaScopeReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only campaign AI/QA scope design', 'info'),
+    readinessBadge('Multi-company mapped', 'info'),
+    readinessBadge('Multi-campaign mapped', 'info'),
+    readinessBadge('Program types mapped', 'info'),
+    readinessBadge('Campaign-scoped QA mapped', 'info'),
+    readinessBadge('Campaign-scoped AI agents mapped', 'info'),
+    readinessBadge('Client admin scope mapped', 'info'),
+    readinessBadge('Provisioning blocked', 'bad'),
+    readinessBadge('No execution controls', 'ok'),
+  ].join('');
+
+  const campaignAiQaScopeDetailGroups = [
+    ['Future scope hierarchy', campaignAiQaScope.futureScopeHierarchy],
+    ['Future line of business types', campaignAiQaScope.futureLineOfBusinessTypes],
+    ['Future campaign-scoped entities', campaignAiQaScope.futureCampaignScopedEntities],
+    ['Future campaign provisioning artifacts', campaignAiQaScope.futureCampaignProvisioningArtifacts],
+    ['Future campaign QA tool access', campaignAiQaScope.futureCampaignQaToolAccess],
+    ['Future client admin scope rules', campaignAiQaScope.futureClientAdminScopeRules],
+    ['Future AI agent management rules', campaignAiQaScope.futureAiAgentManagementRules],
+    ['Future prompt/KB/policy scope rules', campaignAiQaScope.futurePromptKbPolicyScopeRules],
+    ['Future QA scope rules', campaignAiQaScope.futureQaScopeRules],
+    ['Future scorecard scope rules', campaignAiQaScope.futureScorecardScopeRules],
+    ['Future report scope rules', campaignAiQaScope.futureReportScopeRules],
+    ['Future RBAC/scope rules', campaignAiQaScope.futureRbacScopeRules],
+    ['Future audit rules', campaignAiQaScope.futureAuditRules],
+    ['Future provisioning rules', campaignAiQaScope.futureProvisioningRules],
+    ['Future runtime boundaries', campaignAiQaScope.futureRuntimeBoundaries],
+    ['Prohibited current actions', campaignAiQaScope.prohibitedCurrentActions],
+    ['Next steps', campaignAiQaScope.nextSteps],
+  ];
+  campaignAiQaScopeReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${campaignAiQaScopeDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
     </div>
   `;
 

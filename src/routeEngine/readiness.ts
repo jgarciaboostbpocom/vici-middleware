@@ -2128,6 +2128,119 @@ export type HumanAgentQaReadiness = {
   nextSteps: string[];
 };
 
+export type CampaignAiQaScopeReadiness = {
+  currentState: 'not_ready';
+  campaignAiQaScopeApproved: false;
+  campaignAiQaScopeMode: 'read_only_design';
+  multiCompanyStatus: 'read_only_design';
+  multiCampaignStatus: 'read_only_design';
+  multiProgramStatus: 'read_only_design';
+  lineOfBusinessScopeStatus: 'read_only_design';
+  campaignScopedAiAgentsStatus: 'read_only_design';
+  campaignScopedPromptsStatus: 'read_only_design';
+  campaignScopedKnowledgeBaseStatus: 'read_only_design';
+  campaignScopedPoliciesStatus: 'read_only_design';
+  campaignScopedHandoffRulesStatus: 'read_only_design';
+  campaignScopedScoringRulesStatus: 'read_only_design';
+  campaignScopedToolBoundariesStatus: 'read_only_design';
+  campaignScopedQaCenterStatus: 'read_only_design';
+  campaignScopedAiAgentQaStatus: 'read_only_design';
+  campaignScopedHumanAgentQaStatus: 'read_only_design';
+  campaignScopedScorecardsStatus: 'read_only_design';
+  campaignScopedReportsStatus: 'read_only_design';
+  campaignScopedCoachingStatus: 'read_only_design';
+  campaignScopedCalibrationStatus: 'read_only_design';
+  campaignClientAdminAccessStatus: 'read_only_design';
+  campaignQaProvisioningStatus: 'read_only_design';
+  campaignAiAgentProvisioningStatus: 'read_only_design';
+  campaignPromptProvisioningStatus: 'read_only_design';
+  campaignScorecardProvisioningStatus: 'read_only_design';
+  campaignToolAccessProvisioningStatus: 'read_only_design';
+  companyStorageStatus: 'not_implemented';
+  campaignStorageStatus: 'not_implemented';
+  aiAgentStorageStatus: 'not_implemented';
+  promptStorageStatus: 'not_implemented';
+  knowledgeBaseStorageStatus: 'not_implemented';
+  qaStorageStatus: 'not_implemented';
+  scorecardStorageStatus: 'not_implemented';
+  provisioningStorageStatus: 'not_implemented';
+  crudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  endpointStatus: 'not_implemented';
+  uiActionStatus: 'not_allowed';
+  provisioningExecutionStatus: 'not_allowed';
+  campaignCreationHookStatus: 'not_allowed';
+  aiAgentCreationStatus: 'not_allowed';
+  promptCreationStatus: 'not_allowed';
+  knowledgeBaseCreationStatus: 'not_allowed';
+  qaCreationStatus: 'not_allowed';
+  scorecardCreationStatus: 'not_allowed';
+  reportGenerationStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  autonomousLearningStatus: 'not_allowed';
+  openAiExecutionAllowed: false;
+  campaignAiQaScopeStorageAllowed: false;
+  companyStorageAllowed: false;
+  campaignStorageAllowed: false;
+  aiAgentStorageAllowed: false;
+  promptStorageAllowed: false;
+  knowledgeBaseStorageAllowed: false;
+  qaStorageAllowed: false;
+  scorecardStorageAllowed: false;
+  provisioningStorageAllowed: false;
+  crudAllowed: false;
+  migrationAllowed: false;
+  endpointAllowed: false;
+  uiControlAllowed: false;
+  campaignAutoProvisioningAllowed: false;
+  campaignCreationHookAllowed: false;
+  aiAgentCreationAllowed: false;
+  promptCreationAllowed: false;
+  knowledgeBaseCreationAllowed: false;
+  qaCreationAllowed: false;
+  scorecardCreationAllowed: false;
+  reportGenerationAllowed: false;
+  clientAdminCrossCampaignAccessAllowed: false;
+  clientAdminCrossClientAccessAllowed: false;
+  autonomousLearningAllowed: false;
+  realPiiAllowed: false;
+  realCredentialAllowed: false;
+  realOpenAiConnectionAllowed: false;
+  realCallAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  asteriskChangeAllowed: false;
+  vicidialChangeAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  openAiConnectAllowed: false;
+  runtimeCredentialAccessAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  inboundAllowed: false;
+  outboundAllowed: false;
+  liveAllowed: false;
+  pilotAllowed: false;
+  futureScopeHierarchy: string[];
+  futureLineOfBusinessTypes: string[];
+  futureCampaignScopedEntities: string[];
+  futureCampaignProvisioningArtifacts: string[];
+  futureCampaignQaToolAccess: string[];
+  futureClientAdminScopeRules: string[];
+  futureAiAgentManagementRules: string[];
+  futurePromptKbPolicyScopeRules: string[];
+  futureQaScopeRules: string[];
+  futureScorecardScopeRules: string[];
+  futureReportScopeRules: string[];
+  futureRbacScopeRules: string[];
+  futureAuditRules: string[];
+  futureProvisioningRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -2183,6 +2296,7 @@ export type RouteReadinessReport = {
   openAiImprovementProposalReadiness: OpenAiImprovementProposalReadiness;
   qaCenterReadiness: QaCenterReadiness;
   humanAgentQaReadiness: HumanAgentQaReadiness;
+  campaignAiQaScopeReadiness: CampaignAiQaScopeReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -10426,6 +10540,391 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const campaignAiQaScopeReadiness: CampaignAiQaScopeReadiness = {
+    currentState: 'not_ready',
+    campaignAiQaScopeApproved: false,
+    campaignAiQaScopeMode: 'read_only_design',
+    multiCompanyStatus: 'read_only_design',
+    multiCampaignStatus: 'read_only_design',
+    multiProgramStatus: 'read_only_design',
+    lineOfBusinessScopeStatus: 'read_only_design',
+    campaignScopedAiAgentsStatus: 'read_only_design',
+    campaignScopedPromptsStatus: 'read_only_design',
+    campaignScopedKnowledgeBaseStatus: 'read_only_design',
+    campaignScopedPoliciesStatus: 'read_only_design',
+    campaignScopedHandoffRulesStatus: 'read_only_design',
+    campaignScopedScoringRulesStatus: 'read_only_design',
+    campaignScopedToolBoundariesStatus: 'read_only_design',
+    campaignScopedQaCenterStatus: 'read_only_design',
+    campaignScopedAiAgentQaStatus: 'read_only_design',
+    campaignScopedHumanAgentQaStatus: 'read_only_design',
+    campaignScopedScorecardsStatus: 'read_only_design',
+    campaignScopedReportsStatus: 'read_only_design',
+    campaignScopedCoachingStatus: 'read_only_design',
+    campaignScopedCalibrationStatus: 'read_only_design',
+    campaignClientAdminAccessStatus: 'read_only_design',
+    campaignQaProvisioningStatus: 'read_only_design',
+    campaignAiAgentProvisioningStatus: 'read_only_design',
+    campaignPromptProvisioningStatus: 'read_only_design',
+    campaignScorecardProvisioningStatus: 'read_only_design',
+    campaignToolAccessProvisioningStatus: 'read_only_design',
+    companyStorageStatus: 'not_implemented',
+    campaignStorageStatus: 'not_implemented',
+    aiAgentStorageStatus: 'not_implemented',
+    promptStorageStatus: 'not_implemented',
+    knowledgeBaseStorageStatus: 'not_implemented',
+    qaStorageStatus: 'not_implemented',
+    scorecardStorageStatus: 'not_implemented',
+    provisioningStorageStatus: 'not_implemented',
+    crudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    endpointStatus: 'not_implemented',
+    uiActionStatus: 'not_allowed',
+    provisioningExecutionStatus: 'not_allowed',
+    campaignCreationHookStatus: 'not_allowed',
+    aiAgentCreationStatus: 'not_allowed',
+    promptCreationStatus: 'not_allowed',
+    knowledgeBaseCreationStatus: 'not_allowed',
+    qaCreationStatus: 'not_allowed',
+    scorecardCreationStatus: 'not_allowed',
+    reportGenerationStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    autonomousLearningStatus: 'not_allowed',
+    openAiExecutionAllowed: false,
+    campaignAiQaScopeStorageAllowed: false,
+    companyStorageAllowed: false,
+    campaignStorageAllowed: false,
+    aiAgentStorageAllowed: false,
+    promptStorageAllowed: false,
+    knowledgeBaseStorageAllowed: false,
+    qaStorageAllowed: false,
+    scorecardStorageAllowed: false,
+    provisioningStorageAllowed: false,
+    crudAllowed: false,
+    migrationAllowed: false,
+    endpointAllowed: false,
+    uiControlAllowed: false,
+    campaignAutoProvisioningAllowed: false,
+    campaignCreationHookAllowed: false,
+    aiAgentCreationAllowed: false,
+    promptCreationAllowed: false,
+    knowledgeBaseCreationAllowed: false,
+    qaCreationAllowed: false,
+    scorecardCreationAllowed: false,
+    reportGenerationAllowed: false,
+    clientAdminCrossCampaignAccessAllowed: false,
+    clientAdminCrossClientAccessAllowed: false,
+    autonomousLearningAllowed: false,
+    realPiiAllowed: false,
+    realCredentialAllowed: false,
+    realOpenAiConnectionAllowed: false,
+    realCallAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    asteriskChangeAllowed: false,
+    vicidialChangeAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    openAiConnectAllowed: false,
+    runtimeCredentialAccessAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    inboundAllowed: false,
+    outboundAllowed: false,
+    liveAllowed: false,
+    pilotAllowed: false,
+    futureScopeHierarchy: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'programType',
+      'qaScopeId',
+      'aiAgentScopeId',
+      'promptScopeId',
+      'knowledgeBaseScopeId',
+      'policyScopeId',
+      'handoffScopeId',
+      'scoringScopeId',
+      'toolBoundaryScopeId',
+      'scorecardScopeId',
+      'reportScopeId',
+    ],
+    futureLineOfBusinessTypes: [
+      'sales',
+      'customer_service',
+      'healthcare',
+      'appointment_setting',
+      'collections',
+      'technical_support',
+      'billing_support',
+      'retention',
+      'lead_qualification',
+      'custom',
+    ],
+    futureCampaignScopedEntities: [
+      'aiAgents',
+      'aiAgentConfigs',
+      'prompts',
+      'promptVersions',
+      'knowledgeBases',
+      'knowledgeBaseVersions',
+      'policies',
+      'policyVersions',
+      'handoffRules',
+      'handoffRuleVersions',
+      'scoringRules',
+      'scoringRuleVersions',
+      'toolBoundaries',
+      'toolBoundaryVersions',
+      'qaCenter',
+      'aiAgentQa',
+      'humanAgentQa',
+      'qaScorecards',
+      'qaScorecardVersions',
+      'qaReviews',
+      'qaCoaching',
+      'qaCalibration',
+      'qaReports',
+      'improvementProposals',
+      'auditLogs',
+      'redactionPolicies',
+      'complianceRules',
+    ],
+    futureCampaignProvisioningArtifacts: [
+      'campaignScope',
+      'campaignAiAgentScope',
+      'campaignQaScope',
+      'campaignPromptScope',
+      'campaignKnowledgeBaseScope',
+      'campaignPolicyScope',
+      'campaignHandoffScope',
+      'campaignScoringScope',
+      'campaignToolBoundaryScope',
+      'campaignScorecardScope',
+      'campaignReportScope',
+      'campaignClientAdminAccessScope',
+      'campaignSupervisorAccessScope',
+      'campaignQaAnalystAccessScope',
+      'campaignAuditScope',
+    ],
+    futureCampaignQaToolAccess: [
+      'qaOverview',
+      'aiAgentQa',
+      'humanAgentQa',
+      'aiInboundQa',
+      'aiOutboundQa',
+      'humanInboundQa',
+      'humanOutboundQa',
+      'scorecards',
+      'pendingReviews',
+      'supervisorReview',
+      'coaching',
+      'calibration',
+      'reports',
+      'complianceFlags',
+      'transcriptReview',
+      'aiResponseEvaluation',
+      'improvementProposals',
+      'auditLog',
+      'redactionPolicy',
+    ],
+    futureClientAdminScopeRules: [
+      'Client admins must only see clients assigned to them',
+      'Client admins must only see campaigns assigned to their client scope',
+      'Client admins must only manage AI agents inside authorized client/campaign scope',
+      'Client admins must only manage QA tools inside authorized client/campaign scope',
+      "Client admins must not access other clients' campaigns",
+      'Client admins must not access other campaigns unless explicitly assigned',
+      'Client admins must not bypass campaign-level RBAC',
+      'Client admins must not access raw PII unless allowed by future redaction policy',
+      'Client admin UI filtering must be backed by server-side scope checks in a future implementation',
+      'Campaign creation must not grant cross-client access',
+    ],
+    futureAiAgentManagementRules: [
+      'A company/client may have multiple AI agents',
+      'A campaign may have multiple AI agents',
+      'AI agent quantity must be scoped by client/campaign and future plan/permission limits',
+      'AI agent configuration must be scoped by client/campaign/project',
+      'AI agents may have different prompts by campaign',
+      'AI agents may have different knowledge bases by campaign',
+      'AI agents may have different policies by campaign',
+      'AI agents may have different handoff rules by campaign',
+      'AI agents may have different scoring rules by campaign',
+      'AI agents may have different tool boundaries by campaign',
+      'AI agents may be assigned to inbound routes, outbound routes, or both in a future implementation',
+      'AI agent creation must not occur in this readiness phase',
+    ],
+    futurePromptKbPolicyScopeRules: [
+      'Sales campaigns may use different prompts than customer service campaigns',
+      'Healthcare campaigns may use different prompts, policies, and compliance rules than sales campaigns',
+      'Knowledge bases must be scoped by client/campaign/project and line of business',
+      'Prompt versions must be scoped by client/campaign/project and AI agent config',
+      'Policy versions must be scoped by client/campaign/project and line of business',
+      'Handoff rules must be scoped by client/campaign/project and call route',
+      'Scoring rules must be scoped by client/campaign/project and QA route',
+      'Tool boundaries must be scoped by client/campaign/project and AI agent config',
+      'Prompt, knowledge base, policy, handoff, scoring, and tool boundary changes must be versioned, approved, auditable, and rollback-capable in a future implementation',
+      'No prompt, knowledge base, policy, handoff, scoring, or tool boundary changes may be applied automatically from QA findings',
+    ],
+    futureQaScopeRules: [
+      'QA Center must be campaign-scoped',
+      'AI Agent QA must be campaign-scoped',
+      'Human Agent QA must be campaign-scoped',
+      'AI inbound QA must be campaign-scoped',
+      'AI outbound QA must be campaign-scoped',
+      'Human inbound QA must be campaign-scoped',
+      'Human outbound QA must be campaign-scoped',
+      'QA rules may differ by line of business',
+      'Sales QA, customer service QA, healthcare QA, and custom QA must support separate configuration',
+      'QA findings must remain inside authorized client/campaign/project scope',
+      'QA records must not be visible cross-client or cross-campaign unless policy grants access in a future implementation',
+      'QA must not be global-only',
+    ],
+    futureScorecardScopeRules: [
+      'QA scorecards must be scoped by client/campaign/project',
+      'QA scorecards may differ by line of business',
+      'Sales scorecards may differ from customer service scorecards',
+      'Healthcare scorecards may require different compliance and PII rules',
+      'AI Agent QA scorecards may differ from Human Agent QA scorecards',
+      'Inbound scorecards may differ from outbound scorecards',
+      'Scorecards must be versioned in a future implementation',
+      'Scorecard changes must require approval in a future implementation',
+      'Scorecard changes must be auditable and rollback-capable',
+      'Scorecards must not be hardcoded or global-only',
+    ],
+    futureReportScopeRules: [
+      'QA reports must be scoped by client/campaign/project',
+      'Client admins must only see reports for their authorized client/campaign scope',
+      'Supervisors must only see assigned campaigns/agents where policy allows it',
+      'QA analysts must only see assigned QA items where policy allows it',
+      'Reports must support filters by company, client, campaign, project, line of business, QA track, QA route, AI agent, human agent, supervisor, date, score, risk, compliance flag, coaching status, calibration status, and review status in a future implementation',
+      'Report export must respect RBAC and redaction in a future implementation',
+      'Reports must not expose unauthorized PII',
+      'Reports must be auditable where required',
+    ],
+    futureRbacScopeRules: [
+      'super_admin may manage all companies, clients, campaigns, AI agents, and QA scopes',
+      'internal admins may only manage assigned companies, clients, campaigns, projects, AI agents, and QA scopes',
+      'client_admin may only manage authorized client/campaign QA and AI agent tools',
+      'supervisors may only review assigned agents/campaigns where policy allows it',
+      'QA analysts may only work assigned QA items',
+      'agents may only view their own QA/coaching history if enabled',
+      'RBAC must be enforced server-side in a future implementation',
+      'Browser-side filtering alone is not sufficient',
+      'Campaign creation must provision or expose access only within authorized scope in a future implementation',
+      'Cross-client and cross-campaign access must default to denied',
+    ],
+    futureAuditRules: [
+      'Campaign scope creation must be auditable in a future implementation',
+      'Campaign AI agent scope provisioning must be auditable in a future implementation',
+      'Campaign QA scope provisioning must be auditable in a future implementation',
+      'Campaign prompt scope provisioning must be auditable in a future implementation',
+      'Campaign scorecard scope provisioning must be auditable in a future implementation',
+      'Client admin scope assignment must be auditable in a future implementation',
+      'AI agent changes must be auditable in a future implementation',
+      'QA scorecard changes must be auditable in a future implementation',
+      'QA review changes must be auditable in a future implementation',
+      'Report access and export must be auditable where required',
+      'Audit events must include actor, timestamp, company/client/campaign/project scope, action, before/after where applicable, reason, and correlation ID',
+      'Audit events must not expose credentials or unauthorized raw customer PII',
+    ],
+    futureProvisioningRules: [
+      'Campaign creation should expose a campaign-scoped AI Agent and QA access structure in a future implementation',
+      'Campaign creation should not create real AI agents unless explicitly configured in a future implementation',
+      'Campaign creation should not create real prompts unless explicitly configured in a future implementation',
+      'Campaign creation should not create real knowledge bases unless explicitly configured in a future implementation',
+      'Campaign creation should not create real QA records in a future implementation',
+      'Campaign creation should not create real scorecards unless explicitly configured or selected from templates in a future implementation',
+      'Campaign creation should not enable OpenAI execution automatically',
+      'Campaign creation should not enable AI inbound calls automatically',
+      'Campaign creation should not enable AI outbound calls automatically',
+      'Campaign creation should not enable FastAGI automatically',
+      'Campaign creation should not change route behavior automatically',
+      'Campaign-scoped tools should remain disabled until approved by role, policy, and phase in a future implementation',
+    ],
+    futureRuntimeBoundaries: [
+      'Campaign AI Agent & QA Scope readiness must not create storage',
+      'Campaign AI Agent & QA Scope readiness must not create endpoints',
+      'Campaign AI Agent & QA Scope readiness must not provision real campaigns',
+      'Campaign AI Agent & QA Scope readiness must not provision real AI agents',
+      'Campaign AI Agent & QA Scope readiness must not provision real prompts',
+      'Campaign AI Agent & QA Scope readiness must not provision real knowledge bases',
+      'Campaign AI Agent & QA Scope readiness must not provision real QA records',
+      'Campaign AI Agent & QA Scope readiness must not provision real scorecards',
+      'Campaign AI Agent & QA Scope readiness must not grant real client admin access',
+      'Campaign AI Agent & QA Scope readiness must not generate reports',
+      'Campaign AI Agent & QA Scope readiness must not connect OpenAI',
+      'Campaign AI Agent & QA Scope readiness must not activate AI inbound execution',
+      'Campaign AI Agent & QA Scope readiness must not activate AI outbound execution',
+      'Campaign AI Agent & QA Scope readiness must not activate runtime',
+      'Campaign AI Agent & QA Scope readiness must not add provisioning controls',
+      'Campaign AI Agent & QA Scope readiness must not change route behavior',
+      'Campaign AI Agent & QA Scope implementation requires separately approved company, campaign, AI agent, prompt, knowledge base, QA, scorecard, RBAC, audit, provisioning, redaction, versioning, rollback, and runtime activation phases',
+      'Scope data must remain scoped to company/client/campaign/project and line of business',
+      'Scope data must not contain credentials',
+      'Raw customer PII display requires future redaction/RBAC policy',
+      'AI must not self-learn or change behavior autonomously based on campaign QA data',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create company/client storage in this phase',
+      'Do not create campaign storage in this phase',
+      'Do not create AI agent storage in this phase',
+      'Do not create prompt storage in this phase',
+      'Do not create knowledge base storage in this phase',
+      'Do not create QA storage in this phase',
+      'Do not create scorecard storage in this phase',
+      'Do not create provisioning storage in this phase',
+      'Do not create CRUD endpoints in this phase',
+      'Do not create campaign provisioning endpoints in this phase',
+      'Do not create AI agent provisioning endpoints in this phase',
+      'Do not create QA provisioning endpoints in this phase',
+      'Do not create prompt provisioning endpoints in this phase',
+      'Do not create scorecard provisioning endpoints in this phase',
+      'Do not create database tables in this phase',
+      'Do not create migrations in this phase',
+      'Do not write company/client records in this phase',
+      'Do not write campaign records in this phase',
+      'Do not write AI agent records in this phase',
+      'Do not write prompt records in this phase',
+      'Do not write knowledge base records in this phase',
+      'Do not write QA records in this phase',
+      'Do not write scorecard records in this phase',
+      'Do not write provisioning records in this phase',
+      'Do not create real AI agents in this phase',
+      'Do not create real prompts in this phase',
+      'Do not create real knowledge bases in this phase',
+      'Do not create real QA scopes in this phase',
+      'Do not create real scorecards in this phase',
+      'Do not grant real client admin access in this phase',
+      'Do not generate real reports in this phase',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime voice sessions',
+      'Do not expose agent tools',
+      'Do not use real OpenAI credentials',
+      'Do not enable autonomous learning',
+      'Do not enable AI inbound calls',
+      'Do not enable AI outbound calls',
+      'Do not answer inbound calls with AI',
+      'Do not execute AI outbound calls',
+      'Do not execute test calls',
+      'Do not execute live calls',
+      'Do not modify Asterisk/Vicidial',
+      'Do not enable FastAGI',
+      'Do not change route behavior',
+    ],
+    nextSteps: [
+      'Keep Campaign AI Agent & QA Scope readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, and execution-blocked.',
+      'Define company/client/campaign/project and line-of-business scope contracts in a separately approved phase.',
+      'Define campaign-scoped AI agent, prompt, knowledge base, policy, handoff, scoring, tool boundary, QA Center, scorecard, report, coaching, calibration, RBAC, audit, redaction, versioning, rollback, and provisioning contracts in future phases.',
+      'Keep campaign creation hooks, real provisioning, storage, CRUD, endpoints, UI controls, OpenAI connection, runtime execution, AI inbound, AI outbound, FastAGI, Asterisk/Vicidial changes, and route behavior changes blocked.',
+      'Require future server-side RBAC so client admins only see and manage AI agents and QA tools inside authorized client/campaign scope.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -10711,6 +11210,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Human Agent QA readiness is read-only, not approved, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, human-inbound-mapped, human-outbound-mapped, ingestion-blocked, recording-access-blocked, transcription-blocked, audio-analysis-blocked, AI-assisted-evaluation-blocked, AI-suggested-score-blocked, supervisor-review-blocked, final-score-blocked, coaching-blocked, calibration-blocked, dispute-blocked, reporting-blocked, scorecard-configuration-blocked, autonomous-learning-blocked, OpenAI-disconnected, and exposes no Human Agent QA, ingestion, recording, playback, transcription, audio-analysis, evaluation, scoring, review, coaching, calibration, dispute, report, scorecard, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.',
     },
+    {
+      id: 'campaign-ai-qa-scope-readiness-read-only',
+      label: 'Campaign AI Agent & QA Scope readiness read-only',
+      status: 'pass',
+      detail: 'Campaign AI Agent & QA Scope readiness is read-only, not ready, not approved, multi-company/multi-campaign/multi-program mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, provisioning-blocked, OpenAI-disconnected, execution-blocked, and exposes no company, campaign, AI agent, prompt, knowledge base, QA, scorecard, provisioning, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -10838,6 +11343,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     openAiImprovementProposalReadiness,
     qaCenterReadiness,
     humanAgentQaReadiness,
+    campaignAiQaScopeReadiness,
     checklist,
     risks,
     recommendations: [
@@ -10879,6 +11385,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat OpenAI improvement proposal readiness as read-only design visibility; it does not create improvement proposal storage, proposal CRUD endpoints, proposal approval endpoints, proposal rejection endpoints, proposal apply endpoints, prompt update endpoints, knowledge base update endpoints, policy update endpoints, handoff update endpoints, scoring update endpoints, tool boundary update endpoints, database tables, migrations, proposal records, real proposals, proposal approvals, proposal rejections, proposal apply behavior, prompt updates, knowledge base updates, policy updates, handoff updates, scoring updates, tool boundary updates, proposal controls, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, tool execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat QA Center readiness as read-only design visibility; it does not create QA Center storage, QA Center CRUD endpoints, call ingestion endpoints, transcription endpoints, evaluation endpoints, review endpoints, approval endpoints, dispute endpoints, coaching endpoints, calibration endpoints, report endpoints, scorecard CRUD endpoints, recording access endpoints, audio playback endpoints, database tables, migrations, QA records, call ingestion, recording access, transcription, audio analysis, evaluations, AI suggested scores, final QA scores, coaching, calibration, reports, scorecard updates, improvement proposals, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, call execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
       'Treat Human Agent QA readiness as read-only design visibility; it does not create Human Agent QA storage, CRUD endpoints, human call ingestion endpoints, recording access endpoints, audio playback endpoints, transcription endpoints, audio analysis endpoints, human QA evaluation endpoints, AI-assisted scoring endpoints, supervisor review endpoints, final score endpoints, coaching endpoints, calibration endpoints, dispute endpoints, report endpoints, scorecard endpoints, database tables, migrations, Human QA records, call ingestion, recording access, transcription, audio analysis, evaluations, AI suggested scores, final QA scores, supervisor review, coaching, calibration, disputes, reports, scorecard updates, OpenAI connection, OpenAI API calls, agent tools, autonomous learning, credential access, Realtime sessions, call execution, FastAGI execution, Asterisk/Vicidial integration, route behavior changes, or execution controls.',
+      'Treat Campaign AI Agent & QA Scope readiness as read-only design visibility; it maps future multi-company, multi-campaign, multi-program, campaign-scoped AI agent and QA scope only and does not create storage, CRUD, endpoints, provisioning, AI agents, prompts, knowledge bases, QA records, scorecards, reports, client admin access grants, OpenAI connection, AI inbound or outbound execution, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
