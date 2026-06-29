@@ -2727,6 +2727,135 @@ export type QaRbacAccessScopeReadiness = {
   nextSteps: string[];
 };
 
+export type QaEvaluationWorkflowReadiness = {
+  currentState: 'not_ready';
+  qaEvaluationWorkflowApproved: false;
+  qaEvaluationWorkflowMode: 'read_only_design';
+  aiAgentQaWorkflowStatus: 'read_only_design';
+  humanAgentQaWorkflowStatus: 'read_only_design';
+  aiInboundWorkflowStatus: 'read_only_design';
+  aiOutboundWorkflowStatus: 'read_only_design';
+  humanInboundWorkflowStatus: 'read_only_design';
+  humanOutboundWorkflowStatus: 'read_only_design';
+  campaignScopedWorkflowStatus: 'read_only_design';
+  callSelectionStatus: 'read_only_design';
+  callSamplingStatus: 'read_only_design';
+  transcriptReferenceStatus: 'read_only_design';
+  recordingReferenceStatus: 'read_only_design';
+  redactionStatus: 'read_only_design';
+  scorecardVersionBindingStatus: 'read_only_design';
+  aiSuggestedScoreStatus: 'read_only_design';
+  supervisorReviewStatus: 'read_only_design';
+  finalScoreStatus: 'read_only_design';
+  coachingRecommendationStatus: 'read_only_design';
+  calibrationStatus: 'read_only_design';
+  disputeWorkflowStatus: 'read_only_design';
+  reportVisibilityStatus: 'read_only_design';
+  auditTrailStatus: 'read_only_design';
+  serverSideRbacStatus: 'read_only_design';
+  rawPiiAccessBoundaryStatus: 'read_only_design';
+  approvalWorkflowStatus: 'read_only_design';
+  versioningStatus: 'read_only_design';
+  rollbackStatus: 'read_only_design';
+  effectiveDateStatus: 'read_only_design';
+  evaluationStorageStatus: 'not_implemented';
+  qaRecordStorageStatus: 'not_implemented';
+  callSelectionStorageStatus: 'not_implemented';
+  transcriptStorageStatus: 'not_implemented';
+  recordingAccessStorageStatus: 'not_implemented';
+  scoreStorageStatus: 'not_implemented';
+  coachingStorageStatus: 'not_implemented';
+  calibrationStorageStatus: 'not_implemented';
+  disputeStorageStatus: 'not_implemented';
+  reportStorageStatus: 'not_implemented';
+  auditStorageStatus: 'not_implemented';
+  endpointStatus: 'not_implemented';
+  crudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  evaluationExecutionStatus: 'not_allowed';
+  scoringExecutionStatus: 'not_allowed';
+  callIngestionStatus: 'not_allowed';
+  transcriptIngestionStatus: 'not_allowed';
+  recordingAccessExecutionStatus: 'not_allowed';
+  audioAnalysisStatus: 'not_allowed';
+  finalScoreExecutionStatus: 'not_allowed';
+  coachingGenerationStatus: 'not_allowed';
+  calibrationExecutionStatus: 'not_allowed';
+  disputeExecutionStatus: 'not_allowed';
+  reportGenerationStatus: 'not_allowed';
+  auditRecordCreationStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  toolExecutionStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  autonomousLearningStatus: 'not_allowed';
+  evaluationStorageAllowed: false;
+  qaRecordStorageAllowed: false;
+  callSelectionStorageAllowed: false;
+  transcriptStorageAllowed: false;
+  recordingAccessStorageAllowed: false;
+  scoreStorageAllowed: false;
+  coachingStorageAllowed: false;
+  calibrationStorageAllowed: false;
+  disputeStorageAllowed: false;
+  reportStorageAllowed: false;
+  auditStorageAllowed: false;
+  endpointAllowed: false;
+  crudAllowed: false;
+  migrationAllowed: false;
+  evaluationExecutionAllowed: false;
+  scoringExecutionAllowed: false;
+  callIngestionAllowed: false;
+  transcriptIngestionAllowed: false;
+  recordingAccessExecutionAllowed: false;
+  audioAnalysisAllowed: false;
+  aiSuggestedScoreFinalAllowed: false;
+  finalScoreExecutionAllowed: false;
+  coachingGenerationAllowed: false;
+  coachingAutoApplyAllowed: false;
+  calibrationExecutionAllowed: false;
+  calibrationAutoScorecardChangeAllowed: false;
+  disputeExecutionAllowed: false;
+  disputeAutoScoreChangeAllowed: false;
+  reportGenerationAllowed: false;
+  auditRecordCreationAllowed: false;
+  rawPiiAccessAllowed: false;
+  openAiConnectionAllowed: false;
+  realtimeSessionAllowed: false;
+  toolExecutionAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  autonomousLearningAllowed: false;
+  realPiiAllowed: false;
+  realCredentialAllowed: false;
+  realCallAllowed: false;
+  futureWorkflowScopeFields: string[];
+  futureQaWorkflowRoutes: string[];
+  futureEvaluationLifecycleSteps: string[];
+  futureCallSelectionRules: string[];
+  futureTranscriptRecordingRules: string[];
+  futureScorecardBindingRules: string[];
+  futureAiSuggestedScoreRules: string[];
+  futureSupervisorReviewRules: string[];
+  futureFinalScoreRules: string[];
+  futureCoachingRules: string[];
+  futureCalibrationRules: string[];
+  futureDisputeRules: string[];
+  futureReportVisibilityRules: string[];
+  futureRbacPiiRules: string[];
+  futureApprovalVersioningRules: string[];
+  futureAuditRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -2788,6 +2917,7 @@ export type RouteReadinessReport = {
   campaignPromptKbScopeReadiness: CampaignPromptKbScopeReadiness;
   campaignQaProvisioningReadiness: CampaignQaProvisioningReadiness;
   qaRbacAccessScopeReadiness: QaRbacAccessScopeReadiness;
+  qaEvaluationWorkflowReadiness: QaEvaluationWorkflowReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -12631,6 +12761,297 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const qaEvaluationWorkflowReadiness: QaEvaluationWorkflowReadiness = {
+    currentState: 'not_ready',
+    qaEvaluationWorkflowApproved: false,
+    qaEvaluationWorkflowMode: 'read_only_design',
+    aiAgentQaWorkflowStatus: 'read_only_design',
+    humanAgentQaWorkflowStatus: 'read_only_design',
+    aiInboundWorkflowStatus: 'read_only_design',
+    aiOutboundWorkflowStatus: 'read_only_design',
+    humanInboundWorkflowStatus: 'read_only_design',
+    humanOutboundWorkflowStatus: 'read_only_design',
+    campaignScopedWorkflowStatus: 'read_only_design',
+    callSelectionStatus: 'read_only_design',
+    callSamplingStatus: 'read_only_design',
+    transcriptReferenceStatus: 'read_only_design',
+    recordingReferenceStatus: 'read_only_design',
+    redactionStatus: 'read_only_design',
+    scorecardVersionBindingStatus: 'read_only_design',
+    aiSuggestedScoreStatus: 'read_only_design',
+    supervisorReviewStatus: 'read_only_design',
+    finalScoreStatus: 'read_only_design',
+    coachingRecommendationStatus: 'read_only_design',
+    calibrationStatus: 'read_only_design',
+    disputeWorkflowStatus: 'read_only_design',
+    reportVisibilityStatus: 'read_only_design',
+    auditTrailStatus: 'read_only_design',
+    serverSideRbacStatus: 'read_only_design',
+    rawPiiAccessBoundaryStatus: 'read_only_design',
+    approvalWorkflowStatus: 'read_only_design',
+    versioningStatus: 'read_only_design',
+    rollbackStatus: 'read_only_design',
+    effectiveDateStatus: 'read_only_design',
+    evaluationStorageStatus: 'not_implemented',
+    qaRecordStorageStatus: 'not_implemented',
+    callSelectionStorageStatus: 'not_implemented',
+    transcriptStorageStatus: 'not_implemented',
+    recordingAccessStorageStatus: 'not_implemented',
+    scoreStorageStatus: 'not_implemented',
+    coachingStorageStatus: 'not_implemented',
+    calibrationStorageStatus: 'not_implemented',
+    disputeStorageStatus: 'not_implemented',
+    reportStorageStatus: 'not_implemented',
+    auditStorageStatus: 'not_implemented',
+    endpointStatus: 'not_implemented',
+    crudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    evaluationExecutionStatus: 'not_allowed',
+    scoringExecutionStatus: 'not_allowed',
+    callIngestionStatus: 'not_allowed',
+    transcriptIngestionStatus: 'not_allowed',
+    recordingAccessExecutionStatus: 'not_allowed',
+    audioAnalysisStatus: 'not_allowed',
+    finalScoreExecutionStatus: 'not_allowed',
+    coachingGenerationStatus: 'not_allowed',
+    calibrationExecutionStatus: 'not_allowed',
+    disputeExecutionStatus: 'not_allowed',
+    reportGenerationStatus: 'not_allowed',
+    auditRecordCreationStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    toolExecutionStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    autonomousLearningStatus: 'not_allowed',
+    evaluationStorageAllowed: false,
+    qaRecordStorageAllowed: false,
+    callSelectionStorageAllowed: false,
+    transcriptStorageAllowed: false,
+    recordingAccessStorageAllowed: false,
+    scoreStorageAllowed: false,
+    coachingStorageAllowed: false,
+    calibrationStorageAllowed: false,
+    disputeStorageAllowed: false,
+    reportStorageAllowed: false,
+    auditStorageAllowed: false,
+    endpointAllowed: false,
+    crudAllowed: false,
+    migrationAllowed: false,
+    evaluationExecutionAllowed: false,
+    scoringExecutionAllowed: false,
+    callIngestionAllowed: false,
+    transcriptIngestionAllowed: false,
+    recordingAccessExecutionAllowed: false,
+    audioAnalysisAllowed: false,
+    aiSuggestedScoreFinalAllowed: false,
+    finalScoreExecutionAllowed: false,
+    coachingGenerationAllowed: false,
+    coachingAutoApplyAllowed: false,
+    calibrationExecutionAllowed: false,
+    calibrationAutoScorecardChangeAllowed: false,
+    disputeExecutionAllowed: false,
+    disputeAutoScoreChangeAllowed: false,
+    reportGenerationAllowed: false,
+    auditRecordCreationAllowed: false,
+    rawPiiAccessAllowed: false,
+    openAiConnectionAllowed: false,
+    realtimeSessionAllowed: false,
+    toolExecutionAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    autonomousLearningAllowed: false,
+    realPiiAllowed: false,
+    realCredentialAllowed: false,
+    realCallAllowed: false,
+    futureWorkflowScopeFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'qaWorkflowRoute',
+      'qaTrack',
+      'qaEvaluationId',
+      'scorecardVersionId',
+      'callSelectionId',
+      'transcriptReferenceId',
+      'recordingReferenceId',
+      'redactionStatus',
+      'reviewerRole',
+      'approvalStatus',
+      'effectiveDate',
+    ],
+    futureQaWorkflowRoutes: [
+      'ai_inbound',
+      'ai_outbound',
+      'human_inbound',
+      'human_outbound',
+      'AI Agent QA',
+      'Human Agent QA',
+      'QA Center',
+      'Campaign-scoped QA workflow',
+    ],
+    futureEvaluationLifecycleSteps: [
+      'Select or sample a scoped call in a future implementation',
+      'Reference transcript and recording metadata without direct playback controls in this readiness phase',
+      'Bind the evaluation to an approved scorecard version in a future implementation',
+      'Capture AI suggested score only as a non-final suggestion in a future implementation',
+      'Require supervisor or manual human review before final score in a future implementation',
+      'Expose coaching, calibration, dispute, report, and audit states as scoped future workflow artifacts',
+    ],
+    futureCallSelectionRules: [
+      'Call selection must be scoped by company/client/campaign/project/lineOfBusiness',
+      'Call sampling rules must not ingest calls in this readiness phase',
+      'Call selection records must not be created in this readiness phase',
+      'Call selection must follow future QA RBAC / Access Scope Readiness before any implementation',
+    ],
+    futureTranscriptRecordingRules: [
+      'Transcript references must be scoped and redaction-aware in a future implementation',
+      'Recording references must be metadata-only until recording access is explicitly approved in a future implementation',
+      'This readiness phase must not ingest transcripts',
+      'This readiness phase must not access recordings',
+      'This readiness phase must not analyze audio',
+      'Raw PII access must default to denied unless future RBAC/redaction policy allows it',
+    ],
+    futureScorecardBindingRules: [
+      'QA evaluations must bind to an approved scorecard version in a future implementation',
+      'Scorecard version binding must be scoped by company/client/campaign/project/lineOfBusiness and QA route',
+      'Calibration must not modify scorecards automatically',
+      'Scorecard changes must remain governed by QA Scorecard Configuration Readiness',
+    ],
+    futureAiSuggestedScoreRules: [
+      'AI suggested scores must not be final scores automatically',
+      'AI suggested scores must require future human review before final scoring',
+      'AI suggested scores must not trigger OpenAI or AI calls in this readiness phase',
+      'AI suggested score storage and execution are not implemented in this readiness phase',
+    ],
+    futureSupervisorReviewRules: [
+      'Supervisor final score must require future human review/approval',
+      'Supervisor/manual review must be scoped by company/client/campaign/project/lineOfBusiness and QA route',
+      'Supervisor review must not create final scores in this readiness phase',
+      'Supervisor review must follow future server-side RBAC and audit controls',
+    ],
+    futureFinalScoreRules: [
+      'Final score creation must remain blocked in this readiness phase',
+      'Final scores must not be created automatically from AI suggested scores',
+      'Disputes must not change scores automatically without future approval',
+      'Final score changes must be auditable and rollback-capable in a future implementation',
+    ],
+    futureCoachingRules: [
+      'Coaching recommendations must not be automatically applied',
+      'Coaching generation must remain blocked in this readiness phase',
+      'Coaching visibility must be scoped by RBAC in a future implementation',
+      'Coaching changes must be auditable in a future implementation',
+    ],
+    futureCalibrationRules: [
+      'Calibration must not modify scorecards automatically',
+      'Calibration execution must remain blocked in this readiness phase',
+      'Calibration sessions must be scoped by company/client/campaign/project/lineOfBusiness and QA route in a future implementation',
+      'Calibration changes must support approval, versioning, rollback, audit, and effective-date controls in a future implementation',
+    ],
+    futureDisputeRules: [
+      'Disputes must not change scores automatically without future approval',
+      'Dispute execution must remain blocked in this readiness phase',
+      'Dispute workflows must be scoped by RBAC in a future implementation',
+      'Dispute outcomes must be auditable and rollback-capable in a future implementation',
+    ],
+    futureReportVisibilityRules: [
+      'Reports must be scoped by RBAC',
+      'Report generation must remain blocked in this readiness phase',
+      'Report visibility must respect company/client/campaign/project/lineOfBusiness scope in a future implementation',
+      'Reports must not expose raw PII unless future RBAC/redaction policy allows it',
+    ],
+    futureRbacPiiRules: [
+      'Server-side RBAC is required before QA evaluation workflow implementation',
+      'Browser-side filtering alone is not sufficient',
+      'Raw PII must default to denied unless future RBAC/redaction policy allows it',
+      'QA workflow access must follow QA RBAC / Access Scope Readiness',
+      'Reports, recordings, transcripts, scores, coaching, calibration, disputes, and audit visibility must be scoped',
+    ],
+    futureApprovalVersioningRules: [
+      'Workflow changes must support approval in a future implementation',
+      'Workflow changes must support versioning in a future implementation',
+      'Workflow changes must support rollback in a future implementation',
+      'Workflow changes must support effective-date controls in a future implementation',
+      'Workflow changes must not automatically trigger OpenAI, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, or runtime behavior',
+    ],
+    futureAuditRules: [
+      'Workflow changes must be auditable in a future implementation',
+      'Evaluation lifecycle events must be auditable in a future implementation',
+      'Score, coaching, calibration, dispute, report, transcript, recording, and redaction events must be auditable in a future implementation',
+      'Audit events must include actor, timestamp, company/client/campaign/project scope, line of business, QA route, scorecard version, approval, version, effective date, before/after state, reason, and correlation ID',
+      'This readiness phase must not create audit records',
+    ],
+    futureRuntimeBoundaries: [
+      'QA Evaluation Workflow readiness must not create evaluation storage',
+      'QA Evaluation Workflow readiness must not create QA records, call selection records, transcript records, recording access records, scores, coaching records, calibration records, dispute records, report records, or audit records',
+      'QA Evaluation Workflow readiness must not create CRUD, endpoints, migrations, database tables, or storage',
+      'QA Evaluation Workflow readiness must not execute QA evaluation or scoring',
+      'QA Evaluation Workflow readiness must not ingest calls or transcripts',
+      'QA Evaluation Workflow readiness must not access recordings or analyze audio',
+      'QA Evaluation Workflow readiness must not generate coaching or reports',
+      'QA Evaluation Workflow readiness must not change RBAC, auth, login, or session behavior',
+      'QA Evaluation Workflow readiness must not connect OpenAI, execute OpenAI API calls, open Realtime sessions, expose agent tools, enable AI voice, enable AI inbound calls, enable AI outbound calls, enable FastAGI, modify Asterisk/Vicidial, or change route behavior',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create evaluation storage',
+      'Do not create QA record storage',
+      'Do not create call selection storage',
+      'Do not create transcript storage',
+      'Do not create recording access storage',
+      'Do not create score storage',
+      'Do not create coaching storage',
+      'Do not create calibration storage',
+      'Do not create dispute storage',
+      'Do not create report storage',
+      'Do not create audit storage',
+      'Do not create CRUD',
+      'Do not create endpoints',
+      'Do not create migrations',
+      'Do not create database tables',
+      'Do not create QA evaluations',
+      'Do not create QA records',
+      'Do not create call selection records',
+      'Do not create transcript records',
+      'Do not create recording access records',
+      'Do not create AI suggested scores',
+      'Do not create supervisor final scores',
+      'Do not create coaching records',
+      'Do not create calibration records',
+      'Do not create dispute records',
+      'Do not create report records',
+      'Do not create audit records',
+      'Do not execute QA evaluation',
+      'Do not execute scoring',
+      'Do not ingest calls or transcripts',
+      'Do not access recordings',
+      'Do not analyze audio',
+      'Do not generate coaching',
+      'Do not generate reports',
+      'Do not change RBAC/auth/login/session behavior',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime sessions',
+      'Do not expose agent tools',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    nextSteps: [
+      'Keep QA Evaluation Workflow Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, OpenAI-disconnected, and execution-blocked.',
+      'Define future QA evaluation workflow contracts for AI Agent QA, Human Agent QA, ai_inbound, ai_outbound, human_inbound, and human_outbound in a separately approved phase.',
+      'Define future call selection, sampling, transcript, recording, redaction, scorecard binding, AI suggested score, supervisor review, final score, coaching, calibration, dispute, report, RBAC, PII, approval, versioning, rollback, audit, and effective-date controls before implementation.',
+      'Keep evaluations, QA records, scoring, call ingestion, transcript ingestion, recording access, audio analysis, final scores, coaching generation, calibration, disputes, report generation, audit writes, OpenAI connection, Realtime sessions, AI inbound, AI outbound, FastAGI, Asterisk/Vicidial changes, and route behavior changes blocked.',
+      'Require future human review/approval before any AI suggested score can influence a final supervisor score.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -12952,6 +13373,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'QA RBAC / Access Scope readiness is read-only, not ready, not approved, server-side RBAC mapped, company/client/campaign/project/line-of-business scope mapped, QA reviewer scope mapped, raw PII denied by default, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, RBAC enforcement-blocked, OpenAI-disconnected, execution-blocked, and exposes no users, roles, permissions, assignments, access grants, RBAC controls, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.',
     },
+    {
+      id: 'qa-evaluation-workflow-readiness-read-only',
+      label: 'QA Evaluation Workflow readiness read-only',
+      status: 'pass',
+      detail: 'QA Evaluation Workflow readiness is read-only, not ready, not approved, AI Agent QA and Human Agent QA workflow mapped, ai_inbound/ai_outbound/human_inbound/human_outbound mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, evaluation-blocked, scoring-blocked, call/transcript ingestion-blocked, recording access-blocked, audio analysis-blocked, coaching/calibration/dispute/report execution-blocked, OpenAI-disconnected, and exposes no QA evaluation, scoring, call ingestion, transcript, recording, audio analysis, coaching, calibration, dispute, report, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -13085,6 +13512,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     campaignPromptKbScopeReadiness,
     campaignQaProvisioningReadiness,
     qaRbacAccessScopeReadiness,
+    qaEvaluationWorkflowReadiness,
     checklist,
     risks,
     recommendations: [
@@ -13132,6 +13560,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat Campaign Prompt / KB Scope readiness as read-only design visibility; it maps future campaign-scoped prompts, knowledge bases, policies, handoff rules, scoring rules, tool boundaries, versioning, approvals, audit, rollback, effective dates, RBAC, client admin scope, and improvement proposal boundaries only and does not create prompt storage, KB storage, policy storage, handoff storage, scoring storage, tool boundary storage, CRUD, endpoints, migrations, prompt execution, KB ingestion, policy execution, handoff execution, scoring execution, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Treat Campaign QA Provisioning readiness as read-only design visibility; it maps future campaign-scoped QA and AI Agent access structures, QA Center access, AI Agent QA access, Human Agent QA access, scorecard access, prompt/KB/policy scope access, reports, coaching, calibration, audit, redaction access, client admin scope, server-side RBAC, idempotency, rollback, and disabled-by-default runtime controls only and does not create provisioning storage, campaign storage, QA storage, AI agent storage, prompt storage, KB storage, policy storage, scorecard storage, report storage, access grant storage, CRUD, endpoints, migrations, provisioning execution, campaign creation hooks, access grants, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Treat QA RBAC / Access Scope readiness as read-only design visibility; it maps future server-side RBAC and scoped QA/AI Agent access across companies, clients, campaigns, projects, line of business, QA tracks, QA routes, scorecards, prompts, KBs, reports, coaching, calibration, audit, and redaction policies only and does not create RBAC storage, role storage, permission storage, assignment storage, access grant storage, audit storage, CRUD, endpoints, migrations, users, roles, permissions, access grants, assignments, audit records, auth changes, authorization changes, login/session changes, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
+      'Treat QA Evaluation Workflow readiness as read-only design visibility; it maps future AI Agent QA, Human Agent QA, ai_inbound, ai_outbound, human_inbound, human_outbound, call selection, sampling, transcript references, recording references, redaction, scorecard version binding, AI suggested score, supervisor review, final score, coaching, calibration, disputes, reports, RBAC, PII boundaries, approval, versioning, audit, rollback, and effective dates only and does not create evaluation storage, QA record storage, call selection storage, transcript storage, recording access storage, score storage, coaching storage, calibration storage, dispute storage, report storage, audit storage, CRUD, endpoints, migrations, evaluations, QA records, scoring execution, call ingestion, transcript ingestion, recording access, audio analysis, final scores, coaching generation, calibration execution, dispute execution, report generation, audit records, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
