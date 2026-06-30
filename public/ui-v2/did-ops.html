@@ -1035,6 +1035,15 @@
                   <div class="muted small">Loading QA Reports &amp; Analytics readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Multilingual Call Language Routing Readiness</h2>
+                  <span class="muted small">Read-only multilingual call language routing design status for future configurable campaign-scoped languages across inbound and outbound calls, AI Voice, AI Agent QA, Human Agent QA, prompts, voices, knowledge bases, policies, scorecards, transcripts, reports, handoff, fallback, RBAC, and middleware core dependency. This does not create language storage, IVR storage, Vicidial field storage, CRUD, endpoints, migrations, IVR routes, IVR audio, Asterisk/Vicidial changes, Vicidial fields, dialplan changes, live language detection, live routing, OpenAI connection, AI call execution, FastAGI, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="multilingualCallLanguageRoutingReadinessCards"></div>
+                <div class="row" id="multilingualCallLanguageRoutingReadinessBadges" style="margin-top:12px"></div>
+                <div id="multilingualCallLanguageRoutingReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading Multilingual Call Language Routing readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3056,10 +3065,13 @@ function renderRouteReadiness() {
   const qaReportsAnalyticsReadinessCards = $('#qaReportsAnalyticsReadinessCards');
   const qaReportsAnalyticsReadinessBadges = $('#qaReportsAnalyticsReadinessBadges');
   const qaReportsAnalyticsReadinessDetails = $('#qaReportsAnalyticsReadinessDetails');
+  const multilingualCallLanguageRoutingReadinessCards = $('#multilingualCallLanguageRoutingReadinessCards');
+  const multilingualCallLanguageRoutingReadinessBadges = $('#multilingualCallLanguageRoutingReadinessBadges');
+  const multilingualCallLanguageRoutingReadinessDetails = $('#multilingualCallLanguageRoutingReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3197,6 +3209,9 @@ function renderRouteReadiness() {
     qaReportsAnalyticsReadinessCards.innerHTML = '<div class="muted small">QA Reports &amp; Analytics readiness status not loaded.</div>';
     qaReportsAnalyticsReadinessBadges.innerHTML = '';
     qaReportsAnalyticsReadinessDetails.innerHTML = '<div class="muted small">QA Reports &amp; Analytics readiness details not loaded.</div>';
+    multilingualCallLanguageRoutingReadinessCards.innerHTML = '<div class="muted small">Multilingual Call Language Routing readiness status not loaded.</div>';
+    multilingualCallLanguageRoutingReadinessBadges.innerHTML = '';
+    multilingualCallLanguageRoutingReadinessDetails.innerHTML = '<div class="muted small">Multilingual Call Language Routing readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -8734,6 +8749,140 @@ function renderRouteReadiness() {
   qaReportsAnalyticsReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${qaReportsAnalyticsDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const multilingualCallLanguageRouting = report.multilingualCallLanguageRoutingReadiness || {};
+  const multilingualCallLanguageRoutingReadinessCardsData = [
+    ['Current state', multilingualCallLanguageRouting.currentState || 'not_ready'],
+    ['Multilingual routing approved', multilingualCallLanguageRouting.multilingualCallLanguageRoutingApproved ? 'yes' : 'no'],
+    ['Multilingual routing mode', multilingualCallLanguageRouting.multilingualCallLanguageRoutingMode || 'read_only_design'],
+    ['Configurable languages', multilingualCallLanguageRouting.configurableLanguagesStatus || 'read_only_design'],
+    ['Campaign-scoped language', multilingualCallLanguageRouting.campaignScopedLanguageStatus || 'read_only_design'],
+    ['Inbound IVR language selection', multilingualCallLanguageRouting.inboundIvrLanguageSelectionStatus || 'read_only_design'],
+    ['Outbound Vicidial language field', multilingualCallLanguageRouting.outboundVicidialLanguageFieldStatus || 'read_only_design'],
+    ['Default language', multilingualCallLanguageRouting.defaultLanguageStatus || 'read_only_design'],
+    ['Fallback language', multilingualCallLanguageRouting.fallbackLanguageStatus || 'read_only_design'],
+    ['Auto-detect fallback', multilingualCallLanguageRouting.autoDetectFallbackStatus || 'read_only_design'],
+    ['Manual override', multilingualCallLanguageRouting.manualOverrideStatus || 'read_only_design'],
+    ['Language source priority', multilingualCallLanguageRouting.languageSourcePriorityStatus || 'read_only_design'],
+    ['Unsupported language fallback', multilingualCallLanguageRouting.unsupportedLanguageFallbackStatus || 'read_only_design'],
+    ['Prompt language mapping', multilingualCallLanguageRouting.promptLanguageMappingStatus || 'read_only_design'],
+    ['Voice language mapping', multilingualCallLanguageRouting.voiceLanguageMappingStatus || 'read_only_design'],
+    ['Knowledge base language mapping', multilingualCallLanguageRouting.knowledgeBaseLanguageMappingStatus || 'read_only_design'],
+    ['Policy language mapping', multilingualCallLanguageRouting.policyLanguageMappingStatus || 'read_only_design'],
+    ['Handoff language mapping', multilingualCallLanguageRouting.handoffLanguageMappingStatus || 'read_only_design'],
+    ['Scorecard language mapping', multilingualCallLanguageRouting.scorecardLanguageMappingStatus || 'read_only_design'],
+    ['Transcript language', multilingualCallLanguageRouting.transcriptLanguageStatus || 'read_only_design'],
+    ['QA evaluation language', multilingualCallLanguageRouting.qaEvaluationLanguageStatus || 'read_only_design'],
+    ['Report language filter', multilingualCallLanguageRouting.reportLanguageFilterStatus || 'read_only_design'],
+    ['Server-side RBAC', multilingualCallLanguageRouting.serverSideRbacStatus || 'read_only_design'],
+    ['Middleware core dependency', multilingualCallLanguageRouting.middlewareCoreDependencyStatus || 'read_only_design'],
+    ['Language storage', multilingualCallLanguageRouting.languageStorageStatus || 'not_implemented'],
+    ['IVR storage', multilingualCallLanguageRouting.ivrStorageStatus || 'not_implemented'],
+    ['Vicidial field storage', multilingualCallLanguageRouting.vicidialFieldStorageStatus || 'not_implemented'],
+    ['Language endpoint', multilingualCallLanguageRouting.languageEndpointStatus || 'not_implemented'],
+    ['Language CRUD', multilingualCallLanguageRouting.languageCrudStatus || 'not_implemented'],
+    ['Migration', multilingualCallLanguageRouting.migrationStatus || 'not_implemented'],
+    ['IVR execution', multilingualCallLanguageRouting.ivrExecutionStatus || 'not_allowed'],
+    ['IVR audio generation', multilingualCallLanguageRouting.ivrAudioGenerationStatus || 'not_allowed'],
+    ['Asterisk modification', multilingualCallLanguageRouting.asteriskModificationStatus || 'not_allowed'],
+    ['Vicidial modification', multilingualCallLanguageRouting.vicidialModificationStatus || 'not_allowed'],
+    ['Vicidial field creation', multilingualCallLanguageRouting.vicidialFieldCreationStatus || 'not_allowed'],
+    ['Dialplan modification', multilingualCallLanguageRouting.dialplanModificationStatus || 'not_allowed'],
+    ['Route behavior change', multilingualCallLanguageRouting.routeBehaviorChangeStatus || 'not_allowed'],
+    ['Live call language detection', multilingualCallLanguageRouting.liveCallLanguageDetectionStatus || 'not_allowed'],
+    ['Live call routing', multilingualCallLanguageRouting.liveCallRoutingStatus || 'not_allowed'],
+    ['Prompt runtime selection', multilingualCallLanguageRouting.promptRuntimeSelectionStatus || 'not_allowed'],
+    ['Voice runtime selection', multilingualCallLanguageRouting.voiceRuntimeSelectionStatus || 'not_allowed'],
+    ['Transcript runtime tagging', multilingualCallLanguageRouting.transcriptRuntimeTaggingStatus || 'not_allowed'],
+    ['QA runtime language selection', multilingualCallLanguageRouting.qaRuntimeLanguageSelectionStatus || 'not_allowed'],
+    ['Report runtime filtering', multilingualCallLanguageRouting.reportRuntimeFilteringStatus || 'not_allowed'],
+    ['OpenAI connection', multilingualCallLanguageRouting.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', multilingualCallLanguageRouting.openAiRuntimeStatus || 'not_connected'],
+    ['Realtime session', multilingualCallLanguageRouting.realtimeSessionStatus || 'not_connected'],
+    ['AI voice', multilingualCallLanguageRouting.aiVoiceStatus || 'not_allowed'],
+    ['AI inbound execution', multilingualCallLanguageRouting.aiInboundExecutionStatus || 'not_allowed'],
+    ['AI outbound execution', multilingualCallLanguageRouting.aiOutboundExecutionStatus || 'not_allowed'],
+    ['FastAGI', multilingualCallLanguageRouting.fastAgiStatus || 'not_allowed'],
+    ['Language storage allowed', multilingualCallLanguageRouting.languageStorageAllowed ? 'yes' : 'no'],
+    ['IVR storage allowed', multilingualCallLanguageRouting.ivrStorageAllowed ? 'yes' : 'no'],
+    ['Vicidial field storage allowed', multilingualCallLanguageRouting.vicidialFieldStorageAllowed ? 'yes' : 'no'],
+    ['Endpoint allowed', multilingualCallLanguageRouting.endpointAllowed ? 'yes' : 'no'],
+    ['CRUD allowed', multilingualCallLanguageRouting.crudAllowed ? 'yes' : 'no'],
+    ['Migration allowed', multilingualCallLanguageRouting.migrationAllowed ? 'yes' : 'no'],
+    ['IVR execution allowed', multilingualCallLanguageRouting.ivrExecutionAllowed ? 'yes' : 'no'],
+    ['IVR audio generation allowed', multilingualCallLanguageRouting.ivrAudioGenerationAllowed ? 'yes' : 'no'],
+    ['Asterisk modification allowed', multilingualCallLanguageRouting.asteriskModificationAllowed ? 'yes' : 'no'],
+    ['Vicidial modification allowed', multilingualCallLanguageRouting.vicidialModificationAllowed ? 'yes' : 'no'],
+    ['Vicidial field creation allowed', multilingualCallLanguageRouting.vicidialFieldCreationAllowed ? 'yes' : 'no'],
+    ['Dialplan modification allowed', multilingualCallLanguageRouting.dialplanModificationAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', multilingualCallLanguageRouting.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['Live call language detection allowed', multilingualCallLanguageRouting.liveCallLanguageDetectionAllowed ? 'yes' : 'no'],
+    ['Live call routing allowed', multilingualCallLanguageRouting.liveCallRoutingAllowed ? 'yes' : 'no'],
+    ['Prompt runtime selection allowed', multilingualCallLanguageRouting.promptRuntimeSelectionAllowed ? 'yes' : 'no'],
+    ['Voice runtime selection allowed', multilingualCallLanguageRouting.voiceRuntimeSelectionAllowed ? 'yes' : 'no'],
+    ['Transcript runtime tagging allowed', multilingualCallLanguageRouting.transcriptRuntimeTaggingAllowed ? 'yes' : 'no'],
+    ['QA runtime language selection allowed', multilingualCallLanguageRouting.qaRuntimeLanguageSelectionAllowed ? 'yes' : 'no'],
+    ['Report runtime filtering allowed', multilingualCallLanguageRouting.reportRuntimeFilteringAllowed ? 'yes' : 'no'],
+    ['OpenAI connection allowed', multilingualCallLanguageRouting.openAiConnectionAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', multilingualCallLanguageRouting.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['AI voice allowed', multilingualCallLanguageRouting.aiVoiceAllowed ? 'yes' : 'no'],
+    ['AI inbound execution allowed', multilingualCallLanguageRouting.aiInboundExecutionAllowed ? 'yes' : 'no'],
+    ['AI outbound execution allowed', multilingualCallLanguageRouting.aiOutboundExecutionAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', multilingualCallLanguageRouting.fastAgiAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', multilingualCallLanguageRouting.realPiiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', multilingualCallLanguageRouting.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real call allowed', multilingualCallLanguageRouting.realCallAllowed ? 'yes' : 'no'],
+  ];
+  multilingualCallLanguageRoutingReadinessCards.innerHTML = multilingualCallLanguageRoutingReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  multilingualCallLanguageRoutingReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only multilingual design', 'info'),
+    readinessBadge('Campaign-scoped languages mapped', 'info'),
+    readinessBadge('Inbound IVR language mapped', 'info'),
+    readinessBadge('Outbound Vicidial language field mapped', 'info'),
+    readinessBadge('No hardcoded English/Spanish limit', 'info'),
+    readinessBadge('Prompt/voice/KB language mapping', 'info'),
+    readinessBadge('QA/report language mapping', 'info'),
+    readinessBadge('Middleware core respected', 'ok'),
+    readinessBadge('No runtime controls', 'ok'),
+  ].join('');
+
+  const multilingualCallLanguageRoutingDetailGroups = [
+    ['Future language scope fields', multilingualCallLanguageRouting.futureLanguageScopeFields],
+    ['Future supported language examples', multilingualCallLanguageRouting.futureSupportedLanguageExamples],
+    ['Future inbound IVR language rules', multilingualCallLanguageRouting.futureInboundIvrLanguageRules],
+    ['Future outbound language field rules', multilingualCallLanguageRouting.futureOutboundLanguageFieldRules],
+    ['Future language source priority', multilingualCallLanguageRouting.futureLanguageSourcePriority],
+    ['Future language metadata fields', multilingualCallLanguageRouting.futureLanguageMetadataFields],
+    ['Future prompt/voice/KB language mappings', multilingualCallLanguageRouting.futurePromptVoiceKbLanguageMappings],
+    ['Future QA language mappings', multilingualCallLanguageRouting.futureQaLanguageMappings],
+    ['Future report language mappings', multilingualCallLanguageRouting.futureReportLanguageMappings],
+    ['Future handoff language rules', multilingualCallLanguageRouting.futureHandoffLanguageRules],
+    ['Future unsupported language fallback rules', multilingualCallLanguageRouting.futureUnsupportedLanguageFallbackRules],
+    ['Future RBAC language rules', multilingualCallLanguageRouting.futureRbacLanguageRules],
+    ['Future middleware core dependency rules', multilingualCallLanguageRouting.futureMiddlewareCoreDependencyRules],
+    ['Future runtime boundaries', multilingualCallLanguageRouting.futureRuntimeBoundaries],
+    ['Prohibited current actions', multilingualCallLanguageRouting.prohibitedCurrentActions],
+    ['Next steps', multilingualCallLanguageRouting.nextSteps],
+  ];
+  multilingualCallLanguageRoutingReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${multilingualCallLanguageRoutingDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>

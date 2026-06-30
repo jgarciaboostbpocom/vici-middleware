@@ -2972,6 +2972,105 @@ export type QaReportsAnalyticsReadiness = {
   nextSteps: string[];
 };
 
+export type MultilingualCallLanguageRoutingReadiness = {
+  currentState: 'not_ready';
+  multilingualCallLanguageRoutingApproved: false;
+  multilingualCallLanguageRoutingMode: 'read_only_design';
+  configurableLanguagesStatus: 'read_only_design';
+  campaignScopedLanguageStatus: 'read_only_design';
+  inboundIvrLanguageSelectionStatus: 'read_only_design';
+  outboundVicidialLanguageFieldStatus: 'read_only_design';
+  defaultLanguageStatus: 'read_only_design';
+  fallbackLanguageStatus: 'read_only_design';
+  autoDetectFallbackStatus: 'read_only_design';
+  manualOverrideStatus: 'read_only_design';
+  languageSourcePriorityStatus: 'read_only_design';
+  unsupportedLanguageFallbackStatus: 'read_only_design';
+  promptLanguageMappingStatus: 'read_only_design';
+  voiceLanguageMappingStatus: 'read_only_design';
+  knowledgeBaseLanguageMappingStatus: 'read_only_design';
+  policyLanguageMappingStatus: 'read_only_design';
+  handoffLanguageMappingStatus: 'read_only_design';
+  scorecardLanguageMappingStatus: 'read_only_design';
+  transcriptLanguageStatus: 'read_only_design';
+  qaEvaluationLanguageStatus: 'read_only_design';
+  reportLanguageFilterStatus: 'read_only_design';
+  serverSideRbacStatus: 'read_only_design';
+  middlewareCoreDependencyStatus: 'read_only_design';
+  languageStorageStatus: 'not_implemented';
+  ivrStorageStatus: 'not_implemented';
+  vicidialFieldStorageStatus: 'not_implemented';
+  languageEndpointStatus: 'not_implemented';
+  languageCrudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  ivrExecutionStatus: 'not_allowed';
+  ivrAudioGenerationStatus: 'not_allowed';
+  asteriskModificationStatus: 'not_allowed';
+  vicidialModificationStatus: 'not_allowed';
+  vicidialFieldCreationStatus: 'not_allowed';
+  dialplanModificationStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  liveCallLanguageDetectionStatus: 'not_allowed';
+  liveCallRoutingStatus: 'not_allowed';
+  promptRuntimeSelectionStatus: 'not_allowed';
+  voiceRuntimeSelectionStatus: 'not_allowed';
+  transcriptRuntimeTaggingStatus: 'not_allowed';
+  qaRuntimeLanguageSelectionStatus: 'not_allowed';
+  reportRuntimeFilteringStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  aiVoiceStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  languageStorageAllowed: false;
+  ivrStorageAllowed: false;
+  vicidialFieldStorageAllowed: false;
+  endpointAllowed: false;
+  crudAllowed: false;
+  migrationAllowed: false;
+  ivrExecutionAllowed: false;
+  ivrAudioGenerationAllowed: false;
+  asteriskModificationAllowed: false;
+  vicidialModificationAllowed: false;
+  vicidialFieldCreationAllowed: false;
+  dialplanModificationAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  liveCallLanguageDetectionAllowed: false;
+  liveCallRoutingAllowed: false;
+  promptRuntimeSelectionAllowed: false;
+  voiceRuntimeSelectionAllowed: false;
+  transcriptRuntimeTaggingAllowed: false;
+  qaRuntimeLanguageSelectionAllowed: false;
+  reportRuntimeFilteringAllowed: false;
+  openAiConnectionAllowed: false;
+  realtimeSessionAllowed: false;
+  aiVoiceAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  realPiiAllowed: false;
+  realCredentialAllowed: false;
+  realCallAllowed: false;
+  futureLanguageScopeFields: string[];
+  futureSupportedLanguageExamples: string[];
+  futureInboundIvrLanguageRules: string[];
+  futureOutboundLanguageFieldRules: string[];
+  futureLanguageSourcePriority: string[];
+  futureLanguageMetadataFields: string[];
+  futurePromptVoiceKbLanguageMappings: string[];
+  futureQaLanguageMappings: string[];
+  futureReportLanguageMappings: string[];
+  futureHandoffLanguageRules: string[];
+  futureUnsupportedLanguageFallbackRules: string[];
+  futureRbacLanguageRules: string[];
+  futureMiddlewareCoreDependencyRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -3035,6 +3134,7 @@ export type RouteReadinessReport = {
   qaRbacAccessScopeReadiness: QaRbacAccessScopeReadiness;
   qaEvaluationWorkflowReadiness: QaEvaluationWorkflowReadiness;
   qaReportsAnalyticsReadiness: QaReportsAnalyticsReadiness;
+  multilingualCallLanguageRoutingReadiness: MultilingualCallLanguageRoutingReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -13454,6 +13554,254 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const multilingualCallLanguageRoutingReadiness: MultilingualCallLanguageRoutingReadiness = {
+    currentState: 'not_ready',
+    multilingualCallLanguageRoutingApproved: false,
+    multilingualCallLanguageRoutingMode: 'read_only_design',
+    configurableLanguagesStatus: 'read_only_design',
+    campaignScopedLanguageStatus: 'read_only_design',
+    inboundIvrLanguageSelectionStatus: 'read_only_design',
+    outboundVicidialLanguageFieldStatus: 'read_only_design',
+    defaultLanguageStatus: 'read_only_design',
+    fallbackLanguageStatus: 'read_only_design',
+    autoDetectFallbackStatus: 'read_only_design',
+    manualOverrideStatus: 'read_only_design',
+    languageSourcePriorityStatus: 'read_only_design',
+    unsupportedLanguageFallbackStatus: 'read_only_design',
+    promptLanguageMappingStatus: 'read_only_design',
+    voiceLanguageMappingStatus: 'read_only_design',
+    knowledgeBaseLanguageMappingStatus: 'read_only_design',
+    policyLanguageMappingStatus: 'read_only_design',
+    handoffLanguageMappingStatus: 'read_only_design',
+    scorecardLanguageMappingStatus: 'read_only_design',
+    transcriptLanguageStatus: 'read_only_design',
+    qaEvaluationLanguageStatus: 'read_only_design',
+    reportLanguageFilterStatus: 'read_only_design',
+    serverSideRbacStatus: 'read_only_design',
+    middlewareCoreDependencyStatus: 'read_only_design',
+    languageStorageStatus: 'not_implemented',
+    ivrStorageStatus: 'not_implemented',
+    vicidialFieldStorageStatus: 'not_implemented',
+    languageEndpointStatus: 'not_implemented',
+    languageCrudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    ivrExecutionStatus: 'not_allowed',
+    ivrAudioGenerationStatus: 'not_allowed',
+    asteriskModificationStatus: 'not_allowed',
+    vicidialModificationStatus: 'not_allowed',
+    vicidialFieldCreationStatus: 'not_allowed',
+    dialplanModificationStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    liveCallLanguageDetectionStatus: 'not_allowed',
+    liveCallRoutingStatus: 'not_allowed',
+    promptRuntimeSelectionStatus: 'not_allowed',
+    voiceRuntimeSelectionStatus: 'not_allowed',
+    transcriptRuntimeTaggingStatus: 'not_allowed',
+    qaRuntimeLanguageSelectionStatus: 'not_allowed',
+    reportRuntimeFilteringStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    aiVoiceStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    languageStorageAllowed: false,
+    ivrStorageAllowed: false,
+    vicidialFieldStorageAllowed: false,
+    endpointAllowed: false,
+    crudAllowed: false,
+    migrationAllowed: false,
+    ivrExecutionAllowed: false,
+    ivrAudioGenerationAllowed: false,
+    asteriskModificationAllowed: false,
+    vicidialModificationAllowed: false,
+    vicidialFieldCreationAllowed: false,
+    dialplanModificationAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    liveCallLanguageDetectionAllowed: false,
+    liveCallRoutingAllowed: false,
+    promptRuntimeSelectionAllowed: false,
+    voiceRuntimeSelectionAllowed: false,
+    transcriptRuntimeTaggingAllowed: false,
+    qaRuntimeLanguageSelectionAllowed: false,
+    reportRuntimeFilteringAllowed: false,
+    openAiConnectionAllowed: false,
+    realtimeSessionAllowed: false,
+    aiVoiceAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    realPiiAllowed: false,
+    realCredentialAllowed: false,
+    realCallAllowed: false,
+    futureLanguageScopeFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'callDirection',
+      'callSessionId',
+      'qaEvaluationId',
+      'languageConfigId',
+      'enabledLanguages',
+      'defaultLanguage',
+      'fallbackLanguage',
+      'ivrDigitMapping',
+      'outboundLanguageFieldName',
+      'languageSource',
+      'languageConfidence',
+      'languageUnsupported',
+      'languageFallbackUsed',
+      'effectiveDate',
+    ],
+    futureSupportedLanguageExamples: [
+      'en',
+      'es',
+      'fr',
+      'pt',
+      'ht',
+      'English and Spanish are initial examples only and must not be hardcoded as the only supported languages',
+      'Each client/campaign must define its enabled languages in a future implementation',
+      'Language values should be configurable language codes, not fixed browser-only labels',
+    ],
+    futureInboundIvrLanguageRules: [
+      'Inbound IVR execution belongs to Asterisk, Vicidial, carrier, or a future approved call-control integration',
+      'Middleware may store and map future IVR language configuration only after an approved implementation phase',
+      'Middleware receives or will receive selected language as call/session metadata in a future implementation',
+      'Example IVR mapping only: 1 = English, 2 = Spanish, 3 = Portuguese, 4 = Haitian Creole, with additional campaign-defined languages allowed',
+      'Inbound IVR language selection must not execute in this readiness phase',
+    ],
+    futureOutboundLanguageFieldRules: [
+      'Outbound calls should use a future configured Vicidial lead/custom/campaign language field',
+      'Possible configured field names include preferred_language, language, customer_language, or a campaign-defined equivalent',
+      'Outbound field values must be configurable and should use language codes such as en, es, fr, pt, ht, or other enabled campaign codes',
+      'This readiness phase does not create Vicidial fields, change lead fields, or read live call data',
+    ],
+    futureLanguageSourcePriority: [
+      'authorized manual override',
+      'outbound Vicidial language field',
+      'inbound IVR selection',
+      'campaign default language',
+      'auto-detect fallback',
+      'system fallback language',
+    ],
+    futureLanguageMetadataFields: [
+      'callSessionId',
+      'campaignId',
+      'callDirection',
+      'languageCode',
+      'languageSource',
+      'languageConfidence',
+      'manualOverrideBy',
+      'inboundIvrDigit',
+      'outboundFieldName',
+      'outboundFieldValue',
+      'defaultLanguage',
+      'fallbackLanguage',
+      'languageUnsupported',
+      'languageFallbackUsed',
+      'transcriptLanguage',
+      'qaEvaluationLanguage',
+      'reportLanguageFilter',
+    ],
+    futurePromptVoiceKbLanguageMappings: [
+      'AI prompt selection must be mapped by campaign and language in a future implementation',
+      'AI voice selection must be mapped by campaign and language in a future implementation',
+      'Knowledge base selection must be mapped by campaign and language in a future implementation',
+      'Policy and compliance script selection must be mapped by campaign and language in a future implementation',
+      'Prompt, voice, KB, and policy runtime selection remain blocked in this readiness phase',
+    ],
+    futureQaLanguageMappings: [
+      'QA scorecards must be mappable by campaign, QA route, and language in a future implementation',
+      'QA evaluation language metadata must be scoped to call/session/evaluation context',
+      'Human Agent QA and AI Agent QA must consume middleware language context in a future implementation',
+      'Coaching and improvement proposals must be language-aware in a future implementation',
+      'QA runtime language selection remains blocked in this readiness phase',
+    ],
+    futureReportLanguageMappings: [
+      'Reports must support language filters scoped by company/client/campaign/project/lineOfBusiness in a future implementation',
+      'Report language metadata must not expose raw PII unless future RBAC/redaction policy allows it',
+      'Analytics and improvement proposals must be able to group by language in a future implementation',
+      'Report runtime filtering remains blocked in this readiness phase',
+    ],
+    futureHandoffLanguageRules: [
+      'Human handoff language, queue, and skill routing must be campaign-scoped in a future implementation',
+      'Unsupported or low-confidence language may route to a human only when configured and approved in a future implementation',
+      'Handoff language rules must respect middleware routing, DID rules, shadow mode, local touch, limits, and inventory health',
+      'No handoff or live routing behavior changes in this readiness phase',
+    ],
+    futureUnsupportedLanguageFallbackRules: [
+      'Use campaign fallback language when selected or detected language is not enabled',
+      'Route to human if configured and approved in a future implementation',
+      'Mark languageUnsupported when language is outside campaign enabled languages',
+      'Record languageFallbackUsed when fallback language is applied in a future implementation',
+      'Never guess blindly without metadata and sufficient confidence',
+    ],
+    futureRbacLanguageRules: [
+      'Campaign admins or authorized admins may configure language options only in a future implementation',
+      'Future language configuration must enforce server-side RBAC and campaign scope',
+      'Browser-side language selection or filtering alone is not sufficient',
+      'Client admins must not manage cross-client or cross-campaign language settings by default',
+      'Language metadata visibility must respect future redaction and raw PII boundaries',
+    ],
+    futureMiddlewareCoreDependencyRules: [
+      'Vicidial Middleware remains the source of truth for campaign routing',
+      'Vicidial Middleware remains the source of truth for DID rules',
+      'Vicidial Middleware remains the source of truth for route simulation and shadow mode',
+      'Vicidial Middleware remains the source of truth for local touch, limits, inventory health, and runtime safety',
+      'AI Voice and QA modules must consume middleware context and must not bypass or override middleware core rules without explicit approved runtime activation',
+    ],
+    futureRuntimeBoundaries: [
+      'Multilingual Call Language Routing readiness must not create language storage, IVR storage, Vicidial field storage, CRUD, endpoints, migrations, database tables, or storage',
+      'Multilingual Call Language Routing readiness must not create IVR routes, IVR audio, Asterisk changes, Vicidial changes, Vicidial fields, dialplan changes, or route behavior changes',
+      'Multilingual Call Language Routing readiness must not execute IVR behavior, live call language detection, live call routing, prompt runtime selection, voice runtime selection, transcript runtime tagging, QA runtime language selection, or report runtime filtering',
+      'Multilingual Call Language Routing readiness must not connect OpenAI, execute OpenAI API calls, open Realtime sessions, expose agent tools, enable AI voice, enable AI inbound calls, enable AI outbound calls, or enable FastAGI',
+      'Multilingual Call Language Routing readiness must not query live calls, access recordings, access transcripts, expose raw PII, change RBAC/auth/login/session behavior, modify Asterisk/Vicidial, or change current route behavior',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create language storage',
+      'Do not create IVR storage',
+      'Do not create Vicidial field storage',
+      'Do not create CRUD',
+      'Do not create endpoints',
+      'Do not create migrations',
+      'Do not create database tables',
+      'Do not create IVR routes',
+      'Do not create IVR audio',
+      'Do not execute IVR behavior',
+      'Do not modify Asterisk',
+      'Do not modify Vicidial',
+      'Do not create Vicidial fields',
+      'Do not modify Vicidial lead fields',
+      'Do not modify Vicidial campaigns',
+      'Do not modify dialplan',
+      'Do not reload dialplan',
+      'Do not change route behavior',
+      'Do not execute live call language detection',
+      'Do not execute live call routing',
+      'Do not execute prompt runtime selection',
+      'Do not execute voice runtime selection',
+      'Do not tag transcripts at runtime',
+      'Do not execute QA runtime language selection',
+      'Do not execute report runtime filtering',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime sessions',
+      'Do not expose agent tools',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not query live calls, access recordings, access transcripts, expose raw PII, or execute live calls',
+    ],
+    nextSteps: [
+      'Keep Multilingual Call Language Routing Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, OpenAI-disconnected, and runtime-blocked.',
+      'Define future campaign-scoped language contracts for enabled languages, default language, fallback language, IVR digit mapping/order, outbound field mapping, auto-detect fallback, manual override, and unsupported language fallback in a separately approved phase.',
+      'Define future prompt, voice, knowledge base, policy, handoff, scorecard, transcript, QA evaluation, report, analytics, coaching, and improvement proposal language mappings before implementation.',
+      'Require future server-side RBAC, campaign scope, audit, approval, versioning, rollback, and effective-date controls before language configuration can be managed.',
+      'Keep IVR execution, IVR audio, Vicidial fields, Asterisk/Vicidial changes, dialplan changes, live calls, OpenAI connection, Realtime sessions, AI voice, AI inbound/outbound execution, FastAGI, storage, endpoints, migrations, and route behavior changes blocked.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -13787,6 +14135,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'QA Reports & Analytics readiness is read-only, not ready, not approved, AI Agent QA and Human Agent QA reports mapped, ai_inbound/ai_outbound/human_inbound/human_outbound mapped, score trends mapped, criteria metrics mapped, RBAC and PII boundaries mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, live-data-query-blocked, runtime-aggregation-blocked, chart-runtime-blocked, transcript-access-blocked, recording-access-blocked, report/export generation-blocked, OpenAI-disconnected, and exposes no report, analytics, dashboard, export, filter, chart, transcript, recording, OpenAI, runtime, call execution, FastAGI, Asterisk/Vicidial, or route controls.',
     },
+    {
+      id: 'multilingual-call-language-routing-readiness-read-only',
+      label: 'Multilingual Call Language Routing readiness read-only',
+      status: 'pass',
+      detail: 'Multilingual Call Language Routing readiness is read-only, not ready, not approved, campaign-scoped language routing mapped, inbound IVR language selection mapped, outbound Vicidial language field mapping mapped, prompt/voice/KB/policy/handoff/scorecard/transcript/QA/report language mapping mapped, middleware core dependency mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, IVR/Asterisk/Vicidial/dialplan/live-call/runtime/OpenAI/FastAGI execution blocked, and exposes no language storage, IVR, Vicidial field, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, or runtime controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -13922,6 +14276,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     qaRbacAccessScopeReadiness,
     qaEvaluationWorkflowReadiness,
     qaReportsAnalyticsReadiness,
+    multilingualCallLanguageRoutingReadiness,
     checklist,
     risks,
     recommendations: [
@@ -13971,6 +14326,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat QA RBAC / Access Scope readiness as read-only design visibility; it maps future server-side RBAC and scoped QA/AI Agent access across companies, clients, campaigns, projects, line of business, QA tracks, QA routes, scorecards, prompts, KBs, reports, coaching, calibration, audit, and redaction policies only and does not create RBAC storage, role storage, permission storage, assignment storage, access grant storage, audit storage, CRUD, endpoints, migrations, users, roles, permissions, access grants, assignments, audit records, auth changes, authorization changes, login/session changes, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Treat QA Evaluation Workflow readiness as read-only design visibility; it maps future AI Agent QA, Human Agent QA, ai_inbound, ai_outbound, human_inbound, human_outbound, call selection, sampling, transcript references, recording references, redaction, scorecard version binding, AI suggested score, supervisor review, final score, coaching, calibration, disputes, reports, RBAC, PII boundaries, approval, versioning, audit, rollback, and effective dates only and does not create evaluation storage, QA record storage, call selection storage, transcript storage, recording access storage, score storage, coaching storage, calibration storage, dispute storage, report storage, audit storage, CRUD, endpoints, migrations, evaluations, QA records, scoring execution, call ingestion, transcript ingestion, recording access, audio analysis, final scores, coaching generation, calibration execution, dispute execution, report generation, audit records, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Treat QA Reports & Analytics readiness as read-only design visibility; it maps future AI Agent QA, Human Agent QA, ai_inbound, ai_outbound, human_inbound, human_outbound, score trends, criteria performance, critical fails, compliance, PII/redaction, consent/DNC, healthcare safe-response, evaluation coverage, sampling coverage, agent performance, coaching, calibration, disputes, supervisor review activity, QA analyst activity, audit visibility, RBAC, PII boundaries, approval, versioning, rollback, and effective dates only and does not create report storage, analytics storage, dashboard storage, export storage, metric storage, CRUD, endpoints, migrations, report records, analytics records, dashboard records, export records, metric records, live data queries, runtime aggregation, chart runtime, transcript access, recording access, raw PII access, report generation, export generation, audit records, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
+      'Treat Multilingual Call Language Routing readiness as read-only design visibility; it maps future configurable campaign-scoped languages, inbound IVR language selection, outbound Vicidial language field mapping, source priority, fallback behavior, prompt/voice/KB/policy/handoff/scorecard/transcript/QA/report language mapping, RBAC, and middleware core dependency only and does not create language storage, IVR storage, Vicidial field storage, CRUD, endpoints, migrations, IVR routes, IVR audio, Asterisk/Vicidial changes, Vicidial fields, dialplan changes, live call language detection, live call routing, prompt runtime selection, voice runtime selection, transcript runtime tagging, QA runtime language selection, report runtime filtering, OpenAI connection, Realtime sessions, AI calls, FastAGI, or route behavior changes.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
