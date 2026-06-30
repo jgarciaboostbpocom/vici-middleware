@@ -315,7 +315,7 @@ const statusPhrases = [
 
 check(readiness.includes('qaRbacAccessScopeReadiness'), 'readiness.ts must contain qaRbacAccessScopeReadiness');
 check(qaRbacSource, 'qaRbacAccessScopeReadiness source section missing');
-check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*qaRbacAccessScopeReadiness,\s*(qaEvaluationWorkflowReadiness,\s*(qaReportsAnalyticsReadiness,\s*(multilingualCallLanguageRoutingReadiness,\s*(authenticationMfaSecurityReadiness,\s*(campaignAiAgentCapacityBudgetReadiness,\s*)?)?)?)?)?checklist/s.test(readiness), 'readiness response payload must include qaRbacAccessScopeReadiness after campaignQaProvisioningReadiness');
+check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*qaRbacAccessScopeReadiness,\s*(qaEvaluationWorkflowReadiness,\s*(qaReportsAnalyticsReadiness,\s*(multilingualCallLanguageRoutingReadiness,\s*(authenticationMfaSecurityReadiness,\s*(campaignAiAgentCapacityBudgetReadiness,\s*(qaSamplingEligibilityRulesReadiness,\s*)?)?)?)?)?)?checklist/s.test(readiness), 'readiness response payload must include qaRbacAccessScopeReadiness after campaignQaProvisioningReadiness');
 check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*qaScorecardConfigurationReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'existing QA readiness payload order must remain unchanged');
 for (const [key, value] of scalarChecks) {
   check(sourceContainsValue(qaRbacSource, key, value), `readiness response must contain ${key}: ${JSON.stringify(value)}`);

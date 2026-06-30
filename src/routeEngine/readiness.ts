@@ -3279,6 +3279,116 @@ export type CampaignAiAgentCapacityBudgetReadiness = {
   nextSteps: string[];
 };
 
+export type QaSamplingEligibilityRulesReadiness = {
+  currentState: 'not_ready';
+  qaSamplingEligibilityRulesApproved: false;
+  qaSamplingEligibilityRulesMode: 'read_only_design';
+  campaignScopedSamplingStatus: 'read_only_design';
+  aiAgentQaSamplingStatus: 'read_only_design';
+  humanAgentQaSamplingStatus: 'read_only_design';
+  inboundSamplingStatus: 'read_only_design';
+  outboundSamplingStatus: 'read_only_design';
+  aiHandledCallEligibilityStatus: 'read_only_design';
+  humanHandledCallEligibilityStatus: 'read_only_design';
+  durationEligibilityStatus: 'read_only_design';
+  dispositionEligibilityStatus: 'read_only_design';
+  languageEligibilityStatus: 'read_only_design';
+  recordingTranscriptEligibilityStatus: 'read_only_design';
+  consentEligibilityStatus: 'read_only_design';
+  piiRedactionEligibilityStatus: 'read_only_design';
+  exclusionRulesStatus: 'read_only_design';
+  fixedCountSamplingStatus: 'read_only_design';
+  percentageSamplingStatus: 'read_only_design';
+  randomSamplingStatus: 'read_only_design';
+  stratifiedSamplingStatus: 'read_only_design';
+  riskBasedSamplingStatus: 'read_only_design';
+  supervisorRequestedReviewStatus: 'read_only_design';
+  manualReviewQueueStatus: 'read_only_design';
+  agentMinMaxSamplingStatus: 'read_only_design';
+  aiAgentMinMaxSamplingStatus: 'read_only_design';
+  qaCapacityBudgetStatus: 'read_only_design';
+  rbacSamplingControlStatus: 'read_only_design';
+  tenantIsolationStatus: 'read_only_design';
+  campaignIsolationStatus: 'read_only_design';
+  mfaStepUpForSamplingChangesStatus: 'read_only_design';
+  middlewareCoreDependencyStatus: 'read_only_design';
+  qaSamplingStorageStatus: 'not_implemented';
+  qaEligibilityStorageStatus: 'not_implemented';
+  qaSamplingQueueStorageStatus: 'not_implemented';
+  qaEvaluationJobStorageStatus: 'not_implemented';
+  qaSamplingEndpointStatus: 'not_implemented';
+  qaEligibilityEndpointStatus: 'not_implemented';
+  qaSamplingCrudStatus: 'not_implemented';
+  qaEligibilityCrudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  samplingRuntimeStatus: 'not_allowed';
+  eligibilityRuntimeStatus: 'not_allowed';
+  qaEvaluationRuntimeStatus: 'not_allowed';
+  aiQaRuntimeStatus: 'not_allowed';
+  humanQaRuntimeStatus: 'not_allowed';
+  schedulerRuntimeStatus: 'not_allowed';
+  backgroundJobRuntimeStatus: 'not_allowed';
+  reportRuntimeStatus: 'not_allowed';
+  transcriptAccessStatus: 'not_allowed';
+  recordingAccessStatus: 'not_allowed';
+  liveCallQueryStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  aiVoiceStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  qaSamplingStorageAllowed: false;
+  qaEligibilityStorageAllowed: false;
+  qaSamplingQueueStorageAllowed: false;
+  qaEvaluationJobStorageAllowed: false;
+  qaSamplingEndpointAllowed: false;
+  qaEligibilityEndpointAllowed: false;
+  qaSamplingCrudAllowed: false;
+  qaEligibilityCrudAllowed: false;
+  migrationAllowed: false;
+  samplingRuntimeAllowed: false;
+  eligibilityRuntimeAllowed: false;
+  qaEvaluationRuntimeAllowed: false;
+  aiQaRuntimeAllowed: false;
+  humanQaRuntimeAllowed: false;
+  schedulerRuntimeAllowed: false;
+  backgroundJobRuntimeAllowed: false;
+  reportRuntimeAllowed: false;
+  transcriptAccessAllowed: false;
+  recordingAccessAllowed: false;
+  liveCallQueryAllowed: false;
+  openAiConnectionAllowed: false;
+  openAiRuntimeAllowed: false;
+  realtimeSessionAllowed: false;
+  aiVoiceAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  realCredentialAllowed: false;
+  realPiiAllowed: false;
+  realCallAllowed: false;
+  futureSamplingScopeFields: string[];
+  futureEligibilityFilterFields: string[];
+  futureDurationEligibilityRules: string[];
+  futureDispositionEligibilityRules: string[];
+  futureExclusionRules: string[];
+  futureSamplingMethodRules: string[];
+  futureAgentSamplingRules: string[];
+  futureQaCapacityBudgetRules: string[];
+  futureRbacSamplingRules: string[];
+  futureTenantCampaignIsolationRules: string[];
+  futureMfaStepUpRules: string[];
+  futureReportCoverageRules: string[];
+  futureMiddlewareCoreDependencyRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -3345,6 +3455,7 @@ export type RouteReadinessReport = {
   multilingualCallLanguageRoutingReadiness: MultilingualCallLanguageRoutingReadiness;
   authenticationMfaSecurityReadiness: AuthenticationMfaSecurityReadiness;
   campaignAiAgentCapacityBudgetReadiness: CampaignAiAgentCapacityBudgetReadiness;
+  qaSamplingEligibilityRulesReadiness: QaSamplingEligibilityRulesReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -14484,6 +14595,265 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const qaSamplingEligibilityRulesReadiness: QaSamplingEligibilityRulesReadiness = {
+    currentState: 'not_ready',
+    qaSamplingEligibilityRulesApproved: false,
+    qaSamplingEligibilityRulesMode: 'read_only_design',
+    campaignScopedSamplingStatus: 'read_only_design',
+    aiAgentQaSamplingStatus: 'read_only_design',
+    humanAgentQaSamplingStatus: 'read_only_design',
+    inboundSamplingStatus: 'read_only_design',
+    outboundSamplingStatus: 'read_only_design',
+    aiHandledCallEligibilityStatus: 'read_only_design',
+    humanHandledCallEligibilityStatus: 'read_only_design',
+    durationEligibilityStatus: 'read_only_design',
+    dispositionEligibilityStatus: 'read_only_design',
+    languageEligibilityStatus: 'read_only_design',
+    recordingTranscriptEligibilityStatus: 'read_only_design',
+    consentEligibilityStatus: 'read_only_design',
+    piiRedactionEligibilityStatus: 'read_only_design',
+    exclusionRulesStatus: 'read_only_design',
+    fixedCountSamplingStatus: 'read_only_design',
+    percentageSamplingStatus: 'read_only_design',
+    randomSamplingStatus: 'read_only_design',
+    stratifiedSamplingStatus: 'read_only_design',
+    riskBasedSamplingStatus: 'read_only_design',
+    supervisorRequestedReviewStatus: 'read_only_design',
+    manualReviewQueueStatus: 'read_only_design',
+    agentMinMaxSamplingStatus: 'read_only_design',
+    aiAgentMinMaxSamplingStatus: 'read_only_design',
+    qaCapacityBudgetStatus: 'read_only_design',
+    rbacSamplingControlStatus: 'read_only_design',
+    tenantIsolationStatus: 'read_only_design',
+    campaignIsolationStatus: 'read_only_design',
+    mfaStepUpForSamplingChangesStatus: 'read_only_design',
+    middlewareCoreDependencyStatus: 'read_only_design',
+    qaSamplingStorageStatus: 'not_implemented',
+    qaEligibilityStorageStatus: 'not_implemented',
+    qaSamplingQueueStorageStatus: 'not_implemented',
+    qaEvaluationJobStorageStatus: 'not_implemented',
+    qaSamplingEndpointStatus: 'not_implemented',
+    qaEligibilityEndpointStatus: 'not_implemented',
+    qaSamplingCrudStatus: 'not_implemented',
+    qaEligibilityCrudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    samplingRuntimeStatus: 'not_allowed',
+    eligibilityRuntimeStatus: 'not_allowed',
+    qaEvaluationRuntimeStatus: 'not_allowed',
+    aiQaRuntimeStatus: 'not_allowed',
+    humanQaRuntimeStatus: 'not_allowed',
+    schedulerRuntimeStatus: 'not_allowed',
+    backgroundJobRuntimeStatus: 'not_allowed',
+    reportRuntimeStatus: 'not_allowed',
+    transcriptAccessStatus: 'not_allowed',
+    recordingAccessStatus: 'not_allowed',
+    liveCallQueryStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    aiVoiceStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    qaSamplingStorageAllowed: false,
+    qaEligibilityStorageAllowed: false,
+    qaSamplingQueueStorageAllowed: false,
+    qaEvaluationJobStorageAllowed: false,
+    qaSamplingEndpointAllowed: false,
+    qaEligibilityEndpointAllowed: false,
+    qaSamplingCrudAllowed: false,
+    qaEligibilityCrudAllowed: false,
+    migrationAllowed: false,
+    samplingRuntimeAllowed: false,
+    eligibilityRuntimeAllowed: false,
+    qaEvaluationRuntimeAllowed: false,
+    aiQaRuntimeAllowed: false,
+    humanQaRuntimeAllowed: false,
+    schedulerRuntimeAllowed: false,
+    backgroundJobRuntimeAllowed: false,
+    reportRuntimeAllowed: false,
+    transcriptAccessAllowed: false,
+    recordingAccessAllowed: false,
+    liveCallQueryAllowed: false,
+    openAiConnectionAllowed: false,
+    openAiRuntimeAllowed: false,
+    realtimeSessionAllowed: false,
+    aiVoiceAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    realCredentialAllowed: false,
+    realPiiAllowed: false,
+    realCallAllowed: false,
+    futureSamplingScopeFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'qaTrack',
+      'qaProgramId',
+      'samplingPolicyId',
+      'eligibilityPolicyId',
+      'effectiveDate',
+      'rollbackVersion',
+    ],
+    futureEligibilityFilterFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'callDirection',
+      'routeType',
+      'agentType',
+      'aiAgentId',
+      'humanAgentId',
+      'language',
+      'disposition',
+      'leadStatus',
+      'callOutcome',
+      'callDurationSeconds',
+      'talkTimeSeconds',
+      'holdTimeSeconds',
+      'silenceSeconds',
+      'transferStatus',
+      'handoffStatus',
+      'recordingAvailable',
+      'transcriptAvailable',
+      'consentStatus',
+      'piiRedactionStatus',
+    ],
+    futureDurationEligibilityRules: [
+      'Future eligibility may require a minimum call duration',
+      'Future eligibility may enforce a maximum call duration',
+      'Future eligibility may require minimum talk time',
+      'Future eligibility may exclude too-short calls',
+      'Future eligibility may exclude dead air calls',
+      'Duration eligibility is not executed in this readiness phase',
+    ],
+    futureDispositionEligibilityRules: [
+      'Future disposition filters may include configured reviewable dispositions',
+      'Future disposition filters may exclude configured non-reviewable dispositions',
+      'Future disposition filters may mark voicemail as non-reviewable when configured',
+      'Future disposition filters may exclude no-answer, busy, failed, abandoned, disconnected, do-not-call, duplicate, and test calls when configured',
+      'Disposition eligibility is not executed in this readiness phase',
+    ],
+    futureExclusionRules: [
+      'Future sampling must support exclusions for voicemail calls',
+      'Future sampling must support exclusions for no-answer, busy, failed, abandoned, too-short, and test calls',
+      'Future sampling must support exclusions for calls without usable recording or transcript when required',
+      'Future sampling must support exclusions for calls without consent when consent is required',
+      'Future sampling must support exclusions for calls blocked by PII or redaction policy',
+      'Exclusion rules are not executed in this readiness phase',
+    ],
+    futureSamplingMethodRules: [
+      'Future sampling may support fixed count per day, week, or month',
+      'Future sampling may support percentage-based sampling',
+      'Future sampling may support random sampling',
+      'Future sampling may support stratified sampling',
+      'Future sampling may support risk-based sampling',
+      'Future sampling may support score-triggered, complaint-triggered, supervisor-requested, and manual review queue workflows',
+      'QA must not evaluate all calls by default',
+    ],
+    futureAgentSamplingRules: [
+      'Future sampling may enforce minimum evaluations per human agent per period',
+      'Future sampling may enforce maximum evaluations per human agent per period',
+      'Future sampling may enforce minimum evaluations per AI agent per period',
+      'Future sampling may enforce maximum evaluations per AI agent per period',
+      'Future sampling must support AI-handled and human-handled calls',
+      'Future sampling must support inbound and outbound calls',
+    ],
+    futureQaCapacityBudgetRules: [
+      'Future QA capacity may set max QA evaluations per campaign per day, week, or month',
+      'Future QA capacity may set max AI QA evaluations per campaign per period',
+      'Future QA capacity may set max Human QA evaluations per campaign per period',
+      'Future QA budget may define evaluation budget limits',
+      'Future sampling may pause when budget or capacity is exceeded',
+      'Future sampling may queue when capacity is unavailable',
+    ],
+    futureRbacSamplingRules: [
+      'super_admin can define global or per-campaign QA sampling policy in a future implementation',
+      'authorized internal admin can manage assigned campaigns only in a future implementation',
+      'campaign_admin/client_admin can manage assigned campaign sampling only if permission allows in a future implementation',
+      'QA manager can review and manage sampling queues only within scope in a future implementation',
+      'restricted users cannot change QA sampling or eligibility rules',
+      'High-risk sampling policy changes may require MFA/step-up authentication in a future implementation',
+    ],
+    futureTenantCampaignIsolationRules: [
+      'Client A must not see or change client B sampling rules',
+      'Campaign A must not use campaign B sampling rules',
+      'QA evaluations must not cross client/campaign boundaries',
+      'Tenant and campaign isolation must be enforced server-side in a future implementation',
+      'Sampling coverage reports must respect tenant/campaign scope in a future implementation',
+    ],
+    futureMfaStepUpRules: [
+      'High-risk QA sampling policy changes should require future MFA/step-up authentication',
+      'High-risk eligibility policy changes should require future MFA/step-up authentication',
+      'Capacity or budget changes for QA sampling should require future MFA/step-up authentication when policy requires it',
+      'Step-up authentication remains design-only in this readiness phase',
+    ],
+    futureReportCoverageRules: [
+      'Future reports may show eligibility coverage by campaign, direction, agent type, language, disposition, and duration bucket',
+      'Future reports may show sampling coverage for AI Agent QA and Human Agent QA',
+      'Future reports may show excluded-call counts and reasons',
+      'Future reports may show capacity and budget coverage for QA evaluations',
+      'Report runtime is not implemented in this readiness phase',
+    ],
+    futureMiddlewareCoreDependencyRules: [
+      'Vicidial Middleware remains the source of truth for campaign routing',
+      'Vicidial Middleware remains the source of truth for DID rules',
+      'Vicidial Middleware remains the source of truth for route simulation and shadow mode',
+      'Vicidial Middleware remains the source of truth for local touch, limits, inventory health, and runtime safety',
+      'AI Voice and QA modules must consume middleware context and must not bypass or override middleware core rules without explicit approved runtime activation',
+    ],
+    futureRuntimeBoundaries: [
+      'QA Sampling & Eligibility Rules readiness must not create QA sampling storage, QA eligibility storage, sampling queue storage, QA evaluation job storage, QA records, CRUD, endpoints, migrations, database tables, or storage',
+      'QA Sampling & Eligibility Rules readiness must not create sampling runtime, eligibility runtime, QA evaluation runtime, AI QA runtime, Human QA runtime, scheduler runtime, background jobs, report runtime, or runtime enforcement',
+      'QA Sampling & Eligibility Rules readiness must not access transcripts, recordings, live calls, raw PII, or credentials',
+      'QA Sampling & Eligibility Rules readiness must not connect OpenAI, execute OpenAI API calls, open Realtime sessions, enable AI voice, enable AI inbound calls, enable AI outbound calls, enable FastAGI, modify Asterisk/Vicidial, or change route behavior',
+      'QA Sampling & Eligibility Rules readiness must not change auth, login, session, or RBAC behavior and must not add UI execution controls',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create QA records',
+      'Do not create QA sampling records',
+      'Do not create QA eligibility records',
+      'Do not create QA evaluation jobs',
+      'Do not modify QA evaluations',
+      'Do not execute QA evaluation',
+      'Do not access recordings or transcripts',
+      'Do not query live calls or execute live calls',
+      'Do not expose raw PII or secrets',
+      'Do not create sampling runtime',
+      'Do not create eligibility runtime',
+      'Do not create report runtime',
+      'Do not create scheduler runtime',
+      'Do not create background jobs',
+      'Do not create QA sampling storage',
+      'Do not create QA eligibility storage',
+      'Do not create CRUD',
+      'Do not create endpoints',
+      'Do not create migrations',
+      'Do not create database tables',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime sessions',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+      'Do not change auth, login, session, or RBAC behavior',
+    ],
+    nextSteps: [
+      'Keep QA Sampling & Eligibility Rules Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, OpenAI-disconnected, and runtime-blocked.',
+      'Define future campaign-scoped QA eligibility filters for company, client, campaign, project, line of business, direction, route type, agent type, language, disposition, lead status, call outcome, duration, recording/transcript availability, consent, and PII/redaction policy in a separately approved phase.',
+      'Define future fixed-count, percentage, random, stratified, risk-based, score-triggered, complaint-triggered, supervisor-requested, manual-review, and min/max-per-agent sampling rules before implementation.',
+      'Require server-side tenant/campaign/RBAC isolation, approval, audit, versioning, rollback, effective-date controls, and MFA/step-up for high-risk sampling policy changes before implementation.',
+      'Keep sampling runtime, eligibility runtime, QA evaluation runtime, AI QA runtime, Human QA runtime, scheduler runtime, background jobs, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, raw PII, recordings/transcripts, and UI execution controls blocked.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -14835,6 +15205,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Campaign AI Agent Capacity & Budget readiness is read-only, not ready, not approved, campaign-scoped AI agent limits mapped, active/inactive AI agent counts mapped, concurrency limits mapped, budget boundaries mapped, approval/RBAC mapped, tenant/campaign isolation mapped, MFA step-up mapped, middleware core dependency mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, AI-agent/budget/usage/billing/concurrency/report/approval runtime blocked, OpenAI-disconnected, and exposes no AI agent, capacity, budget, limit, approval, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
     },
+    {
+      id: 'qa-sampling-eligibility-rules-readiness-read-only',
+      label: 'QA Sampling & Eligibility Rules readiness read-only',
+      status: 'pass',
+      detail: 'QA Sampling & Eligibility Rules readiness is read-only, not ready, not approved, QA-does-not-evaluate-all-calls-by-default mapped, campaign-scoped sampling and eligibility mapped, AI Agent QA sampling mapped, Human Agent QA sampling mapped, inbound/outbound mapped, AI-handled/human-handled eligibility mapped, duration/disposition/language/recording/transcript/consent/PII eligibility mapped, exclusions mapped, sampling methods mapped, agent min/max sampling mapped, capacity/budget mapped, RBAC/MFA/tenant isolation mapped, middleware core dependency mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, sampling/eligibility/QA/scheduler/background/report runtime blocked, transcript/recording/live-call access blocked, OpenAI-disconnected, and exposes no QA sampling, QA eligibility, QA evaluation, report, scheduler, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -14973,6 +15349,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     multilingualCallLanguageRoutingReadiness,
     authenticationMfaSecurityReadiness,
     campaignAiAgentCapacityBudgetReadiness,
+    qaSamplingEligibilityRulesReadiness,
     checklist,
     risks,
     recommendations: [
@@ -15025,6 +15402,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat Multilingual Call Language Routing readiness as read-only design visibility; it maps future configurable campaign-scoped languages, inbound IVR language selection, outbound Vicidial language field mapping, source priority, fallback behavior, prompt/voice/KB/policy/handoff/scorecard/transcript/QA/report language mapping, RBAC, and middleware core dependency only and does not create language storage, IVR storage, Vicidial field storage, CRUD, endpoints, migrations, IVR routes, IVR audio, Asterisk/Vicidial changes, Vicidial fields, dialplan changes, live call language detection, live call routing, prompt runtime selection, voice runtime selection, transcript runtime tagging, QA runtime language selection, report runtime filtering, OpenAI connection, Realtime sessions, AI calls, FastAGI, or route behavior changes.',
       'Treat Authentication / MFA Security readiness as read-only design visibility; it maps future strong authentication, MFA/2FA, role-aware MFA, step-up authentication, session security, recovery, login audit, tenant/campaign/RBAC security, and server-side enforcement only and does not create auth storage, MFA storage, session storage, recovery storage, audit storage, CRUD, endpoints, migrations, users, credentials, MFA secrets, enrollment flows, recovery codes, trusted devices, OTP sending, SMS/email sending, passkey/security-key runtime, session revocation, login/session/password/RBAC behavior changes, OpenAI connection, AI voice, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Treat Campaign AI Agent Capacity & Budget readiness as read-only design visibility; it maps future campaign-scoped AI agent limits, active AI agent counts, concurrency, campaign budget/capacity, budget warning and hard stop thresholds, exceeded behavior, approval, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create AI agents, AI agent limits, budget records, usage records, billing records, cost records, storage, CRUD, endpoints, migrations, runtime enforcement, OpenAI connection, Realtime sessions, AI voice, AI inbound/outbound execution, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, recordings/transcripts access, raw PII exposure, or UI execution controls.',
+      'Treat QA Sampling & Eligibility Rules readiness as read-only design visibility; it maps future campaign-scoped QA eligibility and sampling so QA does not evaluate all calls by default, including AI Agent QA, Human Agent QA, inbound/outbound, AI-handled and human-handled calls, duration filters, disposition filters, language filters, exclusions, sampling methods, agent min/max rules, capacity/budget boundaries, RBAC, tenant isolation, MFA step-up, report coverage, and middleware core dependency only and does not create QA sampling storage, QA eligibility storage, sampling queues, QA evaluation jobs, QA records, CRUD, endpoints, migrations, sampling runtime, eligibility runtime, QA runtime, scheduler runtime, background jobs, report runtime, OpenAI connection, Realtime sessions, AI voice, AI inbound/outbound execution, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, or UI execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

@@ -283,7 +283,7 @@ const statusPhrases = [
 check(readiness.includes('multilingualCallLanguageRoutingReadiness'), 'readiness.ts must contain multilingualCallLanguageRoutingReadiness');
 check(multilingualSource, 'multilingualCallLanguageRoutingReadiness source section missing');
 check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*qaScorecardConfigurationReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'existing QA readiness payload order must remain unchanged');
-check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*qaRbacAccessScopeReadiness,\s*qaEvaluationWorkflowReadiness,\s*qaReportsAnalyticsReadiness,\s*multilingualCallLanguageRoutingReadiness,\s*(authenticationMfaSecurityReadiness,\s*(campaignAiAgentCapacityBudgetReadiness,\s*)?)?checklist/s.test(readiness), 'readiness response payload must include multilingualCallLanguageRoutingReadiness after qaReportsAnalyticsReadiness');
+check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*qaRbacAccessScopeReadiness,\s*qaEvaluationWorkflowReadiness,\s*qaReportsAnalyticsReadiness,\s*multilingualCallLanguageRoutingReadiness,\s*(authenticationMfaSecurityReadiness,\s*(campaignAiAgentCapacityBudgetReadiness,\s*(qaSamplingEligibilityRulesReadiness,\s*)?)?)?checklist/s.test(readiness), 'readiness response payload must include multilingualCallLanguageRoutingReadiness after qaReportsAnalyticsReadiness');
 for (const [key, value] of scalarChecks) {
   check(sourceContainsValue(multilingualSource, key, value), `readiness response must contain ${key}: ${JSON.stringify(value)}`);
 }
