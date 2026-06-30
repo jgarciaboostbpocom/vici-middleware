@@ -1044,6 +1044,15 @@
                   <div class="muted small">Loading Multilingual Call Language Routing readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Authentication / MFA Security Readiness</h2>
+                  <span class="muted small">Read-only authentication and MFA security design status for future strong authentication, two-step authentication, role-aware MFA, step-up authentication, session security, recovery, audit, tenant/campaign scope, and server-side enforcement. This does not create auth storage, MFA storage, session storage, recovery storage, audit storage, users, credentials, MFA secrets, enrollment flows, recovery codes, trusted devices, CRUD, endpoints, migrations, login changes, session changes, password changes, RBAC changes, OpenAI connection, AI voice execution, FastAGI, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="authenticationMfaSecurityReadinessCards"></div>
+                <div class="row" id="authenticationMfaSecurityReadinessBadges" style="margin-top:12px"></div>
+                <div id="authenticationMfaSecurityReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading Authentication / MFA Security readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3068,10 +3077,13 @@ function renderRouteReadiness() {
   const multilingualCallLanguageRoutingReadinessCards = $('#multilingualCallLanguageRoutingReadinessCards');
   const multilingualCallLanguageRoutingReadinessBadges = $('#multilingualCallLanguageRoutingReadinessBadges');
   const multilingualCallLanguageRoutingReadinessDetails = $('#multilingualCallLanguageRoutingReadinessDetails');
+  const authenticationMfaSecurityReadinessCards = $('#authenticationMfaSecurityReadinessCards');
+  const authenticationMfaSecurityReadinessBadges = $('#authenticationMfaSecurityReadinessBadges');
+  const authenticationMfaSecurityReadinessDetails = $('#authenticationMfaSecurityReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3212,6 +3224,9 @@ function renderRouteReadiness() {
     multilingualCallLanguageRoutingReadinessCards.innerHTML = '<div class="muted small">Multilingual Call Language Routing readiness status not loaded.</div>';
     multilingualCallLanguageRoutingReadinessBadges.innerHTML = '';
     multilingualCallLanguageRoutingReadinessDetails.innerHTML = '<div class="muted small">Multilingual Call Language Routing readiness details not loaded.</div>';
+    authenticationMfaSecurityReadinessCards.innerHTML = '<div class="muted small">Authentication / MFA Security readiness status not loaded.</div>';
+    authenticationMfaSecurityReadinessBadges.innerHTML = '';
+    authenticationMfaSecurityReadinessDetails.innerHTML = '<div class="muted small">Authentication / MFA Security readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -8883,6 +8898,145 @@ function renderRouteReadiness() {
   multilingualCallLanguageRoutingReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${multilingualCallLanguageRoutingDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const authenticationMfaSecurity = report.authenticationMfaSecurityReadiness || {};
+  const authenticationMfaSecurityReadinessCardsData = [
+    ['Current state', authenticationMfaSecurity.currentState || 'not_ready'],
+    ['Authentication MFA security approved', authenticationMfaSecurity.authenticationMfaSecurityApproved ? 'yes' : 'no'],
+    ['Authentication MFA security mode', authenticationMfaSecurity.authenticationMfaSecurityMode || 'read_only_design'],
+    ['Username/password only', authenticationMfaSecurity.usernamePasswordOnlyStatus || 'insufficient_for_future_admin_access'],
+    ['MFA requirement', authenticationMfaSecurity.mfaRequirementStatus || 'read_only_design'],
+    ['Admin MFA', authenticationMfaSecurity.adminMfaStatus || 'read_only_design'],
+    ['Super admin MFA', authenticationMfaSecurity.superAdminMfaStatus || 'read_only_design'],
+    ['Campaign admin MFA', authenticationMfaSecurity.campaignAdminMfaStatus || 'read_only_design'],
+    ['Client admin MFA', authenticationMfaSecurity.clientAdminMfaStatus || 'read_only_design'],
+    ['QA manager MFA', authenticationMfaSecurity.qaManagerMfaStatus || 'read_only_design'],
+    ['Sensitive action step-up', authenticationMfaSecurity.sensitiveActionStepUpStatus || 'read_only_design'],
+    ['Authenticator app', authenticationMfaSecurity.authenticatorAppStatus || 'read_only_design'],
+    ['Email OTP', authenticationMfaSecurity.emailOtpStatus || 'read_only_design'],
+    ['SMS OTP', authenticationMfaSecurity.smsOtpStatus || 'read_only_design'],
+    ['Passkey', authenticationMfaSecurity.passkeyStatus || 'read_only_design'],
+    ['Security key', authenticationMfaSecurity.securityKeyStatus || 'read_only_design'],
+    ['Recovery code', authenticationMfaSecurity.recoveryCodeStatus || 'read_only_design'],
+    ['Trusted device', authenticationMfaSecurity.trustedDeviceStatus || 'read_only_design'],
+    ['Session timeout', authenticationMfaSecurity.sessionTimeoutStatus || 'read_only_design'],
+    ['Idle timeout', authenticationMfaSecurity.idleTimeoutStatus || 'read_only_design'],
+    ['Session revocation', authenticationMfaSecurity.sessionRevocationStatus || 'read_only_design'],
+    ['Failed login tracking', authenticationMfaSecurity.failedLoginTrackingStatus || 'read_only_design'],
+    ['Account lockout', authenticationMfaSecurity.accountLockoutStatus || 'read_only_design'],
+    ['Login audit', authenticationMfaSecurity.loginAuditStatus || 'read_only_design'],
+    ['Password policy', authenticationMfaSecurity.passwordPolicyStatus || 'read_only_design'],
+    ['Password reset policy', authenticationMfaSecurity.passwordResetPolicyStatus || 'read_only_design'],
+    ['Tenant-scoped security', authenticationMfaSecurity.tenantScopedSecurityStatus || 'read_only_design'],
+    ['Campaign-scoped security', authenticationMfaSecurity.campaignScopedSecurityStatus || 'read_only_design'],
+    ['Server-side enforcement', authenticationMfaSecurity.serverSideEnforcementStatus || 'read_only_design'],
+    ['Browser-only enforcement', authenticationMfaSecurity.browserOnlyEnforcementStatus || 'insufficient'],
+    ['Auth storage', authenticationMfaSecurity.authStorageStatus || 'not_implemented'],
+    ['MFA storage', authenticationMfaSecurity.mfaStorageStatus || 'not_implemented'],
+    ['Session storage', authenticationMfaSecurity.sessionStorageStatus || 'not_implemented'],
+    ['Recovery storage', authenticationMfaSecurity.recoveryStorageStatus || 'not_implemented'],
+    ['Audit storage', authenticationMfaSecurity.auditStorageStatus || 'not_implemented'],
+    ['Auth endpoint', authenticationMfaSecurity.authEndpointStatus || 'not_implemented'],
+    ['MFA endpoint', authenticationMfaSecurity.mfaEndpointStatus || 'not_implemented'],
+    ['Session endpoint', authenticationMfaSecurity.sessionEndpointStatus || 'not_implemented'],
+    ['CRUD', authenticationMfaSecurity.crudStatus || 'not_implemented'],
+    ['Migration', authenticationMfaSecurity.migrationStatus || 'not_implemented'],
+    ['Auth runtime', authenticationMfaSecurity.authRuntimeStatus || 'not_allowed'],
+    ['Login runtime change', authenticationMfaSecurity.loginRuntimeChangeStatus || 'not_allowed'],
+    ['Session runtime change', authenticationMfaSecurity.sessionRuntimeChangeStatus || 'not_allowed'],
+    ['MFA enrollment runtime', authenticationMfaSecurity.mfaEnrollmentRuntimeStatus || 'not_allowed'],
+    ['OTP send runtime', authenticationMfaSecurity.otpSendRuntimeStatus || 'not_allowed'],
+    ['SMS send runtime', authenticationMfaSecurity.smsSendRuntimeStatus || 'not_allowed'],
+    ['Email send runtime', authenticationMfaSecurity.emailSendRuntimeStatus || 'not_allowed'],
+    ['Passkey runtime', authenticationMfaSecurity.passkeyRuntimeStatus || 'not_allowed'],
+    ['Security key runtime', authenticationMfaSecurity.securityKeyRuntimeStatus || 'not_allowed'],
+    ['Recovery runtime', authenticationMfaSecurity.recoveryRuntimeStatus || 'not_allowed'],
+    ['Session revocation runtime', authenticationMfaSecurity.sessionRevocationRuntimeStatus || 'not_allowed'],
+    ['Password runtime change', authenticationMfaSecurity.passwordRuntimeChangeStatus || 'not_allowed'],
+    ['RBAC runtime change', authenticationMfaSecurity.rbacRuntimeChangeStatus || 'not_allowed'],
+    ['User runtime change', authenticationMfaSecurity.userRuntimeChangeStatus || 'not_allowed'],
+    ['OpenAI connection', authenticationMfaSecurity.openAiConnectionStatus || 'not_connected'],
+    ['AI voice', authenticationMfaSecurity.aiVoiceStatus || 'not_allowed'],
+    ['FastAGI', authenticationMfaSecurity.fastAgiStatus || 'not_allowed'],
+    ['Route behavior change', authenticationMfaSecurity.routeBehaviorChangeStatus || 'not_allowed'],
+    ['Auth storage allowed', authenticationMfaSecurity.authStorageAllowed ? 'yes' : 'no'],
+    ['MFA storage allowed', authenticationMfaSecurity.mfaStorageAllowed ? 'yes' : 'no'],
+    ['Session storage allowed', authenticationMfaSecurity.sessionStorageAllowed ? 'yes' : 'no'],
+    ['Recovery storage allowed', authenticationMfaSecurity.recoveryStorageAllowed ? 'yes' : 'no'],
+    ['Audit storage allowed', authenticationMfaSecurity.auditStorageAllowed ? 'yes' : 'no'],
+    ['Auth endpoint allowed', authenticationMfaSecurity.authEndpointAllowed ? 'yes' : 'no'],
+    ['MFA endpoint allowed', authenticationMfaSecurity.mfaEndpointAllowed ? 'yes' : 'no'],
+    ['Session endpoint allowed', authenticationMfaSecurity.sessionEndpointAllowed ? 'yes' : 'no'],
+    ['CRUD allowed', authenticationMfaSecurity.crudAllowed ? 'yes' : 'no'],
+    ['Migration allowed', authenticationMfaSecurity.migrationAllowed ? 'yes' : 'no'],
+    ['Auth runtime allowed', authenticationMfaSecurity.authRuntimeAllowed ? 'yes' : 'no'],
+    ['Login runtime change allowed', authenticationMfaSecurity.loginRuntimeChangeAllowed ? 'yes' : 'no'],
+    ['Session runtime change allowed', authenticationMfaSecurity.sessionRuntimeChangeAllowed ? 'yes' : 'no'],
+    ['MFA enrollment runtime allowed', authenticationMfaSecurity.mfaEnrollmentRuntimeAllowed ? 'yes' : 'no'],
+    ['OTP send runtime allowed', authenticationMfaSecurity.otpSendRuntimeAllowed ? 'yes' : 'no'],
+    ['SMS send runtime allowed', authenticationMfaSecurity.smsSendRuntimeAllowed ? 'yes' : 'no'],
+    ['Email send runtime allowed', authenticationMfaSecurity.emailSendRuntimeAllowed ? 'yes' : 'no'],
+    ['Passkey runtime allowed', authenticationMfaSecurity.passkeyRuntimeAllowed ? 'yes' : 'no'],
+    ['Security key runtime allowed', authenticationMfaSecurity.securityKeyRuntimeAllowed ? 'yes' : 'no'],
+    ['Recovery runtime allowed', authenticationMfaSecurity.recoveryRuntimeAllowed ? 'yes' : 'no'],
+    ['Session revocation runtime allowed', authenticationMfaSecurity.sessionRevocationRuntimeAllowed ? 'yes' : 'no'],
+    ['Password runtime change allowed', authenticationMfaSecurity.passwordRuntimeChangeAllowed ? 'yes' : 'no'],
+    ['RBAC runtime change allowed', authenticationMfaSecurity.rbacRuntimeChangeAllowed ? 'yes' : 'no'],
+    ['User runtime change allowed', authenticationMfaSecurity.userRuntimeChangeAllowed ? 'yes' : 'no'],
+    ['OpenAI connection allowed', authenticationMfaSecurity.openAiConnectionAllowed ? 'yes' : 'no'],
+    ['AI voice allowed', authenticationMfaSecurity.aiVoiceAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', authenticationMfaSecurity.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', authenticationMfaSecurity.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', authenticationMfaSecurity.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', authenticationMfaSecurity.realPiiAllowed ? 'yes' : 'no'],
+    ['Real call allowed', authenticationMfaSecurity.realCallAllowed ? 'yes' : 'no'],
+  ];
+  authenticationMfaSecurityReadinessCards.innerHTML = authenticationMfaSecurityReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  authenticationMfaSecurityReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only MFA design', 'info'),
+    readinessBadge('Username/password alone insufficient', 'bad'),
+    readinessBadge('Admin MFA mapped', 'info'),
+    readinessBadge('Step-up auth mapped', 'info'),
+    readinessBadge('Session security mapped', 'info'),
+    readinessBadge('Login audit mapped', 'info'),
+    readinessBadge('Tenant/campaign security mapped', 'info'),
+    readinessBadge('Server-side enforcement required', 'warn'),
+    readinessBadge('No runtime controls', 'ok'),
+  ].join('');
+
+  const authenticationMfaSecurityDetailGroups = [
+    ['Future MFA required roles', authenticationMfaSecurity.futureMfaRequiredRoles],
+    ['Future MFA methods', authenticationMfaSecurity.futureMfaMethods],
+    ['Future step-up sensitive actions', authenticationMfaSecurity.futureStepUpSensitiveActions],
+    ['Future session security rules', authenticationMfaSecurity.futureSessionSecurityRules],
+    ['Future login security rules', authenticationMfaSecurity.futureLoginSecurityRules],
+    ['Future recovery rules', authenticationMfaSecurity.futureRecoveryRules],
+    ['Future audit rules', authenticationMfaSecurity.futureAuditRules],
+    ['Future tenant/campaign security rules', authenticationMfaSecurity.futureTenantCampaignSecurityRules],
+    ['Future RBAC security rules', authenticationMfaSecurity.futureRbacSecurityRules],
+    ['Future runtime boundaries', authenticationMfaSecurity.futureRuntimeBoundaries],
+    ['Prohibited current actions', authenticationMfaSecurity.prohibitedCurrentActions],
+    ['Next steps', authenticationMfaSecurity.nextSteps],
+  ];
+  authenticationMfaSecurityReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${authenticationMfaSecurityDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>

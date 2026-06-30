@@ -310,7 +310,7 @@ const statusPhrases = [
 
 check(readiness.includes('qaReportsAnalyticsReadiness'), 'readiness.ts must contain qaReportsAnalyticsReadiness');
 check(qaReportsSource, 'qaReportsAnalyticsReadiness source section missing');
-check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*qaRbacAccessScopeReadiness,\s*qaEvaluationWorkflowReadiness,\s*qaReportsAnalyticsReadiness,\s*(multilingualCallLanguageRoutingReadiness,\s*)?checklist/s.test(readiness), 'readiness response payload must include qaReportsAnalyticsReadiness after qaEvaluationWorkflowReadiness');
+check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*qaRbacAccessScopeReadiness,\s*qaEvaluationWorkflowReadiness,\s*qaReportsAnalyticsReadiness,\s*(multilingualCallLanguageRoutingReadiness,\s*(authenticationMfaSecurityReadiness,\s*)?)?checklist/s.test(readiness), 'readiness response payload must include qaReportsAnalyticsReadiness after qaEvaluationWorkflowReadiness');
 check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*qaScorecardConfigurationReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'existing QA readiness payload order must remain unchanged');
 for (const [key, value] of scalarChecks) {
   check(sourceContainsValue(qaReportsSource, key, value), `readiness response must contain ${key}: ${JSON.stringify(value)}`);

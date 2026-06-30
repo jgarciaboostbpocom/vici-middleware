@@ -3071,6 +3071,110 @@ export type MultilingualCallLanguageRoutingReadiness = {
   nextSteps: string[];
 };
 
+export type AuthenticationMfaSecurityReadiness = {
+  currentState: 'not_ready';
+  authenticationMfaSecurityApproved: false;
+  authenticationMfaSecurityMode: 'read_only_design';
+  usernamePasswordOnlyStatus: 'insufficient_for_future_admin_access';
+  mfaRequirementStatus: 'read_only_design';
+  adminMfaStatus: 'read_only_design';
+  superAdminMfaStatus: 'read_only_design';
+  campaignAdminMfaStatus: 'read_only_design';
+  clientAdminMfaStatus: 'read_only_design';
+  qaManagerMfaStatus: 'read_only_design';
+  sensitiveActionStepUpStatus: 'read_only_design';
+  authenticatorAppStatus: 'read_only_design';
+  emailOtpStatus: 'read_only_design';
+  smsOtpStatus: 'read_only_design';
+  passkeyStatus: 'read_only_design';
+  securityKeyStatus: 'read_only_design';
+  recoveryCodeStatus: 'read_only_design';
+  trustedDeviceStatus: 'read_only_design';
+  sessionTimeoutStatus: 'read_only_design';
+  idleTimeoutStatus: 'read_only_design';
+  sessionRevocationStatus: 'read_only_design';
+  failedLoginTrackingStatus: 'read_only_design';
+  accountLockoutStatus: 'read_only_design';
+  loginAuditStatus: 'read_only_design';
+  passwordPolicyStatus: 'read_only_design';
+  passwordResetPolicyStatus: 'read_only_design';
+  tenantScopedSecurityStatus: 'read_only_design';
+  campaignScopedSecurityStatus: 'read_only_design';
+  serverSideEnforcementStatus: 'read_only_design';
+  browserOnlyEnforcementStatus: 'insufficient';
+  authStorageStatus: 'not_implemented';
+  mfaStorageStatus: 'not_implemented';
+  sessionStorageStatus: 'not_implemented';
+  recoveryStorageStatus: 'not_implemented';
+  auditStorageStatus: 'not_implemented';
+  authEndpointStatus: 'not_implemented';
+  mfaEndpointStatus: 'not_implemented';
+  sessionEndpointStatus: 'not_implemented';
+  crudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  authRuntimeStatus: 'not_allowed';
+  loginRuntimeChangeStatus: 'not_allowed';
+  sessionRuntimeChangeStatus: 'not_allowed';
+  mfaEnrollmentRuntimeStatus: 'not_allowed';
+  otpSendRuntimeStatus: 'not_allowed';
+  smsSendRuntimeStatus: 'not_allowed';
+  emailSendRuntimeStatus: 'not_allowed';
+  passkeyRuntimeStatus: 'not_allowed';
+  securityKeyRuntimeStatus: 'not_allowed';
+  recoveryRuntimeStatus: 'not_allowed';
+  sessionRevocationRuntimeStatus: 'not_allowed';
+  passwordRuntimeChangeStatus: 'not_allowed';
+  rbacRuntimeChangeStatus: 'not_allowed';
+  userRuntimeChangeStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  aiVoiceStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  authStorageAllowed: false;
+  mfaStorageAllowed: false;
+  sessionStorageAllowed: false;
+  recoveryStorageAllowed: false;
+  auditStorageAllowed: false;
+  authEndpointAllowed: false;
+  mfaEndpointAllowed: false;
+  sessionEndpointAllowed: false;
+  crudAllowed: false;
+  migrationAllowed: false;
+  authRuntimeAllowed: false;
+  loginRuntimeChangeAllowed: false;
+  sessionRuntimeChangeAllowed: false;
+  mfaEnrollmentRuntimeAllowed: false;
+  otpSendRuntimeAllowed: false;
+  smsSendRuntimeAllowed: false;
+  emailSendRuntimeAllowed: false;
+  passkeyRuntimeAllowed: false;
+  securityKeyRuntimeAllowed: false;
+  recoveryRuntimeAllowed: false;
+  sessionRevocationRuntimeAllowed: false;
+  passwordRuntimeChangeAllowed: false;
+  rbacRuntimeChangeAllowed: false;
+  userRuntimeChangeAllowed: false;
+  openAiConnectionAllowed: false;
+  aiVoiceAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  realCredentialAllowed: false;
+  realPiiAllowed: false;
+  realCallAllowed: false;
+  futureMfaRequiredRoles: string[];
+  futureMfaMethods: string[];
+  futureStepUpSensitiveActions: string[];
+  futureSessionSecurityRules: string[];
+  futureLoginSecurityRules: string[];
+  futureRecoveryRules: string[];
+  futureAuditRules: string[];
+  futureTenantCampaignSecurityRules: string[];
+  futureRbacSecurityRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -3135,6 +3239,7 @@ export type RouteReadinessReport = {
   qaEvaluationWorkflowReadiness: QaEvaluationWorkflowReadiness;
   qaReportsAnalyticsReadiness: QaReportsAnalyticsReadiness;
   multilingualCallLanguageRoutingReadiness: MultilingualCallLanguageRoutingReadiness;
+  authenticationMfaSecurityReadiness: AuthenticationMfaSecurityReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -13802,6 +13907,234 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const authenticationMfaSecurityReadiness: AuthenticationMfaSecurityReadiness = {
+    currentState: 'not_ready',
+    authenticationMfaSecurityApproved: false,
+    authenticationMfaSecurityMode: 'read_only_design',
+    usernamePasswordOnlyStatus: 'insufficient_for_future_admin_access',
+    mfaRequirementStatus: 'read_only_design',
+    adminMfaStatus: 'read_only_design',
+    superAdminMfaStatus: 'read_only_design',
+    campaignAdminMfaStatus: 'read_only_design',
+    clientAdminMfaStatus: 'read_only_design',
+    qaManagerMfaStatus: 'read_only_design',
+    sensitiveActionStepUpStatus: 'read_only_design',
+    authenticatorAppStatus: 'read_only_design',
+    emailOtpStatus: 'read_only_design',
+    smsOtpStatus: 'read_only_design',
+    passkeyStatus: 'read_only_design',
+    securityKeyStatus: 'read_only_design',
+    recoveryCodeStatus: 'read_only_design',
+    trustedDeviceStatus: 'read_only_design',
+    sessionTimeoutStatus: 'read_only_design',
+    idleTimeoutStatus: 'read_only_design',
+    sessionRevocationStatus: 'read_only_design',
+    failedLoginTrackingStatus: 'read_only_design',
+    accountLockoutStatus: 'read_only_design',
+    loginAuditStatus: 'read_only_design',
+    passwordPolicyStatus: 'read_only_design',
+    passwordResetPolicyStatus: 'read_only_design',
+    tenantScopedSecurityStatus: 'read_only_design',
+    campaignScopedSecurityStatus: 'read_only_design',
+    serverSideEnforcementStatus: 'read_only_design',
+    browserOnlyEnforcementStatus: 'insufficient',
+    authStorageStatus: 'not_implemented',
+    mfaStorageStatus: 'not_implemented',
+    sessionStorageStatus: 'not_implemented',
+    recoveryStorageStatus: 'not_implemented',
+    auditStorageStatus: 'not_implemented',
+    authEndpointStatus: 'not_implemented',
+    mfaEndpointStatus: 'not_implemented',
+    sessionEndpointStatus: 'not_implemented',
+    crudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    authRuntimeStatus: 'not_allowed',
+    loginRuntimeChangeStatus: 'not_allowed',
+    sessionRuntimeChangeStatus: 'not_allowed',
+    mfaEnrollmentRuntimeStatus: 'not_allowed',
+    otpSendRuntimeStatus: 'not_allowed',
+    smsSendRuntimeStatus: 'not_allowed',
+    emailSendRuntimeStatus: 'not_allowed',
+    passkeyRuntimeStatus: 'not_allowed',
+    securityKeyRuntimeStatus: 'not_allowed',
+    recoveryRuntimeStatus: 'not_allowed',
+    sessionRevocationRuntimeStatus: 'not_allowed',
+    passwordRuntimeChangeStatus: 'not_allowed',
+    rbacRuntimeChangeStatus: 'not_allowed',
+    userRuntimeChangeStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    aiVoiceStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    authStorageAllowed: false,
+    mfaStorageAllowed: false,
+    sessionStorageAllowed: false,
+    recoveryStorageAllowed: false,
+    auditStorageAllowed: false,
+    authEndpointAllowed: false,
+    mfaEndpointAllowed: false,
+    sessionEndpointAllowed: false,
+    crudAllowed: false,
+    migrationAllowed: false,
+    authRuntimeAllowed: false,
+    loginRuntimeChangeAllowed: false,
+    sessionRuntimeChangeAllowed: false,
+    mfaEnrollmentRuntimeAllowed: false,
+    otpSendRuntimeAllowed: false,
+    smsSendRuntimeAllowed: false,
+    emailSendRuntimeAllowed: false,
+    passkeyRuntimeAllowed: false,
+    securityKeyRuntimeAllowed: false,
+    recoveryRuntimeAllowed: false,
+    sessionRevocationRuntimeAllowed: false,
+    passwordRuntimeChangeAllowed: false,
+    rbacRuntimeChangeAllowed: false,
+    userRuntimeChangeAllowed: false,
+    openAiConnectionAllowed: false,
+    aiVoiceAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    realCredentialAllowed: false,
+    realPiiAllowed: false,
+    realCallAllowed: false,
+    futureMfaRequiredRoles: [
+      'super_admin',
+      'internal_admin',
+      'campaign_admin',
+      'client_admin',
+      'QA manager',
+      'Users who approve AI prompt, knowledge base, or policy changes',
+      'Users who approve AI improvement proposals',
+      'Users who change AI agent limits',
+      'Users who change budget or capacity controls',
+      'Users who view recordings or transcripts',
+      'Users who export reports or data',
+      'Users who access raw PII',
+      'Users who enable runtime, AI Voice, FastAGI, or OpenAI activation',
+    ],
+    futureMfaMethods: [
+      'Authenticator app / TOTP',
+      'Email OTP',
+      'SMS OTP',
+      'Passkeys',
+      'Hardware security keys',
+      'Recovery codes',
+      'Lower-risk roles may be configurable in a future implementation, but admin and sensitive roles must be required',
+    ],
+    futureStepUpSensitiveActions: [
+      'Changing production prompts',
+      'Approving QA-to-AI improvement proposals',
+      'Changing prompt, knowledge base, policy, or handoff rules',
+      'Changing scorecards',
+      'Changing AI agent limits',
+      'Changing campaign budget or capacity',
+      'Enabling AI runtime',
+      'Enabling OpenAI runtime',
+      'Enabling AI Voice',
+      'Enabling FastAGI',
+      'Accessing recordings',
+      'Accessing transcripts',
+      'Viewing raw PII',
+      'Exporting reports or data',
+      'Changing disclosure or consent settings',
+      'Changing language routing settings',
+      'Changing route behavior',
+    ],
+    futureSessionSecurityRules: [
+      'Session timeout must be configurable in a future implementation',
+      'Idle timeout must be configurable in a future implementation',
+      'Session revocation must be available to authorized administrators in a future implementation',
+      'Trusted device rules must be scoped and auditable in a future implementation',
+      'Device/session list visibility must be RBAC-controlled in a future implementation',
+      'Session behavior must not change in this readiness phase',
+    ],
+    futureLoginSecurityRules: [
+      'Failed login tracking must be mapped in a future implementation',
+      'Suspicious login tracking must be mapped in a future implementation',
+      'Account lockout rules must be mapped in a future implementation',
+      'Password policy must be mapped in a future implementation',
+      'Password reset policy must be mapped in a future implementation',
+      'Login behavior must not change in this readiness phase',
+    ],
+    futureRecoveryRules: [
+      'MFA recovery policy must be mapped in a future implementation',
+      'Recovery codes may be supported only after approved storage, audit, and server-side enforcement exist',
+      'Recovery flows must be tenant/campaign/RBAC aware in a future implementation',
+      'Recovery must not bypass MFA for admin or sensitive roles without auditable policy',
+      'Recovery codes and recovery flows are not created in this readiness phase',
+    ],
+    futureAuditRules: [
+      'Login audit trail must be mapped in a future implementation',
+      'MFA enrollment, challenge, recovery, session revocation, failed login, suspicious login, password reset, and step-up events must be auditable in a future implementation',
+      'Audit events must include actor, tenant/client/campaign scope, role, action, device/session context, timestamp, outcome, reason, and correlation ID',
+      'Audit visibility must be RBAC-controlled and raw PII-safe in a future implementation',
+      'Audit records are not created in this readiness phase',
+    ],
+    futureTenantCampaignSecurityRules: [
+      'Authentication and MFA must be tenant-aware in a future implementation',
+      'Authentication and MFA must be campaign-aware where campaign-admin scope is involved',
+      'Client admins must not manage cross-client MFA or security settings by default',
+      'Super admins may define global security policy in a future implementation',
+      'Campaign-scoped security policy must not override stricter tenant or global policy by default',
+    ],
+    futureRbacSecurityRules: [
+      'Authentication and MFA must be RBAC-aware in a future implementation',
+      'Browser-side enforcement alone is not sufficient',
+      'Future implementation must enforce authentication and MFA server-side',
+      'Users with access to AI settings, QA evaluations, recordings, transcripts, reports, prompts, knowledge bases, budget settings, runtime activation, exports, or raw PII must require future MFA and/or step-up authentication',
+      'Security policy changes must support approval, audit, versioning, rollback, and effective-date controls in a future implementation',
+    ],
+    futureRuntimeBoundaries: [
+      'Authentication / MFA Security readiness must not create auth storage, MFA storage, session storage, recovery storage, audit storage, CRUD, endpoints, migrations, database tables, or storage',
+      'Authentication / MFA Security readiness must not create users, modify users, create passwords, modify passwords, create credentials, access credentials, create MFA secrets, create MFA enrollment flows, send MFA codes, send emails, send SMS, integrate authenticator apps, integrate passkeys, integrate security keys, create recovery codes, create trusted devices, or revoke sessions',
+      'Authentication / MFA Security readiness must not change current auth behavior, login behavior, session behavior, password behavior, RBAC behavior, or route behavior',
+      'Authentication / MFA Security readiness must not connect OpenAI, configure OpenAI credentials, execute OpenAI API calls, enable AI voice, enable AI inbound calls, enable AI outbound calls, enable FastAGI, modify Asterisk/Vicidial, or execute live calls',
+      'Authentication / MFA Security readiness must not expose secrets, access credentials, expose raw PII, or add UI execution controls',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create auth storage',
+      'Do not create MFA storage',
+      'Do not create session storage',
+      'Do not create recovery storage',
+      'Do not create audit storage',
+      'Do not create CRUD',
+      'Do not create endpoints',
+      'Do not create migrations',
+      'Do not create database tables',
+      'Do not create users',
+      'Do not modify users',
+      'Do not create passwords',
+      'Do not modify passwords',
+      'Do not create credentials',
+      'Do not modify credentials',
+      'Do not access credentials',
+      'Do not create MFA secrets',
+      'Do not create MFA enrollment flows',
+      'Do not send MFA codes',
+      'Do not send emails',
+      'Do not send SMS',
+      'Do not integrate authenticator apps',
+      'Do not integrate passkeys',
+      'Do not integrate security keys',
+      'Do not create recovery codes',
+      'Do not create trusted devices',
+      'Do not revoke sessions',
+      'Do not change auth, login, session, password, or RBAC behavior',
+      'Do not expose secrets or raw PII',
+      'Do not connect OpenAI',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+    ],
+    nextSteps: [
+      'Keep Authentication / MFA Security Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, and runtime-blocked.',
+      'Define future tenant/campaign/RBAC-aware MFA policy for super_admin, internal_admin, campaign_admin, client_admin, QA managers, and sensitive access roles in a separately approved phase.',
+      'Define future MFA methods, step-up authentication, session timeout, idle timeout, revocation, trusted devices, login security, recovery, audit, password policy, and password reset policy before implementation.',
+      'Require server-side enforcement, audit, approval, versioning, rollback, and effective-date controls before any authentication or MFA runtime implementation.',
+      'Keep users, credentials, MFA secrets, enrollment, OTP sending, email/SMS sending, passkeys, security keys, recovery codes, trusted devices, session revocation, login/session/password/RBAC changes, OpenAI connection, AI voice, FastAGI, and route behavior changes blocked.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -14141,6 +14474,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Multilingual Call Language Routing readiness is read-only, not ready, not approved, campaign-scoped language routing mapped, inbound IVR language selection mapped, outbound Vicidial language field mapping mapped, prompt/voice/KB/policy/handoff/scorecard/transcript/QA/report language mapping mapped, middleware core dependency mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, IVR/Asterisk/Vicidial/dialplan/live-call/runtime/OpenAI/FastAGI execution blocked, and exposes no language storage, IVR, Vicidial field, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, or runtime controls.',
     },
+    {
+      id: 'authentication-mfa-security-readiness-read-only',
+      label: 'Authentication / MFA Security readiness read-only',
+      status: 'pass',
+      detail: 'Authentication / MFA Security readiness is read-only, not ready, not approved, username/password-only future admin access marked insufficient, role-aware MFA mapped, step-up authentication mapped, session security mapped, login audit mapped, tenant/campaign/RBAC security mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, auth/login/session/MFA/enrollment/OTP/password/RBAC/user runtime changes blocked, OpenAI/AI Voice/FastAGI/route behavior changes blocked, and exposes no login, MFA, enrollment, recovery, session, device, password, RBAC, OpenAI, AI voice, call, route, FastAGI, service, or runtime controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -14277,6 +14616,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     qaEvaluationWorkflowReadiness,
     qaReportsAnalyticsReadiness,
     multilingualCallLanguageRoutingReadiness,
+    authenticationMfaSecurityReadiness,
     checklist,
     risks,
     recommendations: [
@@ -14327,6 +14667,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat QA Evaluation Workflow readiness as read-only design visibility; it maps future AI Agent QA, Human Agent QA, ai_inbound, ai_outbound, human_inbound, human_outbound, call selection, sampling, transcript references, recording references, redaction, scorecard version binding, AI suggested score, supervisor review, final score, coaching, calibration, disputes, reports, RBAC, PII boundaries, approval, versioning, audit, rollback, and effective dates only and does not create evaluation storage, QA record storage, call selection storage, transcript storage, recording access storage, score storage, coaching storage, calibration storage, dispute storage, report storage, audit storage, CRUD, endpoints, migrations, evaluations, QA records, scoring execution, call ingestion, transcript ingestion, recording access, audio analysis, final scores, coaching generation, calibration execution, dispute execution, report generation, audit records, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Treat QA Reports & Analytics readiness as read-only design visibility; it maps future AI Agent QA, Human Agent QA, ai_inbound, ai_outbound, human_inbound, human_outbound, score trends, criteria performance, critical fails, compliance, PII/redaction, consent/DNC, healthcare safe-response, evaluation coverage, sampling coverage, agent performance, coaching, calibration, disputes, supervisor review activity, QA analyst activity, audit visibility, RBAC, PII boundaries, approval, versioning, rollback, and effective dates only and does not create report storage, analytics storage, dashboard storage, export storage, metric storage, CRUD, endpoints, migrations, report records, analytics records, dashboard records, export records, metric records, live data queries, runtime aggregation, chart runtime, transcript access, recording access, raw PII access, report generation, export generation, audit records, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Treat Multilingual Call Language Routing readiness as read-only design visibility; it maps future configurable campaign-scoped languages, inbound IVR language selection, outbound Vicidial language field mapping, source priority, fallback behavior, prompt/voice/KB/policy/handoff/scorecard/transcript/QA/report language mapping, RBAC, and middleware core dependency only and does not create language storage, IVR storage, Vicidial field storage, CRUD, endpoints, migrations, IVR routes, IVR audio, Asterisk/Vicidial changes, Vicidial fields, dialplan changes, live call language detection, live call routing, prompt runtime selection, voice runtime selection, transcript runtime tagging, QA runtime language selection, report runtime filtering, OpenAI connection, Realtime sessions, AI calls, FastAGI, or route behavior changes.',
+      'Treat Authentication / MFA Security readiness as read-only design visibility; it maps future strong authentication, MFA/2FA, role-aware MFA, step-up authentication, session security, recovery, login audit, tenant/campaign/RBAC security, and server-side enforcement only and does not create auth storage, MFA storage, session storage, recovery storage, audit storage, CRUD, endpoints, migrations, users, credentials, MFA secrets, enrollment flows, recovery codes, trusted devices, OTP sending, SMS/email sending, passkey/security-key runtime, session revocation, login/session/password/RBAC behavior changes, OpenAI connection, AI voice, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
