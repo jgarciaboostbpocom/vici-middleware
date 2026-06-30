@@ -1053,6 +1053,15 @@
                   <div class="muted small">Loading Authentication / MFA Security readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Campaign AI Agent Capacity &amp; Budget Readiness</h2>
+                  <span class="muted small">Read-only campaign AI agent capacity and budget design status for future campaign-scoped AI agent limits, active counts, concurrency, budget boundaries, approval, RBAC, tenant isolation, MFA step-up, and runtime activation gates. This does not create AI agents, campaign AI agent limits, budget records, usage records, billing records, cost records, storage, CRUD, endpoints, migrations, runtime enforcement, OpenAI connection, AI voice execution, FastAGI, Asterisk/Vicidial changes, live calls, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="campaignAiAgentCapacityBudgetReadinessCards"></div>
+                <div class="row" id="campaignAiAgentCapacityBudgetReadinessBadges" style="margin-top:12px"></div>
+                <div id="campaignAiAgentCapacityBudgetReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading Campaign AI Agent Capacity &amp; Budget readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3080,10 +3089,13 @@ function renderRouteReadiness() {
   const authenticationMfaSecurityReadinessCards = $('#authenticationMfaSecurityReadinessCards');
   const authenticationMfaSecurityReadinessBadges = $('#authenticationMfaSecurityReadinessBadges');
   const authenticationMfaSecurityReadinessDetails = $('#authenticationMfaSecurityReadinessDetails');
+  const campaignAiAgentCapacityBudgetReadinessCards = $('#campaignAiAgentCapacityBudgetReadinessCards');
+  const campaignAiAgentCapacityBudgetReadinessBadges = $('#campaignAiAgentCapacityBudgetReadinessBadges');
+  const campaignAiAgentCapacityBudgetReadinessDetails = $('#campaignAiAgentCapacityBudgetReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3227,6 +3239,9 @@ function renderRouteReadiness() {
     authenticationMfaSecurityReadinessCards.innerHTML = '<div class="muted small">Authentication / MFA Security readiness status not loaded.</div>';
     authenticationMfaSecurityReadinessBadges.innerHTML = '';
     authenticationMfaSecurityReadinessDetails.innerHTML = '<div class="muted small">Authentication / MFA Security readiness details not loaded.</div>';
+    campaignAiAgentCapacityBudgetReadinessCards.innerHTML = '<div class="muted small">Campaign AI Agent Capacity &amp; Budget readiness status not loaded.</div>';
+    campaignAiAgentCapacityBudgetReadinessBadges.innerHTML = '';
+    campaignAiAgentCapacityBudgetReadinessDetails.innerHTML = '<div class="muted small">Campaign AI Agent Capacity &amp; Budget readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -9037,6 +9052,147 @@ function renderRouteReadiness() {
   authenticationMfaSecurityReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${authenticationMfaSecurityDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const campaignAiAgentCapacityBudget = report.campaignAiAgentCapacityBudgetReadiness || {};
+  const campaignAiAgentCapacityBudgetReadinessCardsData = [
+    ['Current state', campaignAiAgentCapacityBudget.currentState || 'not_ready'],
+    ['Capacity budget approved', campaignAiAgentCapacityBudget.campaignAiAgentCapacityBudgetApproved ? 'yes' : 'no'],
+    ['Capacity budget mode', campaignAiAgentCapacityBudget.campaignAiAgentCapacityBudgetMode || 'read_only_design'],
+    ['Campaign-scoped AI agent limit', campaignAiAgentCapacityBudget.campaignScopedAiAgentLimitStatus || 'read_only_design'],
+    ['AI agent limit', campaignAiAgentCapacityBudget.aiAgentLimitStatus || 'read_only_design'],
+    ['Active AI agent count', campaignAiAgentCapacityBudget.activeAiAgentCountStatus || 'read_only_design'],
+    ['Inactive AI agent count', campaignAiAgentCapacityBudget.inactiveAiAgentCountStatus || 'read_only_design'],
+    ['Max concurrent AI calls', campaignAiAgentCapacityBudget.maxConcurrentAiCallsStatus || 'read_only_design'],
+    ['Max concurrent inbound AI calls', campaignAiAgentCapacityBudget.maxConcurrentInboundAiCallsStatus || 'read_only_design'],
+    ['Max concurrent outbound AI calls', campaignAiAgentCapacityBudget.maxConcurrentOutboundAiCallsStatus || 'read_only_design'],
+    ['Campaign AI budget limit', campaignAiAgentCapacityBudget.campaignAiBudgetLimitStatus || 'read_only_design'],
+    ['Budget warning threshold', campaignAiAgentCapacityBudget.budgetWarningThresholdStatus || 'read_only_design'],
+    ['Budget hard stop threshold', campaignAiAgentCapacityBudget.budgetHardStopThresholdStatus || 'read_only_design'],
+    ['Budget exceeded behavior', campaignAiAgentCapacityBudget.budgetExceededBehaviorStatus || 'read_only_design'],
+    ['Concurrency exceeded behavior', campaignAiAgentCapacityBudget.concurrencyExceededBehaviorStatus || 'read_only_design'],
+    ['AI agent approval', campaignAiAgentCapacityBudget.aiAgentApprovalStatus || 'read_only_design'],
+    ['AI agent runtime gate', campaignAiAgentCapacityBudget.aiAgentRuntimeGateStatus || 'read_only_design'],
+    ['RBAC capacity control', campaignAiAgentCapacityBudget.rbacCapacityControlStatus || 'read_only_design'],
+    ['Super admin capacity control', campaignAiAgentCapacityBudget.superAdminCapacityControlStatus || 'read_only_design'],
+    ['Internal admin capacity control', campaignAiAgentCapacityBudget.internalAdminCapacityControlStatus || 'read_only_design'],
+    ['Campaign admin capacity control', campaignAiAgentCapacityBudget.campaignAdminCapacityControlStatus || 'read_only_design'],
+    ['Client admin capacity control', campaignAiAgentCapacityBudget.clientAdminCapacityControlStatus || 'read_only_design'],
+    ['Restricted user capacity control', campaignAiAgentCapacityBudget.restrictedUserCapacityControlStatus || 'blocked'],
+    ['Tenant isolation', campaignAiAgentCapacityBudget.tenantIsolationStatus || 'read_only_design'],
+    ['Campaign isolation', campaignAiAgentCapacityBudget.campaignIsolationStatus || 'read_only_design'],
+    ['MFA step-up for capacity changes', campaignAiAgentCapacityBudget.mfaStepUpForCapacityChangesStatus || 'read_only_design'],
+    ['Middleware core dependency', campaignAiAgentCapacityBudget.middlewareCoreDependencyStatus || 'read_only_design'],
+    ['AI agent capacity storage', campaignAiAgentCapacityBudget.aiAgentCapacityStorageStatus || 'not_implemented'],
+    ['AI agent budget storage', campaignAiAgentCapacityBudget.aiAgentBudgetStorageStatus || 'not_implemented'],
+    ['AI agent usage storage', campaignAiAgentCapacityBudget.aiAgentUsageStorageStatus || 'not_implemented'],
+    ['AI agent billing storage', campaignAiAgentCapacityBudget.aiAgentBillingStorageStatus || 'not_implemented'],
+    ['AI agent capacity endpoint', campaignAiAgentCapacityBudget.aiAgentCapacityEndpointStatus || 'not_implemented'],
+    ['AI agent budget endpoint', campaignAiAgentCapacityBudget.aiAgentBudgetEndpointStatus || 'not_implemented'],
+    ['AI agent CRUD', campaignAiAgentCapacityBudget.aiAgentCrudStatus || 'not_implemented'],
+    ['Budget CRUD', campaignAiAgentCapacityBudget.budgetCrudStatus || 'not_implemented'],
+    ['Migration', campaignAiAgentCapacityBudget.migrationStatus || 'not_implemented'],
+    ['AI agent creation runtime', campaignAiAgentCapacityBudget.aiAgentCreationRuntimeStatus || 'not_allowed'],
+    ['AI agent update runtime', campaignAiAgentCapacityBudget.aiAgentUpdateRuntimeStatus || 'not_allowed'],
+    ['AI agent activation runtime', campaignAiAgentCapacityBudget.aiAgentActivationRuntimeStatus || 'not_allowed'],
+    ['AI agent limit runtime', campaignAiAgentCapacityBudget.aiAgentLimitRuntimeStatus || 'not_allowed'],
+    ['Budget runtime', campaignAiAgentCapacityBudget.budgetRuntimeStatus || 'not_allowed'],
+    ['Usage runtime', campaignAiAgentCapacityBudget.usageRuntimeStatus || 'not_allowed'],
+    ['Billing runtime', campaignAiAgentCapacityBudget.billingRuntimeStatus || 'not_allowed'],
+    ['Concurrency runtime enforcement', campaignAiAgentCapacityBudget.concurrencyRuntimeEnforcementStatus || 'not_allowed'],
+    ['Budget runtime enforcement', campaignAiAgentCapacityBudget.budgetRuntimeEnforcementStatus || 'not_allowed'],
+    ['Report runtime', campaignAiAgentCapacityBudget.reportRuntimeStatus || 'not_allowed'],
+    ['Approval runtime', campaignAiAgentCapacityBudget.approvalRuntimeStatus || 'not_allowed'],
+    ['OpenAI connection', campaignAiAgentCapacityBudget.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', campaignAiAgentCapacityBudget.openAiRuntimeStatus || 'not_connected'],
+    ['Realtime session', campaignAiAgentCapacityBudget.realtimeSessionStatus || 'not_connected'],
+    ['AI voice', campaignAiAgentCapacityBudget.aiVoiceStatus || 'not_allowed'],
+    ['AI inbound execution', campaignAiAgentCapacityBudget.aiInboundExecutionStatus || 'not_allowed'],
+    ['AI outbound execution', campaignAiAgentCapacityBudget.aiOutboundExecutionStatus || 'not_allowed'],
+    ['FastAGI', campaignAiAgentCapacityBudget.fastAgiStatus || 'not_allowed'],
+    ['Route behavior change', campaignAiAgentCapacityBudget.routeBehaviorChangeStatus || 'not_allowed'],
+    ['AI agent capacity storage allowed', campaignAiAgentCapacityBudget.aiAgentCapacityStorageAllowed ? 'yes' : 'no'],
+    ['AI agent budget storage allowed', campaignAiAgentCapacityBudget.aiAgentBudgetStorageAllowed ? 'yes' : 'no'],
+    ['AI agent usage storage allowed', campaignAiAgentCapacityBudget.aiAgentUsageStorageAllowed ? 'yes' : 'no'],
+    ['AI agent billing storage allowed', campaignAiAgentCapacityBudget.aiAgentBillingStorageAllowed ? 'yes' : 'no'],
+    ['AI agent capacity endpoint allowed', campaignAiAgentCapacityBudget.aiAgentCapacityEndpointAllowed ? 'yes' : 'no'],
+    ['AI agent budget endpoint allowed', campaignAiAgentCapacityBudget.aiAgentBudgetEndpointAllowed ? 'yes' : 'no'],
+    ['AI agent CRUD allowed', campaignAiAgentCapacityBudget.aiAgentCrudAllowed ? 'yes' : 'no'],
+    ['Budget CRUD allowed', campaignAiAgentCapacityBudget.budgetCrudAllowed ? 'yes' : 'no'],
+    ['Migration allowed', campaignAiAgentCapacityBudget.migrationAllowed ? 'yes' : 'no'],
+    ['AI agent creation runtime allowed', campaignAiAgentCapacityBudget.aiAgentCreationRuntimeAllowed ? 'yes' : 'no'],
+    ['AI agent update runtime allowed', campaignAiAgentCapacityBudget.aiAgentUpdateRuntimeAllowed ? 'yes' : 'no'],
+    ['AI agent activation runtime allowed', campaignAiAgentCapacityBudget.aiAgentActivationRuntimeAllowed ? 'yes' : 'no'],
+    ['AI agent limit runtime allowed', campaignAiAgentCapacityBudget.aiAgentLimitRuntimeAllowed ? 'yes' : 'no'],
+    ['Budget runtime allowed', campaignAiAgentCapacityBudget.budgetRuntimeAllowed ? 'yes' : 'no'],
+    ['Usage runtime allowed', campaignAiAgentCapacityBudget.usageRuntimeAllowed ? 'yes' : 'no'],
+    ['Billing runtime allowed', campaignAiAgentCapacityBudget.billingRuntimeAllowed ? 'yes' : 'no'],
+    ['Concurrency runtime enforcement allowed', campaignAiAgentCapacityBudget.concurrencyRuntimeEnforcementAllowed ? 'yes' : 'no'],
+    ['Budget runtime enforcement allowed', campaignAiAgentCapacityBudget.budgetRuntimeEnforcementAllowed ? 'yes' : 'no'],
+    ['Report runtime allowed', campaignAiAgentCapacityBudget.reportRuntimeAllowed ? 'yes' : 'no'],
+    ['Approval runtime allowed', campaignAiAgentCapacityBudget.approvalRuntimeAllowed ? 'yes' : 'no'],
+    ['OpenAI connection allowed', campaignAiAgentCapacityBudget.openAiConnectionAllowed ? 'yes' : 'no'],
+    ['OpenAI runtime allowed', campaignAiAgentCapacityBudget.openAiRuntimeAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', campaignAiAgentCapacityBudget.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['AI voice allowed', campaignAiAgentCapacityBudget.aiVoiceAllowed ? 'yes' : 'no'],
+    ['AI inbound execution allowed', campaignAiAgentCapacityBudget.aiInboundExecutionAllowed ? 'yes' : 'no'],
+    ['AI outbound execution allowed', campaignAiAgentCapacityBudget.aiOutboundExecutionAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', campaignAiAgentCapacityBudget.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', campaignAiAgentCapacityBudget.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', campaignAiAgentCapacityBudget.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', campaignAiAgentCapacityBudget.realPiiAllowed ? 'yes' : 'no'],
+    ['Real call allowed', campaignAiAgentCapacityBudget.realCallAllowed ? 'yes' : 'no'],
+  ];
+  campaignAiAgentCapacityBudgetReadinessCards.innerHTML = campaignAiAgentCapacityBudgetReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  campaignAiAgentCapacityBudgetReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only capacity/budget design', 'info'),
+    readinessBadge('Campaign-scoped AI limits mapped', 'info'),
+    readinessBadge('No unlimited AI agents', 'warn'),
+    readinessBadge('Concurrency mapped', 'info'),
+    readinessBadge('Budget boundaries mapped', 'info'),
+    readinessBadge('Approval/RBAC mapped', 'info'),
+    readinessBadge('MFA step-up mapped', 'info'),
+    readinessBadge('Tenant isolation mapped', 'info'),
+    readinessBadge('Middleware core respected', 'ok'),
+    readinessBadge('No AI agents created', 'ok'),
+    readinessBadge('No runtime controls', 'ok'),
+  ].join('');
+
+  const campaignAiAgentCapacityBudgetDetailGroups = [
+    ['Future capacity scope fields', campaignAiAgentCapacityBudget.futureCapacityScopeFields],
+    ['Future AI agent limit fields', campaignAiAgentCapacityBudget.futureAiAgentLimitFields],
+    ['Future budget fields', campaignAiAgentCapacityBudget.futureBudgetFields],
+    ['Future AI agent limit rules', campaignAiAgentCapacityBudget.futureAiAgentLimitRules],
+    ['Future concurrency rules', campaignAiAgentCapacityBudget.futureConcurrencyRules],
+    ['Future budget control rules', campaignAiAgentCapacityBudget.futureBudgetControlRules],
+    ['Future exceeded behavior rules', campaignAiAgentCapacityBudget.futureExceededBehaviorRules],
+    ['Future approval rules', campaignAiAgentCapacityBudget.futureApprovalRules],
+    ['Future RBAC capacity rules', campaignAiAgentCapacityBudget.futureRbacCapacityRules],
+    ['Future tenant/campaign isolation rules', campaignAiAgentCapacityBudget.futureTenantCampaignIsolationRules],
+    ['Future MFA step-up rules', campaignAiAgentCapacityBudget.futureMfaStepUpRules],
+    ['Future middleware core dependency rules', campaignAiAgentCapacityBudget.futureMiddlewareCoreDependencyRules],
+    ['Future runtime boundaries', campaignAiAgentCapacityBudget.futureRuntimeBoundaries],
+    ['Prohibited current actions', campaignAiAgentCapacityBudget.prohibitedCurrentActions],
+    ['Next steps', campaignAiAgentCapacityBudget.nextSteps],
+  ];
+  campaignAiAgentCapacityBudgetReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${campaignAiAgentCapacityBudgetDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>

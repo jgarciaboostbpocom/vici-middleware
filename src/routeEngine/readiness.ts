@@ -3175,6 +3175,110 @@ export type AuthenticationMfaSecurityReadiness = {
   nextSteps: string[];
 };
 
+export type CampaignAiAgentCapacityBudgetReadiness = {
+  currentState: 'not_ready';
+  campaignAiAgentCapacityBudgetApproved: false;
+  campaignAiAgentCapacityBudgetMode: 'read_only_design';
+  campaignScopedAiAgentLimitStatus: 'read_only_design';
+  aiAgentLimitStatus: 'read_only_design';
+  activeAiAgentCountStatus: 'read_only_design';
+  inactiveAiAgentCountStatus: 'read_only_design';
+  maxConcurrentAiCallsStatus: 'read_only_design';
+  maxConcurrentInboundAiCallsStatus: 'read_only_design';
+  maxConcurrentOutboundAiCallsStatus: 'read_only_design';
+  campaignAiBudgetLimitStatus: 'read_only_design';
+  budgetWarningThresholdStatus: 'read_only_design';
+  budgetHardStopThresholdStatus: 'read_only_design';
+  budgetExceededBehaviorStatus: 'read_only_design';
+  concurrencyExceededBehaviorStatus: 'read_only_design';
+  aiAgentApprovalStatus: 'read_only_design';
+  aiAgentRuntimeGateStatus: 'read_only_design';
+  rbacCapacityControlStatus: 'read_only_design';
+  superAdminCapacityControlStatus: 'read_only_design';
+  internalAdminCapacityControlStatus: 'read_only_design';
+  campaignAdminCapacityControlStatus: 'read_only_design';
+  clientAdminCapacityControlStatus: 'read_only_design';
+  restrictedUserCapacityControlStatus: 'blocked';
+  tenantIsolationStatus: 'read_only_design';
+  campaignIsolationStatus: 'read_only_design';
+  mfaStepUpForCapacityChangesStatus: 'read_only_design';
+  middlewareCoreDependencyStatus: 'read_only_design';
+  aiAgentCapacityStorageStatus: 'not_implemented';
+  aiAgentBudgetStorageStatus: 'not_implemented';
+  aiAgentUsageStorageStatus: 'not_implemented';
+  aiAgentBillingStorageStatus: 'not_implemented';
+  aiAgentCapacityEndpointStatus: 'not_implemented';
+  aiAgentBudgetEndpointStatus: 'not_implemented';
+  aiAgentCrudStatus: 'not_implemented';
+  budgetCrudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  aiAgentCreationRuntimeStatus: 'not_allowed';
+  aiAgentUpdateRuntimeStatus: 'not_allowed';
+  aiAgentActivationRuntimeStatus: 'not_allowed';
+  aiAgentLimitRuntimeStatus: 'not_allowed';
+  budgetRuntimeStatus: 'not_allowed';
+  usageRuntimeStatus: 'not_allowed';
+  billingRuntimeStatus: 'not_allowed';
+  concurrencyRuntimeEnforcementStatus: 'not_allowed';
+  budgetRuntimeEnforcementStatus: 'not_allowed';
+  reportRuntimeStatus: 'not_allowed';
+  approvalRuntimeStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  aiVoiceStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  aiAgentCapacityStorageAllowed: false;
+  aiAgentBudgetStorageAllowed: false;
+  aiAgentUsageStorageAllowed: false;
+  aiAgentBillingStorageAllowed: false;
+  aiAgentCapacityEndpointAllowed: false;
+  aiAgentBudgetEndpointAllowed: false;
+  aiAgentCrudAllowed: false;
+  budgetCrudAllowed: false;
+  migrationAllowed: false;
+  aiAgentCreationRuntimeAllowed: false;
+  aiAgentUpdateRuntimeAllowed: false;
+  aiAgentActivationRuntimeAllowed: false;
+  aiAgentLimitRuntimeAllowed: false;
+  budgetRuntimeAllowed: false;
+  usageRuntimeAllowed: false;
+  billingRuntimeAllowed: false;
+  concurrencyRuntimeEnforcementAllowed: false;
+  budgetRuntimeEnforcementAllowed: false;
+  reportRuntimeAllowed: false;
+  approvalRuntimeAllowed: false;
+  openAiConnectionAllowed: false;
+  openAiRuntimeAllowed: false;
+  realtimeSessionAllowed: false;
+  aiVoiceAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  realCredentialAllowed: false;
+  realPiiAllowed: false;
+  realCallAllowed: false;
+  futureCapacityScopeFields: string[];
+  futureAiAgentLimitFields: string[];
+  futureBudgetFields: string[];
+  futureAiAgentLimitRules: string[];
+  futureConcurrencyRules: string[];
+  futureBudgetControlRules: string[];
+  futureExceededBehaviorRules: string[];
+  futureApprovalRules: string[];
+  futureRbacCapacityRules: string[];
+  futureTenantCampaignIsolationRules: string[];
+  futureMfaStepUpRules: string[];
+  futureMiddlewareCoreDependencyRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -3240,6 +3344,7 @@ export type RouteReadinessReport = {
   qaReportsAnalyticsReadiness: QaReportsAnalyticsReadiness;
   multilingualCallLanguageRoutingReadiness: MultilingualCallLanguageRoutingReadiness;
   authenticationMfaSecurityReadiness: AuthenticationMfaSecurityReadiness;
+  campaignAiAgentCapacityBudgetReadiness: CampaignAiAgentCapacityBudgetReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -14135,6 +14240,250 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const campaignAiAgentCapacityBudgetReadiness: CampaignAiAgentCapacityBudgetReadiness = {
+    currentState: 'not_ready',
+    campaignAiAgentCapacityBudgetApproved: false,
+    campaignAiAgentCapacityBudgetMode: 'read_only_design',
+    campaignScopedAiAgentLimitStatus: 'read_only_design',
+    aiAgentLimitStatus: 'read_only_design',
+    activeAiAgentCountStatus: 'read_only_design',
+    inactiveAiAgentCountStatus: 'read_only_design',
+    maxConcurrentAiCallsStatus: 'read_only_design',
+    maxConcurrentInboundAiCallsStatus: 'read_only_design',
+    maxConcurrentOutboundAiCallsStatus: 'read_only_design',
+    campaignAiBudgetLimitStatus: 'read_only_design',
+    budgetWarningThresholdStatus: 'read_only_design',
+    budgetHardStopThresholdStatus: 'read_only_design',
+    budgetExceededBehaviorStatus: 'read_only_design',
+    concurrencyExceededBehaviorStatus: 'read_only_design',
+    aiAgentApprovalStatus: 'read_only_design',
+    aiAgentRuntimeGateStatus: 'read_only_design',
+    rbacCapacityControlStatus: 'read_only_design',
+    superAdminCapacityControlStatus: 'read_only_design',
+    internalAdminCapacityControlStatus: 'read_only_design',
+    campaignAdminCapacityControlStatus: 'read_only_design',
+    clientAdminCapacityControlStatus: 'read_only_design',
+    restrictedUserCapacityControlStatus: 'blocked',
+    tenantIsolationStatus: 'read_only_design',
+    campaignIsolationStatus: 'read_only_design',
+    mfaStepUpForCapacityChangesStatus: 'read_only_design',
+    middlewareCoreDependencyStatus: 'read_only_design',
+    aiAgentCapacityStorageStatus: 'not_implemented',
+    aiAgentBudgetStorageStatus: 'not_implemented',
+    aiAgentUsageStorageStatus: 'not_implemented',
+    aiAgentBillingStorageStatus: 'not_implemented',
+    aiAgentCapacityEndpointStatus: 'not_implemented',
+    aiAgentBudgetEndpointStatus: 'not_implemented',
+    aiAgentCrudStatus: 'not_implemented',
+    budgetCrudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    aiAgentCreationRuntimeStatus: 'not_allowed',
+    aiAgentUpdateRuntimeStatus: 'not_allowed',
+    aiAgentActivationRuntimeStatus: 'not_allowed',
+    aiAgentLimitRuntimeStatus: 'not_allowed',
+    budgetRuntimeStatus: 'not_allowed',
+    usageRuntimeStatus: 'not_allowed',
+    billingRuntimeStatus: 'not_allowed',
+    concurrencyRuntimeEnforcementStatus: 'not_allowed',
+    budgetRuntimeEnforcementStatus: 'not_allowed',
+    reportRuntimeStatus: 'not_allowed',
+    approvalRuntimeStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    aiVoiceStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    aiAgentCapacityStorageAllowed: false,
+    aiAgentBudgetStorageAllowed: false,
+    aiAgentUsageStorageAllowed: false,
+    aiAgentBillingStorageAllowed: false,
+    aiAgentCapacityEndpointAllowed: false,
+    aiAgentBudgetEndpointAllowed: false,
+    aiAgentCrudAllowed: false,
+    budgetCrudAllowed: false,
+    migrationAllowed: false,
+    aiAgentCreationRuntimeAllowed: false,
+    aiAgentUpdateRuntimeAllowed: false,
+    aiAgentActivationRuntimeAllowed: false,
+    aiAgentLimitRuntimeAllowed: false,
+    budgetRuntimeAllowed: false,
+    usageRuntimeAllowed: false,
+    billingRuntimeAllowed: false,
+    concurrencyRuntimeEnforcementAllowed: false,
+    budgetRuntimeEnforcementAllowed: false,
+    reportRuntimeAllowed: false,
+    approvalRuntimeAllowed: false,
+    openAiConnectionAllowed: false,
+    openAiRuntimeAllowed: false,
+    realtimeSessionAllowed: false,
+    aiVoiceAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    realCredentialAllowed: false,
+    realPiiAllowed: false,
+    realCallAllowed: false,
+    futureCapacityScopeFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'aiAgentCapacityPolicyId',
+      'aiAgentBudgetPolicyId',
+      'aiAgentRuntimeGateId',
+      'approvalStatus',
+      'approvedBy',
+      'effectiveDate',
+      'rollbackVersion',
+    ],
+    futureAiAgentLimitFields: [
+      'aiAgentLimit',
+      'activeAiAgentCount',
+      'inactiveAiAgentCount',
+      'maxConcurrentAiCalls',
+      'maxConcurrentInboundAiCalls',
+      'maxConcurrentOutboundAiCalls',
+      'aiAgentRuntimeEnabled',
+      'aiAgentApprovalStatus',
+      'approvalRequired',
+      'approvedBy',
+      'effectiveDate',
+      'rollbackVersion',
+    ],
+    futureBudgetFields: [
+      'campaignAiBudgetLimit',
+      'campaignAiBudgetPeriod',
+      'estimatedAiCost',
+      'usageCostEstimate',
+      'budgetWarningThreshold',
+      'budgetHardStopThreshold',
+      'budgetExceededBehavior',
+      'concurrencyExceededBehavior',
+      'approvalRequired',
+      'approvedBy',
+      'effectiveDate',
+      'rollbackVersion',
+    ],
+    futureAiAgentLimitRules: [
+      'AI agents must not be unlimited',
+      'AI agent quantity must be campaign-scoped',
+      'AI agent capacity must be company/client/campaign scoped',
+      'Each campaign must have future configurable limits for how many AI agents can be created, active, and used concurrently',
+      'Examples are conceptual only: Campaign A may allow 2 AI agents, Campaign B may allow 10 AI agents, and Campaign C may allow 1 AI agent',
+      'This readiness phase must not create AI agents, AI agent limit records, or campaign limit records',
+    ],
+    futureConcurrencyRules: [
+      'Future concurrency rules must prevent more concurrent AI calls than allowed',
+      'Future concurrency rules must prevent more active AI agents than allowed',
+      'Future concurrency rules must distinguish inbound, outbound, and total AI call concurrency',
+      'Future concurrency rules may reject or fallback when capacity is unavailable',
+      'Future concurrency rules may route to human if configured and allowed',
+      'Future concurrency rules must keep middleware core route rules respected',
+    ],
+    futureBudgetControlRules: [
+      'Future budget behavior must warn when approaching budget',
+      'Future budget behavior may block or pause AI runtime when a hard limit is reached, if configured',
+      'Future budget behavior must require approval for limit increases when policy requires it',
+      'Future campaign AI budget must remain separate from general campaign routing limits',
+      'Usage & Cost Tracking will be handled in a separate readiness block',
+    ],
+    futureExceededBehaviorRules: [
+      'Budget exceeded behavior must be configurable in a future implementation',
+      'Concurrency exceeded behavior must be configurable in a future implementation',
+      'Capacity unavailable behavior may reject, pause, fallback, or route to human only when configured and approved',
+      'Exceeded behavior must not bypass middleware routing, DID rules, shadow mode, local touch, limits, inventory health, or runtime safety',
+      'Exceeded behavior is not executed in this readiness phase',
+    ],
+    futureApprovalRules: [
+      'AI agent limit increases may require approval in a future implementation',
+      'Budget increases may require approval in a future implementation',
+      'AI agent runtime enablement must require approved runtime activation in a future implementation',
+      'Approvals must be auditable, versioned, rollback-capable, and effective-date controlled in a future implementation',
+      'Approval runtime is not implemented in this readiness phase',
+    ],
+    futureRbacCapacityRules: [
+      'super_admin can define global or per-campaign limits in a future implementation',
+      'authorized internal admin can manage assigned campaigns only in a future implementation',
+      'campaign_admin/client_admin can manage limits only within assigned scope and only if permission allows in a future implementation',
+      'restricted users cannot change AI agent limits or budget',
+      'High-risk changes may require MFA/step-up authentication in a future implementation',
+    ],
+    futureTenantCampaignIsolationRules: [
+      'Client A must not see or change client B limits',
+      'Campaign A must not consume campaign B capacity',
+      'AI agent budget/capacity must not cross client/campaign boundaries',
+      'Tenant and campaign isolation must be enforced server-side in a future implementation',
+      'Capacity and budget reports must respect tenant/campaign scope in a future implementation',
+    ],
+    futureMfaStepUpRules: [
+      'High-risk AI agent limit changes should require future MFA/step-up authentication',
+      'High-risk budget changes should require future MFA/step-up authentication',
+      'AI runtime enablement should require future MFA/step-up authentication',
+      'OpenAI, AI Voice, and FastAGI activation should require future MFA/step-up authentication',
+      'Step-up authentication remains design-only in this readiness phase',
+    ],
+    futureMiddlewareCoreDependencyRules: [
+      'Vicidial Middleware remains the source of truth for campaign routing',
+      'Vicidial Middleware remains the source of truth for DID rules',
+      'Vicidial Middleware remains the source of truth for route simulation and shadow mode',
+      'Vicidial Middleware remains the source of truth for local touch, limits, inventory health, and runtime safety',
+      'AI Voice and QA modules must consume middleware context and must not bypass or override middleware core rules without explicit approved runtime activation',
+    ],
+    futureRuntimeBoundaries: [
+      'Campaign AI Agent Capacity & Budget readiness must not create AI agent capacity storage, AI agent budget storage, usage storage, billing storage, CRUD, endpoints, migrations, database tables, or storage',
+      'Campaign AI Agent Capacity & Budget readiness must not create AI agents, modify AI agents, activate AI agents, create campaign AI agent limits, change live campaign limits, create budget records, create billing records, create usage records, or create cost records',
+      'Campaign AI Agent Capacity & Budget readiness must not create concurrency runtime enforcement, budget runtime enforcement, reports runtime, approval runtime, AI agent runtime, budget runtime, usage runtime, or billing runtime',
+      'Campaign AI Agent Capacity & Budget readiness must not connect OpenAI, execute OpenAI API calls, open Realtime sessions, enable AI voice, enable AI inbound calls, enable AI outbound calls, enable FastAGI, execute live calls, query live calls, access recordings, access transcripts, expose raw PII, modify Asterisk/Vicidial, or change route behavior',
+      'Campaign AI Agent Capacity & Budget readiness must not change current auth, login, session, or RBAC behavior and must not add UI execution controls',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create AI agents',
+      'Do not modify AI agents',
+      'Do not activate AI agents',
+      'Do not create campaign AI agent limits',
+      'Do not change live campaign limits',
+      'Do not change campaign runtime behavior',
+      'Do not create budget records',
+      'Do not create billing records',
+      'Do not create usage records',
+      'Do not create cost records',
+      'Do not create AI agent capacity storage',
+      'Do not create AI agent budget storage',
+      'Do not create AI agent usage storage',
+      'Do not create AI agent billing storage',
+      'Do not create CRUD',
+      'Do not create endpoints',
+      'Do not create migrations',
+      'Do not create database tables',
+      'Do not create concurrency runtime enforcement',
+      'Do not create budget runtime enforcement',
+      'Do not execute reports runtime',
+      'Do not execute approval runtime',
+      'Do not connect OpenAI',
+      'Do not execute OpenAI API calls',
+      'Do not open Realtime sessions',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not execute live calls or query live calls',
+      'Do not access recordings or transcripts',
+      'Do not expose raw PII or secrets',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+      'Do not change auth, login, session, or RBAC behavior',
+    ],
+    nextSteps: [
+      'Keep Campaign AI Agent Capacity & Budget Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, OpenAI-disconnected, and runtime-blocked.',
+      'Define future campaign-scoped AI agent limits, active/inactive counts, concurrency limits, budget limits, warning thresholds, hard stop thresholds, exceeded behavior, approval, RBAC, tenant isolation, and MFA step-up policy in a separately approved phase.',
+      'Define future capacity and budget reports only after report runtime and Usage & Cost Tracking Readiness are separately approved.',
+      'Require server-side tenant/campaign/RBAC isolation, approval, audit, versioning, rollback, effective-date controls, and MFA/step-up for high-risk changes before implementation.',
+      'Keep AI agent creation, AI agent activation, AI agent limit runtime changes, budget runtime changes, concurrency enforcement, budget enforcement, usage/cost/billing storage, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, raw PII, recordings/transcripts, and UI execution controls blocked.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -14480,6 +14829,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Authentication / MFA Security readiness is read-only, not ready, not approved, username/password-only future admin access marked insufficient, role-aware MFA mapped, step-up authentication mapped, session security mapped, login audit mapped, tenant/campaign/RBAC security mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, auth/login/session/MFA/enrollment/OTP/password/RBAC/user runtime changes blocked, OpenAI/AI Voice/FastAGI/route behavior changes blocked, and exposes no login, MFA, enrollment, recovery, session, device, password, RBAC, OpenAI, AI voice, call, route, FastAGI, service, or runtime controls.',
     },
+    {
+      id: 'campaign-ai-agent-capacity-budget-readiness-read-only',
+      label: 'Campaign AI Agent Capacity & Budget readiness read-only',
+      status: 'pass',
+      detail: 'Campaign AI Agent Capacity & Budget readiness is read-only, not ready, not approved, campaign-scoped AI agent limits mapped, active/inactive AI agent counts mapped, concurrency limits mapped, budget boundaries mapped, approval/RBAC mapped, tenant/campaign isolation mapped, MFA step-up mapped, middleware core dependency mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, AI-agent/budget/usage/billing/concurrency/report/approval runtime blocked, OpenAI-disconnected, and exposes no AI agent, capacity, budget, limit, approval, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -14617,6 +14972,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     qaReportsAnalyticsReadiness,
     multilingualCallLanguageRoutingReadiness,
     authenticationMfaSecurityReadiness,
+    campaignAiAgentCapacityBudgetReadiness,
     checklist,
     risks,
     recommendations: [
@@ -14668,6 +15024,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat QA Reports & Analytics readiness as read-only design visibility; it maps future AI Agent QA, Human Agent QA, ai_inbound, ai_outbound, human_inbound, human_outbound, score trends, criteria performance, critical fails, compliance, PII/redaction, consent/DNC, healthcare safe-response, evaluation coverage, sampling coverage, agent performance, coaching, calibration, disputes, supervisor review activity, QA analyst activity, audit visibility, RBAC, PII boundaries, approval, versioning, rollback, and effective dates only and does not create report storage, analytics storage, dashboard storage, export storage, metric storage, CRUD, endpoints, migrations, report records, analytics records, dashboard records, export records, metric records, live data queries, runtime aggregation, chart runtime, transcript access, recording access, raw PII access, report generation, export generation, audit records, OpenAI connection, Realtime sessions, AI calls, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Treat Multilingual Call Language Routing readiness as read-only design visibility; it maps future configurable campaign-scoped languages, inbound IVR language selection, outbound Vicidial language field mapping, source priority, fallback behavior, prompt/voice/KB/policy/handoff/scorecard/transcript/QA/report language mapping, RBAC, and middleware core dependency only and does not create language storage, IVR storage, Vicidial field storage, CRUD, endpoints, migrations, IVR routes, IVR audio, Asterisk/Vicidial changes, Vicidial fields, dialplan changes, live call language detection, live call routing, prompt runtime selection, voice runtime selection, transcript runtime tagging, QA runtime language selection, report runtime filtering, OpenAI connection, Realtime sessions, AI calls, FastAGI, or route behavior changes.',
       'Treat Authentication / MFA Security readiness as read-only design visibility; it maps future strong authentication, MFA/2FA, role-aware MFA, step-up authentication, session security, recovery, login audit, tenant/campaign/RBAC security, and server-side enforcement only and does not create auth storage, MFA storage, session storage, recovery storage, audit storage, CRUD, endpoints, migrations, users, credentials, MFA secrets, enrollment flows, recovery codes, trusted devices, OTP sending, SMS/email sending, passkey/security-key runtime, session revocation, login/session/password/RBAC behavior changes, OpenAI connection, AI voice, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
+      'Treat Campaign AI Agent Capacity & Budget readiness as read-only design visibility; it maps future campaign-scoped AI agent limits, active AI agent counts, concurrency, campaign budget/capacity, budget warning and hard stop thresholds, exceeded behavior, approval, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create AI agents, AI agent limits, budget records, usage records, billing records, cost records, storage, CRUD, endpoints, migrations, runtime enforcement, OpenAI connection, Realtime sessions, AI voice, AI inbound/outbound execution, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, recordings/transcripts access, raw PII exposure, or UI execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
