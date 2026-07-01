@@ -1107,6 +1107,15 @@
                   <div class="muted small">Loading Failure Handling / Fallback readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Human Handoff SLA Readiness</h2>
+                  <span class="muted small">Read-only human handoff SLA design status for future tenant-scoped, campaign-scoped, language-aware, queue-aware, skill-aware, SLA-aware, auditable, and safe-by-default handoff planning across inbound/outbound calls, AI-to-human escalation, no-agent behavior, overflow, abandoned handoff, warm transfer context, screen-pop context, callback/voicemail fallback, escalation, RBAC, MFA, tenant isolation, and middleware core dependency. This does not create handoff records, SLA records, queue records, skill records, storage, CRUD, endpoints, migrations, transfer runtime, queue routing runtime, skill routing runtime, callback runtime, voicemail runtime, agent notification runtime, screen-pop runtime, hold/whisper audio runtime, AI-to-human runtime, human-to-AI runtime, SLA timer runtime, SLA alert runtime, report runtime, OpenAI connection, AI voice execution, FastAGI, live calls, transcript/recording access, raw PII exposure, Asterisk/Vicidial changes, dialplan changes, route behavior changes, or UI execution controls.</span>
+                </div>
+                <div class="summary-grid" id="humanHandoffSlaReadinessCards"></div>
+                <div class="row" id="humanHandoffSlaReadinessBadges" style="margin-top:12px"></div>
+                <div id="humanHandoffSlaReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading Human Handoff SLA readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3152,10 +3161,13 @@ function renderRouteReadiness() {
   const failureHandlingFallbackReadinessCards = $('#failureHandlingFallbackReadinessCards');
   const failureHandlingFallbackReadinessBadges = $('#failureHandlingFallbackReadinessBadges');
   const failureHandlingFallbackReadinessDetails = $('#failureHandlingFallbackReadinessDetails');
+  const humanHandoffSlaReadinessCards = $('#humanHandoffSlaReadinessCards');
+  const humanHandoffSlaReadinessBadges = $('#humanHandoffSlaReadinessBadges');
+  const humanHandoffSlaReadinessDetails = $('#humanHandoffSlaReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !usageCostTrackingReadinessCards || !usageCostTrackingReadinessBadges || !usageCostTrackingReadinessDetails || !failureHandlingFallbackReadinessCards || !failureHandlingFallbackReadinessBadges || !failureHandlingFallbackReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !usageCostTrackingReadinessCards || !usageCostTrackingReadinessBadges || !usageCostTrackingReadinessDetails || !failureHandlingFallbackReadinessCards || !failureHandlingFallbackReadinessBadges || !failureHandlingFallbackReadinessDetails || !humanHandoffSlaReadinessCards || !humanHandoffSlaReadinessBadges || !humanHandoffSlaReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3317,6 +3329,9 @@ function renderRouteReadiness() {
     failureHandlingFallbackReadinessCards.innerHTML = '<div class="muted small">Failure Handling / Fallback readiness status not loaded.</div>';
     failureHandlingFallbackReadinessBadges.innerHTML = '';
     failureHandlingFallbackReadinessDetails.innerHTML = '<div class="muted small">Failure Handling / Fallback readiness details not loaded.</div>';
+    humanHandoffSlaReadinessCards.innerHTML = '<div class="muted small">Human Handoff SLA readiness status not loaded.</div>';
+    humanHandoffSlaReadinessBadges.innerHTML = '';
+    humanHandoffSlaReadinessDetails.innerHTML = '<div class="muted small">Human Handoff SLA readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -10125,6 +10140,122 @@ function renderRouteReadiness() {
   failureHandlingFallbackReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${failureHandlingFallbackDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const humanHandoffSla = report.humanHandoffSlaReadiness || {};
+  const humanHandoffSlaReadinessCardsData = [
+    ['Current state', humanHandoffSla.currentState || 'not_ready'],
+    ['Human handoff SLA approved', humanHandoffSla.humanHandoffSlaApproved ? 'yes' : 'no'],
+    ['Human handoff SLA mode', humanHandoffSla.humanHandoffSlaMode || 'read_only_design'],
+    ['Tenant-scoped handoff', humanHandoffSla.tenantScopedHandoffStatus || 'read_only_design'],
+    ['Campaign-scoped handoff', humanHandoffSla.campaignScopedHandoffStatus || 'read_only_design'],
+    ['Inbound handoff', humanHandoffSla.inboundHandoffStatus || 'read_only_design'],
+    ['Outbound handoff', humanHandoffSla.outboundHandoffStatus || 'read_only_design'],
+    ['AI-to-human handoff', humanHandoffSla.aiToHumanHandoffStatus || 'read_only_design'],
+    ['Human-to-AI return', humanHandoffSla.humanToAiReturnStatus || 'read_only_design'],
+    ['Language-aware handoff', humanHandoffSla.languageAwareHandoffStatus || 'read_only_design'],
+    ['Queue-aware handoff', humanHandoffSla.queueAwareHandoffStatus || 'read_only_design'],
+    ['Skill-aware handoff', humanHandoffSla.skillAwareHandoffStatus || 'read_only_design'],
+    ['Priority-aware handoff', humanHandoffSla.priorityAwareHandoffStatus || 'read_only_design'],
+    ['No-agent behavior', humanHandoffSla.noAgentAvailableStatus || 'read_only_design'],
+    ['Queue overflow', humanHandoffSla.queueOverflowStatus || 'read_only_design'],
+    ['Abandoned handoff', humanHandoffSla.abandonedHandoffStatus || 'read_only_design'],
+    ['Warm transfer context', humanHandoffSla.warmTransferContextStatus || 'read_only_design'],
+    ['Cold transfer policy', humanHandoffSla.coldTransferPolicyStatus || 'read_only_design'],
+    ['Agent screen-pop context', humanHandoffSla.agentScreenPopContextStatus || 'read_only_design'],
+    ['Agent-assist context', humanHandoffSla.agentAssistContextStatus || 'read_only_design'],
+    ['SLA target', humanHandoffSla.slaTargetStatus || 'read_only_design'],
+    ['SLA warning', humanHandoffSla.slaWarningStatus || 'read_only_design'],
+    ['SLA breach', humanHandoffSla.slaBreachStatus || 'read_only_design'],
+    ['SLA escalation', humanHandoffSla.slaEscalationStatus || 'read_only_design'],
+    ['Callback fallback', humanHandoffSla.callbackFallbackStatus || 'read_only_design'],
+    ['Voicemail fallback', humanHandoffSla.voicemailFallbackStatus || 'read_only_design'],
+    ['RBAC handoff/SLA control', humanHandoffSla.rbacHandoffSlaControlStatus || 'read_only_design'],
+    ['Tenant isolation', humanHandoffSla.tenantIsolationStatus || 'read_only_design'],
+    ['MFA step-up', humanHandoffSla.mfaStepUpForHandoffChangesStatus || 'read_only_design'],
+    ['Middleware core dependency', humanHandoffSla.middlewareCoreDependencyStatus || 'read_only_design'],
+    ['Handoff storage', humanHandoffSla.handoffStorageStatus || 'not_implemented'],
+    ['SLA storage', humanHandoffSla.slaStorageStatus || 'not_implemented'],
+    ['Queue storage', humanHandoffSla.queueStorageStatus || 'not_implemented'],
+    ['Skill storage', humanHandoffSla.skillStorageStatus || 'not_implemented'],
+    ['Handoff endpoint', humanHandoffSla.handoffEndpointStatus || 'not_implemented'],
+    ['SLA endpoint', humanHandoffSla.slaEndpointStatus || 'not_implemented'],
+    ['Migration', humanHandoffSla.migrationStatus || 'not_implemented'],
+    ['Handoff runtime', humanHandoffSla.handoffRuntimeStatus || 'not_allowed'],
+    ['Call transfer runtime', humanHandoffSla.callTransferRuntimeStatus || 'not_allowed'],
+    ['Queue routing runtime', humanHandoffSla.queueRoutingRuntimeStatus || 'not_allowed'],
+    ['Skill routing runtime', humanHandoffSla.skillRoutingRuntimeStatus || 'not_allowed'],
+    ['AI-to-human runtime', humanHandoffSla.aiToHumanRuntimeStatus || 'not_allowed'],
+    ['Human-to-AI runtime', humanHandoffSla.humanToAiRuntimeStatus || 'not_allowed'],
+    ['SLA timer runtime', humanHandoffSla.slaTimerRuntimeStatus || 'not_allowed'],
+    ['OpenAI connection', humanHandoffSla.openAiConnectionStatus || 'not_connected'],
+    ['Realtime session', humanHandoffSla.realtimeSessionStatus || 'not_connected'],
+    ['AI voice', humanHandoffSla.aiVoiceStatus || 'not_allowed'],
+    ['FastAGI', humanHandoffSla.fastAgiStatus || 'not_allowed'],
+    ['Asterisk modification', humanHandoffSla.asteriskModificationStatus || 'not_allowed'],
+    ['Vicidial modification', humanHandoffSla.vicidialModificationStatus || 'not_allowed'],
+    ['Route behavior change', humanHandoffSla.routeBehaviorChangeStatus || 'not_allowed'],
+    ['Live handoff execution allowed', humanHandoffSla.liveHandoffExecutionAllowed ? 'yes' : 'no'],
+  ];
+  humanHandoffSlaReadinessCards.innerHTML = humanHandoffSlaReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  humanHandoffSlaReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only handoff/SLA design', 'info'),
+    readinessBadge('Tenant scoped', 'info'),
+    readinessBadge('Campaign scoped', 'info'),
+    readinessBadge('Inbound/outbound mapped', 'info'),
+    readinessBadge('AI-to-human mapped', 'info'),
+    readinessBadge('Language aware', 'info'),
+    readinessBadge('Queue aware', 'info'),
+    readinessBadge('Skill aware', 'info'),
+    readinessBadge('SLA mapped', 'info'),
+    readinessBadge('No-agent behavior mapped', 'info'),
+    readinessBadge('Warm transfer context mapped', 'info'),
+    readinessBadge('RBAC/MFA mapped', 'info'),
+    readinessBadge('Tenant isolation mapped', 'info'),
+    readinessBadge('No live handoff runtime', 'ok'),
+    readinessBadge('No telephony changes', 'ok'),
+    readinessBadge('No runtime controls', 'ok'),
+  ].join('');
+
+  const humanHandoffSlaDetailGroups = [
+    ['Future handoff scope fields', humanHandoffSla.futureHandoffScopeFields],
+    ['Future handoff trigger categories', humanHandoffSla.futureHandoffTriggerCategories],
+    ['Future handoff context fields', humanHandoffSla.futureHandoffContextFields],
+    ['Future handoff actions', humanHandoffSla.futureHandoffActions],
+    ['Future SLA policy rules', humanHandoffSla.futureSlaPolicyRules],
+    ['Future no-agent-available rules', humanHandoffSla.futureNoAgentAvailableRules],
+    ['Future queue/skill/language rules', humanHandoffSla.futureQueueSkillLanguageRules],
+    ['Future warm transfer context rules', humanHandoffSla.futureWarmTransferContextRules],
+    ['Future agent screen-pop rules', humanHandoffSla.futureAgentScreenPopRules],
+    ['Future callback/voicemail rules', humanHandoffSla.futureCallbackVoicemailRules],
+    ['Future escalation rules', humanHandoffSla.futureEscalationRules],
+    ['Future audit/reporting rules', humanHandoffSla.futureAuditReportingRules],
+    ['Future RBAC handoff/SLA rules', humanHandoffSla.futureRbacHandoffSlaRules],
+    ['Future tenant/campaign isolation rules', humanHandoffSla.futureTenantCampaignIsolationRules],
+    ['Future MFA step-up rules', humanHandoffSla.futureMfaStepUpRules],
+    ['Future middleware core dependency rules', humanHandoffSla.futureMiddlewareCoreDependencyRules],
+    ['Future runtime boundaries', humanHandoffSla.futureRuntimeBoundaries],
+    ['Prohibited current actions', humanHandoffSla.prohibitedCurrentActions],
+    ['Next steps', humanHandoffSla.nextSteps],
+  ];
+  humanHandoffSlaReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${humanHandoffSlaDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>

@@ -412,6 +412,13 @@ node scripts/middleware-staging-readiness.js
 
 ## Do-Not-Do List
 
+- Human Handoff SLA Readiness added as read-only design/status.
+- Future human handoff is tenant-scoped, campaign-scoped, language-aware, queue-aware, skill-aware, SLA-aware, auditable, and safe by default.
+- Future handoff covers inbound/outbound, AI-to-human escalation, no-agent-available behavior, queue overflow, abandoned handoff, warm transfer context, cold transfer policy, screen-pop context, agent-assist context, SLA targets, SLA warnings, SLA breaches, escalation, callback/voicemail fallback, transfer/hold messages, failure/fallback dependency, audit, reporting, RBAC, tenant isolation, MFA step-up, and middleware core dependency.
+- Future handoff triggers include human/supervisor request, anger/frustration, complaint/legal/emergency/regulated issues, low AI confidence, repeated misunderstanding, hallucination suspected, policy conflict, tool failures, missing KB answer, authentication failure, language mismatch, disclosure issue, AI refusal, opt-out/DNC, hot leads, sales closing, appointment booking, payment/billing dispute, retention opportunity, sentiment breach, silence timeout, audio/provider/media bridge issue, campaign policy, budget/capacity rule, max AI duration, compliance risk, and QA flag.
+- The middleware remains the source of truth for routing, DID rules, shadow mode, local touch, limits, inventory health, and runtime safety.
+- No handoff storage, SLA storage, queue storage, skill storage, escalation storage, transfer storage, callback storage, voicemail storage, screen-pop storage, agent-assist storage, SLA alert storage, SLA report storage, CRUD, endpoints, migrations, handoff runtime, call transfer runtime, queue routing runtime, skill routing runtime, escalation runtime, callback runtime, voicemail runtime, agent notification runtime, screen-pop runtime, hold message runtime, whisper audio runtime, AI-to-human runtime, human-to-AI runtime, agent-assist runtime, SLA timer runtime, SLA alert runtime, SLA report runtime, report runtime, transcript access, recording access, live call queries, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, raw PII exposure, live handoff execution, or UI execution controls were added.
+- No runtime behavior changed.
 - Do not print or share `ROUTE_ENGINE_TOKEN`.
 - Do not paste `ROUTE_ENGINE_TOKEN` in chats, tickets, screenshots, or shared docs.
 - Do not restart PM2 with a placeholder or fake route token.

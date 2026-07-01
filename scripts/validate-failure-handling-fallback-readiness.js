@@ -64,7 +64,7 @@ const ui = read(uiPath);
 const uiText = ui.replace(/&amp;/g, '&');
 const docs = exists(docsPath) ? read(docsPath) : '';
 const statusDoc = read(statusPath);
-const failureSource = sectionBetween(readiness, 'const failureHandlingFallbackReadiness', 'const checklist');
+const failureSource = sectionBetween(readiness, 'const failureHandlingFallbackReadiness', 'const humanHandoffSlaReadiness');
 const failureUiSection = sectionBetween(ui, 'Failure Handling / Fallback Readiness', 'Safety Checklist');
 const failureUiText = failureUiSection.replace(/&amp;/g, '&');
 
@@ -415,7 +415,7 @@ const statusPhrases = [
 check(readiness.includes('failureHandlingFallbackReadiness'), 'readiness.ts must contain failureHandlingFallbackReadiness');
 check(failureSource, 'failureHandlingFallbackReadiness source section missing');
 check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*qaScorecardConfigurationReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'existing QA readiness payload order must remain unchanged');
-check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*qaRbacAccessScopeReadiness,\s*qaEvaluationWorkflowReadiness,\s*qaReportsAnalyticsReadiness,\s*multilingualCallLanguageRoutingReadiness,\s*authenticationMfaSecurityReadiness,\s*campaignAiAgentCapacityBudgetReadiness,\s*qaSamplingEligibilityRulesReadiness,\s*qaFeedbackAiImprovementApprovalReadiness,\s*consentDisclosureReadiness,\s*usageCostTrackingReadiness,\s*failureHandlingFallbackReadiness,\s*checklist/s.test(readiness), 'readiness response payload must include failureHandlingFallbackReadiness after usageCostTrackingReadiness');
+check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*qaRbacAccessScopeReadiness,\s*qaEvaluationWorkflowReadiness,\s*qaReportsAnalyticsReadiness,\s*multilingualCallLanguageRoutingReadiness,\s*authenticationMfaSecurityReadiness,\s*campaignAiAgentCapacityBudgetReadiness,\s*qaSamplingEligibilityRulesReadiness,\s*qaFeedbackAiImprovementApprovalReadiness,\s*consentDisclosureReadiness,\s*usageCostTrackingReadiness,\s*failureHandlingFallbackReadiness,\s*(humanHandoffSlaReadiness,\s*)?checklist/s.test(readiness), 'readiness response payload must include failureHandlingFallbackReadiness after usageCostTrackingReadiness');
 
 for (const [key, value] of scalarChecks) {
   check(sourceContainsValue(failureSource, key, value), `readiness response must contain ${key}: ${JSON.stringify(value)}`);

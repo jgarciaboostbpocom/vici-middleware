@@ -3943,6 +3943,178 @@ export type FailureHandlingFallbackReadiness = {
   nextSteps: string[];
 };
 
+export type HumanHandoffSlaReadiness = {
+  currentState: 'not_ready';
+  humanHandoffSlaApproved: false;
+  humanHandoffSlaMode: 'read_only_design';
+  tenantScopedHandoffStatus: 'read_only_design';
+  campaignScopedHandoffStatus: 'read_only_design';
+  inboundHandoffStatus: 'read_only_design';
+  outboundHandoffStatus: 'read_only_design';
+  aiToHumanHandoffStatus: 'read_only_design';
+  humanToAiReturnStatus: 'read_only_design';
+  languageAwareHandoffStatus: 'read_only_design';
+  queueAwareHandoffStatus: 'read_only_design';
+  skillAwareHandoffStatus: 'read_only_design';
+  priorityAwareHandoffStatus: 'read_only_design';
+  hoursOfOperationStatus: 'read_only_design';
+  noAgentAvailableStatus: 'read_only_design';
+  queueOverflowStatus: 'read_only_design';
+  abandonedHandoffStatus: 'read_only_design';
+  warmTransferContextStatus: 'read_only_design';
+  coldTransferPolicyStatus: 'read_only_design';
+  agentScreenPopContextStatus: 'read_only_design';
+  agentAssistContextStatus: 'read_only_design';
+  handoffTriggerStatus: 'read_only_design';
+  handoffReasonStatus: 'read_only_design';
+  handoffPolicyVersionStatus: 'read_only_design';
+  slaTargetStatus: 'read_only_design';
+  slaWarningStatus: 'read_only_design';
+  slaBreachStatus: 'read_only_design';
+  slaEscalationStatus: 'read_only_design';
+  callbackFallbackStatus: 'read_only_design';
+  voicemailFallbackStatus: 'read_only_design';
+  transferMessageStatus: 'read_only_design';
+  holdMessageStatus: 'read_only_design';
+  failureFallbackDependencyStatus: 'read_only_design';
+  auditStatus: 'read_only_design';
+  reportStatus: 'read_only_design';
+  rbacHandoffSlaControlStatus: 'read_only_design';
+  tenantIsolationStatus: 'read_only_design';
+  campaignIsolationStatus: 'read_only_design';
+  mfaStepUpForHandoffChangesStatus: 'read_only_design';
+  middlewareCoreDependencyStatus: 'read_only_design';
+  handoffStorageStatus: 'not_implemented';
+  slaStorageStatus: 'not_implemented';
+  queueStorageStatus: 'not_implemented';
+  skillStorageStatus: 'not_implemented';
+  escalationStorageStatus: 'not_implemented';
+  transferStorageStatus: 'not_implemented';
+  callbackStorageStatus: 'not_implemented';
+  voicemailStorageStatus: 'not_implemented';
+  screenPopStorageStatus: 'not_implemented';
+  agentAssistStorageStatus: 'not_implemented';
+  slaAlertStorageStatus: 'not_implemented';
+  slaReportStorageStatus: 'not_implemented';
+  handoffEndpointStatus: 'not_implemented';
+  slaEndpointStatus: 'not_implemented';
+  queueEndpointStatus: 'not_implemented';
+  skillEndpointStatus: 'not_implemented';
+  handoffCrudStatus: 'not_implemented';
+  slaCrudStatus: 'not_implemented';
+  queueCrudStatus: 'not_implemented';
+  skillCrudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  handoffRuntimeStatus: 'not_allowed';
+  callTransferRuntimeStatus: 'not_allowed';
+  queueRoutingRuntimeStatus: 'not_allowed';
+  skillRoutingRuntimeStatus: 'not_allowed';
+  escalationRuntimeStatus: 'not_allowed';
+  callbackRuntimeStatus: 'not_allowed';
+  voicemailRuntimeStatus: 'not_allowed';
+  agentNotificationRuntimeStatus: 'not_allowed';
+  screenPopRuntimeStatus: 'not_allowed';
+  holdMessageRuntimeStatus: 'not_allowed';
+  whisperAudioRuntimeStatus: 'not_allowed';
+  aiToHumanRuntimeStatus: 'not_allowed';
+  humanToAiRuntimeStatus: 'not_allowed';
+  agentAssistRuntimeStatus: 'not_allowed';
+  slaTimerRuntimeStatus: 'not_allowed';
+  slaAlertRuntimeStatus: 'not_allowed';
+  slaReportRuntimeStatus: 'not_allowed';
+  reportRuntimeStatus: 'not_allowed';
+  liveCallQueryStatus: 'not_allowed';
+  transcriptAccessStatus: 'not_allowed';
+  recordingAccessStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  aiVoiceStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  asteriskModificationStatus: 'not_allowed';
+  vicidialModificationStatus: 'not_allowed';
+  dialplanModificationStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  handoffStorageAllowed: false;
+  slaStorageAllowed: false;
+  queueStorageAllowed: false;
+  skillStorageAllowed: false;
+  escalationStorageAllowed: false;
+  transferStorageAllowed: false;
+  callbackStorageAllowed: false;
+  voicemailStorageAllowed: false;
+  screenPopStorageAllowed: false;
+  agentAssistStorageAllowed: false;
+  slaAlertStorageAllowed: false;
+  slaReportStorageAllowed: false;
+  handoffEndpointAllowed: false;
+  slaEndpointAllowed: false;
+  queueEndpointAllowed: false;
+  skillEndpointAllowed: false;
+  handoffCrudAllowed: false;
+  slaCrudAllowed: false;
+  queueCrudAllowed: false;
+  skillCrudAllowed: false;
+  migrationAllowed: false;
+  handoffRuntimeAllowed: false;
+  callTransferRuntimeAllowed: false;
+  queueRoutingRuntimeAllowed: false;
+  skillRoutingRuntimeAllowed: false;
+  escalationRuntimeAllowed: false;
+  callbackRuntimeAllowed: false;
+  voicemailRuntimeAllowed: false;
+  agentNotificationRuntimeAllowed: false;
+  screenPopRuntimeAllowed: false;
+  holdMessageRuntimeAllowed: false;
+  whisperAudioRuntimeAllowed: false;
+  aiToHumanRuntimeAllowed: false;
+  humanToAiRuntimeAllowed: false;
+  agentAssistRuntimeAllowed: false;
+  slaTimerRuntimeAllowed: false;
+  slaAlertRuntimeAllowed: false;
+  slaReportRuntimeAllowed: false;
+  reportRuntimeAllowed: false;
+  liveCallQueryAllowed: false;
+  transcriptAccessAllowed: false;
+  recordingAccessAllowed: false;
+  openAiConnectionAllowed: false;
+  openAiRuntimeAllowed: false;
+  realtimeSessionAllowed: false;
+  aiVoiceAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  asteriskModificationAllowed: false;
+  vicidialModificationAllowed: false;
+  dialplanModificationAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  realCredentialAllowed: false;
+  realPiiAllowed: false;
+  realCallAllowed: false;
+  liveHandoffExecutionAllowed: false;
+  futureHandoffScopeFields: string[];
+  futureHandoffTriggerCategories: string[];
+  futureHandoffContextFields: string[];
+  futureHandoffActions: string[];
+  futureSlaPolicyRules: string[];
+  futureNoAgentAvailableRules: string[];
+  futureQueueSkillLanguageRules: string[];
+  futureWarmTransferContextRules: string[];
+  futureAgentScreenPopRules: string[];
+  futureCallbackVoicemailRules: string[];
+  futureEscalationRules: string[];
+  futureAuditReportingRules: string[];
+  futureRbacHandoffSlaRules: string[];
+  futureTenantCampaignIsolationRules: string[];
+  futureMfaStepUpRules: string[];
+  futureMiddlewareCoreDependencyRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -4014,6 +4186,7 @@ export type RouteReadinessReport = {
   consentDisclosureReadiness: ConsentDisclosureReadiness;
   usageCostTrackingReadiness: UsageCostTrackingReadiness;
   failureHandlingFallbackReadiness: FailureHandlingFallbackReadiness;
+  humanHandoffSlaReadiness: HumanHandoffSlaReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -16718,6 +16891,442 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const humanHandoffSlaReadiness: HumanHandoffSlaReadiness = {
+    currentState: 'not_ready',
+    humanHandoffSlaApproved: false,
+    humanHandoffSlaMode: 'read_only_design',
+    tenantScopedHandoffStatus: 'read_only_design',
+    campaignScopedHandoffStatus: 'read_only_design',
+    inboundHandoffStatus: 'read_only_design',
+    outboundHandoffStatus: 'read_only_design',
+    aiToHumanHandoffStatus: 'read_only_design',
+    humanToAiReturnStatus: 'read_only_design',
+    languageAwareHandoffStatus: 'read_only_design',
+    queueAwareHandoffStatus: 'read_only_design',
+    skillAwareHandoffStatus: 'read_only_design',
+    priorityAwareHandoffStatus: 'read_only_design',
+    hoursOfOperationStatus: 'read_only_design',
+    noAgentAvailableStatus: 'read_only_design',
+    queueOverflowStatus: 'read_only_design',
+    abandonedHandoffStatus: 'read_only_design',
+    warmTransferContextStatus: 'read_only_design',
+    coldTransferPolicyStatus: 'read_only_design',
+    agentScreenPopContextStatus: 'read_only_design',
+    agentAssistContextStatus: 'read_only_design',
+    handoffTriggerStatus: 'read_only_design',
+    handoffReasonStatus: 'read_only_design',
+    handoffPolicyVersionStatus: 'read_only_design',
+    slaTargetStatus: 'read_only_design',
+    slaWarningStatus: 'read_only_design',
+    slaBreachStatus: 'read_only_design',
+    slaEscalationStatus: 'read_only_design',
+    callbackFallbackStatus: 'read_only_design',
+    voicemailFallbackStatus: 'read_only_design',
+    transferMessageStatus: 'read_only_design',
+    holdMessageStatus: 'read_only_design',
+    failureFallbackDependencyStatus: 'read_only_design',
+    auditStatus: 'read_only_design',
+    reportStatus: 'read_only_design',
+    rbacHandoffSlaControlStatus: 'read_only_design',
+    tenantIsolationStatus: 'read_only_design',
+    campaignIsolationStatus: 'read_only_design',
+    mfaStepUpForHandoffChangesStatus: 'read_only_design',
+    middlewareCoreDependencyStatus: 'read_only_design',
+    handoffStorageStatus: 'not_implemented',
+    slaStorageStatus: 'not_implemented',
+    queueStorageStatus: 'not_implemented',
+    skillStorageStatus: 'not_implemented',
+    escalationStorageStatus: 'not_implemented',
+    transferStorageStatus: 'not_implemented',
+    callbackStorageStatus: 'not_implemented',
+    voicemailStorageStatus: 'not_implemented',
+    screenPopStorageStatus: 'not_implemented',
+    agentAssistStorageStatus: 'not_implemented',
+    slaAlertStorageStatus: 'not_implemented',
+    slaReportStorageStatus: 'not_implemented',
+    handoffEndpointStatus: 'not_implemented',
+    slaEndpointStatus: 'not_implemented',
+    queueEndpointStatus: 'not_implemented',
+    skillEndpointStatus: 'not_implemented',
+    handoffCrudStatus: 'not_implemented',
+    slaCrudStatus: 'not_implemented',
+    queueCrudStatus: 'not_implemented',
+    skillCrudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    handoffRuntimeStatus: 'not_allowed',
+    callTransferRuntimeStatus: 'not_allowed',
+    queueRoutingRuntimeStatus: 'not_allowed',
+    skillRoutingRuntimeStatus: 'not_allowed',
+    escalationRuntimeStatus: 'not_allowed',
+    callbackRuntimeStatus: 'not_allowed',
+    voicemailRuntimeStatus: 'not_allowed',
+    agentNotificationRuntimeStatus: 'not_allowed',
+    screenPopRuntimeStatus: 'not_allowed',
+    holdMessageRuntimeStatus: 'not_allowed',
+    whisperAudioRuntimeStatus: 'not_allowed',
+    aiToHumanRuntimeStatus: 'not_allowed',
+    humanToAiRuntimeStatus: 'not_allowed',
+    agentAssistRuntimeStatus: 'not_allowed',
+    slaTimerRuntimeStatus: 'not_allowed',
+    slaAlertRuntimeStatus: 'not_allowed',
+    slaReportRuntimeStatus: 'not_allowed',
+    reportRuntimeStatus: 'not_allowed',
+    liveCallQueryStatus: 'not_allowed',
+    transcriptAccessStatus: 'not_allowed',
+    recordingAccessStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    aiVoiceStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    asteriskModificationStatus: 'not_allowed',
+    vicidialModificationStatus: 'not_allowed',
+    dialplanModificationStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    handoffStorageAllowed: false,
+    slaStorageAllowed: false,
+    queueStorageAllowed: false,
+    skillStorageAllowed: false,
+    escalationStorageAllowed: false,
+    transferStorageAllowed: false,
+    callbackStorageAllowed: false,
+    voicemailStorageAllowed: false,
+    screenPopStorageAllowed: false,
+    agentAssistStorageAllowed: false,
+    slaAlertStorageAllowed: false,
+    slaReportStorageAllowed: false,
+    handoffEndpointAllowed: false,
+    slaEndpointAllowed: false,
+    queueEndpointAllowed: false,
+    skillEndpointAllowed: false,
+    handoffCrudAllowed: false,
+    slaCrudAllowed: false,
+    queueCrudAllowed: false,
+    skillCrudAllowed: false,
+    migrationAllowed: false,
+    handoffRuntimeAllowed: false,
+    callTransferRuntimeAllowed: false,
+    queueRoutingRuntimeAllowed: false,
+    skillRoutingRuntimeAllowed: false,
+    escalationRuntimeAllowed: false,
+    callbackRuntimeAllowed: false,
+    voicemailRuntimeAllowed: false,
+    agentNotificationRuntimeAllowed: false,
+    screenPopRuntimeAllowed: false,
+    holdMessageRuntimeAllowed: false,
+    whisperAudioRuntimeAllowed: false,
+    aiToHumanRuntimeAllowed: false,
+    humanToAiRuntimeAllowed: false,
+    agentAssistRuntimeAllowed: false,
+    slaTimerRuntimeAllowed: false,
+    slaAlertRuntimeAllowed: false,
+    slaReportRuntimeAllowed: false,
+    reportRuntimeAllowed: false,
+    liveCallQueryAllowed: false,
+    transcriptAccessAllowed: false,
+    recordingAccessAllowed: false,
+    openAiConnectionAllowed: false,
+    openAiRuntimeAllowed: false,
+    realtimeSessionAllowed: false,
+    aiVoiceAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    asteriskModificationAllowed: false,
+    vicidialModificationAllowed: false,
+    dialplanModificationAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    realCredentialAllowed: false,
+    realPiiAllowed: false,
+    realCallAllowed: false,
+    liveHandoffExecutionAllowed: false,
+    futureHandoffScopeFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'inbound call context',
+      'outbound call context',
+      'AI-to-human escalation',
+      'future human-to-AI context return',
+      'campaign-specific handoff rules',
+      'language-aware routing',
+      'queue-aware routing',
+      'skill-aware routing',
+      'priority-aware routing',
+      'hours-of-operation rules',
+      'no-agent-available behavior',
+      'queue overflow behavior',
+      'abandoned handoff behavior',
+      'warm transfer context',
+      'safe cold transfer policy',
+      'future agent screen-pop context',
+      'SLA targets by campaign, queue, language, skill, and route type',
+      'future SLA breach alerts',
+      'future audit and reporting',
+    ],
+    futureHandoffTriggerCategories: [
+      'customer asks for human agent',
+      'customer asks for supervisor',
+      'customer is angry or frustrated',
+      'customer threatens complaint',
+      'customer threatens legal action',
+      'customer mentions emergency',
+      'customer mentions medical, legal, financial, compliance, or regulated issue',
+      'AI confidence below threshold',
+      'AI does not understand after configured attempts',
+      'AI repeats itself',
+      'AI hallucination suspected',
+      'AI policy conflict detected',
+      'AI tool call denied',
+      'AI tool call timeout',
+      'knowledge base missing answer',
+      'prompt policy blocks answer',
+      'authentication/verification failure',
+      'language mismatch',
+      'unsupported language',
+      'disclosure issue',
+      'customer refuses AI assistant',
+      'customer requests opt-out or DNC',
+      'hot lead detected',
+      'sales closing opportunity',
+      'appointment booking requires human',
+      'payment or billing dispute',
+      'retention save opportunity',
+      'high-value customer',
+      'escalation keyword detected',
+      'sentiment threshold breached',
+      'silence timeout',
+      'call quality issue',
+      'audio issue',
+      'provider latency high',
+      'provider failure',
+      'media bridge issue',
+      'queue fallback required',
+      'campaign policy requires human',
+      'budget/capacity rule requires human',
+      'max AI call duration reached',
+      'compliance pass/fail risk detected',
+      'QA flag requires human review',
+    ],
+    futureHandoffContextFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'callId',
+      'callDirection',
+      'routeType',
+      'agentType',
+      'aiAgentId',
+      'humanAgentId',
+      'did',
+      'leadId',
+      'customerId',
+      'phoneNumberReference',
+      'language',
+      'languageSource',
+      'disclosureStatus',
+      'queueId',
+      'queueName',
+      'skillId',
+      'skillName',
+      'priority',
+      'handoffReason',
+      'handoffTrigger',
+      'handoffTriggerConfidence',
+      'handoffPolicyVersion',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'scorecardId',
+      'qaEvaluationId',
+      'transcriptReferenceId',
+      'recordingReferenceId',
+      'aiSummary',
+      'customerIntent',
+      'sentiment',
+      'riskFlags',
+      'complianceFlags',
+      'toolCallHistoryReference',
+      'lastAiUtterance',
+      'suggestedAgentOpening',
+      'dispositionSuggestion',
+      'callbackPreference',
+      'slaPolicyId',
+      'slaTargetSeconds',
+      'queueWaitSeconds',
+      'slaStatus',
+      'fallbackAction',
+      'escalationLevel',
+      'auditCorrelationId',
+    ],
+    futureHandoffActions: [
+      'continue AI only',
+      'ask permission to transfer',
+      'transfer to primary queue',
+      'transfer to backup queue',
+      'transfer to supervisor queue',
+      'transfer to language-specific queue',
+      'transfer to skill-specific queue',
+      'transfer to retention queue',
+      'transfer to sales closer queue',
+      'transfer to compliance queue',
+      'transfer to billing queue',
+      'transfer to appointment queue',
+      'transfer to emergency policy queue',
+      'create callback request',
+      'route to voicemail',
+      'play approved hold message',
+      'play approved transfer message',
+      'end call safely',
+      'mark for manual review',
+      'attach AI summary to handoff',
+      'attach intent/risk/compliance flags',
+      'attach suggested next best action',
+      'notify internal admin',
+      'notify campaign admin',
+      'create incident if handoff fails',
+      'preserve audit context',
+      'preserve route context',
+      'suppress repeated alerts',
+      'block unsafe automated transfer',
+      'require management approval for high-risk policy changes',
+    ],
+    futureSlaPolicyRules: [
+      'SLA target answer time',
+      'SLA max wait time',
+      'queue wait threshold',
+      'language-specific SLA',
+      'skill-specific SLA',
+      'campaign-specific SLA',
+      'inbound SLA',
+      'outbound SLA',
+      'AI-to-human SLA',
+      'priority SLA',
+      'business-hours SLA',
+      'after-hours fallback',
+      'no-agent-available rule',
+      'overflow rule',
+      'abandoned handoff rule',
+      'callback offered threshold',
+      'voicemail offered threshold',
+      'escalation threshold',
+      'supervisor escalation threshold',
+      'SLA breach status',
+      'SLA warning status',
+      'SLA recovery status',
+      'repeated breach detection',
+      'high-risk handoff breach',
+      'handoff failure rate',
+      'transfer completion rate',
+      'agent accept/decline status',
+      'warm transfer context completeness',
+      'manual SLA override approval',
+    ],
+    futureNoAgentAvailableRules: [
+      'stay with AI if safe',
+      'offer callback',
+      'route to voicemail',
+      'route to backup queue',
+      'route to after-hours queue',
+      'play approved unavailable message',
+      'end call safely',
+      'mark for manual review',
+      'notify campaign admin',
+      'create incident if repeated',
+      'preserve audit context',
+      'preserve transcript/recording references without accessing them in this phase',
+    ],
+    futureQueueSkillLanguageRules: [
+      'Future handoff routing must be campaign-scoped, tenant-isolated, language-aware, queue-aware, and skill-aware',
+      'Future handoff rules must not be globally forced across all campaigns',
+      'Future queue, skill, language, and priority decisions must respect middleware route context and campaign policy',
+      'Queue, skill, and language routing runtime is not implemented in this readiness phase',
+    ],
+    futureWarmTransferContextRules: [
+      'Future warm transfer context may include AI summary, customer intent, sentiment, risk/compliance flags, last AI utterance, suggested opening, disposition suggestion, SLA status, and audit correlation',
+      'Future cold transfer policy must block unsafe automated transfer and preserve route context',
+      'Warm transfer and cold transfer runtime are not implemented in this readiness phase',
+    ],
+    futureAgentScreenPopRules: [
+      'Future agent screen-pop context may display scoped handoff context only within assigned tenant/campaign boundaries',
+      'Future screen-pop context must not expose raw PII, transcripts, or recordings in this readiness phase',
+      'Agent screen-pop and agent-assist runtime are not implemented in this readiness phase',
+    ],
+    futureCallbackVoicemailRules: [
+      'Future fallback may offer callback based on campaign policy, queue wait, business hours, and SLA thresholds',
+      'Future fallback may route to voicemail based on no-agent, after-hours, overflow, or abandoned handoff policy',
+      'Callback and voicemail storage, endpoints, and runtime are not implemented in this readiness phase',
+    ],
+    futureEscalationRules: [
+      'Future escalation may consider supervisor threshold, repeated breach, high-risk handoff breach, compliance risk, and handoff failure rate',
+      'Future escalation policy must remain campaign-scoped, RBAC-controlled, MFA-aware, auditable, and tenant-isolated',
+      'Escalation storage, endpoints, and runtime are not implemented in this readiness phase',
+    ],
+    futureAuditReportingRules: [
+      'Future audit may record handoff reason, trigger, trigger confidence, selected action, result, queue attempted, queue used, skill used, language used, agent assigned, agent accepted, and agent declined',
+      'Future audit may record no-agent-available result, overflow result, abandoned handoff status, callback offered, callback accepted, voicemail offered, SLA target, actual wait, SLA status, breach reason, escalation level, and failure/fallback dependency',
+      'Future audit may record AI summary attached, context completeness, actor/user that changed policy, approval reference, timestamp, and auditCorrelationId',
+      'Future reports may show human handoff SLA metrics, but report runtime is not implemented in this phase',
+    ],
+    futureRbacHandoffSlaRules: [
+      'super_admin can review global handoff/SLA policy templates in a future implementation',
+      'authorized internal admin can review/manage assigned campaigns only',
+      'client_admin can view/manage assigned campaign handoff/SLA policy only if permission allows',
+      'supervisor can view queue/handoff status only within assigned scope',
+      'QA manager can view QA-related handoff status only within assigned scope',
+      'restricted users cannot view or change handoff/SLA policy',
+    ],
+    futureTenantCampaignIsolationRules: [
+      'client A must not see client B handoff policy',
+      'campaign A must not see campaign B handoff/SLA rules',
+      'campaign A must not trigger campaign B queues',
+      'campaign A must not view campaign B agent availability',
+      'campaign A must not view campaign B screen-pop context',
+      'agent context, transcript references, recording references, QA flags, SLA status, or handoff incidents must not cross tenant/campaign boundaries',
+    ],
+    futureMfaStepUpRules: [
+      'High-risk handoff policy changes may require future MFA/step-up authentication',
+      'SLA threshold changes may require future MFA/step-up authentication',
+      'Queue routing changes may require future MFA/step-up authentication',
+      'Skill routing changes may require future MFA/step-up authentication',
+      'Callback/voicemail policy changes may require future MFA/step-up authentication',
+      'After-hours behavior changes may require future MFA/step-up authentication',
+    ],
+    futureMiddlewareCoreDependencyRules: [
+      'Vicidial Middleware remains the source of truth for campaign routing, DID rules, route simulation, shadow mode, local touch, limits, inventory health, and runtime safety',
+      'AI Voice and QA modules must consume middleware context and must not bypass or override middleware core rules without explicit approved runtime activation',
+      'Future handoff must respect RBAC, tenant isolation, campaign scope, language/disclosure rules, budget/capacity rules, failure/fallback rules, and middleware core safety',
+    ],
+    futureRuntimeBoundaries: [
+      'No handoff/SLA storage, endpoints, CRUD, migrations, database tables, or storage are implemented',
+      'No transfer, queue routing, skill routing, escalation, callback, voicemail, notification, screen-pop, hold-message, whisper-audio, AI-to-human, human-to-AI, agent-assist, SLA timer, SLA alert, SLA report, report, live-call, OpenAI, Realtime, AI voice, FastAGI, Asterisk, Vicidial, dialplan, or route behavior runtime is implemented',
+      'Transcript and recording references may be mapped conceptually, but transcripts and recordings are not accessed in this phase',
+      'The UI must remain read-only and expose no execution controls',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create handoff records',
+      'Do not create SLA records',
+      'Do not create queue, skill, escalation, transfer, callback, voicemail, screen-pop, agent-assist, routing, SLA alert, or SLA report records',
+      'Do not create storage, CRUD, endpoints, migrations, or database tables',
+      'Do not create handoff, call transfer, queue routing, skill routing, escalation, callback, voicemail, notification, screen-pop, hold message, whisper audio, AI-to-human, human-to-AI, agent-assist, SLA timer, SLA alert, SLA report, or report runtime',
+      'Do not connect OpenAI, configure OpenAI credentials, execute OpenAI API calls, or open Realtime sessions',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not query live calls, execute live calls, access recordings, access transcripts, or expose raw PII',
+      'Do not modify Asterisk, Vicidial, dialplan, route behavior, auth, login, session, or RBAC behavior',
+      'Do not add UI execution controls',
+    ],
+    nextSteps: [
+      'Keep Human Handoff SLA Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, OpenAI-disconnected, telephony-change-blocked, route-change-blocked, and runtime-blocked.',
+      'Define future campaign-scoped handoff/SLA policy templates for tenant isolation, queue/skill/language routing, no-agent behavior, queue overflow, abandoned handoff, warm transfer context, screen-pop context, callback/voicemail fallback, escalation, audit, reporting, RBAC, MFA step-up, and middleware core dependency in a separately approved phase.',
+      'Require explicit approved runtime activation before any AI Voice or QA module can transfer to humans, notify agents, create callbacks, route queues, play audio, modify live calls, or execute handoff behavior.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -17099,6 +17708,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Failure Handling / Fallback readiness is read-only, not ready, not approved, tenant-scoped and campaign-scoped failure handling mapped, provider-aware and route-aware fallback mapped, inbound/outbound and AI Voice/AI QA/Human QA failure handling mapped, OpenAI/Realtime/voice gateway/media bridge/Asterisk/Vicidial/FastAGI/SIP/DID/route engine/middleware/campaign/budget/prompt/KB/tool/transcription/recording/QA/language/disclosure/handoff/queue fallback mapped, retry/circuit breaker/alert/incident/audit/RBAC/MFA/tenant isolation mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, fallback/failover/retry/circuit-breaker/alert/incident/escalation/handoff/queue/voicemail/IVR/audio/call-transfer/report runtime blocked, transcript/recording/live-call access blocked, OpenAI-disconnected, telephony changes blocked, runtime fallback execution blocked, and exposes no failure, fallback, outage, retry, circuit breaker, failover, alert, incident, escalation, handoff, queue fallback, voicemail fallback, IVR, audio, transfer, provider, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
     },
+    {
+      id: 'human-handoff-sla-readiness-read-only',
+      label: 'Human Handoff SLA readiness read-only',
+      status: 'pass',
+      detail: 'Human Handoff SLA readiness is read-only, not ready, not approved, tenant-scoped, campaign-scoped, inbound/outbound mapped, AI-to-human escalation mapped, future human-to-AI return mapped, language/queue/skill/priority/hours/no-agent/overflow/abandoned handoff mapped, warm-transfer and cold-transfer policy mapped, agent screen-pop and agent-assist context mapped, SLA targets/warnings/breaches/escalation mapped, callback/voicemail fallback mapped, audit/reporting/RBAC/MFA/tenant isolation/middleware core dependency mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, handoff/call-transfer/queue-routing/skill-routing/escalation/callback/voicemail/agent-notification/screen-pop/hold-message/whisper-audio/AI-to-human/human-to-AI/agent-assist/SLA timer/SLA alert/SLA report/report runtime blocked, transcript/recording/live-call access blocked, OpenAI-disconnected, telephony changes blocked, route behavior changes blocked, live handoff execution blocked, and exposes no handoff, SLA, queue, skill, escalation, transfer, callback, voicemail, screen-pop, agent-assist, routing, notification, hold-message, whisper-audio, SLA timer, SLA alert, SLA report, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -17242,6 +17857,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     consentDisclosureReadiness,
     usageCostTrackingReadiness,
     failureHandlingFallbackReadiness,
+    humanHandoffSlaReadiness,
     checklist,
     risks,
     recommendations: [
@@ -17299,6 +17915,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat Consent / Disclosure readiness as read-only design visibility; it maps future campaign-scoped optional disclosure, language-customizable text/audio references, inbound/outbound, AI-handled/human-handled, recorded/monitored/transcribed call applicability, multilingual dependency, fallback behavior, jurisdiction/client policy mapping, audit, versioning, rollback, effective dates, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create consent storage, disclosure storage, disclosure language storage, disclosure audio storage, disclosure audit storage, CRUD, endpoints, migrations, consent capture runtime, disclosure playback runtime, audio generation/upload runtime, IVR runtime, call script runtime, recording runtime, transcription runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, or UI execution controls.',
       'Treat Usage & Cost Tracking readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-aware, auditable, budget-aware usage and cost tracking for AI Voice, AI QA, Human QA processing, transcription, recording, tokens, audio, tool calls, reports, fallback, retry, handoff events, pricing versions, budgets, alerts, reconciliation, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create usage storage, cost storage, billing storage, invoice storage, pricing storage, provider usage storage, CRUD, endpoints, migrations, usage runtime, cost calculation runtime, billing runtime, invoice runtime, provider pricing fetch runtime, provider usage fetch runtime, payment provider runtime, export runtime, report runtime, alert runtime, budget enforcement runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, real billing, real invoices, hardcoded provider pricing, or UI execution controls.',
       'Treat Failure Handling / Fallback readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-aware, route-aware, auditable, safe-by-default failure handling and fallback planning for AI Voice, AI QA, Human QA processing, OpenAI/Realtime providers, voice gateway, media bridge, Asterisk/Vicidial, FastAGI, SIP/carrier, DIDs, route engine, middleware API, campaign config, budget/capacity, prompts, knowledge bases, tools, transcription, recording references, QA evaluation, reports, webhooks, storage/database, auth/session, language/disclosure fallback, queues, human agents, handoff, retries, circuit breakers, alerts, incidents, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create failure storage, fallback storage, outage storage, retry storage, circuit breaker storage, alert storage, incident storage, escalation storage, handoff storage, CRUD, endpoints, migrations, fallback runtime, failover runtime, retry runtime, circuit breaker runtime, alert runtime, incident runtime, escalation runtime, handoff runtime, queue fallback runtime, voicemail fallback runtime, IVR fallback runtime, audio playback runtime, call transfer runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, runtime fallback execution, or UI execution controls.',
+      'Treat Human Handoff SLA readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, language-aware, queue-aware, skill-aware, SLA-aware, auditable, safe-by-default AI-to-human handoff, human queue fallback, no-agent behavior, overflow, abandoned handoff, warm-transfer context, cold-transfer policy, screen-pop context, callback/voicemail fallback, escalation, audit, reporting, RBAC, MFA step-up, tenant isolation, and middleware core dependency only and does not create handoff/SLA/queue/skill/escalation/transfer/callback/voicemail/screen-pop/agent-assist/SLA alert/SLA report storage, CRUD, endpoints, migrations, handoff runtime, call transfer runtime, queue routing runtime, skill routing runtime, escalation runtime, callback runtime, voicemail runtime, agent notification runtime, screen-pop runtime, hold-message runtime, whisper-audio runtime, AI-to-human runtime, human-to-AI runtime, agent-assist runtime, SLA timer runtime, SLA alert runtime, SLA report runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, live handoff execution, or UI execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
