@@ -228,7 +228,7 @@ check(providerSource, 'providerAbstractionReadiness source section exists');
   'nextSteps',
 ].forEach(field => check(new RegExp(`${field}: \\[`).test(providerSource), `${field} array exists`));
 
-check(/humanHandoffSlaReadiness,\s*providerAbstractionReadiness,\s*(observabilityMonitoringReadiness,\s*)?checklist/s.test(readiness), 'readiness response payload includes providerAbstractionReadiness after humanHandoffSlaReadiness');
+check(/humanHandoffSlaReadiness,\s*providerAbstractionReadiness,\s*(observabilityMonitoringReadiness,\s*(qaTranscriptRecordingIntakeReadiness,\s*)?)?checklist/s.test(readiness), 'readiness response payload includes providerAbstractionReadiness after humanHandoffSlaReadiness');
 check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*qaScorecardConfigurationReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'existing QA readiness order remains unchanged');
 
 check(ui.includes('Provider Abstraction Readiness'), 'UI contains Provider Abstraction Readiness');

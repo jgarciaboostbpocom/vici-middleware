@@ -35,8 +35,8 @@ const readiness = read('src/routeEngine/readiness.ts');
 const ui = read('public/ui-v2/did-ops.html');
 const docs = read('docs/observability-monitoring-readiness.md');
 const statusDocs = read('docs/middleware-current-status.md');
-const observabilitySource = sectionBetween(readiness, 'const observabilityMonitoringReadiness', 'const checklist');
-const observabilityUiSection = sectionBetween(ui, '<h2>Observability &amp; Monitoring Readiness</h2>', '<h2>Safety Checklist</h2>');
+const observabilitySource = sectionBetween(readiness, 'const observabilityMonitoringReadiness', 'const qaTranscriptRecordingIntakeReadiness');
+const observabilityUiSection = sectionBetween(ui, '<h2>Observability &amp; Monitoring Readiness</h2>', '<h2>QA Transcript / Recording Intake Readiness</h2>');
 
 check(readiness.includes('observabilityMonitoringReadiness'), 'readiness.ts contains observabilityMonitoringReadiness');
 check(observabilitySource, 'observabilityMonitoringReadiness source section exists');
@@ -271,7 +271,7 @@ check(observabilitySource, 'observabilityMonitoringReadiness source section exis
   'nextSteps',
 ].forEach(field => check(new RegExp(`${field}: \\[`).test(observabilitySource), `${field} array exists`));
 
-check(/providerAbstractionReadiness,\s*observabilityMonitoringReadiness,\s*checklist/s.test(readiness), 'readiness response payload includes observabilityMonitoringReadiness after providerAbstractionReadiness');
+check(/providerAbstractionReadiness,\s*observabilityMonitoringReadiness,\s*(qaTranscriptRecordingIntakeReadiness,\s*)?checklist/s.test(readiness), 'readiness response payload includes observabilityMonitoringReadiness after providerAbstractionReadiness');
 check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*qaScorecardConfigurationReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'existing QA readiness order remains unchanged');
 
 check(ui.includes('Observability &amp; Monitoring Readiness'), 'UI contains Observability & Monitoring Readiness');

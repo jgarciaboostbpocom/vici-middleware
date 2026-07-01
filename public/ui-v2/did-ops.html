@@ -1134,6 +1134,15 @@
                   <div class="muted small">Loading Observability &amp; Monitoring readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>QA Transcript / Recording Intake Readiness</h2>
+                  <span class="muted small">Read-only QA transcript and recording intake design status for future tenant-scoped, campaign-scoped, call-direction-aware, agent-type-aware, language-aware, consent-aware, privacy-safe, RBAC-controlled, auditable, and safe-by-default intake planning across recording references, transcript references, call metadata, QA eligibility, sampling, scorecards, redaction/PII dependency, retention dependency, provider dependency, observability dependency, and middleware core dependency. This does not create transcript records, recording records, intake records, storage, CRUD, endpoints, migrations, intake runtime, ingestion runtime, transcript runtime, recording runtime, transcription runtime, media processing runtime, download runtime, playback runtime, viewer runtime, upload runtime, export runtime, redaction runtime, PII runtime, retention runtime, QA runtime, provider connections, OpenAI connection, Realtime sessions, AI voice execution, FastAGI, live calls, live log tailing, production log reading, transcript/recording access, raw PII exposure, Asterisk/Vicidial changes, dialplan changes, route behavior changes, or UI execution controls.</span>
+                </div>
+                <div class="summary-grid" id="qaTranscriptRecordingIntakeReadinessCards"></div>
+                <div class="row" id="qaTranscriptRecordingIntakeReadinessBadges" style="margin-top:12px"></div>
+                <div id="qaTranscriptRecordingIntakeReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading QA Transcript / Recording Intake readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3188,10 +3197,13 @@ function renderRouteReadiness() {
   const observabilityMonitoringReadinessCards = $('#observabilityMonitoringReadinessCards');
   const observabilityMonitoringReadinessBadges = $('#observabilityMonitoringReadinessBadges');
   const observabilityMonitoringReadinessDetails = $('#observabilityMonitoringReadinessDetails');
+  const qaTranscriptRecordingIntakeReadinessCards = $('#qaTranscriptRecordingIntakeReadinessCards');
+  const qaTranscriptRecordingIntakeReadinessBadges = $('#qaTranscriptRecordingIntakeReadinessBadges');
+  const qaTranscriptRecordingIntakeReadinessDetails = $('#qaTranscriptRecordingIntakeReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !usageCostTrackingReadinessCards || !usageCostTrackingReadinessBadges || !usageCostTrackingReadinessDetails || !failureHandlingFallbackReadinessCards || !failureHandlingFallbackReadinessBadges || !failureHandlingFallbackReadinessDetails || !humanHandoffSlaReadinessCards || !humanHandoffSlaReadinessBadges || !humanHandoffSlaReadinessDetails || !providerAbstractionReadinessCards || !providerAbstractionReadinessBadges || !providerAbstractionReadinessDetails || !observabilityMonitoringReadinessCards || !observabilityMonitoringReadinessBadges || !observabilityMonitoringReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !usageCostTrackingReadinessCards || !usageCostTrackingReadinessBadges || !usageCostTrackingReadinessDetails || !failureHandlingFallbackReadinessCards || !failureHandlingFallbackReadinessBadges || !failureHandlingFallbackReadinessDetails || !humanHandoffSlaReadinessCards || !humanHandoffSlaReadinessBadges || !humanHandoffSlaReadinessDetails || !providerAbstractionReadinessCards || !providerAbstractionReadinessBadges || !providerAbstractionReadinessDetails || !observabilityMonitoringReadinessCards || !observabilityMonitoringReadinessBadges || !observabilityMonitoringReadinessDetails || !qaTranscriptRecordingIntakeReadinessCards || !qaTranscriptRecordingIntakeReadinessBadges || !qaTranscriptRecordingIntakeReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3362,6 +3374,9 @@ function renderRouteReadiness() {
     observabilityMonitoringReadinessCards.innerHTML = '<div class="muted small">Observability &amp; Monitoring readiness status not loaded.</div>';
     observabilityMonitoringReadinessBadges.innerHTML = '';
     observabilityMonitoringReadinessDetails.innerHTML = '<div class="muted small">Observability &amp; Monitoring readiness details not loaded.</div>';
+    qaTranscriptRecordingIntakeReadinessCards.innerHTML = '<div class="muted small">QA Transcript / Recording Intake readiness status not loaded.</div>';
+    qaTranscriptRecordingIntakeReadinessBadges.innerHTML = '';
+    qaTranscriptRecordingIntakeReadinessDetails.innerHTML = '<div class="muted small">QA Transcript / Recording Intake readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -10509,6 +10524,114 @@ function renderRouteReadiness() {
   observabilityMonitoringReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${observabilityMonitoringDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const qaTranscriptRecordingIntake = report.qaTranscriptRecordingIntakeReadiness || {};
+  const qaTranscriptRecordingIntakeReadinessCardsData = [
+    ['Current state', qaTranscriptRecordingIntake.currentState || 'not_ready'],
+    ['QA intake approved', qaTranscriptRecordingIntake.qaTranscriptRecordingIntakeApproved ? 'yes' : 'no'],
+    ['QA intake mode', qaTranscriptRecordingIntake.qaTranscriptRecordingIntakeMode || 'read_only_design'],
+    ['Tenant-scoped intake', qaTranscriptRecordingIntake.tenantScopedIntakeStatus || 'read_only_design'],
+    ['Campaign-scoped intake', qaTranscriptRecordingIntake.campaignScopedIntakeStatus || 'read_only_design'],
+    ['Inbound intake', qaTranscriptRecordingIntake.inboundIntakeStatus || 'read_only_design'],
+    ['Outbound intake', qaTranscriptRecordingIntake.outboundIntakeStatus || 'read_only_design'],
+    ['AI Agent QA intake', qaTranscriptRecordingIntake.aiAgentQaIntakeStatus || 'read_only_design'],
+    ['Human Agent QA intake', qaTranscriptRecordingIntake.humanAgentQaIntakeStatus || 'read_only_design'],
+    ['AI-handled call intake', qaTranscriptRecordingIntake.aiHandledCallIntakeStatus || 'read_only_design'],
+    ['Human-handled call intake', qaTranscriptRecordingIntake.humanHandledCallIntakeStatus || 'read_only_design'],
+    ['Transferred call intake', qaTranscriptRecordingIntake.transferredCallIntakeStatus || 'read_only_design'],
+    ['Language-aware intake', qaTranscriptRecordingIntake.languageAwareIntakeStatus || 'read_only_design'],
+    ['Consent-aware intake', qaTranscriptRecordingIntake.consentAwareIntakeStatus || 'read_only_design'],
+    ['Recording reference', qaTranscriptRecordingIntake.recordingReferenceStatus || 'read_only_design'],
+    ['Transcript reference', qaTranscriptRecordingIntake.transcriptReferenceStatus || 'read_only_design'],
+    ['QA eligibility dependency', qaTranscriptRecordingIntake.qaEligibilityDependencyStatus || 'read_only_design'],
+    ['Redaction/PII dependency', qaTranscriptRecordingIntake.redactionPiiDependencyStatus || 'read_only_design'],
+    ['Retention dependency', qaTranscriptRecordingIntake.retentionDependencyStatus || 'read_only_design'],
+    ['Transcript storage', qaTranscriptRecordingIntake.transcriptStorageStatus || 'not_implemented'],
+    ['Recording storage', qaTranscriptRecordingIntake.recordingStorageStatus || 'not_implemented'],
+    ['Intake storage', qaTranscriptRecordingIntake.intakeStorageStatus || 'not_implemented'],
+    ['Transcript endpoint', qaTranscriptRecordingIntake.transcriptEndpointStatus || 'not_implemented'],
+    ['Recording endpoint', qaTranscriptRecordingIntake.recordingEndpointStatus || 'not_implemented'],
+    ['Intake runtime', qaTranscriptRecordingIntake.intakeRuntimeStatus || 'not_allowed'],
+    ['Transcript runtime', qaTranscriptRecordingIntake.transcriptRuntimeStatus || 'not_allowed'],
+    ['Recording runtime', qaTranscriptRecordingIntake.recordingRuntimeStatus || 'not_allowed'],
+    ['Transcription runtime', qaTranscriptRecordingIntake.transcriptionRuntimeStatus || 'not_allowed'],
+    ['Recording download runtime', qaTranscriptRecordingIntake.recordingDownloadRuntimeStatus || 'not_allowed'],
+    ['Transcript viewer runtime', qaTranscriptRecordingIntake.transcriptViewerRuntimeStatus || 'not_allowed'],
+    ['Transcript access', qaTranscriptRecordingIntake.transcriptAccessStatus || 'not_allowed'],
+    ['Recording access', qaTranscriptRecordingIntake.recordingAccessStatus || 'not_allowed'],
+    ['Recording download', qaTranscriptRecordingIntake.recordingDownloadStatus || 'not_allowed'],
+    ['Transcript download', qaTranscriptRecordingIntake.transcriptDownloadStatus || 'not_allowed'],
+    ['OpenAI connection', qaTranscriptRecordingIntake.openAiConnectionStatus || 'not_connected'],
+    ['Transcription provider connection', qaTranscriptRecordingIntake.transcriptionProviderConnectionStatus || 'not_connected'],
+    ['Recording provider connection', qaTranscriptRecordingIntake.recordingProviderConnectionStatus || 'not_connected'],
+    ['Storage provider connection', qaTranscriptRecordingIntake.storageProviderConnectionStatus || 'not_connected'],
+    ['Route behavior change', qaTranscriptRecordingIntake.routeBehaviorChangeStatus || 'not_allowed'],
+    ['Intake runtime execution allowed', qaTranscriptRecordingIntake.intakeRuntimeExecutionAllowed ? 'yes' : 'no'],
+  ];
+  qaTranscriptRecordingIntakeReadinessCards.innerHTML = qaTranscriptRecordingIntakeReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  qaTranscriptRecordingIntakeReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only intake design', 'info'),
+    readinessBadge('Tenant scoped', 'info'),
+    readinessBadge('Campaign scoped', 'info'),
+    readinessBadge('Inbound/outbound mapped', 'info'),
+    readinessBadge('AI Agent QA mapped', 'info'),
+    readinessBadge('Human Agent QA mapped', 'info'),
+    readinessBadge('Language aware', 'info'),
+    readinessBadge('Consent aware', 'info'),
+    readinessBadge('Recording references mapped', 'info'),
+    readinessBadge('Transcript references mapped', 'info'),
+    readinessBadge('QA eligibility mapped', 'info'),
+    readinessBadge('Redaction/PII dependency mapped', 'info'),
+    readinessBadge('Retention dependency mapped', 'info'),
+    readinessBadge('RBAC/MFA mapped', 'info'),
+    readinessBadge('Tenant isolation mapped', 'info'),
+    readinessBadge('No transcript access', 'ok'),
+    readinessBadge('No recording access', 'ok'),
+    readinessBadge('No intake runtime', 'ok'),
+    readinessBadge('No runtime controls', 'ok'),
+  ].join('');
+
+  const qaTranscriptRecordingIntakeDetailGroups = [
+    ['Future intake source types', qaTranscriptRecordingIntake.futureIntakeSourceTypes],
+    ['Future intake scope fields', qaTranscriptRecordingIntake.futureIntakeScopeFields],
+    ['Future transcript metadata fields', qaTranscriptRecordingIntake.futureTranscriptMetadataFields],
+    ['Future recording metadata fields', qaTranscriptRecordingIntake.futureRecordingMetadataFields],
+    ['Future intake status values', qaTranscriptRecordingIntake.futureIntakeStatusValues],
+    ['Future QA intake eligibility rules', qaTranscriptRecordingIntake.futureQaIntakeEligibilityRules],
+    ['Future redaction/PII dependency rules', qaTranscriptRecordingIntake.futureRedactionPiiDependencyRules],
+    ['Future retention dependency rules', qaTranscriptRecordingIntake.futureRetentionDependencyRules],
+    ['Future RBAC intake rules', qaTranscriptRecordingIntake.futureRbacIntakeRules],
+    ['Future tenant/campaign isolation rules', qaTranscriptRecordingIntake.futureTenantCampaignIsolationRules],
+    ['Future failure/fallback rules', qaTranscriptRecordingIntake.futureFailureFallbackRules],
+    ['Future observability rules', qaTranscriptRecordingIntake.futureObservabilityRules],
+    ['Future audit/reporting rules', qaTranscriptRecordingIntake.futureAuditReportingRules],
+    ['Future usage/cost dependency rules', qaTranscriptRecordingIntake.futureUsageCostDependencyRules],
+    ['Future provider abstraction dependency rules', qaTranscriptRecordingIntake.futureProviderAbstractionDependencyRules],
+    ['Future QA workflow dependency rules', qaTranscriptRecordingIntake.futureQaWorkflowDependencyRules],
+    ['Future middleware core dependency rules', qaTranscriptRecordingIntake.futureMiddlewareCoreDependencyRules],
+    ['Future runtime boundaries', qaTranscriptRecordingIntake.futureRuntimeBoundaries],
+    ['Prohibited current actions', qaTranscriptRecordingIntake.prohibitedCurrentActions],
+    ['Next steps', qaTranscriptRecordingIntake.nextSteps],
+  ];
+  qaTranscriptRecordingIntakeReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${qaTranscriptRecordingIntakeDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>

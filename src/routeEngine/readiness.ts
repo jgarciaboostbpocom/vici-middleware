@@ -4496,6 +4496,233 @@ export type ObservabilityMonitoringReadiness = {
   nextSteps: string[];
 };
 
+export type QaTranscriptRecordingIntakeReadiness = {
+  currentState: 'not_ready';
+  qaTranscriptRecordingIntakeApproved: false;
+  qaTranscriptRecordingIntakeMode: 'read_only_design';
+  tenantScopedIntakeStatus: 'read_only_design';
+  campaignScopedIntakeStatus: 'read_only_design';
+  inboundIntakeStatus: 'read_only_design';
+  outboundIntakeStatus: 'read_only_design';
+  aiAgentQaIntakeStatus: 'read_only_design';
+  humanAgentQaIntakeStatus: 'read_only_design';
+  aiHandledCallIntakeStatus: 'read_only_design';
+  humanHandledCallIntakeStatus: 'read_only_design';
+  transferredCallIntakeStatus: 'read_only_design';
+  languageAwareIntakeStatus: 'read_only_design';
+  consentAwareIntakeStatus: 'read_only_design';
+  recordingReferenceStatus: 'read_only_design';
+  transcriptReferenceStatus: 'read_only_design';
+  transcriptionProviderOutputStatus: 'read_only_design';
+  recordingAvailabilityStatus: 'read_only_design';
+  transcriptAvailabilityStatus: 'read_only_design';
+  transcriptQualityStatus: 'read_only_design';
+  speakerDiarizationStatus: 'read_only_design';
+  channelSeparationStatus: 'read_only_design';
+  qaEligibilityDependencyStatus: 'read_only_design';
+  qaScorecardDependencyStatus: 'read_only_design';
+  redactionPiiDependencyStatus: 'read_only_design';
+  retentionDependencyStatus: 'read_only_design';
+  usageCostDependencyStatus: 'read_only_design';
+  providerAbstractionDependencyStatus: 'read_only_design';
+  observabilityDependencyStatus: 'read_only_design';
+  failureFallbackDependencyStatus: 'read_only_design';
+  rbacIntakeControlStatus: 'read_only_design';
+  tenantIsolationStatus: 'read_only_design';
+  campaignIsolationStatus: 'read_only_design';
+  mfaStepUpForMediaAccessStatus: 'read_only_design';
+  auditCorrelationStatus: 'read_only_design';
+  middlewareCoreDependencyStatus: 'read_only_design';
+  transcriptStorageStatus: 'not_implemented';
+  recordingStorageStatus: 'not_implemented';
+  audioStorageStatus: 'not_implemented';
+  mediaStorageStatus: 'not_implemented';
+  objectStorageStatus: 'not_implemented';
+  intakeStorageStatus: 'not_implemented';
+  ingestionStorageStatus: 'not_implemented';
+  recordingReferenceStorageStatus: 'not_implemented';
+  transcriptReferenceStorageStatus: 'not_implemented';
+  qaIntakeStorageStatus: 'not_implemented';
+  transcriptJobStorageStatus: 'not_implemented';
+  transcriptionJobStorageStatus: 'not_implemented';
+  mediaProcessingStorageStatus: 'not_implemented';
+  redactionStorageStatus: 'not_implemented';
+  piiStorageStatus: 'not_implemented';
+  retentionStorageStatus: 'not_implemented';
+  exportStorageStatus: 'not_implemented';
+  intakeEndpointStatus: 'not_implemented';
+  ingestionEndpointStatus: 'not_implemented';
+  transcriptEndpointStatus: 'not_implemented';
+  recordingEndpointStatus: 'not_implemented';
+  mediaEndpointStatus: 'not_implemented';
+  qaIntakeEndpointStatus: 'not_implemented';
+  exportEndpointStatus: 'not_implemented';
+  intakeCrudStatus: 'not_implemented';
+  transcriptCrudStatus: 'not_implemented';
+  recordingCrudStatus: 'not_implemented';
+  mediaCrudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  intakeRuntimeStatus: 'not_allowed';
+  ingestionRuntimeStatus: 'not_allowed';
+  transcriptRuntimeStatus: 'not_allowed';
+  recordingRuntimeStatus: 'not_allowed';
+  transcriptionRuntimeStatus: 'not_allowed';
+  mediaProcessingRuntimeStatus: 'not_allowed';
+  recordingDownloadRuntimeStatus: 'not_allowed';
+  transcriptDownloadRuntimeStatus: 'not_allowed';
+  recordingPlaybackRuntimeStatus: 'not_allowed';
+  transcriptViewerRuntimeStatus: 'not_allowed';
+  recordingViewerRuntimeStatus: 'not_allowed';
+  audioPlayerRuntimeStatus: 'not_allowed';
+  fileUploadRuntimeStatus: 'not_allowed';
+  fileDownloadRuntimeStatus: 'not_allowed';
+  redactionRuntimeStatus: 'not_allowed';
+  piiDetectionRuntimeStatus: 'not_allowed';
+  retentionRuntimeStatus: 'not_allowed';
+  exportRuntimeStatus: 'not_allowed';
+  qaEvaluationRuntimeStatus: 'not_allowed';
+  qaScoringRuntimeStatus: 'not_allowed';
+  reportRuntimeStatus: 'not_allowed';
+  liveCallQueryStatus: 'not_allowed';
+  liveLogTailStatus: 'not_allowed';
+  productionLogReadStatus: 'not_allowed';
+  transcriptAccessStatus: 'not_allowed';
+  recordingAccessStatus: 'not_allowed';
+  recordingDownloadStatus: 'not_allowed';
+  transcriptDownloadStatus: 'not_allowed';
+  realTranscriptParsingStatus: 'not_allowed';
+  realRecordingParsingStatus: 'not_allowed';
+  audioTranscriptionStatus: 'not_allowed';
+  fileUploadStatus: 'not_allowed';
+  fileExportStatus: 'not_allowed';
+  credentialAccessStatus: 'not_allowed';
+  piiAccessStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  llmProviderConnectionStatus: 'not_connected';
+  voiceProviderConnectionStatus: 'not_connected';
+  transcriptionProviderConnectionStatus: 'not_connected';
+  recordingProviderConnectionStatus: 'not_connected';
+  storageProviderConnectionStatus: 'not_connected';
+  objectStorageProviderConnectionStatus: 'not_connected';
+  monitoringProviderConnectionStatus: 'not_connected';
+  aiVoiceStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  asteriskModificationStatus: 'not_allowed';
+  vicidialModificationStatus: 'not_allowed';
+  dialplanModificationStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  transcriptStorageAllowed: false;
+  recordingStorageAllowed: false;
+  audioStorageAllowed: false;
+  mediaStorageAllowed: false;
+  objectStorageAllowed: false;
+  intakeStorageAllowed: false;
+  ingestionStorageAllowed: false;
+  recordingReferenceStorageAllowed: false;
+  transcriptReferenceStorageAllowed: false;
+  qaIntakeStorageAllowed: false;
+  transcriptJobStorageAllowed: false;
+  transcriptionJobStorageAllowed: false;
+  mediaProcessingStorageAllowed: false;
+  redactionStorageAllowed: false;
+  piiStorageAllowed: false;
+  retentionStorageAllowed: false;
+  exportStorageAllowed: false;
+  intakeEndpointAllowed: false;
+  ingestionEndpointAllowed: false;
+  transcriptEndpointAllowed: false;
+  recordingEndpointAllowed: false;
+  mediaEndpointAllowed: false;
+  qaIntakeEndpointAllowed: false;
+  exportEndpointAllowed: false;
+  intakeCrudAllowed: false;
+  transcriptCrudAllowed: false;
+  recordingCrudAllowed: false;
+  mediaCrudAllowed: false;
+  migrationAllowed: false;
+  intakeRuntimeAllowed: false;
+  ingestionRuntimeAllowed: false;
+  transcriptRuntimeAllowed: false;
+  recordingRuntimeAllowed: false;
+  transcriptionRuntimeAllowed: false;
+  mediaProcessingRuntimeAllowed: false;
+  recordingDownloadRuntimeAllowed: false;
+  transcriptDownloadRuntimeAllowed: false;
+  recordingPlaybackRuntimeAllowed: false;
+  transcriptViewerRuntimeAllowed: false;
+  recordingViewerRuntimeAllowed: false;
+  audioPlayerRuntimeAllowed: false;
+  fileUploadRuntimeAllowed: false;
+  fileDownloadRuntimeAllowed: false;
+  redactionRuntimeAllowed: false;
+  piiDetectionRuntimeAllowed: false;
+  retentionRuntimeAllowed: false;
+  exportRuntimeAllowed: false;
+  qaEvaluationRuntimeAllowed: false;
+  qaScoringRuntimeAllowed: false;
+  reportRuntimeAllowed: false;
+  liveCallQueryAllowed: false;
+  liveLogTailAllowed: false;
+  productionLogReadAllowed: false;
+  transcriptAccessAllowed: false;
+  recordingAccessAllowed: false;
+  recordingDownloadAllowed: false;
+  transcriptDownloadAllowed: false;
+  realTranscriptParsingAllowed: false;
+  realRecordingParsingAllowed: false;
+  audioTranscriptionAllowed: false;
+  fileUploadAllowed: false;
+  fileExportAllowed: false;
+  credentialAccessAllowed: false;
+  piiAccessAllowed: false;
+  openAiConnectionAllowed: false;
+  openAiRuntimeAllowed: false;
+  realtimeSessionAllowed: false;
+  llmProviderConnectionAllowed: false;
+  voiceProviderConnectionAllowed: false;
+  transcriptionProviderConnectionAllowed: false;
+  recordingProviderConnectionAllowed: false;
+  storageProviderConnectionAllowed: false;
+  objectStorageProviderConnectionAllowed: false;
+  monitoringProviderConnectionAllowed: false;
+  aiVoiceAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  asteriskModificationAllowed: false;
+  vicidialModificationAllowed: false;
+  dialplanModificationAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  realCredentialAllowed: false;
+  realPiiAllowed: false;
+  realCallAllowed: false;
+  intakeRuntimeExecutionAllowed: false;
+  futureIntakeSourceTypes: string[];
+  futureIntakeScopeFields: string[];
+  futureTranscriptMetadataFields: string[];
+  futureRecordingMetadataFields: string[];
+  futureIntakeStatusValues: string[];
+  futureQaIntakeEligibilityRules: string[];
+  futureRedactionPiiDependencyRules: string[];
+  futureRetentionDependencyRules: string[];
+  futureRbacIntakeRules: string[];
+  futureTenantCampaignIsolationRules: string[];
+  futureFailureFallbackRules: string[];
+  futureObservabilityRules: string[];
+  futureAuditReportingRules: string[];
+  futureUsageCostDependencyRules: string[];
+  futureProviderAbstractionDependencyRules: string[];
+  futureQaWorkflowDependencyRules: string[];
+  futureMiddlewareCoreDependencyRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -4570,6 +4797,7 @@ export type RouteReadinessReport = {
   humanHandoffSlaReadiness: HumanHandoffSlaReadiness;
   providerAbstractionReadiness: ProviderAbstractionReadiness;
   observabilityMonitoringReadiness: ObservabilityMonitoringReadiness;
+  qaTranscriptRecordingIntakeReadiness: QaTranscriptRecordingIntakeReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -18641,6 +18869,552 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const qaTranscriptRecordingIntakeReadiness: QaTranscriptRecordingIntakeReadiness = {
+    currentState: 'not_ready',
+    qaTranscriptRecordingIntakeApproved: false,
+    qaTranscriptRecordingIntakeMode: 'read_only_design',
+    tenantScopedIntakeStatus: 'read_only_design',
+    campaignScopedIntakeStatus: 'read_only_design',
+    inboundIntakeStatus: 'read_only_design',
+    outboundIntakeStatus: 'read_only_design',
+    aiAgentQaIntakeStatus: 'read_only_design',
+    humanAgentQaIntakeStatus: 'read_only_design',
+    aiHandledCallIntakeStatus: 'read_only_design',
+    humanHandledCallIntakeStatus: 'read_only_design',
+    transferredCallIntakeStatus: 'read_only_design',
+    languageAwareIntakeStatus: 'read_only_design',
+    consentAwareIntakeStatus: 'read_only_design',
+    recordingReferenceStatus: 'read_only_design',
+    transcriptReferenceStatus: 'read_only_design',
+    transcriptionProviderOutputStatus: 'read_only_design',
+    recordingAvailabilityStatus: 'read_only_design',
+    transcriptAvailabilityStatus: 'read_only_design',
+    transcriptQualityStatus: 'read_only_design',
+    speakerDiarizationStatus: 'read_only_design',
+    channelSeparationStatus: 'read_only_design',
+    qaEligibilityDependencyStatus: 'read_only_design',
+    qaScorecardDependencyStatus: 'read_only_design',
+    redactionPiiDependencyStatus: 'read_only_design',
+    retentionDependencyStatus: 'read_only_design',
+    usageCostDependencyStatus: 'read_only_design',
+    providerAbstractionDependencyStatus: 'read_only_design',
+    observabilityDependencyStatus: 'read_only_design',
+    failureFallbackDependencyStatus: 'read_only_design',
+    rbacIntakeControlStatus: 'read_only_design',
+    tenantIsolationStatus: 'read_only_design',
+    campaignIsolationStatus: 'read_only_design',
+    mfaStepUpForMediaAccessStatus: 'read_only_design',
+    auditCorrelationStatus: 'read_only_design',
+    middlewareCoreDependencyStatus: 'read_only_design',
+    transcriptStorageStatus: 'not_implemented',
+    recordingStorageStatus: 'not_implemented',
+    audioStorageStatus: 'not_implemented',
+    mediaStorageStatus: 'not_implemented',
+    objectStorageStatus: 'not_implemented',
+    intakeStorageStatus: 'not_implemented',
+    ingestionStorageStatus: 'not_implemented',
+    recordingReferenceStorageStatus: 'not_implemented',
+    transcriptReferenceStorageStatus: 'not_implemented',
+    qaIntakeStorageStatus: 'not_implemented',
+    transcriptJobStorageStatus: 'not_implemented',
+    transcriptionJobStorageStatus: 'not_implemented',
+    mediaProcessingStorageStatus: 'not_implemented',
+    redactionStorageStatus: 'not_implemented',
+    piiStorageStatus: 'not_implemented',
+    retentionStorageStatus: 'not_implemented',
+    exportStorageStatus: 'not_implemented',
+    intakeEndpointStatus: 'not_implemented',
+    ingestionEndpointStatus: 'not_implemented',
+    transcriptEndpointStatus: 'not_implemented',
+    recordingEndpointStatus: 'not_implemented',
+    mediaEndpointStatus: 'not_implemented',
+    qaIntakeEndpointStatus: 'not_implemented',
+    exportEndpointStatus: 'not_implemented',
+    intakeCrudStatus: 'not_implemented',
+    transcriptCrudStatus: 'not_implemented',
+    recordingCrudStatus: 'not_implemented',
+    mediaCrudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    intakeRuntimeStatus: 'not_allowed',
+    ingestionRuntimeStatus: 'not_allowed',
+    transcriptRuntimeStatus: 'not_allowed',
+    recordingRuntimeStatus: 'not_allowed',
+    transcriptionRuntimeStatus: 'not_allowed',
+    mediaProcessingRuntimeStatus: 'not_allowed',
+    recordingDownloadRuntimeStatus: 'not_allowed',
+    transcriptDownloadRuntimeStatus: 'not_allowed',
+    recordingPlaybackRuntimeStatus: 'not_allowed',
+    transcriptViewerRuntimeStatus: 'not_allowed',
+    recordingViewerRuntimeStatus: 'not_allowed',
+    audioPlayerRuntimeStatus: 'not_allowed',
+    fileUploadRuntimeStatus: 'not_allowed',
+    fileDownloadRuntimeStatus: 'not_allowed',
+    redactionRuntimeStatus: 'not_allowed',
+    piiDetectionRuntimeStatus: 'not_allowed',
+    retentionRuntimeStatus: 'not_allowed',
+    exportRuntimeStatus: 'not_allowed',
+    qaEvaluationRuntimeStatus: 'not_allowed',
+    qaScoringRuntimeStatus: 'not_allowed',
+    reportRuntimeStatus: 'not_allowed',
+    liveCallQueryStatus: 'not_allowed',
+    liveLogTailStatus: 'not_allowed',
+    productionLogReadStatus: 'not_allowed',
+    transcriptAccessStatus: 'not_allowed',
+    recordingAccessStatus: 'not_allowed',
+    recordingDownloadStatus: 'not_allowed',
+    transcriptDownloadStatus: 'not_allowed',
+    realTranscriptParsingStatus: 'not_allowed',
+    realRecordingParsingStatus: 'not_allowed',
+    audioTranscriptionStatus: 'not_allowed',
+    fileUploadStatus: 'not_allowed',
+    fileExportStatus: 'not_allowed',
+    credentialAccessStatus: 'not_allowed',
+    piiAccessStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    llmProviderConnectionStatus: 'not_connected',
+    voiceProviderConnectionStatus: 'not_connected',
+    transcriptionProviderConnectionStatus: 'not_connected',
+    recordingProviderConnectionStatus: 'not_connected',
+    storageProviderConnectionStatus: 'not_connected',
+    objectStorageProviderConnectionStatus: 'not_connected',
+    monitoringProviderConnectionStatus: 'not_connected',
+    aiVoiceStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    asteriskModificationStatus: 'not_allowed',
+    vicidialModificationStatus: 'not_allowed',
+    dialplanModificationStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    transcriptStorageAllowed: false,
+    recordingStorageAllowed: false,
+    audioStorageAllowed: false,
+    mediaStorageAllowed: false,
+    objectStorageAllowed: false,
+    intakeStorageAllowed: false,
+    ingestionStorageAllowed: false,
+    recordingReferenceStorageAllowed: false,
+    transcriptReferenceStorageAllowed: false,
+    qaIntakeStorageAllowed: false,
+    transcriptJobStorageAllowed: false,
+    transcriptionJobStorageAllowed: false,
+    mediaProcessingStorageAllowed: false,
+    redactionStorageAllowed: false,
+    piiStorageAllowed: false,
+    retentionStorageAllowed: false,
+    exportStorageAllowed: false,
+    intakeEndpointAllowed: false,
+    ingestionEndpointAllowed: false,
+    transcriptEndpointAllowed: false,
+    recordingEndpointAllowed: false,
+    mediaEndpointAllowed: false,
+    qaIntakeEndpointAllowed: false,
+    exportEndpointAllowed: false,
+    intakeCrudAllowed: false,
+    transcriptCrudAllowed: false,
+    recordingCrudAllowed: false,
+    mediaCrudAllowed: false,
+    migrationAllowed: false,
+    intakeRuntimeAllowed: false,
+    ingestionRuntimeAllowed: false,
+    transcriptRuntimeAllowed: false,
+    recordingRuntimeAllowed: false,
+    transcriptionRuntimeAllowed: false,
+    mediaProcessingRuntimeAllowed: false,
+    recordingDownloadRuntimeAllowed: false,
+    transcriptDownloadRuntimeAllowed: false,
+    recordingPlaybackRuntimeAllowed: false,
+    transcriptViewerRuntimeAllowed: false,
+    recordingViewerRuntimeAllowed: false,
+    audioPlayerRuntimeAllowed: false,
+    fileUploadRuntimeAllowed: false,
+    fileDownloadRuntimeAllowed: false,
+    redactionRuntimeAllowed: false,
+    piiDetectionRuntimeAllowed: false,
+    retentionRuntimeAllowed: false,
+    exportRuntimeAllowed: false,
+    qaEvaluationRuntimeAllowed: false,
+    qaScoringRuntimeAllowed: false,
+    reportRuntimeAllowed: false,
+    liveCallQueryAllowed: false,
+    liveLogTailAllowed: false,
+    productionLogReadAllowed: false,
+    transcriptAccessAllowed: false,
+    recordingAccessAllowed: false,
+    recordingDownloadAllowed: false,
+    transcriptDownloadAllowed: false,
+    realTranscriptParsingAllowed: false,
+    realRecordingParsingAllowed: false,
+    audioTranscriptionAllowed: false,
+    fileUploadAllowed: false,
+    fileExportAllowed: false,
+    credentialAccessAllowed: false,
+    piiAccessAllowed: false,
+    openAiConnectionAllowed: false,
+    openAiRuntimeAllowed: false,
+    realtimeSessionAllowed: false,
+    llmProviderConnectionAllowed: false,
+    voiceProviderConnectionAllowed: false,
+    transcriptionProviderConnectionAllowed: false,
+    recordingProviderConnectionAllowed: false,
+    storageProviderConnectionAllowed: false,
+    objectStorageProviderConnectionAllowed: false,
+    monitoringProviderConnectionAllowed: false,
+    aiVoiceAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    asteriskModificationAllowed: false,
+    vicidialModificationAllowed: false,
+    dialplanModificationAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    realCredentialAllowed: false,
+    realPiiAllowed: false,
+    realCallAllowed: false,
+    intakeRuntimeExecutionAllowed: false,
+    futureIntakeSourceTypes: [
+      'Vicidial recording reference',
+      'Asterisk recording reference',
+      'carrier recording reference',
+      'voice provider recording reference',
+      'AI Voice session recording reference',
+      'transcription provider transcript reference',
+      'AI-generated transcript reference',
+      'human call transcript reference',
+      'uploaded audio reference',
+      'external QA platform audio reference',
+      'external QA platform transcript reference',
+      'call metadata event',
+      'route engine call context',
+      'QA sampling eligible call reference',
+      'manual QA review reference',
+      'imported historical call reference',
+    ],
+    futureIntakeScopeFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'callId',
+      'vicidialCallId',
+      'asteriskUniqueId',
+      'routeDecisionId',
+      'auditCorrelationId',
+      'callDirection',
+      'routeType',
+      'agentType',
+      'aiAgentId',
+      'humanAgentId',
+      'supervisorId',
+      'qaReviewerId',
+      'did',
+      'leadIdReference',
+      'customerIdReference',
+      'phoneNumberReference',
+      'recordingReferenceId',
+      'transcriptReferenceId',
+      'transcriptionJobReferenceId',
+      'recordingProviderReference',
+      'transcriptionProviderReference',
+      'storageProviderReference',
+      'language',
+      'languageSource',
+      'disclosureStatus',
+      'consentStatus',
+      'recordingConsentStatus',
+      'transcriptionConsentStatus',
+      'callStartTime',
+      'callEndTime',
+      'callDurationSeconds',
+      'talkTimeSeconds',
+      'holdTimeSeconds',
+      'queueWaitSeconds',
+      'handoffOccurred',
+      'handoffReason',
+      'disposition',
+      'callOutcome',
+      'qaEligible',
+      'qaEligibilityReason',
+      'samplingRuleId',
+      'scorecardId',
+      'scorecardVersion',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'providerPolicyVersion',
+      'retentionPolicyId',
+      'redactionPolicyId',
+      'piiSafeReference',
+      'transcriptQualityStatus',
+      'recordingAvailabilityStatus',
+      'transcriptAvailabilityStatus',
+      'mediaProcessingStatus',
+      'intakeStatus',
+    ],
+    futureTranscriptMetadataFields: [
+      'transcriptReferenceId',
+      'transcriptSource',
+      'transcriptProvider',
+      'transcriptProviderVersion',
+      'transcriptLanguage',
+      'transcriptLanguageConfidence',
+      'transcriptCreatedAt',
+      'transcriptDurationSeconds',
+      'transcriptWordCount',
+      'transcriptSpeakerCount',
+      'transcriptHasSpeakerDiarization',
+      'transcriptHasChannelSeparation',
+      'transcriptHasTimestamps',
+      'transcriptHasConfidenceScores',
+      'transcriptHasRedaction',
+      'transcriptRedactionStatus',
+      'transcriptPiiRiskStatus',
+      'transcriptQualityStatus',
+      'transcriptCompletenessStatus',
+      'transcriptPartialReason',
+      'transcriptErrorCode',
+      'transcriptErrorCategory',
+      'transcriptRetryCount',
+      'transcriptFallbackProviderUsed',
+      'transcriptRetentionPolicyId',
+      'transcriptAccessPolicyId',
+      'transcriptAuditCorrelationId',
+    ],
+    futureRecordingMetadataFields: [
+      'recordingReferenceId',
+      'recordingSource',
+      'recordingProvider',
+      'recordingProviderVersion',
+      'recordingFormat',
+      'recordingCodec',
+      'recordingDurationSeconds',
+      'recordingSizeReference',
+      'recordingChannels',
+      'recordingSampleRate',
+      'recordingCreatedAt',
+      'recordingAvailabilityStatus',
+      'recordingAccessStatus',
+      'recordingPlaybackAllowed',
+      'recordingDownloadAllowed',
+      'recordingTranscriptionAllowed',
+      'recordingRetentionPolicyId',
+      'recordingConsentStatus',
+      'recordingEncryptionStatus',
+      'recordingStorageRegion',
+      'recordingPiiRiskStatus',
+      'recordingErrorCode',
+      'recordingErrorCategory',
+      'recordingAuditCorrelationId',
+    ],
+    futureIntakeStatusValues: [
+      'not_ready',
+      'reference_only',
+      'pending_future_intake',
+      'intake_not_allowed',
+      'recording_reference_available',
+      'recording_reference_missing',
+      'transcript_reference_available',
+      'transcript_reference_missing',
+      'transcript_pending_future_generation',
+      'transcript_unavailable',
+      'recording_unavailable',
+      'consent_required',
+      'consent_missing',
+      'language_unknown',
+      'redaction_required',
+      'retention_policy_required',
+      'qa_eligible',
+      'qa_ineligible',
+      'manual_review_required',
+      'provider_unavailable',
+      'failed_reference_validation',
+      'failed_tenant_scope_validation',
+      'failed_campaign_scope_validation',
+      'failed_rbac_validation',
+    ],
+    futureQaIntakeEligibilityRules: [
+      'call must belong to authorized tenant',
+      'call must belong to authorized campaign',
+      'campaign must have QA enabled',
+      'call direction must be eligible',
+      'agent type must be eligible',
+      'disposition must be eligible',
+      'duration must meet campaign threshold',
+      'recording reference must be available when required',
+      'transcript reference must be available when required',
+      'consent/disclosure must satisfy campaign policy',
+      'language must be supported by campaign QA',
+      'scorecard must be available for campaign/program/language/agent type',
+      'sampling rule must select the call or manual review must request it',
+      'call must not be excluded by non-reviewable rules',
+      'transcript or recording must pass future privacy/redaction policy',
+      'RBAC must allow the viewer/reviewer within tenant/campaign scope',
+      'retention policy must allow future review',
+      'QA must not bypass middleware route context',
+    ],
+    futureRedactionPiiDependencyRules: [
+      'raw transcripts must not be exposed before redaction policy is satisfied',
+      'raw recordings must not be exposed through readiness payloads',
+      'PII-sensitive values must use references or masked values',
+      'redaction policy must be campaign/client scoped',
+      'transcript redaction status must be tracked in future metadata',
+      'recording PII risk status must be tracked in future metadata',
+      'QA reviewers may see only role-authorized transcript/recording references',
+      'exports must be blocked until future export policy is approved',
+      'PII retention must follow future retention rules',
+      'no redaction or PII runtime is implemented in this readiness phase',
+    ],
+    futureRetentionDependencyRules: [
+      'transcript retention must be campaign/client scoped',
+      'recording retention must be campaign/client scoped',
+      'retention policy must define review window',
+      'retention policy must define deletion/anonymization behavior',
+      'retention policy must define export window',
+      'retention policy must define audit retention behavior',
+      'retained sensitive objects must use references in readiness payloads',
+      'expired references must be marked unavailable in future implementation',
+      'no retention runtime is implemented in this readiness phase',
+    ],
+    futureRbacIntakeRules: [
+      'super_admin can view global readiness only, not raw media in this phase',
+      'authorized internal admin can view assigned campaign intake readiness only',
+      'client_admin can view assigned client/campaign intake readiness only if permission allows',
+      'QA manager can view QA intake readiness only within assigned scope',
+      'QA reviewer can view assigned QA intake metadata only in future implementation',
+      'supervisor can view assigned campaign call intake metadata only if permission allows',
+      'restricted users cannot view transcript/recording intake details unless explicitly allowed',
+      'raw transcript access may require MFA/step-up in a future implementation',
+      'raw recording access may require MFA/step-up in a future implementation',
+      'export/download/playback may require MFA/step-up in a future implementation',
+      'retention override may require MFA/step-up in a future implementation',
+    ],
+    futureTenantCampaignIsolationRules: [
+      'client A must not see client B transcript references',
+      'client A must not see client B recording references',
+      'client A must not see client B call metadata',
+      'client A must not see client B QA intake metadata',
+      'campaign A must not see campaign B transcript references',
+      'campaign A must not see campaign B recording references',
+      'campaign A must not see campaign B call metadata',
+      'campaign A must not see campaign B QA eligibility metadata',
+      'AI agent references, human agent references, lead references, customer references, transcript references, recording references, QA flags, scorecard IDs, prompt versions, KB versions, provider references, retention references, redaction references, or audit events must not cross tenant/campaign boundaries',
+    ],
+    futureFailureFallbackRules: [
+      'transcript missing',
+      'recording missing',
+      'recording reference invalid',
+      'transcript reference invalid',
+      'transcription provider unavailable',
+      'recording provider unavailable',
+      'storage provider unavailable',
+      'transcript quality low',
+      'transcript incomplete',
+      'language mismatch',
+      'speaker diarization unavailable',
+      'channel separation unavailable',
+      'consent missing',
+      'redaction required',
+      'retention policy missing',
+      'RBAC denied',
+      'tenant scope mismatch',
+      'campaign scope mismatch',
+      'QA scorecard missing',
+      'QA eligibility failed',
+      'provider timeout',
+      'manual review required',
+      'mark call non-reviewable',
+      'preserve audit context',
+    ],
+    futureObservabilityRules: [
+      'intake reference validation status',
+      'transcript reference availability',
+      'recording reference availability',
+      'transcript quality status',
+      'recording availability status',
+      'redaction dependency status',
+      'retention dependency status',
+      'QA eligibility status',
+      'intake failure rate',
+      'transcript missing rate',
+      'recording missing rate',
+      'transcription provider failure rate',
+      'recording provider failure rate',
+      'language mismatch rate',
+      'tenant isolation validation failures',
+      'RBAC denial rate',
+      'manual review rate',
+      'QA backlog dependency',
+      'audit correlation coverage',
+    ],
+    futureAuditReportingRules: [
+      'intake readiness viewed',
+      'intake metadata created in future implementation',
+      'transcript reference attached in future implementation',
+      'recording reference attached in future implementation',
+      'transcript generated in future implementation',
+      'recording reference validated in future implementation',
+      'transcript reference validated in future implementation',
+      'QA eligibility evaluated in future implementation',
+      'redaction status checked in future implementation',
+      'retention status checked in future implementation',
+      'transcript access requested in future implementation',
+      'recording access requested in future implementation',
+      'transcript access denied in future implementation',
+      'recording access denied in future implementation',
+      'export requested in future implementation',
+      'playback requested in future implementation',
+      'RBAC decision',
+      'MFA/step-up result',
+      'tenant/campaign isolation check',
+      'actor/user that changed policy',
+      'approval reference',
+      'timestamp',
+      'auditCorrelationId',
+    ],
+    futureUsageCostDependencyRules: [
+      'Future intake may track transcription, storage, media processing, redaction, retention, QA, and export cost references',
+      'Usage/cost runtime is not implemented in this readiness phase',
+    ],
+    futureProviderAbstractionDependencyRules: [
+      'Future intake may consume provider abstraction policy for transcription, recording, storage, and fallback providers',
+      'Provider runtime is not implemented in this readiness phase',
+    ],
+    futureQaWorkflowDependencyRules: [
+      'Future intake may feed AI Agent QA and Human Agent QA only after QA eligibility, scorecard, redaction, retention, RBAC, and tenant scope requirements pass',
+      'QA evaluation and QA scoring runtime are not implemented in this readiness phase',
+    ],
+    futureMiddlewareCoreDependencyRules: [
+      'Vicidial Middleware remains the source of truth for campaign routing, DID rules, route simulation, shadow mode, local touch, limits, inventory health, and runtime safety',
+      'AI Voice and QA modules must consume middleware context and must not bypass or override middleware core rules without explicit approved runtime activation',
+      'QA intake must respect route context, campaign scope, consent/disclosure, language routing, usage/cost, provider abstraction, observability, failure/fallback, RBAC, tenant isolation, and middleware core safety',
+    ],
+    futureRuntimeBoundaries: [
+      'No transcript, recording, audio, media, object, intake, ingestion, reference, QA intake, transcript job, transcription job, media processing, redaction, PII, retention, or export storage is implemented',
+      'No intake, ingestion, transcript, recording, transcription, media processing, download, playback, viewer, audio player, file upload, file download, redaction, PII detection, retention, export, QA evaluation, QA scoring, or report runtime is implemented',
+      'No live call query, live log tailing, production log reading, transcript access, recording access, download, parsing, transcription, upload, export, credential access, PII access, OpenAI, Realtime, provider connection, AI voice, FastAGI, Asterisk/Vicidial, dialplan, or route behavior runtime is implemented',
+      'The UI must remain read-only and expose no execution controls',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create transcript, recording, recording-reference, intake, ingestion, call media, call metadata, QA intake, transcript intake, recording intake, transcript job, transcription job, media processing, redaction, PII, retention, or export records',
+      'Do not create transcript, recording, audio, media, object, intake, ingestion, QA intake, redaction, PII, retention, or export storage',
+      'Do not create CRUD, endpoints, database tables, or migrations',
+      'Do not create intake, ingestion, transcript, recording, transcription, media processing, download, playback, viewer, audio player, file upload, file download, redaction, PII detection, retention, export, QA evaluation, QA scoring, or report runtime',
+      'Do not access recordings, access transcripts, download recordings, download transcripts, parse real transcripts, parse real recordings, transcribe audio, upload files, export files, tail live logs, read production logs, query live calls, or execute live calls',
+      'Do not connect OpenAI, Realtime, LLM, voice, transcription, recording, storage, object storage, or monitoring providers',
+      'Do not add SDKs, install packages, modify package.json, or modify package-lock.json',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not modify Asterisk, Vicidial, dialplan, route behavior, auth, login, session, or RBAC behavior',
+      'Do not add UI execution controls',
+    ],
+    nextSteps: [
+      'Keep QA Transcript / Recording Intake Readiness read-only, not ready, unapproved, reference-only, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, provider-disconnected, media-access-blocked, download-blocked, upload-blocked, export-blocked, QA-runtime-blocked, telephony-change-blocked, route-change-blocked, and runtime-blocked.',
+      'Define future reference-only intake contracts, transcript metadata, recording metadata, QA eligibility, redaction/PII dependency, retention dependency, RBAC/MFA policy, tenant isolation, observability, audit reporting, and middleware core dependency in a separately approved phase.',
+      'Require explicit approved runtime activation before any module can access transcripts, access recordings, download media, upload files, transcribe audio, run QA scoring, export files, or connect storage/transcription/recording providers.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -19040,6 +19814,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Observability & Monitoring readiness is read-only, not ready, not approved, tenant-scoped, campaign-scoped, provider-aware, route-aware, privacy-safe, RBAC-controlled, auditable, and safe by default; telemetry, metrics, logging, tracing, alerts, incidents, dashboards, health checks, SLA monitoring, provider monitoring, cost monitoring, QA monitoring, call monitoring, DID/route monitoring, security monitoring, tenant isolation monitoring, audit correlation, and middleware core dependency are mapped only. It does not create monitoring storage, telemetry records, metric records, log records, alert records, incident records, dashboard records, endpoints, CRUD, migrations, collectors, monitoring runtimes, Prometheus/Grafana/Datadog/New Relic/Sentry config, monitoring SDKs, package installs, provider connections, notification delivery, OpenAI calls, Realtime sessions, AI voice, FastAGI, live calls, log tailing, production log reads, transcript/recording/credential/PII access, Asterisk/Vicidial changes, dialplan changes, route behavior changes, or UI execution controls.',
     },
+    {
+      id: 'qa-transcript-recording-intake-readiness-read-only',
+      label: 'QA Transcript / Recording Intake readiness read-only',
+      status: 'pass',
+      detail: 'QA Transcript / Recording Intake readiness is read-only, not ready, not approved, tenant-scoped, campaign-scoped, call-direction-aware, agent-type-aware, language-aware, consent-aware, privacy-safe, RBAC-controlled, auditable, and safe by default; recording references, transcript references, call metadata, language metadata, consent/disclosure, QA eligibility, sampling, scorecard selection, prompt/KB versions, provider policy versions, redaction/PII dependency, retention dependency, audit correlation, observability dependency, and middleware core dependency are mapped only. It does not create transcript/recording/media/intake storage, records, endpoints, CRUD, migrations, intake/ingestion/transcript/recording/transcription/media/download/playback/viewer/upload/export/redaction/PII/retention/QA runtime, provider calls, OpenAI calls, Realtime sessions, live calls, live log tailing, production log reading, transcript/recording access, downloads, parsing, transcription, uploads, exports, credential access, raw PII exposure, Asterisk/Vicidial changes, dialplan changes, route behavior changes, or UI execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -19186,6 +19966,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     humanHandoffSlaReadiness,
     providerAbstractionReadiness,
     observabilityMonitoringReadiness,
+    qaTranscriptRecordingIntakeReadiness,
     checklist,
     risks,
     recommendations: [
@@ -19246,6 +20027,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat Human Handoff SLA readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, language-aware, queue-aware, skill-aware, SLA-aware, auditable, safe-by-default AI-to-human handoff, human queue fallback, no-agent behavior, overflow, abandoned handoff, warm-transfer context, cold-transfer policy, screen-pop context, callback/voicemail fallback, escalation, audit, reporting, RBAC, MFA step-up, tenant isolation, and middleware core dependency only and does not create handoff/SLA/queue/skill/escalation/transfer/callback/voicemail/screen-pop/agent-assist/SLA alert/SLA report storage, CRUD, endpoints, migrations, handoff runtime, call transfer runtime, queue routing runtime, skill routing runtime, escalation runtime, callback runtime, voicemail runtime, agent notification runtime, screen-pop runtime, hold-message runtime, whisper-audio runtime, AI-to-human runtime, human-to-AI runtime, agent-assist runtime, SLA timer runtime, SLA alert runtime, SLA report runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, live handoff execution, or UI execution controls.',
       'Treat Provider Abstraction readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-neutral, capability-aware, credential-safe provider abstraction for AI Voice, Realtime, LLM, transcription, recording/reference, QA evaluation, fallback providers, provider capabilities, selection, failover, health, pricing references, usage reconciliation, credential boundaries, RBAC, MFA step-up, tenant isolation, usage/cost dependencies, failure/fallback dependencies, human handoff SLA dependencies, language routing, consent/disclosure, and middleware core dependency only and does not create provider storage, provider config storage, provider credential storage, provider routing storage, provider selection storage, provider capability storage, provider health storage, provider pricing storage, provider usage storage, provider failover storage, CRUD, endpoints, migrations, provider records, adapter runtime, provider selection runtime, provider routing runtime, provider health-check runtime, provider failover runtime, provider pricing fetch runtime, provider usage fetch runtime, provider reconciliation runtime, provider SDKs, package installs, OpenAI connection, Realtime sessions, LLM provider connection, voice provider connection, transcription provider connection, recording provider connection, payment provider connection, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording/credential access, raw PII exposure, provider runtime execution, or UI execution controls.',
       'Treat Observability & Monitoring readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-aware, route-aware, privacy-safe monitoring for telemetry, metrics, logging, tracing, alerts, incidents, dashboards, health checks, SLA monitoring, provider monitoring, usage/cost monitoring, QA monitoring, call monitoring, DID and route monitoring, security monitoring, RBAC, tenant isolation, audit correlation, usage/cost dependencies, failure/fallback dependencies, provider abstraction dependencies, human handoff dependencies, QA dependencies, and middleware core dependency only and does not create telemetry storage, metric storage, log storage, trace storage, alert storage, incident storage, dashboard storage, monitor storage, health-check storage, audit storage, monitoring CRUD, endpoints, migrations, collectors, telemetry runtime, metrics runtime, logging runtime, tracing runtime, alert runtime, incident runtime, dashboard runtime, monitor runtime, health-check runtime, SLA/provider/cost/QA/call monitoring runtime, Prometheus/Grafana/Datadog/New Relic/Sentry config, monitoring SDKs, package installs, monitoring provider connections, alerting provider connections, webhook provider connections, notification delivery, live log tailing, production log reading, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording/credential access, raw PII exposure, monitoring runtime execution, or UI execution controls.',
+      'Treat QA Transcript / Recording Intake readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, call-direction-aware, agent-type-aware, language-aware, consent-aware, privacy-safe intake for AI Agent QA and Human Agent QA using recording references, transcript references, call metadata, language metadata, consent/disclosure, QA eligibility, sampling rules, scorecards, prompt/KB versions, provider policy versions, redaction/PII dependency, retention dependency, usage/cost dependency, provider abstraction dependency, observability dependency, failure/fallback dependency, audit correlation, RBAC/MFA, tenant isolation, and middleware core dependency only and does not create transcript storage, recording storage, audio storage, media storage, object storage, intake storage, CRUD, endpoints, migrations, intake runtime, ingestion runtime, transcript runtime, recording runtime, transcription runtime, media processing runtime, download runtime, playback runtime, viewer runtime, audio player runtime, file upload/download runtime, redaction runtime, PII detection runtime, retention runtime, export runtime, QA evaluation runtime, QA scoring runtime, report runtime, provider connections, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, live log tailing, production log reading, transcript/recording access, downloads, parsing, transcription, uploads, exports, credential access, raw PII exposure, intake runtime execution, or UI execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
