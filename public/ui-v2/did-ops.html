@@ -1116,6 +1116,15 @@
                   <div class="muted small">Loading Human Handoff SLA readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Provider Abstraction Readiness</h2>
+                  <span class="muted small">Read-only provider abstraction design status for future tenant-scoped, campaign-scoped, capability-aware, credential-safe, provider-neutral, auditable, and safe-by-default provider planning across AI Voice, Realtime, LLM, transcription, recording references, QA evaluation, fallback providers, capabilities, selection, failover, health, pricing references, usage reconciliation, RBAC, MFA, tenant isolation, and middleware core dependency. This does not create provider records, provider configuration records, provider credential records, storage, CRUD, endpoints, migrations, provider adapters, provider SDK usage, provider selection runtime, provider routing runtime, provider health-check runtime, provider failover runtime, provider pricing fetch runtime, provider usage fetch runtime, provider reconciliation runtime, provider calls, OpenAI connection, Realtime sessions, AI voice execution, FastAGI, live calls, transcript/recording access, credential access, raw PII exposure, Asterisk/Vicidial changes, dialplan changes, route behavior changes, or UI execution controls.</span>
+                </div>
+                <div class="summary-grid" id="providerAbstractionReadinessCards"></div>
+                <div class="row" id="providerAbstractionReadinessBadges" style="margin-top:12px"></div>
+                <div id="providerAbstractionReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading Provider Abstraction readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3164,10 +3173,13 @@ function renderRouteReadiness() {
   const humanHandoffSlaReadinessCards = $('#humanHandoffSlaReadinessCards');
   const humanHandoffSlaReadinessBadges = $('#humanHandoffSlaReadinessBadges');
   const humanHandoffSlaReadinessDetails = $('#humanHandoffSlaReadinessDetails');
+  const providerAbstractionReadinessCards = $('#providerAbstractionReadinessCards');
+  const providerAbstractionReadinessBadges = $('#providerAbstractionReadinessBadges');
+  const providerAbstractionReadinessDetails = $('#providerAbstractionReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !usageCostTrackingReadinessCards || !usageCostTrackingReadinessBadges || !usageCostTrackingReadinessDetails || !failureHandlingFallbackReadinessCards || !failureHandlingFallbackReadinessBadges || !failureHandlingFallbackReadinessDetails || !humanHandoffSlaReadinessCards || !humanHandoffSlaReadinessBadges || !humanHandoffSlaReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !usageCostTrackingReadinessCards || !usageCostTrackingReadinessBadges || !usageCostTrackingReadinessDetails || !failureHandlingFallbackReadinessCards || !failureHandlingFallbackReadinessBadges || !failureHandlingFallbackReadinessDetails || !humanHandoffSlaReadinessCards || !humanHandoffSlaReadinessBadges || !humanHandoffSlaReadinessDetails || !providerAbstractionReadinessCards || !providerAbstractionReadinessBadges || !providerAbstractionReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3332,6 +3344,9 @@ function renderRouteReadiness() {
     humanHandoffSlaReadinessCards.innerHTML = '<div class="muted small">Human Handoff SLA readiness status not loaded.</div>';
     humanHandoffSlaReadinessBadges.innerHTML = '';
     humanHandoffSlaReadinessDetails.innerHTML = '<div class="muted small">Human Handoff SLA readiness details not loaded.</div>';
+    providerAbstractionReadinessCards.innerHTML = '<div class="muted small">Provider Abstraction readiness status not loaded.</div>';
+    providerAbstractionReadinessBadges.innerHTML = '';
+    providerAbstractionReadinessDetails.innerHTML = '<div class="muted small">Provider Abstraction readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -10256,6 +10271,113 @@ function renderRouteReadiness() {
   humanHandoffSlaReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${humanHandoffSlaDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const providerAbstraction = report.providerAbstractionReadiness || {};
+  const providerAbstractionReadinessCardsData = [
+    ['Current state', providerAbstraction.currentState || 'not_ready'],
+    ['Provider abstraction approved', providerAbstraction.providerAbstractionApproved ? 'yes' : 'no'],
+    ['Provider abstraction mode', providerAbstraction.providerAbstractionMode || 'read_only_design'],
+    ['Tenant-scoped provider', providerAbstraction.tenantScopedProviderStatus || 'read_only_design'],
+    ['Campaign-scoped provider', providerAbstraction.campaignScopedProviderStatus || 'read_only_design'],
+    ['Provider-neutral contract', providerAbstraction.providerNeutralContractStatus || 'read_only_design'],
+    ['Capability registry', providerAbstraction.providerCapabilityRegistryStatus || 'read_only_design'],
+    ['AI Voice provider adapter', providerAbstraction.aiVoiceProviderAdapterStatus || 'read_only_design'],
+    ['Realtime provider adapter', providerAbstraction.realtimeProviderAdapterStatus || 'read_only_design'],
+    ['LLM provider adapter', providerAbstraction.llmProviderAdapterStatus || 'read_only_design'],
+    ['Transcription provider adapter', providerAbstraction.transcriptionProviderAdapterStatus || 'read_only_design'],
+    ['Recording provider adapter', providerAbstraction.recordingProviderAdapterStatus || 'read_only_design'],
+    ['QA evaluation provider adapter', providerAbstraction.qaEvaluationProviderAdapterStatus || 'read_only_design'],
+    ['Fallback provider policy', providerAbstraction.fallbackProviderPolicyStatus || 'read_only_design'],
+    ['Provider selection policy', providerAbstraction.providerSelectionPolicyStatus || 'read_only_design'],
+    ['Provider failover policy', providerAbstraction.providerFailoverPolicyStatus || 'read_only_design'],
+    ['Provider health', providerAbstraction.providerHealthStatus || 'read_only_design'],
+    ['Provider pricing version', providerAbstraction.providerPricingVersionStatus || 'read_only_design'],
+    ['Provider usage reconciliation', providerAbstraction.providerUsageReconciliationStatus || 'read_only_design'],
+    ['Provider credential boundary', providerAbstraction.providerCredentialBoundaryStatus || 'read_only_design'],
+    ['RBAC provider control', providerAbstraction.rbacProviderControlStatus || 'read_only_design'],
+    ['Tenant isolation', providerAbstraction.tenantIsolationStatus || 'read_only_design'],
+    ['MFA step-up', providerAbstraction.mfaStepUpForProviderChangesStatus || 'read_only_design'],
+    ['Middleware core dependency', providerAbstraction.middlewareCoreDependencyStatus || 'read_only_design'],
+    ['Provider storage', providerAbstraction.providerStorageStatus || 'not_implemented'],
+    ['Provider credential storage', providerAbstraction.providerCredentialStorageStatus || 'not_implemented'],
+    ['Provider endpoint', providerAbstraction.providerEndpointStatus || 'not_implemented'],
+    ['Provider CRUD', providerAbstraction.providerCrudStatus || 'not_implemented'],
+    ['Migration', providerAbstraction.migrationStatus || 'not_implemented'],
+    ['Adapter runtime', providerAbstraction.adapterRuntimeStatus || 'not_allowed'],
+    ['Provider selection runtime', providerAbstraction.providerSelectionRuntimeStatus || 'not_allowed'],
+    ['Provider routing runtime', providerAbstraction.providerRoutingRuntimeStatus || 'not_allowed'],
+    ['Provider health-check runtime', providerAbstraction.providerHealthCheckRuntimeStatus || 'not_allowed'],
+    ['Provider failover runtime', providerAbstraction.providerFailoverRuntimeStatus || 'not_allowed'],
+    ['Provider SDK', providerAbstraction.providerSdkStatus || 'not_allowed'],
+    ['Package install', providerAbstraction.packageInstallStatus || 'not_allowed'],
+    ['Credential access', providerAbstraction.credentialAccessStatus || 'not_allowed'],
+    ['OpenAI connection', providerAbstraction.openAiConnectionStatus || 'not_connected'],
+    ['LLM provider connection', providerAbstraction.llmProviderConnectionStatus || 'not_connected'],
+    ['Voice provider connection', providerAbstraction.voiceProviderConnectionStatus || 'not_connected'],
+    ['Transcription provider connection', providerAbstraction.transcriptionProviderConnectionStatus || 'not_connected'],
+    ['Recording provider connection', providerAbstraction.recordingProviderConnectionStatus || 'not_connected'],
+    ['Payment provider connection', providerAbstraction.paymentProviderConnectionStatus || 'not_connected'],
+    ['Route behavior change', providerAbstraction.routeBehaviorChangeStatus || 'not_allowed'],
+    ['Provider runtime execution allowed', providerAbstraction.providerRuntimeExecutionAllowed ? 'yes' : 'no'],
+  ];
+  providerAbstractionReadinessCards.innerHTML = providerAbstractionReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  providerAbstractionReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only provider abstraction design', 'info'),
+    readinessBadge('Tenant scoped', 'info'),
+    readinessBadge('Campaign scoped', 'info'),
+    readinessBadge('Provider neutral', 'info'),
+    readinessBadge('Capability aware', 'info'),
+    readinessBadge('Credential safe', 'info'),
+    readinessBadge('AI Voice provider mapped', 'info'),
+    readinessBadge('Realtime provider mapped', 'info'),
+    readinessBadge('LLM provider mapped', 'info'),
+    readinessBadge('Transcription provider mapped', 'info'),
+    readinessBadge('QA provider mapped', 'info'),
+    readinessBadge('Failover mapped', 'info'),
+    readinessBadge('RBAC/MFA mapped', 'info'),
+    readinessBadge('Tenant isolation mapped', 'info'),
+    readinessBadge('No provider runtime', 'ok'),
+    readinessBadge('No SDK changes', 'ok'),
+    readinessBadge('No runtime controls', 'ok'),
+  ].join('');
+
+  const providerAbstractionDetailGroups = [
+    ['Future provider types', providerAbstraction.futureProviderTypes],
+    ['Future provider capability fields', providerAbstraction.futureProviderCapabilityFields],
+    ['Future provider selection inputs', providerAbstraction.futureProviderSelectionInputs],
+    ['Future provider selection rules', providerAbstraction.futureProviderSelectionRules],
+    ['Future provider failover rules', providerAbstraction.futureProviderFailoverRules],
+    ['Future credential boundary rules', providerAbstraction.futureCredentialBoundaryRules],
+    ['Future RBAC provider rules', providerAbstraction.futureRbacProviderRules],
+    ['Future tenant/campaign isolation rules', providerAbstraction.futureTenantCampaignIsolationRules],
+    ['Future audit/reporting rules', providerAbstraction.futureAuditReportingRules],
+    ['Future usage/cost dependency rules', providerAbstraction.futureUsageCostDependencyRules],
+    ['Future failure/fallback dependency rules', providerAbstraction.futureFailureFallbackDependencyRules],
+    ['Future human handoff dependency rules', providerAbstraction.futureHumanHandoffDependencyRules],
+    ['Future middleware core dependency rules', providerAbstraction.futureMiddlewareCoreDependencyRules],
+    ['Future runtime boundaries', providerAbstraction.futureRuntimeBoundaries],
+    ['Prohibited current actions', providerAbstraction.prohibitedCurrentActions],
+    ['Next steps', providerAbstraction.nextSteps],
+  ];
+  providerAbstractionReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${providerAbstractionDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>

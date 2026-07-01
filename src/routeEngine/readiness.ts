@@ -4115,6 +4115,175 @@ export type HumanHandoffSlaReadiness = {
   nextSteps: string[];
 };
 
+export type ProviderAbstractionReadiness = {
+  currentState: 'not_ready';
+  providerAbstractionApproved: false;
+  providerAbstractionMode: 'read_only_design';
+  tenantScopedProviderStatus: 'read_only_design';
+  campaignScopedProviderStatus: 'read_only_design';
+  providerNeutralContractStatus: 'read_only_design';
+  providerCapabilityRegistryStatus: 'read_only_design';
+  aiVoiceProviderAdapterStatus: 'read_only_design';
+  realtimeProviderAdapterStatus: 'read_only_design';
+  llmProviderAdapterStatus: 'read_only_design';
+  transcriptionProviderAdapterStatus: 'read_only_design';
+  recordingProviderAdapterStatus: 'read_only_design';
+  qaEvaluationProviderAdapterStatus: 'read_only_design';
+  fallbackProviderPolicyStatus: 'read_only_design';
+  providerSelectionPolicyStatus: 'read_only_design';
+  providerFailoverPolicyStatus: 'read_only_design';
+  providerHealthStatus: 'read_only_design';
+  providerLatencyStatus: 'read_only_design';
+  providerCostStatus: 'read_only_design';
+  providerQualityStatus: 'read_only_design';
+  providerComplianceStatus: 'read_only_design';
+  providerDataResidencyStatus: 'read_only_design';
+  providerPricingVersionStatus: 'read_only_design';
+  providerUsageReconciliationStatus: 'read_only_design';
+  providerCredentialBoundaryStatus: 'read_only_design';
+  languageSpecificProviderStatus: 'read_only_design';
+  routeSpecificProviderStatus: 'read_only_design';
+  campaignProviderPolicyStatus: 'read_only_design';
+  clientProviderPolicyStatus: 'read_only_design';
+  rbacProviderControlStatus: 'read_only_design';
+  tenantIsolationStatus: 'read_only_design';
+  campaignIsolationStatus: 'read_only_design';
+  mfaStepUpForProviderChangesStatus: 'read_only_design';
+  middlewareCoreDependencyStatus: 'read_only_design';
+  providerStorageStatus: 'not_implemented';
+  providerConfigStorageStatus: 'not_implemented';
+  providerCredentialStorageStatus: 'not_implemented';
+  providerRoutingStorageStatus: 'not_implemented';
+  providerSelectionStorageStatus: 'not_implemented';
+  providerCapabilityStorageStatus: 'not_implemented';
+  providerHealthStorageStatus: 'not_implemented';
+  providerPricingStorageStatus: 'not_implemented';
+  providerUsageStorageStatus: 'not_implemented';
+  providerFailoverStorageStatus: 'not_implemented';
+  providerEndpointStatus: 'not_implemented';
+  providerConfigEndpointStatus: 'not_implemented';
+  providerCredentialEndpointStatus: 'not_implemented';
+  providerRoutingEndpointStatus: 'not_implemented';
+  providerSelectionEndpointStatus: 'not_implemented';
+  providerHealthEndpointStatus: 'not_implemented';
+  providerPricingEndpointStatus: 'not_implemented';
+  providerUsageEndpointStatus: 'not_implemented';
+  providerCrudStatus: 'not_implemented';
+  providerConfigCrudStatus: 'not_implemented';
+  providerCredentialCrudStatus: 'not_implemented';
+  providerRoutingCrudStatus: 'not_implemented';
+  providerSelectionCrudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  adapterRuntimeStatus: 'not_allowed';
+  providerSelectionRuntimeStatus: 'not_allowed';
+  providerRoutingRuntimeStatus: 'not_allowed';
+  providerHealthCheckRuntimeStatus: 'not_allowed';
+  providerFailoverRuntimeStatus: 'not_allowed';
+  providerPricingFetchRuntimeStatus: 'not_allowed';
+  providerUsageFetchRuntimeStatus: 'not_allowed';
+  providerReconciliationRuntimeStatus: 'not_allowed';
+  providerSdkStatus: 'not_allowed';
+  packageInstallStatus: 'not_allowed';
+  reportRuntimeStatus: 'not_allowed';
+  liveCallQueryStatus: 'not_allowed';
+  transcriptAccessStatus: 'not_allowed';
+  recordingAccessStatus: 'not_allowed';
+  credentialAccessStatus: 'not_allowed';
+  piiAccessStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  llmProviderConnectionStatus: 'not_connected';
+  voiceProviderConnectionStatus: 'not_connected';
+  transcriptionProviderConnectionStatus: 'not_connected';
+  recordingProviderConnectionStatus: 'not_connected';
+  paymentProviderConnectionStatus: 'not_connected';
+  aiVoiceStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  asteriskModificationStatus: 'not_allowed';
+  vicidialModificationStatus: 'not_allowed';
+  dialplanModificationStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  providerStorageAllowed: false;
+  providerConfigStorageAllowed: false;
+  providerCredentialStorageAllowed: false;
+  providerRoutingStorageAllowed: false;
+  providerSelectionStorageAllowed: false;
+  providerCapabilityStorageAllowed: false;
+  providerHealthStorageAllowed: false;
+  providerPricingStorageAllowed: false;
+  providerUsageStorageAllowed: false;
+  providerFailoverStorageAllowed: false;
+  providerEndpointAllowed: false;
+  providerConfigEndpointAllowed: false;
+  providerCredentialEndpointAllowed: false;
+  providerRoutingEndpointAllowed: false;
+  providerSelectionEndpointAllowed: false;
+  providerHealthEndpointAllowed: false;
+  providerPricingEndpointAllowed: false;
+  providerUsageEndpointAllowed: false;
+  providerCrudAllowed: false;
+  providerConfigCrudAllowed: false;
+  providerCredentialCrudAllowed: false;
+  providerRoutingCrudAllowed: false;
+  providerSelectionCrudAllowed: false;
+  migrationAllowed: false;
+  adapterRuntimeAllowed: false;
+  providerSelectionRuntimeAllowed: false;
+  providerRoutingRuntimeAllowed: false;
+  providerHealthCheckRuntimeAllowed: false;
+  providerFailoverRuntimeAllowed: false;
+  providerPricingFetchRuntimeAllowed: false;
+  providerUsageFetchRuntimeAllowed: false;
+  providerReconciliationRuntimeAllowed: false;
+  providerSdkAllowed: false;
+  packageInstallAllowed: false;
+  reportRuntimeAllowed: false;
+  liveCallQueryAllowed: false;
+  transcriptAccessAllowed: false;
+  recordingAccessAllowed: false;
+  credentialAccessAllowed: false;
+  piiAccessAllowed: false;
+  openAiConnectionAllowed: false;
+  openAiRuntimeAllowed: false;
+  realtimeSessionAllowed: false;
+  llmProviderConnectionAllowed: false;
+  voiceProviderConnectionAllowed: false;
+  transcriptionProviderConnectionAllowed: false;
+  recordingProviderConnectionAllowed: false;
+  paymentProviderConnectionAllowed: false;
+  aiVoiceAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  asteriskModificationAllowed: false;
+  vicidialModificationAllowed: false;
+  dialplanModificationAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  realCredentialAllowed: false;
+  realPiiAllowed: false;
+  realCallAllowed: false;
+  providerRuntimeExecutionAllowed: false;
+  futureProviderTypes: string[];
+  futureProviderCapabilityFields: string[];
+  futureProviderSelectionInputs: string[];
+  futureProviderSelectionRules: string[];
+  futureProviderFailoverRules: string[];
+  futureCredentialBoundaryRules: string[];
+  futureRbacProviderRules: string[];
+  futureTenantCampaignIsolationRules: string[];
+  futureAuditReportingRules: string[];
+  futureUsageCostDependencyRules: string[];
+  futureFailureFallbackDependencyRules: string[];
+  futureHumanHandoffDependencyRules: string[];
+  futureMiddlewareCoreDependencyRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -4187,6 +4356,7 @@ export type RouteReadinessReport = {
   usageCostTrackingReadiness: UsageCostTrackingReadiness;
   failureHandlingFallbackReadiness: FailureHandlingFallbackReadiness;
   humanHandoffSlaReadiness: HumanHandoffSlaReadiness;
+  providerAbstractionReadiness: ProviderAbstractionReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -17327,6 +17497,426 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const providerAbstractionReadiness: ProviderAbstractionReadiness = {
+    currentState: 'not_ready',
+    providerAbstractionApproved: false,
+    providerAbstractionMode: 'read_only_design',
+    tenantScopedProviderStatus: 'read_only_design',
+    campaignScopedProviderStatus: 'read_only_design',
+    providerNeutralContractStatus: 'read_only_design',
+    providerCapabilityRegistryStatus: 'read_only_design',
+    aiVoiceProviderAdapterStatus: 'read_only_design',
+    realtimeProviderAdapterStatus: 'read_only_design',
+    llmProviderAdapterStatus: 'read_only_design',
+    transcriptionProviderAdapterStatus: 'read_only_design',
+    recordingProviderAdapterStatus: 'read_only_design',
+    qaEvaluationProviderAdapterStatus: 'read_only_design',
+    fallbackProviderPolicyStatus: 'read_only_design',
+    providerSelectionPolicyStatus: 'read_only_design',
+    providerFailoverPolicyStatus: 'read_only_design',
+    providerHealthStatus: 'read_only_design',
+    providerLatencyStatus: 'read_only_design',
+    providerCostStatus: 'read_only_design',
+    providerQualityStatus: 'read_only_design',
+    providerComplianceStatus: 'read_only_design',
+    providerDataResidencyStatus: 'read_only_design',
+    providerPricingVersionStatus: 'read_only_design',
+    providerUsageReconciliationStatus: 'read_only_design',
+    providerCredentialBoundaryStatus: 'read_only_design',
+    languageSpecificProviderStatus: 'read_only_design',
+    routeSpecificProviderStatus: 'read_only_design',
+    campaignProviderPolicyStatus: 'read_only_design',
+    clientProviderPolicyStatus: 'read_only_design',
+    rbacProviderControlStatus: 'read_only_design',
+    tenantIsolationStatus: 'read_only_design',
+    campaignIsolationStatus: 'read_only_design',
+    mfaStepUpForProviderChangesStatus: 'read_only_design',
+    middlewareCoreDependencyStatus: 'read_only_design',
+    providerStorageStatus: 'not_implemented',
+    providerConfigStorageStatus: 'not_implemented',
+    providerCredentialStorageStatus: 'not_implemented',
+    providerRoutingStorageStatus: 'not_implemented',
+    providerSelectionStorageStatus: 'not_implemented',
+    providerCapabilityStorageStatus: 'not_implemented',
+    providerHealthStorageStatus: 'not_implemented',
+    providerPricingStorageStatus: 'not_implemented',
+    providerUsageStorageStatus: 'not_implemented',
+    providerFailoverStorageStatus: 'not_implemented',
+    providerEndpointStatus: 'not_implemented',
+    providerConfigEndpointStatus: 'not_implemented',
+    providerCredentialEndpointStatus: 'not_implemented',
+    providerRoutingEndpointStatus: 'not_implemented',
+    providerSelectionEndpointStatus: 'not_implemented',
+    providerHealthEndpointStatus: 'not_implemented',
+    providerPricingEndpointStatus: 'not_implemented',
+    providerUsageEndpointStatus: 'not_implemented',
+    providerCrudStatus: 'not_implemented',
+    providerConfigCrudStatus: 'not_implemented',
+    providerCredentialCrudStatus: 'not_implemented',
+    providerRoutingCrudStatus: 'not_implemented',
+    providerSelectionCrudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    adapterRuntimeStatus: 'not_allowed',
+    providerSelectionRuntimeStatus: 'not_allowed',
+    providerRoutingRuntimeStatus: 'not_allowed',
+    providerHealthCheckRuntimeStatus: 'not_allowed',
+    providerFailoverRuntimeStatus: 'not_allowed',
+    providerPricingFetchRuntimeStatus: 'not_allowed',
+    providerUsageFetchRuntimeStatus: 'not_allowed',
+    providerReconciliationRuntimeStatus: 'not_allowed',
+    providerSdkStatus: 'not_allowed',
+    packageInstallStatus: 'not_allowed',
+    reportRuntimeStatus: 'not_allowed',
+    liveCallQueryStatus: 'not_allowed',
+    transcriptAccessStatus: 'not_allowed',
+    recordingAccessStatus: 'not_allowed',
+    credentialAccessStatus: 'not_allowed',
+    piiAccessStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    llmProviderConnectionStatus: 'not_connected',
+    voiceProviderConnectionStatus: 'not_connected',
+    transcriptionProviderConnectionStatus: 'not_connected',
+    recordingProviderConnectionStatus: 'not_connected',
+    paymentProviderConnectionStatus: 'not_connected',
+    aiVoiceStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    asteriskModificationStatus: 'not_allowed',
+    vicidialModificationStatus: 'not_allowed',
+    dialplanModificationStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    providerStorageAllowed: false,
+    providerConfigStorageAllowed: false,
+    providerCredentialStorageAllowed: false,
+    providerRoutingStorageAllowed: false,
+    providerSelectionStorageAllowed: false,
+    providerCapabilityStorageAllowed: false,
+    providerHealthStorageAllowed: false,
+    providerPricingStorageAllowed: false,
+    providerUsageStorageAllowed: false,
+    providerFailoverStorageAllowed: false,
+    providerEndpointAllowed: false,
+    providerConfigEndpointAllowed: false,
+    providerCredentialEndpointAllowed: false,
+    providerRoutingEndpointAllowed: false,
+    providerSelectionEndpointAllowed: false,
+    providerHealthEndpointAllowed: false,
+    providerPricingEndpointAllowed: false,
+    providerUsageEndpointAllowed: false,
+    providerCrudAllowed: false,
+    providerConfigCrudAllowed: false,
+    providerCredentialCrudAllowed: false,
+    providerRoutingCrudAllowed: false,
+    providerSelectionCrudAllowed: false,
+    migrationAllowed: false,
+    adapterRuntimeAllowed: false,
+    providerSelectionRuntimeAllowed: false,
+    providerRoutingRuntimeAllowed: false,
+    providerHealthCheckRuntimeAllowed: false,
+    providerFailoverRuntimeAllowed: false,
+    providerPricingFetchRuntimeAllowed: false,
+    providerUsageFetchRuntimeAllowed: false,
+    providerReconciliationRuntimeAllowed: false,
+    providerSdkAllowed: false,
+    packageInstallAllowed: false,
+    reportRuntimeAllowed: false,
+    liveCallQueryAllowed: false,
+    transcriptAccessAllowed: false,
+    recordingAccessAllowed: false,
+    credentialAccessAllowed: false,
+    piiAccessAllowed: false,
+    openAiConnectionAllowed: false,
+    openAiRuntimeAllowed: false,
+    realtimeSessionAllowed: false,
+    llmProviderConnectionAllowed: false,
+    voiceProviderConnectionAllowed: false,
+    transcriptionProviderConnectionAllowed: false,
+    recordingProviderConnectionAllowed: false,
+    paymentProviderConnectionAllowed: false,
+    aiVoiceAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    asteriskModificationAllowed: false,
+    vicidialModificationAllowed: false,
+    dialplanModificationAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    realCredentialAllowed: false,
+    realPiiAllowed: false,
+    realCallAllowed: false,
+    providerRuntimeExecutionAllowed: false,
+    futureProviderTypes: [
+      'realtime voice provider',
+      'LLM provider',
+      'text generation provider',
+      'speech-to-text provider',
+      'text-to-speech provider',
+      'transcription provider',
+      'voice gateway provider',
+      'recording storage provider',
+      'QA evaluation provider',
+      'summarization provider',
+      'embedding provider',
+      'moderation provider',
+      'tool gateway provider',
+      'fallback provider',
+      'audit/logging provider',
+      'analytics/reporting provider',
+    ],
+    futureProviderCapabilityFields: [
+      'providerName',
+      'providerType',
+      'providerAccountId',
+      'providerProduct',
+      'providerRegion',
+      'providerEnvironment',
+      'modelName',
+      'modelVersion',
+      'voiceName',
+      'voiceLocale',
+      'voiceGender',
+      'voiceStyle',
+      'supportedLanguages',
+      'supportedModalities',
+      'supportsRealtime',
+      'supportsStreamingAudioInput',
+      'supportsStreamingAudioOutput',
+      'supportsBargeIn',
+      'supportsTurnDetection',
+      'supportsToolCalling',
+      'supportsStructuredOutput',
+      'supportsJsonSchema',
+      'supportsTranscription',
+      'supportsSpeakerDiarization',
+      'supportsRecordingReference',
+      'supportsRedaction',
+      'supportsPIIMasking',
+      'supportsModeration',
+      'supportsEmbeddings',
+      'supportsBatchProcessing',
+      'supportsLowLatency',
+      'supportsFallback',
+      'supportsUsageReporting',
+      'supportsCostReporting',
+      'supportsRegionalDataResidency',
+      'supportsEnterpriseLogging',
+      'supportsCustomRetention',
+      'maxSessionDurationSeconds',
+      'maxAudioInputSeconds',
+      'maxAudioOutputSeconds',
+      'maxTokens',
+      'latencyTargetMs',
+      'timeoutMs',
+      'retryPolicyReference',
+      'circuitBreakerPolicyReference',
+      'pricingVersionReference',
+      'usageReconciliationReference',
+      'healthStatusReference',
+      'complianceNotesReference',
+      'auditCorrelationId',
+    ],
+    futureProviderSelectionInputs: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'callId',
+      'callDirection',
+      'routeType',
+      'agentType',
+      'aiAgentId',
+      'language',
+      'languageSource',
+      'disclosureStatus',
+      'budgetStatus',
+      'capacityStatus',
+      'failureFallbackStatus',
+      'handoffSlaStatus',
+      'requestedCapability',
+      'requestedModality',
+      'requestedLatencyClass',
+      'requestedQualityClass',
+      'requestedComplianceClass',
+      'preferredProvider',
+      'fallbackProvider',
+      'preferredModel',
+      'fallbackModel',
+      'preferredVoice',
+      'fallbackVoice',
+      'preferredTranscriptionProvider',
+      'fallbackTranscriptionProvider',
+      'providerPolicyVersion',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'scorecardId',
+      'qaEvaluationId',
+      'auditCorrelationId',
+    ],
+    futureProviderSelectionRules: [
+      'campaign-specific provider policy',
+      'client-specific provider policy',
+      'language-specific provider policy',
+      'route-specific provider policy',
+      'inbound provider policy',
+      'outbound provider policy',
+      'AI Voice provider policy',
+      'AI QA provider policy',
+      'Human QA processing provider policy',
+      'transcription provider policy',
+      'recording reference provider policy',
+      'fallback provider policy',
+      'preferred provider priority',
+      'provider capability match',
+      'provider availability check',
+      'provider health score',
+      'latency threshold',
+      'cost threshold',
+      'budget threshold',
+      'compliance/data residency rule',
+      'region restriction',
+      'language support rule',
+      'voice support rule',
+      'model support rule',
+      'tool-calling support rule',
+      'redaction/PII support rule',
+      'failover priority order',
+      'retry/circuit breaker dependency',
+      'manual override approval',
+      'management approval before production activation',
+    ],
+    futureProviderFailoverRules: [
+      'primary provider unavailable',
+      'provider latency high',
+      'provider error rate high',
+      'provider timeout',
+      'realtime session failure',
+      'transcription failure',
+      'voice generation failure',
+      'LLM generation failure',
+      'QA evaluation failure',
+      'usage/cost threshold exceeded',
+      'campaign budget exhausted',
+      'provider quota exhausted',
+      'provider circuit breaker open',
+      'region outage',
+      'compliance restriction',
+      'language unsupported',
+      'model unavailable',
+      'voice unavailable',
+      'manual failover approval',
+      'automatic recovery policy',
+      'provider reactivation approval',
+      'audit required for failover',
+      'tenant-isolated failover behavior',
+    ],
+    futureCredentialBoundaryRules: [
+      'provider credentials must be stored separately from readiness state in a future implementation',
+      'credentials must never be exposed in UI readiness payloads',
+      'credentials must never be committed',
+      'credentials must never be logged',
+      'credentials must be RBAC-controlled',
+      'credentials may require MFA/step-up for create/update/delete/view actions',
+      'provider account mapping must be tenant-isolated',
+      'client-specific provider accounts must not leak to other clients',
+      'campaign-specific provider accounts must not leak to other campaigns',
+      'credential rotation must be auditable in a future implementation',
+      'provider credential testing must be explicit and approved in a future implementation',
+      'no credentials are created or accessed in this phase',
+    ],
+    futureRbacProviderRules: [
+      'super_admin can review global provider policy templates in a future implementation',
+      'authorized internal admin can review/manage assigned campaign provider policy only if permission allows',
+      'client_admin can view/manage assigned campaign provider policy only if permission allows',
+      'finance/admin can view provider pricing/usage/cost policy only if permission allows',
+      'QA manager can view QA provider policy only within assigned scope',
+      'restricted users cannot view or change provider policy, credentials, pricing, failover, or selection rules',
+      'high-risk provider changes, credential changes, failover changes, provider reactivation, pricing changes, or production provider activation may require MFA/step-up authentication in a future implementation',
+    ],
+    futureTenantCampaignIsolationRules: [
+      'client A must not see client B provider policy',
+      'campaign A must not see campaign B provider policy',
+      'client A must not use client B provider credentials',
+      'campaign A must not use campaign B provider credentials',
+      'provider health, pricing, usage, reconciliation, logs, transcripts, recordings, QA evaluations, or failover events must not cross tenant/campaign boundaries',
+      'provider account identifiers must not leak between tenants',
+      'billing/cost data must not cross tenant boundaries',
+    ],
+    futureAuditReportingRules: [
+      'provider selected',
+      'provider attempted',
+      'provider failed',
+      'provider fallback used',
+      'provider capability matched',
+      'provider capability missing',
+      'provider policy version',
+      'provider health status',
+      'provider latency',
+      'provider timeout',
+      'provider error rate',
+      'provider quota status',
+      'provider usage estimate',
+      'provider actual usage',
+      'provider cost estimate',
+      'provider actual cost',
+      'pricing version reference',
+      'usage reconciliation result',
+      'credential boundary check',
+      'RBAC decision',
+      'MFA/step-up result',
+      'tenant/campaign isolation check',
+      'actor/user that changed policy',
+      'approval reference',
+      'timestamp',
+      'auditCorrelationId',
+    ],
+    futureUsageCostDependencyRules: [
+      'Future provider selection may depend on usage/cost tracking status, budget thresholds, pricing version references, and usage reconciliation references',
+      'Future provider pricing and usage reconciliation must remain read-only design only until separately approved',
+      'Provider pricing fetch and provider usage fetch runtime are not implemented in this readiness phase',
+    ],
+    futureFailureFallbackDependencyRules: [
+      'Future provider abstraction may consume failure/fallback status, retry policy references, circuit breaker policy references, and failover priority order',
+      'Future provider failover must remain auditable, tenant-isolated, campaign-scoped, and safe by default',
+      'Provider failover runtime is not implemented in this readiness phase',
+    ],
+    futureHumanHandoffDependencyRules: [
+      'Future provider abstraction may consider human handoff SLA status when selecting AI Voice, LLM, transcription, QA, or fallback providers',
+      'Future provider decisions must not bypass human handoff SLA safety boundaries',
+      'No human handoff or provider runtime is implemented in this readiness phase',
+    ],
+    futureMiddlewareCoreDependencyRules: [
+      'Vicidial Middleware remains the source of truth for campaign routing, DID rules, route simulation, shadow mode, local touch, limits, inventory health, and runtime safety',
+      'AI Voice and QA modules must consume middleware context and must not bypass or override middleware core rules without explicit approved runtime activation',
+      'Provider abstraction must respect usage/cost tracking, failure/fallback, human handoff SLA, language routing, consent/disclosure, RBAC, tenant isolation, and middleware core safety',
+    ],
+    futureRuntimeBoundaries: [
+      'No provider storage, provider config storage, provider credential storage, provider routing storage, provider selection storage, provider capability storage, provider health storage, provider pricing storage, provider usage storage, provider failover storage, CRUD, endpoints, migrations, or provider records are implemented',
+      'No adapter runtime, provider selection runtime, provider routing runtime, provider health-check runtime, provider failover runtime, provider pricing fetch runtime, provider usage fetch runtime, provider reconciliation runtime, report runtime, or provider SDK usage is implemented',
+      'No OpenAI, Realtime, LLM provider, voice provider, transcription provider, recording provider, payment provider, AI voice, AI inbound, AI outbound, FastAGI, live call, transcript, recording, credential, PII, Asterisk, Vicidial, dialplan, route behavior, or provider runtime execution is implemented',
+      'The UI must remain read-only and expose no execution controls',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create provider records, provider configuration records, provider credential records, provider routing records, provider selection records, provider capability records, provider health records, provider pricing records, provider usage records, or provider failover records',
+      'Do not create provider storage, provider CRUD, provider endpoints, migrations, or database tables',
+      'Do not create adapter runtime, provider selection runtime, provider routing runtime, provider health-check runtime, provider failover runtime, provider pricing fetch runtime, provider usage fetch runtime, or provider reconciliation runtime',
+      'Do not add provider SDKs, install packages, modify package.json, or modify package-lock.json',
+      'Do not connect OpenAI, configure OpenAI credentials, execute OpenAI API calls, open Realtime sessions, or connect LLM, voice, transcription, recording, or payment providers',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not query live calls, execute live calls, access recordings, access transcripts, access credentials, expose secrets, or expose raw PII',
+      'Do not modify Asterisk, Vicidial, dialplan, route behavior, auth, login, session, or RBAC behavior',
+      'Do not add UI execution controls',
+    ],
+    nextSteps: [
+      'Keep Provider Abstraction Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, provider-SDK-blocked, package-install-blocked, OpenAI-disconnected, provider-disconnected, telephony-change-blocked, route-change-blocked, and runtime-blocked.',
+      'Define future provider-neutral contracts, provider capability registry, provider selection policies, failover policies, credential boundaries, RBAC, MFA step-up, tenant isolation, usage/cost dependencies, failure/fallback dependencies, human handoff dependencies, and middleware core dependencies in a separately approved phase.',
+      'Require explicit approved runtime activation before any AI Voice or QA module can select providers, use adapters, call providers, fetch provider health/pricing/usage, execute failover, or access credentials.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -17714,6 +18304,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Human Handoff SLA readiness is read-only, not ready, not approved, tenant-scoped, campaign-scoped, inbound/outbound mapped, AI-to-human escalation mapped, future human-to-AI return mapped, language/queue/skill/priority/hours/no-agent/overflow/abandoned handoff mapped, warm-transfer and cold-transfer policy mapped, agent screen-pop and agent-assist context mapped, SLA targets/warnings/breaches/escalation mapped, callback/voicemail fallback mapped, audit/reporting/RBAC/MFA/tenant isolation/middleware core dependency mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, handoff/call-transfer/queue-routing/skill-routing/escalation/callback/voicemail/agent-notification/screen-pop/hold-message/whisper-audio/AI-to-human/human-to-AI/agent-assist/SLA timer/SLA alert/SLA report/report runtime blocked, transcript/recording/live-call access blocked, OpenAI-disconnected, telephony changes blocked, route behavior changes blocked, live handoff execution blocked, and exposes no handoff, SLA, queue, skill, escalation, transfer, callback, voicemail, screen-pop, agent-assist, routing, notification, hold-message, whisper-audio, SLA timer, SLA alert, SLA report, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
     },
+    {
+      id: 'provider-abstraction-readiness-read-only',
+      label: 'Provider Abstraction readiness read-only',
+      status: 'pass',
+      detail: 'Provider Abstraction readiness is read-only, not ready, not approved, tenant-scoped, campaign-scoped, provider-neutral, capability-aware, credential-safe, auditable, and safe by default; AI Voice, Realtime, LLM, transcription, recording/reference, QA evaluation, fallback provider policy, provider selection, failover, health, pricing version, usage reconciliation, RBAC, MFA, tenant isolation, usage/cost dependency, failure/fallback dependency, human handoff SLA dependency, and middleware core dependency are mapped only. It does not create provider storage, provider records, provider credentials, provider adapters, SDKs, packages, endpoints, CRUD, migrations, adapter runtime, provider selection/routing/health/failover/pricing/usage/reconciliation runtime, provider calls, OpenAI calls, Realtime sessions, AI voice, FastAGI, live calls, transcript/recording/credential/PII access, Asterisk/Vicidial changes, dialplan changes, route behavior changes, or UI execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -17858,6 +18454,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     usageCostTrackingReadiness,
     failureHandlingFallbackReadiness,
     humanHandoffSlaReadiness,
+    providerAbstractionReadiness,
     checklist,
     risks,
     recommendations: [
@@ -17916,6 +18513,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat Usage & Cost Tracking readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-aware, auditable, budget-aware usage and cost tracking for AI Voice, AI QA, Human QA processing, transcription, recording, tokens, audio, tool calls, reports, fallback, retry, handoff events, pricing versions, budgets, alerts, reconciliation, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create usage storage, cost storage, billing storage, invoice storage, pricing storage, provider usage storage, CRUD, endpoints, migrations, usage runtime, cost calculation runtime, billing runtime, invoice runtime, provider pricing fetch runtime, provider usage fetch runtime, payment provider runtime, export runtime, report runtime, alert runtime, budget enforcement runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, real billing, real invoices, hardcoded provider pricing, or UI execution controls.',
       'Treat Failure Handling / Fallback readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-aware, route-aware, auditable, safe-by-default failure handling and fallback planning for AI Voice, AI QA, Human QA processing, OpenAI/Realtime providers, voice gateway, media bridge, Asterisk/Vicidial, FastAGI, SIP/carrier, DIDs, route engine, middleware API, campaign config, budget/capacity, prompts, knowledge bases, tools, transcription, recording references, QA evaluation, reports, webhooks, storage/database, auth/session, language/disclosure fallback, queues, human agents, handoff, retries, circuit breakers, alerts, incidents, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create failure storage, fallback storage, outage storage, retry storage, circuit breaker storage, alert storage, incident storage, escalation storage, handoff storage, CRUD, endpoints, migrations, fallback runtime, failover runtime, retry runtime, circuit breaker runtime, alert runtime, incident runtime, escalation runtime, handoff runtime, queue fallback runtime, voicemail fallback runtime, IVR fallback runtime, audio playback runtime, call transfer runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, runtime fallback execution, or UI execution controls.',
       'Treat Human Handoff SLA readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, language-aware, queue-aware, skill-aware, SLA-aware, auditable, safe-by-default AI-to-human handoff, human queue fallback, no-agent behavior, overflow, abandoned handoff, warm-transfer context, cold-transfer policy, screen-pop context, callback/voicemail fallback, escalation, audit, reporting, RBAC, MFA step-up, tenant isolation, and middleware core dependency only and does not create handoff/SLA/queue/skill/escalation/transfer/callback/voicemail/screen-pop/agent-assist/SLA alert/SLA report storage, CRUD, endpoints, migrations, handoff runtime, call transfer runtime, queue routing runtime, skill routing runtime, escalation runtime, callback runtime, voicemail runtime, agent notification runtime, screen-pop runtime, hold-message runtime, whisper-audio runtime, AI-to-human runtime, human-to-AI runtime, agent-assist runtime, SLA timer runtime, SLA alert runtime, SLA report runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, live handoff execution, or UI execution controls.',
+      'Treat Provider Abstraction readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-neutral, capability-aware, credential-safe provider abstraction for AI Voice, Realtime, LLM, transcription, recording/reference, QA evaluation, fallback providers, provider capabilities, selection, failover, health, pricing references, usage reconciliation, credential boundaries, RBAC, MFA step-up, tenant isolation, usage/cost dependencies, failure/fallback dependencies, human handoff SLA dependencies, language routing, consent/disclosure, and middleware core dependency only and does not create provider storage, provider config storage, provider credential storage, provider routing storage, provider selection storage, provider capability storage, provider health storage, provider pricing storage, provider usage storage, provider failover storage, CRUD, endpoints, migrations, provider records, adapter runtime, provider selection runtime, provider routing runtime, provider health-check runtime, provider failover runtime, provider pricing fetch runtime, provider usage fetch runtime, provider reconciliation runtime, provider SDKs, package installs, OpenAI connection, Realtime sessions, LLM provider connection, voice provider connection, transcription provider connection, recording provider connection, payment provider connection, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording/credential access, raw PII exposure, provider runtime execution, or UI execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

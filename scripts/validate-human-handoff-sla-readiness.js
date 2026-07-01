@@ -35,7 +35,7 @@ const readiness = read('src/routeEngine/readiness.ts');
 const ui = read('public/ui-v2/did-ops.html');
 const docs = read('docs/human-handoff-sla-readiness.md');
 const statusDocs = read('docs/middleware-current-status.md');
-const handoffSource = sectionBetween(readiness, 'const humanHandoffSlaReadiness', 'const checklist');
+const handoffSource = sectionBetween(readiness, 'const humanHandoffSlaReadiness', 'const providerAbstractionReadiness');
 const handoffUiSection = sectionBetween(ui, '<h2>Human Handoff SLA Readiness</h2>', '<h2>Safety Checklist</h2>');
 
 check(readiness.includes('humanHandoffSlaReadiness'), 'readiness.ts contains humanHandoffSlaReadiness');
@@ -229,7 +229,7 @@ check(handoffSource, 'humanHandoffSlaReadiness source section exists');
   'nextSteps',
 ].forEach(field => check(new RegExp(`${field}: \\[`).test(handoffSource), `${field} array exists`));
 
-check(/failureHandlingFallbackReadiness,\s*humanHandoffSlaReadiness,\s*checklist/s.test(readiness), 'readiness response payload includes humanHandoffSlaReadiness after failureHandlingFallbackReadiness');
+check(/failureHandlingFallbackReadiness,\s*humanHandoffSlaReadiness,\s*(providerAbstractionReadiness,\s*)?checklist/s.test(readiness), 'readiness response payload includes humanHandoffSlaReadiness after failureHandlingFallbackReadiness');
 check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*qaScorecardConfigurationReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'existing QA readiness order remains unchanged');
 
 check(ui.includes('Human Handoff SLA Readiness'), 'UI contains Human Handoff SLA Readiness');

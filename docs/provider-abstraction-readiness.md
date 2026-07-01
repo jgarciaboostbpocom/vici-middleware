@@ -1,0 +1,29 @@
+# Provider Abstraction Readiness
+
+This is read-only Provider Abstraction Readiness. It documents future design/status only and does not implement provider storage, provider records, provider adapters, provider SDK usage, endpoints, CRUD, migrations, runtime provider selection, provider calls, provider health checks, provider pricing fetches, provider usage fetches, provider failover execution, OpenAI calls, Realtime sessions, AI Voice, live calls, transcript access, recording access, credential access, Asterisk/Vicidial changes, dialplan changes, route behavior changes, or UI execution controls.
+
+Provider abstraction must be tenant-scoped, campaign-scoped, capability-aware, credential-safe, provider-neutral, auditable, and safe by default. The system must not be hard-wired to a single provider for future AI Voice, LLM, transcription, QA, or fallback behavior.
+
+Provider abstraction must support future provider-neutral contracts and provider-specific capability mapping. Future provider abstraction may support realtime voice providers, LLM providers, text generation providers, speech-to-text providers, text-to-speech providers, transcription providers, voice gateway providers, recording storage providers, QA evaluation providers, summarization providers, embedding providers, moderation providers, tool gateway providers, fallback providers, audit/logging providers, and analytics/reporting providers.
+
+Future provider capability mapping should include provider name/type/account/product/region/environment, model, model version, voice, locale, supported languages/modalities, realtime, streaming audio input/output, barge-in, turn detection, tool calling, structured output, JSON schema, transcription, diarization, recording references, redaction, PII masking, moderation, embeddings, batch processing, low latency, fallback, usage reporting, cost reporting, data residency, enterprise logging, custom retention, session/audio/token limits, latency target, timeout, retry/circuit breaker policy references, pricing version, usage reconciliation, health status, compliance notes, and audit correlation.
+
+Future provider selection should support company/client/campaign/project, call direction, route type, AI agent, language, disclosure status, budget/capacity, failure/fallback, handoff SLA, requested capability/modality/latency/quality/compliance class, preferred/fallback provider/model/voice/transcription provider, policy version, prompt version, KB version, scorecard, QA evaluation, and audit correlation.
+
+Future provider selection rules should support campaign/client/language/route/inbound/outbound/AI Voice/AI QA/Human QA/transcription/recording/fallback policies, capability match, availability, health, latency, cost, budget, compliance, region, language, voice, model, tool-calling, redaction/PII, failover priority, retry/circuit breaker, manual override, and management approval before production activation.
+
+Future provider failover should support primary provider unavailable, high latency, high error rate, timeout, realtime failure, transcription failure, voice failure, LLM failure, QA failure, usage/cost threshold, budget exhausted, quota exhausted, circuit breaker open, region outage, compliance restriction, unsupported language, unavailable model/voice, manual approval, automatic recovery, provider reactivation approval, audit, and tenant-isolated behavior.
+
+Future credential boundaries must prevent credentials from being exposed, logged, committed, shown in readiness payloads, or leaked across tenants/campaigns.
+
+Future RBAC must control provider policy, credentials, pricing, failover, and selection rules. Restricted users cannot view or change provider policy, credentials, pricing, failover, or selection rules. High-risk provider changes, credential changes, failover changes, provider reactivation, pricing changes, or production provider activation should require future MFA/step-up authentication.
+
+Future tenant isolation must prevent one client/campaign from seeing, using, or leaking another client/campaign provider policy, credentials, usage, pricing, health, transcripts, recordings, QA evaluations, failover events, or billing/cost data.
+
+Provider abstraction must respect usage/cost tracking, failure/fallback, human handoff SLA, language routing, consent/disclosure, RBAC, tenant isolation, and middleware core safety.
+
+The Vicidial Middleware remains the source of truth for routing, DID rules, shadow mode, local touch, limits, inventory health, and runtime safety. AI Voice and QA must consume middleware context and must not bypass middleware core rules.
+
+This phase does not create provider storage, provider config storage, provider credential storage, provider routing storage, provider selection storage, provider capability storage, provider health storage, provider pricing storage, provider usage storage, provider failover storage, CRUD, endpoints, migrations, provider records, provider configuration records, provider credential records, provider routing records, provider selection records, provider capability records, provider health records, provider pricing records, provider usage records, provider failover records, adapter runtime, provider selection runtime, provider routing runtime, provider health-check runtime, provider failover runtime, provider pricing fetch runtime, provider usage fetch runtime, provider reconciliation runtime, provider SDKs, package installs, OpenAI calls, Realtime sessions, LLM provider calls, voice provider calls, transcription provider calls, recording provider calls, payment provider calls, AI voice, AI inbound, AI outbound, FastAGI, live calls, route behavior changes, Asterisk/Vicidial changes, dialplan changes, transcript access, recording access, credential access, raw PII exposure, provider runtime execution, or UI execution controls.
+
+No runtime behavior changed.
