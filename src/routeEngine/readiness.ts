@@ -3649,6 +3649,136 @@ export type ConsentDisclosureReadiness = {
   nextSteps: string[];
 };
 
+export type UsageCostTrackingReadiness = {
+  currentState: 'not_ready';
+  usageCostTrackingApproved: false;
+  usageCostTrackingMode: 'read_only_design';
+  tenantScopedUsageStatus: 'read_only_design';
+  campaignScopedUsageStatus: 'read_only_design';
+  providerAwareUsageStatus: 'read_only_design';
+  aiVoiceUsageStatus: 'read_only_design';
+  aiQaUsageStatus: 'read_only_design';
+  humanQaUsageStatus: 'read_only_design';
+  transcriptionUsageStatus: 'read_only_design';
+  recordingUsageStatus: 'read_only_design';
+  tokenUsageStatus: 'read_only_design';
+  audioUsageStatus: 'read_only_design';
+  toolCallUsageStatus: 'read_only_design';
+  costEstimationStatus: 'read_only_design';
+  actualCostReconciliationStatus: 'read_only_design';
+  providerPricingVersionStatus: 'read_only_design';
+  budgetTrackingStatus: 'read_only_design';
+  budgetWarningThresholdStatus: 'read_only_design';
+  budgetHardStopThresholdStatus: 'read_only_design';
+  budgetOverrideApprovalStatus: 'read_only_design';
+  usageAnomalyDetectionStatus: 'read_only_design';
+  costAlertStatus: 'read_only_design';
+  billingPeriodStatus: 'read_only_design';
+  costCenterStatus: 'read_only_design';
+  exportAuditStatus: 'read_only_design';
+  rbacUsageCostControlStatus: 'read_only_design';
+  tenantIsolationStatus: 'read_only_design';
+  campaignIsolationStatus: 'read_only_design';
+  mfaStepUpForCostChangesStatus: 'read_only_design';
+  middlewareCoreDependencyStatus: 'read_only_design';
+  usageStorageStatus: 'not_implemented';
+  costStorageStatus: 'not_implemented';
+  billingStorageStatus: 'not_implemented';
+  invoiceStorageStatus: 'not_implemented';
+  pricingStorageStatus: 'not_implemented';
+  providerUsageStorageStatus: 'not_implemented';
+  usageEndpointStatus: 'not_implemented';
+  costEndpointStatus: 'not_implemented';
+  billingEndpointStatus: 'not_implemented';
+  pricingEndpointStatus: 'not_implemented';
+  usageCrudStatus: 'not_implemented';
+  costCrudStatus: 'not_implemented';
+  billingCrudStatus: 'not_implemented';
+  pricingCrudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  usageRuntimeStatus: 'not_allowed';
+  costCalculationRuntimeStatus: 'not_allowed';
+  billingRuntimeStatus: 'not_allowed';
+  invoiceRuntimeStatus: 'not_allowed';
+  providerPricingFetchRuntimeStatus: 'not_allowed';
+  providerUsageFetchRuntimeStatus: 'not_allowed';
+  paymentProviderRuntimeStatus: 'not_allowed';
+  exportRuntimeStatus: 'not_allowed';
+  reportRuntimeStatus: 'not_allowed';
+  alertRuntimeStatus: 'not_allowed';
+  budgetEnforcementRuntimeStatus: 'not_allowed';
+  liveCallQueryStatus: 'not_allowed';
+  transcriptAccessStatus: 'not_allowed';
+  recordingAccessStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  aiVoiceStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  usageStorageAllowed: false;
+  costStorageAllowed: false;
+  billingStorageAllowed: false;
+  invoiceStorageAllowed: false;
+  pricingStorageAllowed: false;
+  providerUsageStorageAllowed: false;
+  usageEndpointAllowed: false;
+  costEndpointAllowed: false;
+  billingEndpointAllowed: false;
+  pricingEndpointAllowed: false;
+  usageCrudAllowed: false;
+  costCrudAllowed: false;
+  billingCrudAllowed: false;
+  pricingCrudAllowed: false;
+  migrationAllowed: false;
+  usageRuntimeAllowed: false;
+  costCalculationRuntimeAllowed: false;
+  billingRuntimeAllowed: false;
+  invoiceRuntimeAllowed: false;
+  providerPricingFetchRuntimeAllowed: false;
+  providerUsageFetchRuntimeAllowed: false;
+  paymentProviderRuntimeAllowed: false;
+  exportRuntimeAllowed: false;
+  reportRuntimeAllowed: false;
+  alertRuntimeAllowed: false;
+  budgetEnforcementRuntimeAllowed: false;
+  liveCallQueryAllowed: false;
+  transcriptAccessAllowed: false;
+  recordingAccessAllowed: false;
+  openAiConnectionAllowed: false;
+  openAiRuntimeAllowed: false;
+  realtimeSessionAllowed: false;
+  aiVoiceAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  realCredentialAllowed: false;
+  realPiiAllowed: false;
+  realCallAllowed: false;
+  realBillingAllowed: false;
+  realInvoiceAllowed: false;
+  hardcodedProviderPricingAllowed: false;
+  futureUsageScopeFields: string[];
+  futureProviderUsageFields: string[];
+  futureAiVoiceUsageFields: string[];
+  futureQaUsageFields: string[];
+  futureCostCategories: string[];
+  futureBudgetControlRules: string[];
+  futureAlertRules: string[];
+  futureUsageReportRules: string[];
+  futureReconciliationRules: string[];
+  futureRbacUsageCostRules: string[];
+  futureTenantCampaignIsolationRules: string[];
+  futureMfaStepUpRules: string[];
+  futureMiddlewareCoreDependencyRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -3718,6 +3848,7 @@ export type RouteReadinessReport = {
   qaSamplingEligibilityRulesReadiness: QaSamplingEligibilityRulesReadiness;
   qaFeedbackAiImprovementApprovalReadiness: QaFeedbackAiImprovementApprovalReadiness;
   consentDisclosureReadiness: ConsentDisclosureReadiness;
+  usageCostTrackingReadiness: UsageCostTrackingReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -15700,6 +15831,322 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const usageCostTrackingReadiness: UsageCostTrackingReadiness = {
+    currentState: 'not_ready',
+    usageCostTrackingApproved: false,
+    usageCostTrackingMode: 'read_only_design',
+    tenantScopedUsageStatus: 'read_only_design',
+    campaignScopedUsageStatus: 'read_only_design',
+    providerAwareUsageStatus: 'read_only_design',
+    aiVoiceUsageStatus: 'read_only_design',
+    aiQaUsageStatus: 'read_only_design',
+    humanQaUsageStatus: 'read_only_design',
+    transcriptionUsageStatus: 'read_only_design',
+    recordingUsageStatus: 'read_only_design',
+    tokenUsageStatus: 'read_only_design',
+    audioUsageStatus: 'read_only_design',
+    toolCallUsageStatus: 'read_only_design',
+    costEstimationStatus: 'read_only_design',
+    actualCostReconciliationStatus: 'read_only_design',
+    providerPricingVersionStatus: 'read_only_design',
+    budgetTrackingStatus: 'read_only_design',
+    budgetWarningThresholdStatus: 'read_only_design',
+    budgetHardStopThresholdStatus: 'read_only_design',
+    budgetOverrideApprovalStatus: 'read_only_design',
+    usageAnomalyDetectionStatus: 'read_only_design',
+    costAlertStatus: 'read_only_design',
+    billingPeriodStatus: 'read_only_design',
+    costCenterStatus: 'read_only_design',
+    exportAuditStatus: 'read_only_design',
+    rbacUsageCostControlStatus: 'read_only_design',
+    tenantIsolationStatus: 'read_only_design',
+    campaignIsolationStatus: 'read_only_design',
+    mfaStepUpForCostChangesStatus: 'read_only_design',
+    middlewareCoreDependencyStatus: 'read_only_design',
+    usageStorageStatus: 'not_implemented',
+    costStorageStatus: 'not_implemented',
+    billingStorageStatus: 'not_implemented',
+    invoiceStorageStatus: 'not_implemented',
+    pricingStorageStatus: 'not_implemented',
+    providerUsageStorageStatus: 'not_implemented',
+    usageEndpointStatus: 'not_implemented',
+    costEndpointStatus: 'not_implemented',
+    billingEndpointStatus: 'not_implemented',
+    pricingEndpointStatus: 'not_implemented',
+    usageCrudStatus: 'not_implemented',
+    costCrudStatus: 'not_implemented',
+    billingCrudStatus: 'not_implemented',
+    pricingCrudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    usageRuntimeStatus: 'not_allowed',
+    costCalculationRuntimeStatus: 'not_allowed',
+    billingRuntimeStatus: 'not_allowed',
+    invoiceRuntimeStatus: 'not_allowed',
+    providerPricingFetchRuntimeStatus: 'not_allowed',
+    providerUsageFetchRuntimeStatus: 'not_allowed',
+    paymentProviderRuntimeStatus: 'not_allowed',
+    exportRuntimeStatus: 'not_allowed',
+    reportRuntimeStatus: 'not_allowed',
+    alertRuntimeStatus: 'not_allowed',
+    budgetEnforcementRuntimeStatus: 'not_allowed',
+    liveCallQueryStatus: 'not_allowed',
+    transcriptAccessStatus: 'not_allowed',
+    recordingAccessStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    aiVoiceStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    usageStorageAllowed: false,
+    costStorageAllowed: false,
+    billingStorageAllowed: false,
+    invoiceStorageAllowed: false,
+    pricingStorageAllowed: false,
+    providerUsageStorageAllowed: false,
+    usageEndpointAllowed: false,
+    costEndpointAllowed: false,
+    billingEndpointAllowed: false,
+    pricingEndpointAllowed: false,
+    usageCrudAllowed: false,
+    costCrudAllowed: false,
+    billingCrudAllowed: false,
+    pricingCrudAllowed: false,
+    migrationAllowed: false,
+    usageRuntimeAllowed: false,
+    costCalculationRuntimeAllowed: false,
+    billingRuntimeAllowed: false,
+    invoiceRuntimeAllowed: false,
+    providerPricingFetchRuntimeAllowed: false,
+    providerUsageFetchRuntimeAllowed: false,
+    paymentProviderRuntimeAllowed: false,
+    exportRuntimeAllowed: false,
+    reportRuntimeAllowed: false,
+    alertRuntimeAllowed: false,
+    budgetEnforcementRuntimeAllowed: false,
+    liveCallQueryAllowed: false,
+    transcriptAccessAllowed: false,
+    recordingAccessAllowed: false,
+    openAiConnectionAllowed: false,
+    openAiRuntimeAllowed: false,
+    realtimeSessionAllowed: false,
+    aiVoiceAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    realCredentialAllowed: false,
+    realPiiAllowed: false,
+    realCallAllowed: false,
+    realBillingAllowed: false,
+    realInvoiceAllowed: false,
+    hardcodedProviderPricingAllowed: false,
+    futureUsageScopeFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'callId',
+      'callDirection',
+      'routeType',
+      'agentType',
+      'aiAgentId',
+      'humanAgentId',
+      'language',
+      'sessionId',
+      'qaEvaluationId',
+      'scorecardId',
+      'transcriptId',
+      'recordingReferenceId',
+      'billingPeriod',
+      'budgetId',
+      'costCenter',
+      'auditCorrelationId',
+    ],
+    futureProviderUsageFields: [
+      'providerName',
+      'providerAccountId',
+      'providerProduct',
+      'modelName',
+      'voiceName',
+      'transcriptionProvider',
+      'recordingProvider',
+      'pricingVersion',
+      'estimatedCost',
+      'actualCost',
+      'currency',
+      'providerUsageReference',
+      'providerInvoiceReference',
+      'providerReconciliationStatus',
+    ],
+    futureAiVoiceUsageFields: [
+      'modelName',
+      'voiceName',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'toolCallCount',
+      'inputTokenCount',
+      'outputTokenCount',
+      'cachedTokenCount',
+      'audioInputSeconds',
+      'audioOutputSeconds',
+      'callDurationSeconds',
+      'aiVoiceSessionSeconds',
+      'fallbackProviderUsed',
+      'retryCount',
+      'humanHandoffEventTracked',
+    ],
+    futureQaUsageFields: [
+      'qaEvaluationId',
+      'qaEvaluationCount',
+      'qaEvaluationType',
+      'scorecardId',
+      'transcriptId',
+      'recordingReferenceId',
+      'transcriptionSeconds',
+      'recordingSeconds',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'qaReportUsageReference',
+      'humanQaProcessingReference',
+    ],
+    futureCostCategories: [
+      'AI voice runtime cost',
+      'realtime model usage cost',
+      'input tokens',
+      'output tokens',
+      'cached tokens',
+      'audio input',
+      'audio output',
+      'transcription',
+      'recording storage',
+      'QA evaluation',
+      'report generation',
+      'tool calls',
+      'fallback provider usage',
+      'retry usage',
+      'human handoff event cost tracking',
+    ],
+    futureBudgetControlRules: [
+      'Future controls may support campaign daily budget',
+      'Future controls may support campaign monthly budget',
+      'Future controls may support AI agent budget',
+      'Future controls may support AI Voice budget',
+      'Future controls may support AI QA budget',
+      'Future controls may support Human QA processing budget',
+      'Future controls may support provider-specific budget',
+      'Future controls may support warning threshold and hard stop threshold',
+      'Future controls may support exceeded behavior, budget pause, budget alert, budget override request, and budget approval',
+      'Budget enforcement runtime is not implemented or executable in this readiness phase',
+    ],
+    futureAlertRules: [
+      'Future alerts may detect budget warning',
+      'Future alerts may detect budget exceeded',
+      'Future alerts may detect provider cost spike',
+      'Future alerts may detect abnormal token usage',
+      'Future alerts may detect abnormal audio duration',
+      'Future alerts may detect abnormal QA evaluation volume',
+      'Future alerts may detect runaway loop behavior',
+      'Future alerts may detect retry storm behavior',
+      'Future alerts may detect high-cost campaign and high-cost AI agent patterns',
+      'Alert runtime is not implemented in this readiness phase',
+    ],
+    futureUsageReportRules: [
+      'Future reports may show usage by company',
+      'Future reports may show usage by client',
+      'Future reports may show usage by campaign',
+      'Future reports may show usage by AI agent',
+      'Future reports may show usage by provider, model, language, call direction, QA type, scorecard, and billing period',
+      'Future reports may show usage anomalies',
+      'Future reports may show cost per call, connected call, QA evaluation, successful outcome, transfer, and minute',
+      'Report runtime is not implemented in this readiness phase',
+    ],
+    futureReconciliationRules: [
+      'Future reconciliation may compare internal estimate vs provider invoice',
+      'Future reconciliation may support provider usage reconciliation',
+      'Future reconciliation may audit pricing versions',
+      'Future reconciliation may audit budget changes',
+      'Future reconciliation may audit exports',
+      'Future reconciliation may support anomaly investigation',
+      'Provider usage fetch and invoice runtime are not implemented in this readiness phase',
+    ],
+    futureRbacUsageCostRules: [
+      'super_admin can review global and per-campaign usage/cost policy in a future implementation',
+      'authorized internal admin can review assigned campaigns only in a future implementation',
+      'client_admin can review assigned client/campaign usage only if permission allows in a future implementation',
+      'finance/admin role can review billing exports only if permission allows in a future implementation',
+      'restricted users cannot view or change cost/pricing/billing settings',
+      'High-risk budget, pricing, billing, or export actions may require MFA/step-up authentication in a future implementation',
+    ],
+    futureTenantCampaignIsolationRules: [
+      'Client A must not see client B usage',
+      'Campaign A must not see campaign B costs',
+      'Provider credentials must not leak between tenants',
+      'Provider pricing must not leak between tenants',
+      'Billing exports must not cross client/campaign boundaries',
+      'Tenant and campaign isolation must be enforced server-side in a future implementation',
+    ],
+    futureMfaStepUpRules: [
+      'High-risk budget changes should require future MFA/step-up authentication',
+      'High-risk pricing changes should require future MFA/step-up authentication',
+      'High-risk billing actions should require future MFA/step-up authentication',
+      'High-risk export actions should require future MFA/step-up authentication',
+      'MFA/step-up remains design-only and does not change current auth behavior in this readiness phase',
+    ],
+    futureMiddlewareCoreDependencyRules: [
+      'Vicidial Middleware remains the source of truth for campaign routing',
+      'Vicidial Middleware remains the source of truth for DID rules',
+      'Vicidial Middleware remains the source of truth for route simulation and shadow mode',
+      'Vicidial Middleware remains the source of truth for local touch, limits, inventory health, and runtime safety',
+      'AI Voice and QA modules must consume middleware context and must not bypass or override middleware core rules without explicit approved runtime activation',
+    ],
+    futureRuntimeBoundaries: [
+      'Usage & Cost Tracking readiness must not create usage storage, cost storage, billing storage, invoice storage, pricing storage, provider usage storage, CRUD, endpoints, migrations, database tables, or storage',
+      'Usage & Cost Tracking readiness must not create usage records, cost records, billing records, invoice records, provider usage records, OpenAI usage records, AI Voice usage records, QA usage records, or pricing records',
+      'Usage & Cost Tracking readiness must not fetch provider pricing, fetch provider usage, hardcode real provider prices, calculate real billing, generate invoices, connect payment providers, connect OpenAI, execute OpenAI API calls, or open Realtime sessions',
+      'Usage & Cost Tracking readiness must not create usage runtime, cost calculation runtime, billing runtime, invoice runtime, provider pricing fetch runtime, provider usage fetch runtime, payment provider runtime, export runtime, report runtime, alert runtime, or budget enforcement runtime',
+      'Usage & Cost Tracking readiness must not access transcripts, recordings, live calls, raw PII, or real credentials',
+      'Usage & Cost Tracking readiness must not enable AI voice, enable AI inbound calls, enable AI outbound calls, enable FastAGI, modify Asterisk/Vicidial, modify dialplan, reload dialplan, or change route behavior',
+      'Usage & Cost Tracking readiness must not change current auth, login, session, or RBAC behavior and must not add UI execution controls',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create usage records',
+      'Do not create cost records',
+      'Do not create billing records',
+      'Do not create invoice records',
+      'Do not create provider usage records',
+      'Do not create OpenAI usage records',
+      'Do not create AI Voice usage records',
+      'Do not create QA usage records',
+      'Do not create pricing records',
+      'Do not fetch provider pricing',
+      'Do not hardcode real provider prices',
+      'Do not calculate real billing',
+      'Do not generate invoices',
+      'Do not connect payment providers',
+      'Do not create usage, cost, billing, invoice, pricing, or provider usage storage',
+      'Do not create CRUD, endpoints, migrations, database tables, or storage',
+      'Do not create usage, cost calculation, billing, invoice, provider fetch, payment provider, export, report, alert, or budget enforcement runtime',
+      'Do not connect OpenAI, execute OpenAI API calls, or open Realtime sessions',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not query live calls or execute live calls',
+      'Do not access recordings or transcripts',
+      'Do not expose raw PII or secrets',
+      'Do not modify Asterisk, Vicidial, dialplan, or route behavior',
+      'Do not change auth, login, session, or RBAC behavior',
+    ],
+    nextSteps: [
+      'Keep Usage & Cost Tracking Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, provider-fetch-blocked, payment-provider-blocked, OpenAI-disconnected, billing-blocked, and runtime-blocked.',
+      'Define future tenant-scoped, campaign-scoped, provider-aware usage and cost data contracts for AI Voice, AI QA, Human QA processing, transcription, recording, token, audio, tool-call, report, fallback, retry, and handoff event usage in a separately approved phase.',
+      'Define future provider pricing configuration, pricing versioning, effective dates, audit, RBAC, tenant isolation, budget thresholds, hard stop behavior, override requests, approval, anomaly detection, reconciliation, exports, and MFA/step-up policy before implementation.',
+      'Require provider pricing to remain configurable, versioned, effective-dated, auditable, and RBAC-controlled; do not hardcode real provider pricing.',
+      'Keep usage storage, cost storage, billing storage, invoice storage, pricing storage, provider usage storage, CRUD, endpoints, migrations, usage runtime, cost calculation runtime, billing runtime, invoice runtime, provider pricing fetch runtime, provider usage fetch runtime, payment provider runtime, export runtime, report runtime, alert runtime, budget enforcement runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, raw PII, recordings/transcripts, real billing, real invoices, hardcoded provider pricing, and UI execution controls blocked.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -16069,6 +16516,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Consent / Disclosure readiness is read-only, not ready, not approved, campaign-scoped optional disclosure mapped, global forced disclosure blocked, language-customizable disclosure mapped, inbound/outbound and AI-handled/human-handled calls mapped, recorded/monitored/transcribed call disclosure mapped, fallback/audit/versioning/effective-date/rollback/jurisdiction-policy/RBAC/MFA/tenant isolation mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, consent-capture/disclosure-playback/audio-generation/audio-upload/IVR/call-script/recording/transcription/report runtime blocked, transcript/recording/live-call access blocked, OpenAI-disconnected, telephony changes blocked, and exposes no consent, disclosure, audio, IVR, recording, transcription, language save, campaign save, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
     },
+    {
+      id: 'usage-cost-tracking-readiness-read-only',
+      label: 'Usage & Cost Tracking readiness read-only',
+      status: 'pass',
+      detail: 'Usage & Cost Tracking readiness is read-only, not ready, not approved, tenant-scoped and campaign-scoped usage mapped, provider-aware usage mapped, AI Voice/AI QA/Human QA/transcription/recording/token/audio/tool-call usage mapped, cost estimation/reconciliation/pricing version/budget/alert/export audit mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, usage/cost/billing/invoice/provider-pricing/provider-usage/payment/export/report/alert/budget runtime blocked, transcript/recording/live-call access blocked, OpenAI-disconnected, billing and invoice behavior blocked, hardcoded provider pricing blocked, and exposes no usage, cost, billing, invoice, pricing, provider, payment, export, budget, alert, report, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -16210,6 +16663,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     qaSamplingEligibilityRulesReadiness,
     qaFeedbackAiImprovementApprovalReadiness,
     consentDisclosureReadiness,
+    usageCostTrackingReadiness,
     checklist,
     risks,
     recommendations: [
@@ -16265,6 +16719,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat QA Sampling & Eligibility Rules readiness as read-only design visibility; it maps future campaign-scoped QA eligibility and sampling so QA does not evaluate all calls by default, including AI Agent QA, Human Agent QA, inbound/outbound, AI-handled and human-handled calls, duration filters, disposition filters, language filters, exclusions, sampling methods, agent min/max rules, capacity/budget boundaries, RBAC, tenant isolation, MFA step-up, report coverage, and middleware core dependency only and does not create QA sampling storage, QA eligibility storage, sampling queues, QA evaluation jobs, QA records, CRUD, endpoints, migrations, sampling runtime, eligibility runtime, QA runtime, scheduler runtime, background jobs, report runtime, OpenAI connection, Realtime sessions, AI voice, AI inbound/outbound execution, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, or UI execution controls.',
       'Treat QA Feedback to AI Improvement Approval readiness as read-only design visibility; it maps future campaign-scoped QA feedback to controlled AI improvement proposals with human review, approval, versioning, audit, rollback planning, sandbox testing, RBAC, tenant isolation, MFA step-up, and future activation gates only and does not create QA feedback storage, AI improvement storage, prompt/KB/policy/handoff/scorecard change storage, approval storage, version storage, audit storage, CRUD, endpoints, migrations, approval runtime, versioning runtime, rollback runtime, prompt optimization runtime, AI learning runtime, prompt/KB/policy/handoff/scorecard update runtime, QA evaluation runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, or UI execution controls.',
       'Treat Consent / Disclosure readiness as read-only design visibility; it maps future campaign-scoped optional disclosure, language-customizable text/audio references, inbound/outbound, AI-handled/human-handled, recorded/monitored/transcribed call applicability, multilingual dependency, fallback behavior, jurisdiction/client policy mapping, audit, versioning, rollback, effective dates, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create consent storage, disclosure storage, disclosure language storage, disclosure audio storage, disclosure audit storage, CRUD, endpoints, migrations, consent capture runtime, disclosure playback runtime, audio generation/upload runtime, IVR runtime, call script runtime, recording runtime, transcription runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, or UI execution controls.',
+      'Treat Usage & Cost Tracking readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-aware, auditable, budget-aware usage and cost tracking for AI Voice, AI QA, Human QA processing, transcription, recording, tokens, audio, tool calls, reports, fallback, retry, handoff events, pricing versions, budgets, alerts, reconciliation, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create usage storage, cost storage, billing storage, invoice storage, pricing storage, provider usage storage, CRUD, endpoints, migrations, usage runtime, cost calculation runtime, billing runtime, invoice runtime, provider pricing fetch runtime, provider usage fetch runtime, payment provider runtime, export runtime, report runtime, alert runtime, budget enforcement runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, real billing, real invoices, hardcoded provider pricing, or UI execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

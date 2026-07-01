@@ -1089,6 +1089,15 @@
                   <div class="muted small">Loading Consent / Disclosure readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Usage &amp; Cost Tracking Readiness</h2>
+                  <span class="muted small">Read-only usage and cost tracking design status for future tenant-scoped, campaign-scoped, provider-aware, auditable, and budget-aware usage across AI Voice, QA, transcription, recording, token, audio, tool-call, report, fallback, retry, and handoff event cost drivers. This does not create usage records, cost records, billing records, invoice records, pricing records, provider usage records, storage, CRUD, endpoints, migrations, provider pricing fetches, provider usage fetches, payment provider calls, billing runtime, invoice runtime, report runtime, OpenAI connection, AI voice execution, FastAGI, live calls, transcript/recording access, raw PII exposure, real billing, real invoices, hardcoded provider pricing, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="usageCostTrackingReadinessCards"></div>
+                <div class="row" id="usageCostTrackingReadinessBadges" style="margin-top:12px"></div>
+                <div id="usageCostTrackingReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading Usage &amp; Cost Tracking readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3128,10 +3137,13 @@ function renderRouteReadiness() {
   const consentDisclosureReadinessCards = $('#consentDisclosureReadinessCards');
   const consentDisclosureReadinessBadges = $('#consentDisclosureReadinessBadges');
   const consentDisclosureReadinessDetails = $('#consentDisclosureReadinessDetails');
+  const usageCostTrackingReadinessCards = $('#usageCostTrackingReadinessCards');
+  const usageCostTrackingReadinessBadges = $('#usageCostTrackingReadinessBadges');
+  const usageCostTrackingReadinessDetails = $('#usageCostTrackingReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !usageCostTrackingReadinessCards || !usageCostTrackingReadinessBadges || !usageCostTrackingReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3287,6 +3299,9 @@ function renderRouteReadiness() {
     consentDisclosureReadinessCards.innerHTML = '<div class="muted small">Consent / Disclosure readiness status not loaded.</div>';
     consentDisclosureReadinessBadges.innerHTML = '';
     consentDisclosureReadinessDetails.innerHTML = '<div class="muted small">Consent / Disclosure readiness details not loaded.</div>';
+    usageCostTrackingReadinessCards.innerHTML = '<div class="muted small">Usage &amp; Cost Tracking readiness status not loaded.</div>';
+    usageCostTrackingReadinessBadges.innerHTML = '';
+    usageCostTrackingReadinessDetails.innerHTML = '<div class="muted small">Usage &amp; Cost Tracking readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -9722,6 +9737,174 @@ function renderRouteReadiness() {
   consentDisclosureReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${consentDisclosureDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const usageCostTracking = report.usageCostTrackingReadiness || {};
+  const usageCostTrackingReadinessCardsData = [
+    ['Current state', usageCostTracking.currentState || 'not_ready'],
+    ['Usage cost tracking approved', usageCostTracking.usageCostTrackingApproved ? 'yes' : 'no'],
+    ['Usage cost tracking mode', usageCostTracking.usageCostTrackingMode || 'read_only_design'],
+    ['Tenant-scoped usage', usageCostTracking.tenantScopedUsageStatus || 'read_only_design'],
+    ['Campaign-scoped usage', usageCostTracking.campaignScopedUsageStatus || 'read_only_design'],
+    ['Provider-aware usage', usageCostTracking.providerAwareUsageStatus || 'read_only_design'],
+    ['AI Voice usage', usageCostTracking.aiVoiceUsageStatus || 'read_only_design'],
+    ['AI QA usage', usageCostTracking.aiQaUsageStatus || 'read_only_design'],
+    ['Human QA usage', usageCostTracking.humanQaUsageStatus || 'read_only_design'],
+    ['Transcription usage', usageCostTracking.transcriptionUsageStatus || 'read_only_design'],
+    ['Recording usage', usageCostTracking.recordingUsageStatus || 'read_only_design'],
+    ['Token usage', usageCostTracking.tokenUsageStatus || 'read_only_design'],
+    ['Audio usage', usageCostTracking.audioUsageStatus || 'read_only_design'],
+    ['Tool call usage', usageCostTracking.toolCallUsageStatus || 'read_only_design'],
+    ['Cost estimation', usageCostTracking.costEstimationStatus || 'read_only_design'],
+    ['Actual cost reconciliation', usageCostTracking.actualCostReconciliationStatus || 'read_only_design'],
+    ['Provider pricing version', usageCostTracking.providerPricingVersionStatus || 'read_only_design'],
+    ['Budget tracking', usageCostTracking.budgetTrackingStatus || 'read_only_design'],
+    ['Budget warning threshold', usageCostTracking.budgetWarningThresholdStatus || 'read_only_design'],
+    ['Budget hard stop threshold', usageCostTracking.budgetHardStopThresholdStatus || 'read_only_design'],
+    ['Budget override approval', usageCostTracking.budgetOverrideApprovalStatus || 'read_only_design'],
+    ['Usage anomaly detection', usageCostTracking.usageAnomalyDetectionStatus || 'read_only_design'],
+    ['Cost alert', usageCostTracking.costAlertStatus || 'read_only_design'],
+    ['Billing period', usageCostTracking.billingPeriodStatus || 'read_only_design'],
+    ['Cost center', usageCostTracking.costCenterStatus || 'read_only_design'],
+    ['Export audit', usageCostTracking.exportAuditStatus || 'read_only_design'],
+    ['RBAC usage/cost control', usageCostTracking.rbacUsageCostControlStatus || 'read_only_design'],
+    ['Tenant isolation', usageCostTracking.tenantIsolationStatus || 'read_only_design'],
+    ['Campaign isolation', usageCostTracking.campaignIsolationStatus || 'read_only_design'],
+    ['MFA step-up for cost changes', usageCostTracking.mfaStepUpForCostChangesStatus || 'read_only_design'],
+    ['Middleware core dependency', usageCostTracking.middlewareCoreDependencyStatus || 'read_only_design'],
+    ['Usage storage', usageCostTracking.usageStorageStatus || 'not_implemented'],
+    ['Cost storage', usageCostTracking.costStorageStatus || 'not_implemented'],
+    ['Billing storage', usageCostTracking.billingStorageStatus || 'not_implemented'],
+    ['Invoice storage', usageCostTracking.invoiceStorageStatus || 'not_implemented'],
+    ['Pricing storage', usageCostTracking.pricingStorageStatus || 'not_implemented'],
+    ['Provider usage storage', usageCostTracking.providerUsageStorageStatus || 'not_implemented'],
+    ['Usage endpoint', usageCostTracking.usageEndpointStatus || 'not_implemented'],
+    ['Cost endpoint', usageCostTracking.costEndpointStatus || 'not_implemented'],
+    ['Billing endpoint', usageCostTracking.billingEndpointStatus || 'not_implemented'],
+    ['Pricing endpoint', usageCostTracking.pricingEndpointStatus || 'not_implemented'],
+    ['Usage CRUD', usageCostTracking.usageCrudStatus || 'not_implemented'],
+    ['Cost CRUD', usageCostTracking.costCrudStatus || 'not_implemented'],
+    ['Billing CRUD', usageCostTracking.billingCrudStatus || 'not_implemented'],
+    ['Pricing CRUD', usageCostTracking.pricingCrudStatus || 'not_implemented'],
+    ['Migration', usageCostTracking.migrationStatus || 'not_implemented'],
+    ['Usage runtime', usageCostTracking.usageRuntimeStatus || 'not_allowed'],
+    ['Cost calculation runtime', usageCostTracking.costCalculationRuntimeStatus || 'not_allowed'],
+    ['Billing runtime', usageCostTracking.billingRuntimeStatus || 'not_allowed'],
+    ['Invoice runtime', usageCostTracking.invoiceRuntimeStatus || 'not_allowed'],
+    ['Provider pricing fetch runtime', usageCostTracking.providerPricingFetchRuntimeStatus || 'not_allowed'],
+    ['Provider usage fetch runtime', usageCostTracking.providerUsageFetchRuntimeStatus || 'not_allowed'],
+    ['Payment provider runtime', usageCostTracking.paymentProviderRuntimeStatus || 'not_allowed'],
+    ['Export runtime', usageCostTracking.exportRuntimeStatus || 'not_allowed'],
+    ['Report runtime', usageCostTracking.reportRuntimeStatus || 'not_allowed'],
+    ['Alert runtime', usageCostTracking.alertRuntimeStatus || 'not_allowed'],
+    ['Budget enforcement runtime', usageCostTracking.budgetEnforcementRuntimeStatus || 'not_allowed'],
+    ['Live call query', usageCostTracking.liveCallQueryStatus || 'not_allowed'],
+    ['Transcript access', usageCostTracking.transcriptAccessStatus || 'not_allowed'],
+    ['Recording access', usageCostTracking.recordingAccessStatus || 'not_allowed'],
+    ['OpenAI connection', usageCostTracking.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', usageCostTracking.openAiRuntimeStatus || 'not_connected'],
+    ['Realtime session', usageCostTracking.realtimeSessionStatus || 'not_connected'],
+    ['AI voice', usageCostTracking.aiVoiceStatus || 'not_allowed'],
+    ['AI inbound execution', usageCostTracking.aiInboundExecutionStatus || 'not_allowed'],
+    ['AI outbound execution', usageCostTracking.aiOutboundExecutionStatus || 'not_allowed'],
+    ['FastAGI', usageCostTracking.fastAgiStatus || 'not_allowed'],
+    ['Route behavior change', usageCostTracking.routeBehaviorChangeStatus || 'not_allowed'],
+    ['Usage storage allowed', usageCostTracking.usageStorageAllowed ? 'yes' : 'no'],
+    ['Cost storage allowed', usageCostTracking.costStorageAllowed ? 'yes' : 'no'],
+    ['Billing storage allowed', usageCostTracking.billingStorageAllowed ? 'yes' : 'no'],
+    ['Invoice storage allowed', usageCostTracking.invoiceStorageAllowed ? 'yes' : 'no'],
+    ['Pricing storage allowed', usageCostTracking.pricingStorageAllowed ? 'yes' : 'no'],
+    ['Provider usage storage allowed', usageCostTracking.providerUsageStorageAllowed ? 'yes' : 'no'],
+    ['Usage endpoint allowed', usageCostTracking.usageEndpointAllowed ? 'yes' : 'no'],
+    ['Cost endpoint allowed', usageCostTracking.costEndpointAllowed ? 'yes' : 'no'],
+    ['Billing endpoint allowed', usageCostTracking.billingEndpointAllowed ? 'yes' : 'no'],
+    ['Pricing endpoint allowed', usageCostTracking.pricingEndpointAllowed ? 'yes' : 'no'],
+    ['Usage CRUD allowed', usageCostTracking.usageCrudAllowed ? 'yes' : 'no'],
+    ['Cost CRUD allowed', usageCostTracking.costCrudAllowed ? 'yes' : 'no'],
+    ['Billing CRUD allowed', usageCostTracking.billingCrudAllowed ? 'yes' : 'no'],
+    ['Pricing CRUD allowed', usageCostTracking.pricingCrudAllowed ? 'yes' : 'no'],
+    ['Migration allowed', usageCostTracking.migrationAllowed ? 'yes' : 'no'],
+    ['Usage runtime allowed', usageCostTracking.usageRuntimeAllowed ? 'yes' : 'no'],
+    ['Cost calculation runtime allowed', usageCostTracking.costCalculationRuntimeAllowed ? 'yes' : 'no'],
+    ['Billing runtime allowed', usageCostTracking.billingRuntimeAllowed ? 'yes' : 'no'],
+    ['Invoice runtime allowed', usageCostTracking.invoiceRuntimeAllowed ? 'yes' : 'no'],
+    ['Provider pricing fetch runtime allowed', usageCostTracking.providerPricingFetchRuntimeAllowed ? 'yes' : 'no'],
+    ['Provider usage fetch runtime allowed', usageCostTracking.providerUsageFetchRuntimeAllowed ? 'yes' : 'no'],
+    ['Payment provider runtime allowed', usageCostTracking.paymentProviderRuntimeAllowed ? 'yes' : 'no'],
+    ['Export runtime allowed', usageCostTracking.exportRuntimeAllowed ? 'yes' : 'no'],
+    ['Report runtime allowed', usageCostTracking.reportRuntimeAllowed ? 'yes' : 'no'],
+    ['Alert runtime allowed', usageCostTracking.alertRuntimeAllowed ? 'yes' : 'no'],
+    ['Budget enforcement runtime allowed', usageCostTracking.budgetEnforcementRuntimeAllowed ? 'yes' : 'no'],
+    ['Live call query allowed', usageCostTracking.liveCallQueryAllowed ? 'yes' : 'no'],
+    ['Transcript access allowed', usageCostTracking.transcriptAccessAllowed ? 'yes' : 'no'],
+    ['Recording access allowed', usageCostTracking.recordingAccessAllowed ? 'yes' : 'no'],
+    ['OpenAI connection allowed', usageCostTracking.openAiConnectionAllowed ? 'yes' : 'no'],
+    ['OpenAI runtime allowed', usageCostTracking.openAiRuntimeAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', usageCostTracking.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['AI voice allowed', usageCostTracking.aiVoiceAllowed ? 'yes' : 'no'],
+    ['AI inbound execution allowed', usageCostTracking.aiInboundExecutionAllowed ? 'yes' : 'no'],
+    ['AI outbound execution allowed', usageCostTracking.aiOutboundExecutionAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', usageCostTracking.fastAgiAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', usageCostTracking.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', usageCostTracking.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', usageCostTracking.realPiiAllowed ? 'yes' : 'no'],
+    ['Real call allowed', usageCostTracking.realCallAllowed ? 'yes' : 'no'],
+    ['Real billing allowed', usageCostTracking.realBillingAllowed ? 'yes' : 'no'],
+    ['Real invoice allowed', usageCostTracking.realInvoiceAllowed ? 'yes' : 'no'],
+    ['Hardcoded provider pricing allowed', usageCostTracking.hardcodedProviderPricingAllowed ? 'yes' : 'no'],
+  ];
+  usageCostTrackingReadinessCards.innerHTML = usageCostTrackingReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  usageCostTrackingReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only usage/cost design', 'info'),
+    readinessBadge('Tenant scoped', 'info'),
+    readinessBadge('Campaign scoped', 'info'),
+    readinessBadge('Provider aware', 'info'),
+    readinessBadge('AI Voice usage mapped', 'info'),
+    readinessBadge('QA usage mapped', 'info'),
+    readinessBadge('Budget controls mapped', 'info'),
+    readinessBadge('No hardcoded provider pricing', 'ok'),
+    readinessBadge('RBAC/MFA mapped', 'info'),
+    readinessBadge('Tenant isolation mapped', 'info'),
+    readinessBadge('No billing runtime', 'ok'),
+    readinessBadge('No runtime controls', 'ok'),
+  ].join('');
+
+  const usageCostTrackingDetailGroups = [
+    ['Future usage scope fields', usageCostTracking.futureUsageScopeFields],
+    ['Future provider usage fields', usageCostTracking.futureProviderUsageFields],
+    ['Future AI Voice usage fields', usageCostTracking.futureAiVoiceUsageFields],
+    ['Future QA usage fields', usageCostTracking.futureQaUsageFields],
+    ['Future cost categories', usageCostTracking.futureCostCategories],
+    ['Future budget control rules', usageCostTracking.futureBudgetControlRules],
+    ['Future alert rules', usageCostTracking.futureAlertRules],
+    ['Future usage report rules', usageCostTracking.futureUsageReportRules],
+    ['Future reconciliation rules', usageCostTracking.futureReconciliationRules],
+    ['Future RBAC usage/cost rules', usageCostTracking.futureRbacUsageCostRules],
+    ['Future tenant/campaign isolation rules', usageCostTracking.futureTenantCampaignIsolationRules],
+    ['Future MFA step-up rules', usageCostTracking.futureMfaStepUpRules],
+    ['Future middleware core dependency rules', usageCostTracking.futureMiddlewareCoreDependencyRules],
+    ['Future runtime boundaries', usageCostTracking.futureRuntimeBoundaries],
+    ['Prohibited current actions', usageCostTracking.prohibitedCurrentActions],
+    ['Next steps', usageCostTracking.nextSteps],
+  ];
+  usageCostTrackingReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${usageCostTrackingDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>

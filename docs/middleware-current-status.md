@@ -18,6 +18,12 @@ Future disclosure supports inbound, outbound, AI-handled, human-handled, recorde
 
 No consent storage, disclosure storage, disclosure language storage, disclosure audio storage, disclosure audit storage, CRUD, endpoints, migrations, consent capture runtime, disclosure playback runtime, disclosure audio generation/upload runtime, IVR runtime, call script runtime, recording runtime, transcription runtime, report runtime, transcript access, recording access, live call queries, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, raw PII exposure, or UI execution controls were added. No runtime behavior changed.
 
+Usage & Cost Tracking Readiness has been added as read-only design/status. Future usage/cost tracking is tenant-scoped, campaign-scoped, provider-aware, auditable, and budget-aware.
+
+Future tracking supports AI Voice usage, AI QA usage, Human QA processing usage, transcription, recording, token usage, audio usage, tool calls, fallback/retry usage, report usage, handoff event tracking, pricing versions, budgets, alerts, reconciliation, and cost reporting. Provider pricing must not be hardcoded; future pricing must be configurable, versioned, effective-dated, auditable, and RBAC-controlled. Future budget controls support warning thresholds, hard stop thresholds, exceeded behavior, budget pause, budget alerts, override requests, and approval. The middleware remains the source of truth for routing, DID rules, shadow mode, local touch, limits, inventory health, and runtime safety.
+
+No usage storage, cost storage, billing storage, invoice storage, pricing storage, provider usage storage, CRUD, endpoints, migrations, usage runtime, cost calculation runtime, billing runtime, invoice runtime, provider pricing fetch runtime, provider usage fetch runtime, payment provider runtime, export runtime, report runtime, alert runtime, budget enforcement runtime, transcript access, recording access, live call queries, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, raw PII exposure, real billing, real invoices, hardcoded provider pricing, or UI execution controls were added. No runtime behavior changed.
+
 ## Current Runtime State
 
 - PM2 app id `0` runs `vici-mw`.

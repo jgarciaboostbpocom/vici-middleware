@@ -63,8 +63,8 @@ const readiness = read(readinessPath);
 const ui = read(uiPath);
 const docs = exists(docsPath) ? read(docsPath) : '';
 const statusDoc = read(statusPath);
-const consentSource = sectionBetween(readiness, 'const consentDisclosureReadiness', 'const checklist');
-const consentUiSection = sectionBetween(ui, 'Consent / Disclosure Readiness', 'Safety Checklist');
+const consentSource = sectionBetween(readiness, 'const consentDisclosureReadiness', 'const usageCostTrackingReadiness');
+const consentUiSection = sectionBetween(ui, 'Consent / Disclosure Readiness', 'Usage &amp; Cost Tracking Readiness');
 
 const scalarChecks = [
   ['currentState', 'not_ready'],
@@ -334,7 +334,7 @@ const statusPhrases = [
 check(readiness.includes('consentDisclosureReadiness'), 'readiness.ts must contain consentDisclosureReadiness');
 check(consentSource, 'consentDisclosureReadiness source section missing');
 check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*qaScorecardConfigurationReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'existing QA readiness payload order must remain unchanged');
-check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*qaRbacAccessScopeReadiness,\s*qaEvaluationWorkflowReadiness,\s*qaReportsAnalyticsReadiness,\s*multilingualCallLanguageRoutingReadiness,\s*authenticationMfaSecurityReadiness,\s*campaignAiAgentCapacityBudgetReadiness,\s*qaSamplingEligibilityRulesReadiness,\s*qaFeedbackAiImprovementApprovalReadiness,\s*consentDisclosureReadiness,\s*checklist/s.test(readiness), 'readiness response payload must include consentDisclosureReadiness after qaFeedbackAiImprovementApprovalReadiness');
+check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*qaRbacAccessScopeReadiness,\s*qaEvaluationWorkflowReadiness,\s*qaReportsAnalyticsReadiness,\s*multilingualCallLanguageRoutingReadiness,\s*authenticationMfaSecurityReadiness,\s*campaignAiAgentCapacityBudgetReadiness,\s*qaSamplingEligibilityRulesReadiness,\s*qaFeedbackAiImprovementApprovalReadiness,\s*consentDisclosureReadiness,\s*(usageCostTrackingReadiness,\s*)?checklist/s.test(readiness), 'readiness response payload must include consentDisclosureReadiness after qaFeedbackAiImprovementApprovalReadiness');
 
 for (const [key, value] of scalarChecks) {
   check(sourceContainsValue(consentSource, key, value), `readiness response must contain ${key}: ${JSON.stringify(value)}`);
