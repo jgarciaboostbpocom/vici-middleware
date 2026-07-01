@@ -4284,6 +4284,218 @@ export type ProviderAbstractionReadiness = {
   nextSteps: string[];
 };
 
+export type ObservabilityMonitoringReadiness = {
+  currentState: 'not_ready';
+  observabilityMonitoringApproved: false;
+  observabilityMonitoringMode: 'read_only_design';
+  tenantScopedMonitoringStatus: 'read_only_design';
+  campaignScopedMonitoringStatus: 'read_only_design';
+  routeAwareMonitoringStatus: 'read_only_design';
+  providerAwareMonitoringStatus: 'read_only_design';
+  privacySafeMonitoringStatus: 'read_only_design';
+  rbacMonitoringControlStatus: 'read_only_design';
+  auditCorrelationStatus: 'read_only_design';
+  telemetryDesignStatus: 'read_only_design';
+  metricsDesignStatus: 'read_only_design';
+  loggingDesignStatus: 'read_only_design';
+  tracingDesignStatus: 'read_only_design';
+  alertDesignStatus: 'read_only_design';
+  incidentDesignStatus: 'read_only_design';
+  dashboardDesignStatus: 'read_only_design';
+  healthCheckDesignStatus: 'read_only_design';
+  slaMonitoringDesignStatus: 'read_only_design';
+  providerMonitoringDesignStatus: 'read_only_design';
+  costMonitoringDesignStatus: 'read_only_design';
+  qaMonitoringDesignStatus: 'read_only_design';
+  callMonitoringDesignStatus: 'read_only_design';
+  didMonitoringDesignStatus: 'read_only_design';
+  routeEngineMonitoringDesignStatus: 'read_only_design';
+  aiVoiceMonitoringDesignStatus: 'read_only_design';
+  transcriptionMonitoringDesignStatus: 'read_only_design';
+  recordingReferenceMonitoringDesignStatus: 'read_only_design';
+  securityMonitoringDesignStatus: 'read_only_design';
+  tenantIsolationMonitoringStatus: 'read_only_design';
+  mfaStepUpForMonitoringChangesStatus: 'read_only_design';
+  middlewareCoreDependencyStatus: 'read_only_design';
+  telemetryStorageStatus: 'not_implemented';
+  metricStorageStatus: 'not_implemented';
+  logStorageStatus: 'not_implemented';
+  traceStorageStatus: 'not_implemented';
+  alertStorageStatus: 'not_implemented';
+  incidentStorageStatus: 'not_implemented';
+  dashboardStorageStatus: 'not_implemented';
+  monitorStorageStatus: 'not_implemented';
+  healthCheckStorageStatus: 'not_implemented';
+  auditStorageStatus: 'not_implemented';
+  slaMonitoringStorageStatus: 'not_implemented';
+  providerMonitoringStorageStatus: 'not_implemented';
+  costMonitoringStorageStatus: 'not_implemented';
+  qaMonitoringStorageStatus: 'not_implemented';
+  callMonitoringStorageStatus: 'not_implemented';
+  monitoringEndpointStatus: 'not_implemented';
+  telemetryEndpointStatus: 'not_implemented';
+  metricsEndpointStatus: 'not_implemented';
+  logsEndpointStatus: 'not_implemented';
+  alertsEndpointStatus: 'not_implemented';
+  incidentsEndpointStatus: 'not_implemented';
+  dashboardsEndpointStatus: 'not_implemented';
+  healthCheckEndpointStatus: 'not_implemented';
+  monitoringCrudStatus: 'not_implemented';
+  alertCrudStatus: 'not_implemented';
+  incidentCrudStatus: 'not_implemented';
+  dashboardCrudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  collectorRuntimeStatus: 'not_allowed';
+  telemetryRuntimeStatus: 'not_allowed';
+  metricsRuntimeStatus: 'not_allowed';
+  loggingRuntimeStatus: 'not_allowed';
+  tracingRuntimeStatus: 'not_allowed';
+  alertRuntimeStatus: 'not_allowed';
+  incidentRuntimeStatus: 'not_allowed';
+  dashboardRuntimeStatus: 'not_allowed';
+  monitorRuntimeStatus: 'not_allowed';
+  healthCheckRuntimeStatus: 'not_allowed';
+  slaMonitoringRuntimeStatus: 'not_allowed';
+  providerMonitoringRuntimeStatus: 'not_allowed';
+  costMonitoringRuntimeStatus: 'not_allowed';
+  qaMonitoringRuntimeStatus: 'not_allowed';
+  callMonitoringRuntimeStatus: 'not_allowed';
+  prometheusConfigStatus: 'not_allowed';
+  grafanaConfigStatus: 'not_allowed';
+  datadogConfigStatus: 'not_allowed';
+  newRelicConfigStatus: 'not_allowed';
+  sentryConfigStatus: 'not_allowed';
+  monitoringSdkStatus: 'not_allowed';
+  packageInstallStatus: 'not_allowed';
+  reportRuntimeStatus: 'not_allowed';
+  liveLogTailStatus: 'not_allowed';
+  productionLogReadStatus: 'not_allowed';
+  liveCallQueryStatus: 'not_allowed';
+  transcriptAccessStatus: 'not_allowed';
+  recordingAccessStatus: 'not_allowed';
+  credentialAccessStatus: 'not_allowed';
+  piiAccessStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  llmProviderConnectionStatus: 'not_connected';
+  voiceProviderConnectionStatus: 'not_connected';
+  transcriptionProviderConnectionStatus: 'not_connected';
+  recordingProviderConnectionStatus: 'not_connected';
+  monitoringProviderConnectionStatus: 'not_connected';
+  alertingProviderConnectionStatus: 'not_connected';
+  webhookProviderConnectionStatus: 'not_connected';
+  aiVoiceStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  asteriskModificationStatus: 'not_allowed';
+  vicidialModificationStatus: 'not_allowed';
+  dialplanModificationStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  notificationDeliveryStatus: 'not_allowed';
+  telemetryStorageAllowed: false;
+  metricStorageAllowed: false;
+  logStorageAllowed: false;
+  traceStorageAllowed: false;
+  alertStorageAllowed: false;
+  incidentStorageAllowed: false;
+  dashboardStorageAllowed: false;
+  monitorStorageAllowed: false;
+  healthCheckStorageAllowed: false;
+  auditStorageAllowed: false;
+  slaMonitoringStorageAllowed: false;
+  providerMonitoringStorageAllowed: false;
+  costMonitoringStorageAllowed: false;
+  qaMonitoringStorageAllowed: false;
+  callMonitoringStorageAllowed: false;
+  monitoringEndpointAllowed: false;
+  telemetryEndpointAllowed: false;
+  metricsEndpointAllowed: false;
+  logsEndpointAllowed: false;
+  alertsEndpointAllowed: false;
+  incidentsEndpointAllowed: false;
+  dashboardsEndpointAllowed: false;
+  healthCheckEndpointAllowed: false;
+  monitoringCrudAllowed: false;
+  alertCrudAllowed: false;
+  incidentCrudAllowed: false;
+  dashboardCrudAllowed: false;
+  migrationAllowed: false;
+  collectorRuntimeAllowed: false;
+  telemetryRuntimeAllowed: false;
+  metricsRuntimeAllowed: false;
+  loggingRuntimeAllowed: false;
+  tracingRuntimeAllowed: false;
+  alertRuntimeAllowed: false;
+  incidentRuntimeAllowed: false;
+  dashboardRuntimeAllowed: false;
+  monitorRuntimeAllowed: false;
+  healthCheckRuntimeAllowed: false;
+  slaMonitoringRuntimeAllowed: false;
+  providerMonitoringRuntimeAllowed: false;
+  costMonitoringRuntimeAllowed: false;
+  qaMonitoringRuntimeAllowed: false;
+  callMonitoringRuntimeAllowed: false;
+  prometheusConfigAllowed: false;
+  grafanaConfigAllowed: false;
+  datadogConfigAllowed: false;
+  newRelicConfigAllowed: false;
+  sentryConfigAllowed: false;
+  monitoringSdkAllowed: false;
+  packageInstallAllowed: false;
+  reportRuntimeAllowed: false;
+  liveLogTailAllowed: false;
+  productionLogReadAllowed: false;
+  liveCallQueryAllowed: false;
+  transcriptAccessAllowed: false;
+  recordingAccessAllowed: false;
+  credentialAccessAllowed: false;
+  piiAccessAllowed: false;
+  openAiConnectionAllowed: false;
+  openAiRuntimeAllowed: false;
+  realtimeSessionAllowed: false;
+  llmProviderConnectionAllowed: false;
+  voiceProviderConnectionAllowed: false;
+  transcriptionProviderConnectionAllowed: false;
+  recordingProviderConnectionAllowed: false;
+  monitoringProviderConnectionAllowed: false;
+  alertingProviderConnectionAllowed: false;
+  webhookProviderConnectionAllowed: false;
+  aiVoiceAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  asteriskModificationAllowed: false;
+  vicidialModificationAllowed: false;
+  dialplanModificationAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  notificationDeliveryAllowed: false;
+  realCredentialAllowed: false;
+  realPiiAllowed: false;
+  realCallAllowed: false;
+  monitoringRuntimeExecutionAllowed: false;
+  futureObservabilityDomains: string[];
+  futureMetricCategories: string[];
+  futureTelemetryFields: string[];
+  futureAlertCategories: string[];
+  futureIncidentFields: string[];
+  futureDashboards: string[];
+  futurePrivacySecurityRules: string[];
+  futureRbacMonitoringRules: string[];
+  futureTenantCampaignIsolationRules: string[];
+  futureAuditReportingRules: string[];
+  futureUsageCostDependencyRules: string[];
+  futureFailureFallbackDependencyRules: string[];
+  futureProviderAbstractionDependencyRules: string[];
+  futureHumanHandoffDependencyRules: string[];
+  futureQaDependencyRules: string[];
+  futureMiddlewareCoreDependencyRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -4357,6 +4569,7 @@ export type RouteReadinessReport = {
   failureHandlingFallbackReadiness: FailureHandlingFallbackReadiness;
   humanHandoffSlaReadiness: HumanHandoffSlaReadiness;
   providerAbstractionReadiness: ProviderAbstractionReadiness;
+  observabilityMonitoringReadiness: ObservabilityMonitoringReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -17917,6 +18130,517 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const observabilityMonitoringReadiness: ObservabilityMonitoringReadiness = {
+    currentState: 'not_ready',
+    observabilityMonitoringApproved: false,
+    observabilityMonitoringMode: 'read_only_design',
+    tenantScopedMonitoringStatus: 'read_only_design',
+    campaignScopedMonitoringStatus: 'read_only_design',
+    routeAwareMonitoringStatus: 'read_only_design',
+    providerAwareMonitoringStatus: 'read_only_design',
+    privacySafeMonitoringStatus: 'read_only_design',
+    rbacMonitoringControlStatus: 'read_only_design',
+    auditCorrelationStatus: 'read_only_design',
+    telemetryDesignStatus: 'read_only_design',
+    metricsDesignStatus: 'read_only_design',
+    loggingDesignStatus: 'read_only_design',
+    tracingDesignStatus: 'read_only_design',
+    alertDesignStatus: 'read_only_design',
+    incidentDesignStatus: 'read_only_design',
+    dashboardDesignStatus: 'read_only_design',
+    healthCheckDesignStatus: 'read_only_design',
+    slaMonitoringDesignStatus: 'read_only_design',
+    providerMonitoringDesignStatus: 'read_only_design',
+    costMonitoringDesignStatus: 'read_only_design',
+    qaMonitoringDesignStatus: 'read_only_design',
+    callMonitoringDesignStatus: 'read_only_design',
+    didMonitoringDesignStatus: 'read_only_design',
+    routeEngineMonitoringDesignStatus: 'read_only_design',
+    aiVoiceMonitoringDesignStatus: 'read_only_design',
+    transcriptionMonitoringDesignStatus: 'read_only_design',
+    recordingReferenceMonitoringDesignStatus: 'read_only_design',
+    securityMonitoringDesignStatus: 'read_only_design',
+    tenantIsolationMonitoringStatus: 'read_only_design',
+    mfaStepUpForMonitoringChangesStatus: 'read_only_design',
+    middlewareCoreDependencyStatus: 'read_only_design',
+    telemetryStorageStatus: 'not_implemented',
+    metricStorageStatus: 'not_implemented',
+    logStorageStatus: 'not_implemented',
+    traceStorageStatus: 'not_implemented',
+    alertStorageStatus: 'not_implemented',
+    incidentStorageStatus: 'not_implemented',
+    dashboardStorageStatus: 'not_implemented',
+    monitorStorageStatus: 'not_implemented',
+    healthCheckStorageStatus: 'not_implemented',
+    auditStorageStatus: 'not_implemented',
+    slaMonitoringStorageStatus: 'not_implemented',
+    providerMonitoringStorageStatus: 'not_implemented',
+    costMonitoringStorageStatus: 'not_implemented',
+    qaMonitoringStorageStatus: 'not_implemented',
+    callMonitoringStorageStatus: 'not_implemented',
+    monitoringEndpointStatus: 'not_implemented',
+    telemetryEndpointStatus: 'not_implemented',
+    metricsEndpointStatus: 'not_implemented',
+    logsEndpointStatus: 'not_implemented',
+    alertsEndpointStatus: 'not_implemented',
+    incidentsEndpointStatus: 'not_implemented',
+    dashboardsEndpointStatus: 'not_implemented',
+    healthCheckEndpointStatus: 'not_implemented',
+    monitoringCrudStatus: 'not_implemented',
+    alertCrudStatus: 'not_implemented',
+    incidentCrudStatus: 'not_implemented',
+    dashboardCrudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    collectorRuntimeStatus: 'not_allowed',
+    telemetryRuntimeStatus: 'not_allowed',
+    metricsRuntimeStatus: 'not_allowed',
+    loggingRuntimeStatus: 'not_allowed',
+    tracingRuntimeStatus: 'not_allowed',
+    alertRuntimeStatus: 'not_allowed',
+    incidentRuntimeStatus: 'not_allowed',
+    dashboardRuntimeStatus: 'not_allowed',
+    monitorRuntimeStatus: 'not_allowed',
+    healthCheckRuntimeStatus: 'not_allowed',
+    slaMonitoringRuntimeStatus: 'not_allowed',
+    providerMonitoringRuntimeStatus: 'not_allowed',
+    costMonitoringRuntimeStatus: 'not_allowed',
+    qaMonitoringRuntimeStatus: 'not_allowed',
+    callMonitoringRuntimeStatus: 'not_allowed',
+    prometheusConfigStatus: 'not_allowed',
+    grafanaConfigStatus: 'not_allowed',
+    datadogConfigStatus: 'not_allowed',
+    newRelicConfigStatus: 'not_allowed',
+    sentryConfigStatus: 'not_allowed',
+    monitoringSdkStatus: 'not_allowed',
+    packageInstallStatus: 'not_allowed',
+    reportRuntimeStatus: 'not_allowed',
+    liveLogTailStatus: 'not_allowed',
+    productionLogReadStatus: 'not_allowed',
+    liveCallQueryStatus: 'not_allowed',
+    transcriptAccessStatus: 'not_allowed',
+    recordingAccessStatus: 'not_allowed',
+    credentialAccessStatus: 'not_allowed',
+    piiAccessStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    llmProviderConnectionStatus: 'not_connected',
+    voiceProviderConnectionStatus: 'not_connected',
+    transcriptionProviderConnectionStatus: 'not_connected',
+    recordingProviderConnectionStatus: 'not_connected',
+    monitoringProviderConnectionStatus: 'not_connected',
+    alertingProviderConnectionStatus: 'not_connected',
+    webhookProviderConnectionStatus: 'not_connected',
+    aiVoiceStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    asteriskModificationStatus: 'not_allowed',
+    vicidialModificationStatus: 'not_allowed',
+    dialplanModificationStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    notificationDeliveryStatus: 'not_allowed',
+    telemetryStorageAllowed: false,
+    metricStorageAllowed: false,
+    logStorageAllowed: false,
+    traceStorageAllowed: false,
+    alertStorageAllowed: false,
+    incidentStorageAllowed: false,
+    dashboardStorageAllowed: false,
+    monitorStorageAllowed: false,
+    healthCheckStorageAllowed: false,
+    auditStorageAllowed: false,
+    slaMonitoringStorageAllowed: false,
+    providerMonitoringStorageAllowed: false,
+    costMonitoringStorageAllowed: false,
+    qaMonitoringStorageAllowed: false,
+    callMonitoringStorageAllowed: false,
+    monitoringEndpointAllowed: false,
+    telemetryEndpointAllowed: false,
+    metricsEndpointAllowed: false,
+    logsEndpointAllowed: false,
+    alertsEndpointAllowed: false,
+    incidentsEndpointAllowed: false,
+    dashboardsEndpointAllowed: false,
+    healthCheckEndpointAllowed: false,
+    monitoringCrudAllowed: false,
+    alertCrudAllowed: false,
+    incidentCrudAllowed: false,
+    dashboardCrudAllowed: false,
+    migrationAllowed: false,
+    collectorRuntimeAllowed: false,
+    telemetryRuntimeAllowed: false,
+    metricsRuntimeAllowed: false,
+    loggingRuntimeAllowed: false,
+    tracingRuntimeAllowed: false,
+    alertRuntimeAllowed: false,
+    incidentRuntimeAllowed: false,
+    dashboardRuntimeAllowed: false,
+    monitorRuntimeAllowed: false,
+    healthCheckRuntimeAllowed: false,
+    slaMonitoringRuntimeAllowed: false,
+    providerMonitoringRuntimeAllowed: false,
+    costMonitoringRuntimeAllowed: false,
+    qaMonitoringRuntimeAllowed: false,
+    callMonitoringRuntimeAllowed: false,
+    prometheusConfigAllowed: false,
+    grafanaConfigAllowed: false,
+    datadogConfigAllowed: false,
+    newRelicConfigAllowed: false,
+    sentryConfigAllowed: false,
+    monitoringSdkAllowed: false,
+    packageInstallAllowed: false,
+    reportRuntimeAllowed: false,
+    liveLogTailAllowed: false,
+    productionLogReadAllowed: false,
+    liveCallQueryAllowed: false,
+    transcriptAccessAllowed: false,
+    recordingAccessAllowed: false,
+    credentialAccessAllowed: false,
+    piiAccessAllowed: false,
+    openAiConnectionAllowed: false,
+    openAiRuntimeAllowed: false,
+    realtimeSessionAllowed: false,
+    llmProviderConnectionAllowed: false,
+    voiceProviderConnectionAllowed: false,
+    transcriptionProviderConnectionAllowed: false,
+    recordingProviderConnectionAllowed: false,
+    monitoringProviderConnectionAllowed: false,
+    alertingProviderConnectionAllowed: false,
+    webhookProviderConnectionAllowed: false,
+    aiVoiceAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    asteriskModificationAllowed: false,
+    vicidialModificationAllowed: false,
+    dialplanModificationAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    notificationDeliveryAllowed: false,
+    realCredentialAllowed: false,
+    realPiiAllowed: false,
+    realCallAllowed: false,
+    monitoringRuntimeExecutionAllowed: false,
+    futureObservabilityDomains: [
+      'middleware API health',
+      'route engine health',
+      'DID inventory health',
+      'DID rotation health',
+      'DID rest/cooling health',
+      'local touch routing health',
+      'NPA/state mapping health',
+      'campaign rule health',
+      'shadow mode health',
+      'route simulator health',
+      'FastAGI health',
+      'Asterisk integration health',
+      'Vicidial integration health',
+      'SIP/carrier health',
+      'AI Voice health',
+      'Realtime session health',
+      'LLM provider health',
+      'voice provider health',
+      'transcription provider health',
+      'recording-reference health',
+      'QA evaluation health',
+      'Human QA processing health',
+      'redaction/PII pipeline health',
+      'consent/disclosure health',
+      'language routing health',
+      'human handoff SLA health',
+      'provider abstraction health',
+      'provider failover health',
+      'usage/cost tracking health',
+      'auth/login/MFA health',
+      'RBAC scope health',
+      'tenant isolation health',
+      'audit trail health',
+      'deployment/release health',
+      'runtime activation gate health',
+    ],
+    futureMetricCategories: [
+      'availability metrics',
+      'latency metrics',
+      'error-rate metrics',
+      'timeout metrics',
+      'retry metrics',
+      'circuit-breaker metrics',
+      'fallback metrics',
+      'provider health metrics',
+      'provider latency metrics',
+      'provider usage metrics',
+      'provider cost metrics',
+      'route decision metrics',
+      'route rejection metrics',
+      'DID exhaustion metrics',
+      'DID cooldown metrics',
+      'DID spam-risk metrics',
+      'AI Voice session metrics',
+      'Realtime session metrics',
+      'speech-to-text metrics',
+      'text-to-speech metrics',
+      'LLM request metrics',
+      'QA evaluation success metrics',
+      'QA evaluation failure metrics',
+      'human handoff trigger metrics',
+      'human handoff completion metrics',
+      'SLA warning metrics',
+      'SLA breach metrics',
+      'tenant isolation violation metrics',
+      'incident count metrics',
+      'alert suppression metrics',
+    ],
+    futureTelemetryFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'callId',
+      'callDirection',
+      'routeType',
+      'routeDecisionId',
+      'did',
+      'leadIdReference',
+      'customerIdReference',
+      'agentType',
+      'aiAgentId',
+      'humanAgentId',
+      'providerName',
+      'providerType',
+      'providerRegion',
+      'providerPolicyVersion',
+      'modelName',
+      'modelVersion',
+      'voiceName',
+      'language',
+      'languageSource',
+      'disclosureStatus',
+      'promptVersion',
+      'knowledgeBaseVersion',
+      'scorecardId',
+      'qaEvaluationId',
+      'handoffReason',
+      'handoffSlaStatus',
+      'metricName',
+      'metricCategory',
+      'metricValue',
+      'metricUnit',
+      'status',
+      'severity',
+      'errorCode',
+      'errorCategory',
+      'failureDomain',
+      'fallbackAction',
+      'retryCount',
+      'circuitBreakerStatus',
+      'latencyMs',
+      'timeoutMs',
+      'queueWaitSeconds',
+      'costEstimate',
+      'actualCostReference',
+      'usageEstimate',
+      'usageReference',
+      'budgetStatus',
+      'piiSafeReference',
+      'transcriptReferenceId',
+      'recordingReferenceId',
+      'auditCorrelationId',
+      'timestamp',
+    ],
+    futureAlertCategories: [
+      'middleware API unavailable',
+      'route engine error spike',
+      'route decision latency high',
+      'DID inventory low',
+      'DID exhausted',
+      'provider unavailable',
+      'provider latency high',
+      'provider error rate high',
+      'provider quota exhausted',
+      'provider cost threshold exceeded',
+      'AI Voice session failure spike',
+      'Realtime session failure spike',
+      'transcription failure spike',
+      'QA evaluation failure spike',
+      'transcript missing',
+      'recording reference missing',
+      'redaction/PII pipeline failure',
+      'consent/disclosure missing',
+      'language mismatch spike',
+      'human handoff SLA breach',
+      'no-agent-available spike',
+      'queue overflow spike',
+      'tenant isolation violation suspected',
+      'retry storm detected',
+      'incident escalation required',
+      'monitoring data gap detected',
+    ],
+    futureIncidentFields: [
+      'incidentId',
+      'companyId',
+      'clientId',
+      'campaignId',
+      'affectedDomain',
+      'severity',
+      'status',
+      'startedAt',
+      'detectedAt',
+      'resolvedAt',
+      'impactedCallsCount',
+      'impactedCampaigns',
+      'impactedProviders',
+      'impactedDids',
+      'impactedQueues',
+      'impactedQaEvaluations',
+      'impactedReports',
+      'rootCauseCategory',
+      'triggerMetric',
+      'alertCategory',
+      'fallbackAction',
+      'escalationLevel',
+      'ownerRole',
+      'assignedUserReference',
+      'customerImpactSummary',
+      'internalSummary',
+      'remediationNotes',
+      'approvalReference',
+      'auditCorrelationId',
+    ],
+    futureDashboards: [
+      'system health overview',
+      'tenant health overview',
+      'campaign health overview',
+      'DID health dashboard',
+      'route engine dashboard',
+      'AI Voice dashboard',
+      'provider health dashboard',
+      'provider usage/cost dashboard',
+      'transcription health dashboard',
+      'QA health dashboard',
+      'QA backlog dashboard',
+      'human handoff SLA dashboard',
+      'incident dashboard',
+      'alert dashboard',
+      'budget dashboard',
+      'language/disclosure dashboard',
+      'auth/RBAC/security dashboard',
+      'tenant isolation dashboard',
+      'deployment/runtime readiness dashboard',
+    ],
+    futurePrivacySecurityRules: [
+      'monitoring payloads must not include raw PII',
+      'monitoring payloads must not expose provider credentials',
+      'monitoring payloads must not expose raw transcripts',
+      'monitoring payloads must not expose raw recordings',
+      'monitoring payloads must use references for sensitive objects',
+      'monitoring visibility must be tenant-scoped',
+      'monitoring visibility must be campaign-scoped',
+      'monitoring visibility must be RBAC-controlled',
+      'high-risk alert configuration changes may require MFA/step-up',
+      'dashboard access may require role-based restrictions',
+      'incident details may be redacted based on role',
+      'audit correlation must be preserved',
+      'cross-tenant monitoring leakage must be blocked',
+    ],
+    futureRbacMonitoringRules: [
+      'super_admin can view global monitoring readiness and future global dashboards',
+      'authorized internal admin can view assigned campaign monitoring only',
+      'client_admin can view assigned client/campaign monitoring only if permission allows',
+      'QA manager can view QA/handoff monitoring only within assigned scope',
+      'finance/admin can view usage/cost monitoring only if permission allows',
+      'supervisor can view queue/handoff/agent monitoring only within assigned scope',
+      'restricted users cannot view monitoring details unless explicitly allowed',
+      'alert rule changes may require MFA/step-up authentication',
+      'incident escalation changes may require MFA/step-up authentication',
+      'dashboard export actions may require MFA/step-up authentication',
+    ],
+    futureTenantCampaignIsolationRules: [
+      'client A must not see client B metrics',
+      'client A must not see client B alerts',
+      'client A must not see client B incidents',
+      'client A must not see client B provider health',
+      'client A must not see client B cost/usage',
+      'campaign A must not see campaign B metrics',
+      'campaign A must not see campaign B call references',
+      'campaign A must not see campaign B QA references',
+      'campaign A must not see campaign B transcript/recording references',
+      'provider identifiers, cost data, health data, logs, traces, spans, incidents, alerts, QA flags, SLA status, or audit events must not cross tenant/campaign boundaries',
+    ],
+    futureAuditReportingRules: [
+      'monitoring event created',
+      'metric emitted',
+      'alert triggered',
+      'alert suppressed',
+      'alert acknowledged',
+      'incident opened',
+      'incident updated',
+      'incident escalated',
+      'incident resolved',
+      'dashboard viewed',
+      'dashboard exported',
+      'monitoring policy changed',
+      'alert threshold changed',
+      'escalation policy changed',
+      'notification route changed',
+      'RBAC decision',
+      'MFA/step-up result',
+      'tenant/campaign isolation check',
+      'actor/user that changed policy',
+      'approval reference',
+      'timestamp',
+      'auditCorrelationId',
+    ],
+    futureUsageCostDependencyRules: [
+      'Future monitoring may observe usage/cost tracking health, budget warnings, budget hard stops, provider usage estimates, and cost references',
+      'Cost monitoring runtime is not implemented in this readiness phase',
+    ],
+    futureFailureFallbackDependencyRules: [
+      'Future monitoring may observe failure/fallback domains, fallback actions, retry counts, circuit breaker status, and incident escalation dependencies',
+      'Failure/fallback monitoring runtime is not implemented in this readiness phase',
+    ],
+    futureProviderAbstractionDependencyRules: [
+      'Future monitoring may observe provider abstraction health, provider selection, provider failover, provider latency, provider quota, and provider cost signals',
+      'Provider monitoring runtime is not implemented in this readiness phase',
+    ],
+    futureHumanHandoffDependencyRules: [
+      'Future monitoring may observe human handoff triggers, completions, no-agent behavior, queue overflow, abandoned handoff, and SLA warning/breach status',
+      'SLA monitoring runtime is not implemented in this readiness phase',
+    ],
+    futureQaDependencyRules: [
+      'Future monitoring may observe QA evaluation health, Human QA processing health, QA backlog, QA score anomalies, transcript references, and recording references',
+      'QA monitoring runtime is not implemented in this readiness phase',
+    ],
+    futureMiddlewareCoreDependencyRules: [
+      'Vicidial Middleware remains the source of truth for campaign routing, DID rules, route simulation, shadow mode, local touch, limits, inventory health, and runtime safety',
+      'AI Voice and QA modules must consume middleware context and must not bypass or override middleware core rules without explicit approved runtime activation',
+      'Observability must respect usage/cost tracking, failure/fallback, provider abstraction, human handoff SLA, QA workflows, language routing, consent/disclosure, RBAC, tenant isolation, and middleware core safety',
+    ],
+    futureRuntimeBoundaries: [
+      'No telemetry, metric, log, trace, alert, incident, dashboard, monitor, health-check, audit, SLA monitoring, provider monitoring, cost monitoring, QA monitoring, or call monitoring storage is implemented',
+      'No monitoring endpoints, CRUD, migrations, collectors, telemetry runtime, metrics runtime, logging runtime, tracing runtime, alert runtime, incident runtime, dashboard runtime, monitor runtime, health-check runtime, or monitoring provider connection is implemented',
+      'No Prometheus, Grafana, Datadog, New Relic, Sentry config, monitoring SDK, package install, notification delivery, live log tailing, production log reading, live call query, transcript access, recording access, credential access, PII access, OpenAI, Realtime, AI voice, FastAGI, Asterisk/Vicidial, dialplan, or route behavior runtime is implemented',
+      'The UI must remain read-only and expose no execution controls',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create telemetry, metric, log, alert, incident, dashboard, monitor, health-check, trace, span, audit, SLA monitoring, provider monitoring, cost monitoring, QA monitoring, or call monitoring records',
+      'Do not create storage, CRUD, endpoints, migrations, collectors, telemetry runtime, metrics runtime, logging runtime, tracing runtime, alert runtime, incident runtime, dashboard runtime, monitor runtime, health-check runtime, SLA/provider/cost/QA/call monitoring runtime',
+      'Do not create Prometheus, Grafana, Datadog, New Relic, or Sentry config',
+      'Do not add monitoring SDKs, install packages, modify package.json, or modify package-lock.json',
+      'Do not connect monitoring, alerting, webhook, OpenAI, Realtime, LLM, voice, transcription, or recording providers',
+      'Do not send alerts, emails, Slack/Teams/SMS notifications, or webhook notifications',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not query live calls, execute live calls, tail live logs, read production logs, access recordings, access transcripts, access credentials, expose secrets, or expose raw PII',
+      'Do not modify Asterisk, Vicidial, dialplan, route behavior, auth, login, session, or RBAC behavior',
+      'Do not add UI execution controls',
+    ],
+    nextSteps: [
+      'Keep Observability & Monitoring Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, collector-runtime-blocked, monitoring-runtime-blocked, provider-disconnected, notification-delivery-blocked, package-install-blocked, telephony-change-blocked, route-change-blocked, and runtime-blocked.',
+      'Define future privacy-safe telemetry contracts, metric taxonomy, alert categories, incident fields, dashboards, RBAC, MFA step-up, tenant isolation, audit reporting, and dependency mappings in a separately approved phase.',
+      'Require explicit approved runtime activation before any module can collect telemetry, emit metrics, write logs/traces, run health checks, send alerts, connect monitoring providers, tail logs, or expose dashboards.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -18310,6 +19034,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Provider Abstraction readiness is read-only, not ready, not approved, tenant-scoped, campaign-scoped, provider-neutral, capability-aware, credential-safe, auditable, and safe by default; AI Voice, Realtime, LLM, transcription, recording/reference, QA evaluation, fallback provider policy, provider selection, failover, health, pricing version, usage reconciliation, RBAC, MFA, tenant isolation, usage/cost dependency, failure/fallback dependency, human handoff SLA dependency, and middleware core dependency are mapped only. It does not create provider storage, provider records, provider credentials, provider adapters, SDKs, packages, endpoints, CRUD, migrations, adapter runtime, provider selection/routing/health/failover/pricing/usage/reconciliation runtime, provider calls, OpenAI calls, Realtime sessions, AI voice, FastAGI, live calls, transcript/recording/credential/PII access, Asterisk/Vicidial changes, dialplan changes, route behavior changes, or UI execution controls.',
     },
+    {
+      id: 'observability-monitoring-readiness-read-only',
+      label: 'Observability & Monitoring readiness read-only',
+      status: 'pass',
+      detail: 'Observability & Monitoring readiness is read-only, not ready, not approved, tenant-scoped, campaign-scoped, provider-aware, route-aware, privacy-safe, RBAC-controlled, auditable, and safe by default; telemetry, metrics, logging, tracing, alerts, incidents, dashboards, health checks, SLA monitoring, provider monitoring, cost monitoring, QA monitoring, call monitoring, DID/route monitoring, security monitoring, tenant isolation monitoring, audit correlation, and middleware core dependency are mapped only. It does not create monitoring storage, telemetry records, metric records, log records, alert records, incident records, dashboard records, endpoints, CRUD, migrations, collectors, monitoring runtimes, Prometheus/Grafana/Datadog/New Relic/Sentry config, monitoring SDKs, package installs, provider connections, notification delivery, OpenAI calls, Realtime sessions, AI voice, FastAGI, live calls, log tailing, production log reads, transcript/recording/credential/PII access, Asterisk/Vicidial changes, dialplan changes, route behavior changes, or UI execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -18455,6 +19185,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     failureHandlingFallbackReadiness,
     humanHandoffSlaReadiness,
     providerAbstractionReadiness,
+    observabilityMonitoringReadiness,
     checklist,
     risks,
     recommendations: [
@@ -18514,6 +19245,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat Failure Handling / Fallback readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-aware, route-aware, auditable, safe-by-default failure handling and fallback planning for AI Voice, AI QA, Human QA processing, OpenAI/Realtime providers, voice gateway, media bridge, Asterisk/Vicidial, FastAGI, SIP/carrier, DIDs, route engine, middleware API, campaign config, budget/capacity, prompts, knowledge bases, tools, transcription, recording references, QA evaluation, reports, webhooks, storage/database, auth/session, language/disclosure fallback, queues, human agents, handoff, retries, circuit breakers, alerts, incidents, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create failure storage, fallback storage, outage storage, retry storage, circuit breaker storage, alert storage, incident storage, escalation storage, handoff storage, CRUD, endpoints, migrations, fallback runtime, failover runtime, retry runtime, circuit breaker runtime, alert runtime, incident runtime, escalation runtime, handoff runtime, queue fallback runtime, voicemail fallback runtime, IVR fallback runtime, audio playback runtime, call transfer runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, runtime fallback execution, or UI execution controls.',
       'Treat Human Handoff SLA readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, language-aware, queue-aware, skill-aware, SLA-aware, auditable, safe-by-default AI-to-human handoff, human queue fallback, no-agent behavior, overflow, abandoned handoff, warm-transfer context, cold-transfer policy, screen-pop context, callback/voicemail fallback, escalation, audit, reporting, RBAC, MFA step-up, tenant isolation, and middleware core dependency only and does not create handoff/SLA/queue/skill/escalation/transfer/callback/voicemail/screen-pop/agent-assist/SLA alert/SLA report storage, CRUD, endpoints, migrations, handoff runtime, call transfer runtime, queue routing runtime, skill routing runtime, escalation runtime, callback runtime, voicemail runtime, agent notification runtime, screen-pop runtime, hold-message runtime, whisper-audio runtime, AI-to-human runtime, human-to-AI runtime, agent-assist runtime, SLA timer runtime, SLA alert runtime, SLA report runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, live handoff execution, or UI execution controls.',
       'Treat Provider Abstraction readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-neutral, capability-aware, credential-safe provider abstraction for AI Voice, Realtime, LLM, transcription, recording/reference, QA evaluation, fallback providers, provider capabilities, selection, failover, health, pricing references, usage reconciliation, credential boundaries, RBAC, MFA step-up, tenant isolation, usage/cost dependencies, failure/fallback dependencies, human handoff SLA dependencies, language routing, consent/disclosure, and middleware core dependency only and does not create provider storage, provider config storage, provider credential storage, provider routing storage, provider selection storage, provider capability storage, provider health storage, provider pricing storage, provider usage storage, provider failover storage, CRUD, endpoints, migrations, provider records, adapter runtime, provider selection runtime, provider routing runtime, provider health-check runtime, provider failover runtime, provider pricing fetch runtime, provider usage fetch runtime, provider reconciliation runtime, provider SDKs, package installs, OpenAI connection, Realtime sessions, LLM provider connection, voice provider connection, transcription provider connection, recording provider connection, payment provider connection, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording/credential access, raw PII exposure, provider runtime execution, or UI execution controls.',
+      'Treat Observability & Monitoring readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-aware, route-aware, privacy-safe monitoring for telemetry, metrics, logging, tracing, alerts, incidents, dashboards, health checks, SLA monitoring, provider monitoring, usage/cost monitoring, QA monitoring, call monitoring, DID and route monitoring, security monitoring, RBAC, tenant isolation, audit correlation, usage/cost dependencies, failure/fallback dependencies, provider abstraction dependencies, human handoff dependencies, QA dependencies, and middleware core dependency only and does not create telemetry storage, metric storage, log storage, trace storage, alert storage, incident storage, dashboard storage, monitor storage, health-check storage, audit storage, monitoring CRUD, endpoints, migrations, collectors, telemetry runtime, metrics runtime, logging runtime, tracing runtime, alert runtime, incident runtime, dashboard runtime, monitor runtime, health-check runtime, SLA/provider/cost/QA/call monitoring runtime, Prometheus/Grafana/Datadog/New Relic/Sentry config, monitoring SDKs, package installs, monitoring provider connections, alerting provider connections, webhook provider connections, notification delivery, live log tailing, production log reading, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording/credential access, raw PII exposure, monitoring runtime execution, or UI execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

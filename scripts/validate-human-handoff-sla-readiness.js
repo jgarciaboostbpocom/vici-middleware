@@ -229,7 +229,7 @@ check(handoffSource, 'humanHandoffSlaReadiness source section exists');
   'nextSteps',
 ].forEach(field => check(new RegExp(`${field}: \\[`).test(handoffSource), `${field} array exists`));
 
-check(/failureHandlingFallbackReadiness,\s*humanHandoffSlaReadiness,\s*(providerAbstractionReadiness,\s*)?checklist/s.test(readiness), 'readiness response payload includes humanHandoffSlaReadiness after failureHandlingFallbackReadiness');
+check(/failureHandlingFallbackReadiness,\s*humanHandoffSlaReadiness,\s*(providerAbstractionReadiness,\s*(observabilityMonitoringReadiness,\s*)?)?checklist/s.test(readiness), 'readiness response payload includes humanHandoffSlaReadiness after failureHandlingFallbackReadiness');
 check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*qaScorecardConfigurationReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'existing QA readiness order remains unchanged');
 
 check(ui.includes('Human Handoff SLA Readiness'), 'UI contains Human Handoff SLA Readiness');

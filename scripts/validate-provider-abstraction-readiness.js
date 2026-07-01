@@ -35,7 +35,7 @@ const readiness = read('src/routeEngine/readiness.ts');
 const ui = read('public/ui-v2/did-ops.html');
 const docs = read('docs/provider-abstraction-readiness.md');
 const statusDocs = read('docs/middleware-current-status.md');
-const providerSource = sectionBetween(readiness, 'const providerAbstractionReadiness', 'const checklist');
+const providerSource = sectionBetween(readiness, 'const providerAbstractionReadiness', 'const observabilityMonitoringReadiness');
 const providerUiSection = sectionBetween(ui, '<h2>Provider Abstraction Readiness</h2>', '<h2>Safety Checklist</h2>');
 
 check(readiness.includes('providerAbstractionReadiness'), 'readiness.ts contains providerAbstractionReadiness');
@@ -228,7 +228,7 @@ check(providerSource, 'providerAbstractionReadiness source section exists');
   'nextSteps',
 ].forEach(field => check(new RegExp(`${field}: \\[`).test(providerSource), `${field} array exists`));
 
-check(/humanHandoffSlaReadiness,\s*providerAbstractionReadiness,\s*checklist/s.test(readiness), 'readiness response payload includes providerAbstractionReadiness after humanHandoffSlaReadiness');
+check(/humanHandoffSlaReadiness,\s*providerAbstractionReadiness,\s*(observabilityMonitoringReadiness,\s*)?checklist/s.test(readiness), 'readiness response payload includes providerAbstractionReadiness after humanHandoffSlaReadiness');
 check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*qaScorecardConfigurationReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'existing QA readiness order remains unchanged');
 
 check(ui.includes('Provider Abstraction Readiness'), 'UI contains Provider Abstraction Readiness');

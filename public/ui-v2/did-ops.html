@@ -1125,6 +1125,15 @@
                   <div class="muted small">Loading Provider Abstraction readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Observability &amp; Monitoring Readiness</h2>
+                  <span class="muted small">Read-only observability and monitoring design status for future tenant-scoped, campaign-scoped, provider-aware, route-aware, privacy-safe, RBAC-controlled, auditable, and safe-by-default operational visibility across telemetry, metrics, logging, tracing, alerts, incidents, dashboards, health checks, SLA monitoring, provider monitoring, cost monitoring, QA monitoring, call monitoring, DID/route monitoring, security monitoring, tenant isolation, and middleware core dependency. This does not create telemetry records, metric records, log records, alert records, incident records, dashboards, storage, CRUD, endpoints, migrations, collectors, monitoring runtime, health-check runtime, alert runtime, incident runtime, dashboard runtime, Prometheus/Grafana/Datadog/New Relic/Sentry config, monitoring SDKs, package installs, provider connections, notification delivery, OpenAI connection, Realtime sessions, AI voice execution, FastAGI, live calls, live log tailing, production log reading, transcript/recording access, credential access, raw PII exposure, Asterisk/Vicidial changes, dialplan changes, route behavior changes, or UI execution controls.</span>
+                </div>
+                <div class="summary-grid" id="observabilityMonitoringReadinessCards"></div>
+                <div class="row" id="observabilityMonitoringReadinessBadges" style="margin-top:12px"></div>
+                <div id="observabilityMonitoringReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading Observability &amp; Monitoring readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3176,10 +3185,13 @@ function renderRouteReadiness() {
   const providerAbstractionReadinessCards = $('#providerAbstractionReadinessCards');
   const providerAbstractionReadinessBadges = $('#providerAbstractionReadinessBadges');
   const providerAbstractionReadinessDetails = $('#providerAbstractionReadinessDetails');
+  const observabilityMonitoringReadinessCards = $('#observabilityMonitoringReadinessCards');
+  const observabilityMonitoringReadinessBadges = $('#observabilityMonitoringReadinessBadges');
+  const observabilityMonitoringReadinessDetails = $('#observabilityMonitoringReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !usageCostTrackingReadinessCards || !usageCostTrackingReadinessBadges || !usageCostTrackingReadinessDetails || !failureHandlingFallbackReadinessCards || !failureHandlingFallbackReadinessBadges || !failureHandlingFallbackReadinessDetails || !humanHandoffSlaReadinessCards || !humanHandoffSlaReadinessBadges || !humanHandoffSlaReadinessDetails || !providerAbstractionReadinessCards || !providerAbstractionReadinessBadges || !providerAbstractionReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !usageCostTrackingReadinessCards || !usageCostTrackingReadinessBadges || !usageCostTrackingReadinessDetails || !failureHandlingFallbackReadinessCards || !failureHandlingFallbackReadinessBadges || !failureHandlingFallbackReadinessDetails || !humanHandoffSlaReadinessCards || !humanHandoffSlaReadinessBadges || !humanHandoffSlaReadinessDetails || !providerAbstractionReadinessCards || !providerAbstractionReadinessBadges || !providerAbstractionReadinessDetails || !observabilityMonitoringReadinessCards || !observabilityMonitoringReadinessBadges || !observabilityMonitoringReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3347,6 +3359,9 @@ function renderRouteReadiness() {
     providerAbstractionReadinessCards.innerHTML = '<div class="muted small">Provider Abstraction readiness status not loaded.</div>';
     providerAbstractionReadinessBadges.innerHTML = '';
     providerAbstractionReadinessDetails.innerHTML = '<div class="muted small">Provider Abstraction readiness details not loaded.</div>';
+    observabilityMonitoringReadinessCards.innerHTML = '<div class="muted small">Observability &amp; Monitoring readiness status not loaded.</div>';
+    observabilityMonitoringReadinessBadges.innerHTML = '';
+    observabilityMonitoringReadinessDetails.innerHTML = '<div class="muted small">Observability &amp; Monitoring readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -10378,6 +10393,122 @@ function renderRouteReadiness() {
   providerAbstractionReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${providerAbstractionDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const observabilityMonitoring = report.observabilityMonitoringReadiness || {};
+  const observabilityMonitoringReadinessCardsData = [
+    ['Current state', observabilityMonitoring.currentState || 'not_ready'],
+    ['Observability monitoring approved', observabilityMonitoring.observabilityMonitoringApproved ? 'yes' : 'no'],
+    ['Observability monitoring mode', observabilityMonitoring.observabilityMonitoringMode || 'read_only_design'],
+    ['Tenant-scoped monitoring', observabilityMonitoring.tenantScopedMonitoringStatus || 'read_only_design'],
+    ['Campaign-scoped monitoring', observabilityMonitoring.campaignScopedMonitoringStatus || 'read_only_design'],
+    ['Route-aware monitoring', observabilityMonitoring.routeAwareMonitoringStatus || 'read_only_design'],
+    ['Provider-aware monitoring', observabilityMonitoring.providerAwareMonitoringStatus || 'read_only_design'],
+    ['Privacy-safe monitoring', observabilityMonitoring.privacySafeMonitoringStatus || 'read_only_design'],
+    ['RBAC monitoring control', observabilityMonitoring.rbacMonitoringControlStatus || 'read_only_design'],
+    ['Audit correlation', observabilityMonitoring.auditCorrelationStatus || 'read_only_design'],
+    ['Telemetry design', observabilityMonitoring.telemetryDesignStatus || 'read_only_design'],
+    ['Metrics design', observabilityMonitoring.metricsDesignStatus || 'read_only_design'],
+    ['Logging design', observabilityMonitoring.loggingDesignStatus || 'read_only_design'],
+    ['Tracing design', observabilityMonitoring.tracingDesignStatus || 'read_only_design'],
+    ['Alert design', observabilityMonitoring.alertDesignStatus || 'read_only_design'],
+    ['Incident design', observabilityMonitoring.incidentDesignStatus || 'read_only_design'],
+    ['Dashboard design', observabilityMonitoring.dashboardDesignStatus || 'read_only_design'],
+    ['Health-check design', observabilityMonitoring.healthCheckDesignStatus || 'read_only_design'],
+    ['SLA monitoring design', observabilityMonitoring.slaMonitoringDesignStatus || 'read_only_design'],
+    ['Provider monitoring design', observabilityMonitoring.providerMonitoringDesignStatus || 'read_only_design'],
+    ['Cost monitoring design', observabilityMonitoring.costMonitoringDesignStatus || 'read_only_design'],
+    ['QA monitoring design', observabilityMonitoring.qaMonitoringDesignStatus || 'read_only_design'],
+    ['Telemetry storage', observabilityMonitoring.telemetryStorageStatus || 'not_implemented'],
+    ['Metric storage', observabilityMonitoring.metricStorageStatus || 'not_implemented'],
+    ['Log storage', observabilityMonitoring.logStorageStatus || 'not_implemented'],
+    ['Alert storage', observabilityMonitoring.alertStorageStatus || 'not_implemented'],
+    ['Incident storage', observabilityMonitoring.incidentStorageStatus || 'not_implemented'],
+    ['Dashboard storage', observabilityMonitoring.dashboardStorageStatus || 'not_implemented'],
+    ['Monitoring endpoint', observabilityMonitoring.monitoringEndpointStatus || 'not_implemented'],
+    ['Monitoring CRUD', observabilityMonitoring.monitoringCrudStatus || 'not_implemented'],
+    ['Collector runtime', observabilityMonitoring.collectorRuntimeStatus || 'not_allowed'],
+    ['Telemetry runtime', observabilityMonitoring.telemetryRuntimeStatus || 'not_allowed'],
+    ['Metrics runtime', observabilityMonitoring.metricsRuntimeStatus || 'not_allowed'],
+    ['Logging runtime', observabilityMonitoring.loggingRuntimeStatus || 'not_allowed'],
+    ['Tracing runtime', observabilityMonitoring.tracingRuntimeStatus || 'not_allowed'],
+    ['Alert runtime', observabilityMonitoring.alertRuntimeStatus || 'not_allowed'],
+    ['Incident runtime', observabilityMonitoring.incidentRuntimeStatus || 'not_allowed'],
+    ['Dashboard runtime', observabilityMonitoring.dashboardRuntimeStatus || 'not_allowed'],
+    ['Health-check runtime', observabilityMonitoring.healthCheckRuntimeStatus || 'not_allowed'],
+    ['Prometheus config', observabilityMonitoring.prometheusConfigStatus || 'not_allowed'],
+    ['Grafana config', observabilityMonitoring.grafanaConfigStatus || 'not_allowed'],
+    ['Monitoring SDK', observabilityMonitoring.monitoringSdkStatus || 'not_allowed'],
+    ['Live log tail', observabilityMonitoring.liveLogTailStatus || 'not_allowed'],
+    ['Production log read', observabilityMonitoring.productionLogReadStatus || 'not_allowed'],
+    ['Monitoring provider connection', observabilityMonitoring.monitoringProviderConnectionStatus || 'not_connected'],
+    ['Alerting provider connection', observabilityMonitoring.alertingProviderConnectionStatus || 'not_connected'],
+    ['Webhook provider connection', observabilityMonitoring.webhookProviderConnectionStatus || 'not_connected'],
+    ['Notification delivery', observabilityMonitoring.notificationDeliveryStatus || 'not_allowed'],
+    ['Monitoring runtime execution allowed', observabilityMonitoring.monitoringRuntimeExecutionAllowed ? 'yes' : 'no'],
+  ];
+  observabilityMonitoringReadinessCards.innerHTML = observabilityMonitoringReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  observabilityMonitoringReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only monitoring design', 'info'),
+    readinessBadge('Tenant scoped', 'info'),
+    readinessBadge('Campaign scoped', 'info'),
+    readinessBadge('Route aware', 'info'),
+    readinessBadge('Provider aware', 'info'),
+    readinessBadge('Privacy safe', 'info'),
+    readinessBadge('RBAC controlled', 'info'),
+    readinessBadge('Audit correlated', 'info'),
+    readinessBadge('Metrics mapped', 'info'),
+    readinessBadge('Alerts mapped', 'info'),
+    readinessBadge('Incidents mapped', 'info'),
+    readinessBadge('Dashboards mapped', 'info'),
+    readinessBadge('SLA monitoring mapped', 'info'),
+    readinessBadge('Provider monitoring mapped', 'info'),
+    readinessBadge('Cost monitoring mapped', 'info'),
+    readinessBadge('QA monitoring mapped', 'info'),
+    readinessBadge('No monitoring runtime', 'ok'),
+    readinessBadge('No provider connections', 'ok'),
+    readinessBadge('No runtime controls', 'ok'),
+  ].join('');
+
+  const observabilityMonitoringDetailGroups = [
+    ['Future observability domains', observabilityMonitoring.futureObservabilityDomains],
+    ['Future metric categories', observabilityMonitoring.futureMetricCategories],
+    ['Future telemetry fields', observabilityMonitoring.futureTelemetryFields],
+    ['Future alert categories', observabilityMonitoring.futureAlertCategories],
+    ['Future incident fields', observabilityMonitoring.futureIncidentFields],
+    ['Future dashboards', observabilityMonitoring.futureDashboards],
+    ['Future privacy/security rules', observabilityMonitoring.futurePrivacySecurityRules],
+    ['Future RBAC monitoring rules', observabilityMonitoring.futureRbacMonitoringRules],
+    ['Future tenant/campaign isolation rules', observabilityMonitoring.futureTenantCampaignIsolationRules],
+    ['Future audit/reporting rules', observabilityMonitoring.futureAuditReportingRules],
+    ['Future usage/cost dependency rules', observabilityMonitoring.futureUsageCostDependencyRules],
+    ['Future failure/fallback dependency rules', observabilityMonitoring.futureFailureFallbackDependencyRules],
+    ['Future provider abstraction dependency rules', observabilityMonitoring.futureProviderAbstractionDependencyRules],
+    ['Future human handoff dependency rules', observabilityMonitoring.futureHumanHandoffDependencyRules],
+    ['Future QA dependency rules', observabilityMonitoring.futureQaDependencyRules],
+    ['Future middleware core dependency rules', observabilityMonitoring.futureMiddlewareCoreDependencyRules],
+    ['Future runtime boundaries', observabilityMonitoring.futureRuntimeBoundaries],
+    ['Prohibited current actions', observabilityMonitoring.prohibitedCurrentActions],
+    ['Next steps', observabilityMonitoring.nextSteps],
+  ];
+  observabilityMonitoringReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${observabilityMonitoringDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>
