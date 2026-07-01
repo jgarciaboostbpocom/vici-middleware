@@ -1080,6 +1080,15 @@
                   <div class="muted small">Loading QA Feedback to AI Improvement Approval readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Consent / Disclosure Readiness</h2>
+                  <span class="muted small">Read-only consent and disclosure design status for future campaign-scoped optional disclosure, language-customizable text and audio references, inbound/outbound calls, AI-handled and human-handled calls, recorded/monitored/transcribed call applicability, multilingual dependency, fallback behavior, jurisdiction/client policy mapping, audit, versioning, rollback, effective dates, RBAC, tenant isolation, MFA step-up, and middleware core dependency. This does not create consent records, disclosure records, disclosure audio, storage, CRUD, endpoints, migrations, playback runtime, capture runtime, IVR runtime, recording runtime, transcription runtime, OpenAI connection, AI voice execution, FastAGI, Asterisk/Vicidial changes, dialplan changes, live calls, transcript/recording access, raw PII exposure, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="consentDisclosureReadinessCards"></div>
+                <div class="row" id="consentDisclosureReadinessBadges" style="margin-top:12px"></div>
+                <div id="consentDisclosureReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading Consent / Disclosure readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3116,10 +3125,13 @@ function renderRouteReadiness() {
   const qaFeedbackAiImprovementApprovalReadinessCards = $('#qaFeedbackAiImprovementApprovalReadinessCards');
   const qaFeedbackAiImprovementApprovalReadinessBadges = $('#qaFeedbackAiImprovementApprovalReadinessBadges');
   const qaFeedbackAiImprovementApprovalReadinessDetails = $('#qaFeedbackAiImprovementApprovalReadinessDetails');
+  const consentDisclosureReadinessCards = $('#consentDisclosureReadinessCards');
+  const consentDisclosureReadinessBadges = $('#consentDisclosureReadinessBadges');
+  const consentDisclosureReadinessDetails = $('#consentDisclosureReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3272,6 +3284,9 @@ function renderRouteReadiness() {
     qaFeedbackAiImprovementApprovalReadinessCards.innerHTML = '<div class="muted small">QA Feedback to AI Improvement Approval readiness status not loaded.</div>';
     qaFeedbackAiImprovementApprovalReadinessBadges.innerHTML = '';
     qaFeedbackAiImprovementApprovalReadinessDetails.innerHTML = '<div class="muted small">QA Feedback to AI Improvement Approval readiness details not loaded.</div>';
+    consentDisclosureReadinessCards.innerHTML = '<div class="muted small">Consent / Disclosure readiness status not loaded.</div>';
+    consentDisclosureReadinessBadges.innerHTML = '';
+    consentDisclosureReadinessDetails.innerHTML = '<div class="muted small">Consent / Disclosure readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -9552,6 +9567,161 @@ function renderRouteReadiness() {
   qaFeedbackAiImprovementApprovalReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${qaFeedbackAiImprovementApprovalDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const consentDisclosure = report.consentDisclosureReadiness || {};
+  const consentDisclosureReadinessCardsData = [
+    ['Current state', consentDisclosure.currentState || 'not_ready'],
+    ['Consent disclosure approved', consentDisclosure.consentDisclosureApproved ? 'yes' : 'no'],
+    ['Consent disclosure mode', consentDisclosure.consentDisclosureMode || 'read_only_design'],
+    ['Campaign-scoped disclosure', consentDisclosure.campaignScopedDisclosureStatus || 'read_only_design'],
+    ['Optional per campaign', consentDisclosure.disclosureOptionalPerCampaignStatus || 'read_only_design'],
+    ['Global forced disclosure', consentDisclosure.globalForcedDisclosureStatus || 'not_allowed'],
+    ['Language-customizable disclosure', consentDisclosure.languageCustomizableDisclosureStatus || 'read_only_design'],
+    ['Inbound disclosure', consentDisclosure.inboundDisclosureStatus || 'read_only_design'],
+    ['Outbound disclosure', consentDisclosure.outboundDisclosureStatus || 'read_only_design'],
+    ['AI-handled disclosure', consentDisclosure.aiHandledDisclosureStatus || 'read_only_design'],
+    ['Human-handled disclosure', consentDisclosure.humanHandledDisclosureStatus || 'read_only_design'],
+    ['Recorded-call disclosure', consentDisclosure.recordedCallDisclosureStatus || 'read_only_design'],
+    ['Monitored-call disclosure', consentDisclosure.monitoredCallDisclosureStatus || 'read_only_design'],
+    ['Transcribed-call disclosure', consentDisclosure.transcribedCallDisclosureStatus || 'read_only_design'],
+    ['Default disclosure language', consentDisclosure.disclosureDefaultLanguageStatus || 'read_only_design'],
+    ['Fallback disclosure language', consentDisclosure.disclosureFallbackLanguageStatus || 'read_only_design'],
+    ['Disclosure text by language', consentDisclosure.disclosureTextByLanguageStatus || 'read_only_design'],
+    ['Disclosure audio reference by language', consentDisclosure.disclosureAudioReferenceByLanguageStatus || 'read_only_design'],
+    ['Missing language fallback', consentDisclosure.disclosureMissingLanguageFallbackStatus || 'read_only_design'],
+    ['Disclosure audit', consentDisclosure.disclosureAuditStatus || 'read_only_design'],
+    ['Disclosure versioning', consentDisclosure.disclosureVersioningStatus || 'read_only_design'],
+    ['Disclosure effective date', consentDisclosure.disclosureEffectiveDateStatus || 'read_only_design'],
+    ['Disclosure rollback', consentDisclosure.disclosureRollbackStatus || 'read_only_design'],
+    ['Jurisdiction policy mapping', consentDisclosure.jurisdictionPolicyMappingStatus || 'read_only_design'],
+    ['Multilingual dependency', consentDisclosure.multilingualDependencyStatus || 'read_only_design'],
+    ['RBAC disclosure control', consentDisclosure.rbacDisclosureControlStatus || 'read_only_design'],
+    ['Tenant isolation', consentDisclosure.tenantIsolationStatus || 'read_only_design'],
+    ['Campaign isolation', consentDisclosure.campaignIsolationStatus || 'read_only_design'],
+    ['MFA step-up for disclosure changes', consentDisclosure.mfaStepUpForDisclosureChangesStatus || 'read_only_design'],
+    ['Middleware core dependency', consentDisclosure.middlewareCoreDependencyStatus || 'read_only_design'],
+    ['Consent storage', consentDisclosure.consentStorageStatus || 'not_implemented'],
+    ['Disclosure storage', consentDisclosure.disclosureStorageStatus || 'not_implemented'],
+    ['Disclosure language storage', consentDisclosure.disclosureLanguageStorageStatus || 'not_implemented'],
+    ['Disclosure audio storage', consentDisclosure.disclosureAudioStorageStatus || 'not_implemented'],
+    ['Disclosure audit storage', consentDisclosure.disclosureAuditStorageStatus || 'not_implemented'],
+    ['Consent endpoint', consentDisclosure.consentEndpointStatus || 'not_implemented'],
+    ['Disclosure endpoint', consentDisclosure.disclosureEndpointStatus || 'not_implemented'],
+    ['Consent CRUD', consentDisclosure.consentCrudStatus || 'not_implemented'],
+    ['Disclosure CRUD', consentDisclosure.disclosureCrudStatus || 'not_implemented'],
+    ['Migration', consentDisclosure.migrationStatus || 'not_implemented'],
+    ['Consent capture runtime', consentDisclosure.consentCaptureRuntimeStatus || 'not_allowed'],
+    ['Disclosure playback runtime', consentDisclosure.disclosurePlaybackRuntimeStatus || 'not_allowed'],
+    ['Disclosure audio generation runtime', consentDisclosure.disclosureAudioGenerationRuntimeStatus || 'not_allowed'],
+    ['Disclosure audio upload runtime', consentDisclosure.disclosureAudioUploadRuntimeStatus || 'not_allowed'],
+    ['IVR runtime', consentDisclosure.ivrRuntimeStatus || 'not_allowed'],
+    ['Call script runtime', consentDisclosure.callScriptRuntimeStatus || 'not_allowed'],
+    ['Recording runtime', consentDisclosure.recordingRuntimeStatus || 'not_allowed'],
+    ['Transcription runtime', consentDisclosure.transcriptionRuntimeStatus || 'not_allowed'],
+    ['Live call query', consentDisclosure.liveCallQueryStatus || 'not_allowed'],
+    ['Transcript access', consentDisclosure.transcriptAccessStatus || 'not_allowed'],
+    ['Recording access', consentDisclosure.recordingAccessStatus || 'not_allowed'],
+    ['Report runtime', consentDisclosure.reportRuntimeStatus || 'not_allowed'],
+    ['Asterisk modification', consentDisclosure.asteriskModificationStatus || 'not_allowed'],
+    ['Vicidial modification', consentDisclosure.vicidialModificationStatus || 'not_allowed'],
+    ['Dialplan modification', consentDisclosure.dialplanModificationStatus || 'not_allowed'],
+    ['Route behavior change', consentDisclosure.routeBehaviorChangeStatus || 'not_allowed'],
+    ['OpenAI connection', consentDisclosure.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', consentDisclosure.openAiRuntimeStatus || 'not_connected'],
+    ['Realtime session', consentDisclosure.realtimeSessionStatus || 'not_connected'],
+    ['AI voice', consentDisclosure.aiVoiceStatus || 'not_allowed'],
+    ['AI inbound execution', consentDisclosure.aiInboundExecutionStatus || 'not_allowed'],
+    ['AI outbound execution', consentDisclosure.aiOutboundExecutionStatus || 'not_allowed'],
+    ['FastAGI', consentDisclosure.fastAgiStatus || 'not_allowed'],
+    ['Global forced disclosure allowed', consentDisclosure.globalForcedDisclosureAllowed ? 'yes' : 'no'],
+    ['Consent storage allowed', consentDisclosure.consentStorageAllowed ? 'yes' : 'no'],
+    ['Disclosure storage allowed', consentDisclosure.disclosureStorageAllowed ? 'yes' : 'no'],
+    ['Disclosure language storage allowed', consentDisclosure.disclosureLanguageStorageAllowed ? 'yes' : 'no'],
+    ['Disclosure audio storage allowed', consentDisclosure.disclosureAudioStorageAllowed ? 'yes' : 'no'],
+    ['Disclosure audit storage allowed', consentDisclosure.disclosureAuditStorageAllowed ? 'yes' : 'no'],
+    ['Consent endpoint allowed', consentDisclosure.consentEndpointAllowed ? 'yes' : 'no'],
+    ['Disclosure endpoint allowed', consentDisclosure.disclosureEndpointAllowed ? 'yes' : 'no'],
+    ['Consent CRUD allowed', consentDisclosure.consentCrudAllowed ? 'yes' : 'no'],
+    ['Disclosure CRUD allowed', consentDisclosure.disclosureCrudAllowed ? 'yes' : 'no'],
+    ['Migration allowed', consentDisclosure.migrationAllowed ? 'yes' : 'no'],
+    ['Consent capture runtime allowed', consentDisclosure.consentCaptureRuntimeAllowed ? 'yes' : 'no'],
+    ['Disclosure playback runtime allowed', consentDisclosure.disclosurePlaybackRuntimeAllowed ? 'yes' : 'no'],
+    ['Disclosure audio generation runtime allowed', consentDisclosure.disclosureAudioGenerationRuntimeAllowed ? 'yes' : 'no'],
+    ['Disclosure audio upload runtime allowed', consentDisclosure.disclosureAudioUploadRuntimeAllowed ? 'yes' : 'no'],
+    ['IVR runtime allowed', consentDisclosure.ivrRuntimeAllowed ? 'yes' : 'no'],
+    ['Call script runtime allowed', consentDisclosure.callScriptRuntimeAllowed ? 'yes' : 'no'],
+    ['Recording runtime allowed', consentDisclosure.recordingRuntimeAllowed ? 'yes' : 'no'],
+    ['Transcription runtime allowed', consentDisclosure.transcriptionRuntimeAllowed ? 'yes' : 'no'],
+    ['Live call query allowed', consentDisclosure.liveCallQueryAllowed ? 'yes' : 'no'],
+    ['Transcript access allowed', consentDisclosure.transcriptAccessAllowed ? 'yes' : 'no'],
+    ['Recording access allowed', consentDisclosure.recordingAccessAllowed ? 'yes' : 'no'],
+    ['Report runtime allowed', consentDisclosure.reportRuntimeAllowed ? 'yes' : 'no'],
+    ['Asterisk modification allowed', consentDisclosure.asteriskModificationAllowed ? 'yes' : 'no'],
+    ['Vicidial modification allowed', consentDisclosure.vicidialModificationAllowed ? 'yes' : 'no'],
+    ['Dialplan modification allowed', consentDisclosure.dialplanModificationAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', consentDisclosure.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['OpenAI connection allowed', consentDisclosure.openAiConnectionAllowed ? 'yes' : 'no'],
+    ['OpenAI runtime allowed', consentDisclosure.openAiRuntimeAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', consentDisclosure.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['AI voice allowed', consentDisclosure.aiVoiceAllowed ? 'yes' : 'no'],
+    ['AI inbound execution allowed', consentDisclosure.aiInboundExecutionAllowed ? 'yes' : 'no'],
+    ['AI outbound execution allowed', consentDisclosure.aiOutboundExecutionAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', consentDisclosure.fastAgiAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', consentDisclosure.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', consentDisclosure.realPiiAllowed ? 'yes' : 'no'],
+    ['Real call allowed', consentDisclosure.realCallAllowed ? 'yes' : 'no'],
+  ];
+  consentDisclosureReadinessCards.innerHTML = consentDisclosureReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  consentDisclosureReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only disclosure design', 'info'),
+    readinessBadge('Campaign scoped', 'info'),
+    readinessBadge('Optional per campaign', 'info'),
+    readinessBadge('No global forced disclosure', 'ok'),
+    readinessBadge('Language customizable', 'info'),
+    readinessBadge('Inbound/outbound mapped', 'info'),
+    readinessBadge('AI/human mapped', 'info'),
+    readinessBadge('Recording/transcription mapped', 'info'),
+    readinessBadge('RBAC/MFA mapped', 'info'),
+    readinessBadge('Tenant isolation mapped', 'info'),
+    readinessBadge('No telephony changes', 'ok'),
+    readinessBadge('No runtime controls', 'ok'),
+  ].join('');
+
+  const consentDisclosureDetailGroups = [
+    ['Future disclosure scope fields', consentDisclosure.futureDisclosureScopeFields],
+    ['Future disclosure language fields', consentDisclosure.futureDisclosureLanguageFields],
+    ['Future disclosure application rules', consentDisclosure.futureDisclosureApplicationRules],
+    ['Future disclosure fallback rules', consentDisclosure.futureDisclosureFallbackRules],
+    ['Future disclosure content rules', consentDisclosure.futureDisclosureContentRules],
+    ['Future jurisdiction policy rules', consentDisclosure.futureJurisdictionPolicyRules],
+    ['Future RBAC disclosure rules', consentDisclosure.futureRbacDisclosureRules],
+    ['Future tenant/campaign isolation rules', consentDisclosure.futureTenantCampaignIsolationRules],
+    ['Future MFA step-up rules', consentDisclosure.futureMfaStepUpRules],
+    ['Future report coverage rules', consentDisclosure.futureReportCoverageRules],
+    ['Future middleware core dependency rules', consentDisclosure.futureMiddlewareCoreDependencyRules],
+    ['Future runtime boundaries', consentDisclosure.futureRuntimeBoundaries],
+    ['Prohibited current actions', consentDisclosure.prohibitedCurrentActions],
+    ['Next steps', consentDisclosure.nextSteps],
+  ];
+  consentDisclosureReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${consentDisclosureDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>

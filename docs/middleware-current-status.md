@@ -12,6 +12,12 @@ The future improvement workflow supports AI Agent QA, Human Agent QA, inbound, o
 
 No QA feedback storage, AI improvement storage, prompt/KB/policy/handoff/scorecard change storage, approval storage, version storage, audit storage, CRUD, endpoints, migrations, approval runtime, versioning runtime, rollback runtime, prompt optimization runtime, AI learning runtime, prompt/KB/policy/handoff/scorecard update runtime, QA evaluation runtime, report runtime, transcript access, recording access, live call queries, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, raw PII exposure, or UI execution controls were added. No runtime behavior changed.
 
+Consent / Disclosure Readiness has been added as read-only design/status. Future consent/disclosure is campaign-scoped, optional per campaign, not globally forced, and customizable per language. Campaigns can keep disclosure OFF when the client does not want it or policy does not require it.
+
+Future disclosure supports inbound, outbound, AI-handled, human-handled, recorded, monitored, and transcribed calls, default/fallback language, text/audio reference by language, jurisdiction/client policy mapping, audit, versioning, effective date, rollback, RBAC, tenant/campaign isolation, and MFA step-up for sensitive changes. Future disclosure depends on multilingual routing but does not implement language routing or disclosure playback in this phase. The middleware remains the source of truth for routing, DID rules, shadow mode, local touch, limits, inventory health, and runtime safety.
+
+No consent storage, disclosure storage, disclosure language storage, disclosure audio storage, disclosure audit storage, CRUD, endpoints, migrations, consent capture runtime, disclosure playback runtime, disclosure audio generation/upload runtime, IVR runtime, call script runtime, recording runtime, transcription runtime, report runtime, transcript access, recording access, live call queries, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, raw PII exposure, or UI execution controls were added. No runtime behavior changed.
+
 ## Current Runtime State
 
 - PM2 app id `0` runs `vici-mw`.

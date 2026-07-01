@@ -3532,6 +3532,123 @@ export type QaFeedbackAiImprovementApprovalReadiness = {
   nextSteps: string[];
 };
 
+export type ConsentDisclosureReadiness = {
+  currentState: 'not_ready';
+  consentDisclosureApproved: false;
+  consentDisclosureMode: 'read_only_design';
+  campaignScopedDisclosureStatus: 'read_only_design';
+  disclosureOptionalPerCampaignStatus: 'read_only_design';
+  globalForcedDisclosureStatus: 'not_allowed';
+  languageCustomizableDisclosureStatus: 'read_only_design';
+  inboundDisclosureStatus: 'read_only_design';
+  outboundDisclosureStatus: 'read_only_design';
+  aiHandledDisclosureStatus: 'read_only_design';
+  humanHandledDisclosureStatus: 'read_only_design';
+  recordedCallDisclosureStatus: 'read_only_design';
+  monitoredCallDisclosureStatus: 'read_only_design';
+  transcribedCallDisclosureStatus: 'read_only_design';
+  disclosureDefaultLanguageStatus: 'read_only_design';
+  disclosureFallbackLanguageStatus: 'read_only_design';
+  disclosureTextByLanguageStatus: 'read_only_design';
+  disclosureAudioReferenceByLanguageStatus: 'read_only_design';
+  disclosureMissingLanguageFallbackStatus: 'read_only_design';
+  disclosureAuditStatus: 'read_only_design';
+  disclosureVersioningStatus: 'read_only_design';
+  disclosureEffectiveDateStatus: 'read_only_design';
+  disclosureRollbackStatus: 'read_only_design';
+  jurisdictionPolicyMappingStatus: 'read_only_design';
+  multilingualDependencyStatus: 'read_only_design';
+  rbacDisclosureControlStatus: 'read_only_design';
+  tenantIsolationStatus: 'read_only_design';
+  campaignIsolationStatus: 'read_only_design';
+  mfaStepUpForDisclosureChangesStatus: 'read_only_design';
+  middlewareCoreDependencyStatus: 'read_only_design';
+  consentStorageStatus: 'not_implemented';
+  disclosureStorageStatus: 'not_implemented';
+  disclosureLanguageStorageStatus: 'not_implemented';
+  disclosureAudioStorageStatus: 'not_implemented';
+  disclosureAuditStorageStatus: 'not_implemented';
+  consentEndpointStatus: 'not_implemented';
+  disclosureEndpointStatus: 'not_implemented';
+  consentCrudStatus: 'not_implemented';
+  disclosureCrudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  consentCaptureRuntimeStatus: 'not_allowed';
+  disclosurePlaybackRuntimeStatus: 'not_allowed';
+  disclosureAudioGenerationRuntimeStatus: 'not_allowed';
+  disclosureAudioUploadRuntimeStatus: 'not_allowed';
+  ivrRuntimeStatus: 'not_allowed';
+  callScriptRuntimeStatus: 'not_allowed';
+  recordingRuntimeStatus: 'not_allowed';
+  transcriptionRuntimeStatus: 'not_allowed';
+  liveCallQueryStatus: 'not_allowed';
+  transcriptAccessStatus: 'not_allowed';
+  recordingAccessStatus: 'not_allowed';
+  reportRuntimeStatus: 'not_allowed';
+  asteriskModificationStatus: 'not_allowed';
+  vicidialModificationStatus: 'not_allowed';
+  dialplanModificationStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  aiVoiceStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  globalForcedDisclosureAllowed: false;
+  consentStorageAllowed: false;
+  disclosureStorageAllowed: false;
+  disclosureLanguageStorageAllowed: false;
+  disclosureAudioStorageAllowed: false;
+  disclosureAuditStorageAllowed: false;
+  consentEndpointAllowed: false;
+  disclosureEndpointAllowed: false;
+  consentCrudAllowed: false;
+  disclosureCrudAllowed: false;
+  migrationAllowed: false;
+  consentCaptureRuntimeAllowed: false;
+  disclosurePlaybackRuntimeAllowed: false;
+  disclosureAudioGenerationRuntimeAllowed: false;
+  disclosureAudioUploadRuntimeAllowed: false;
+  ivrRuntimeAllowed: false;
+  callScriptRuntimeAllowed: false;
+  recordingRuntimeAllowed: false;
+  transcriptionRuntimeAllowed: false;
+  liveCallQueryAllowed: false;
+  transcriptAccessAllowed: false;
+  recordingAccessAllowed: false;
+  reportRuntimeAllowed: false;
+  asteriskModificationAllowed: false;
+  vicidialModificationAllowed: false;
+  dialplanModificationAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  openAiConnectionAllowed: false;
+  openAiRuntimeAllowed: false;
+  realtimeSessionAllowed: false;
+  aiVoiceAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  realCredentialAllowed: false;
+  realPiiAllowed: false;
+  realCallAllowed: false;
+  futureDisclosureScopeFields: string[];
+  futureDisclosureLanguageFields: string[];
+  futureDisclosureApplicationRules: string[];
+  futureDisclosureFallbackRules: string[];
+  futureDisclosureContentRules: string[];
+  futureJurisdictionPolicyRules: string[];
+  futureRbacDisclosureRules: string[];
+  futureTenantCampaignIsolationRules: string[];
+  futureMfaStepUpRules: string[];
+  futureReportCoverageRules: string[];
+  futureMiddlewareCoreDependencyRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -3600,6 +3717,7 @@ export type RouteReadinessReport = {
   campaignAiAgentCapacityBudgetReadiness: CampaignAiAgentCapacityBudgetReadiness;
   qaSamplingEligibilityRulesReadiness: QaSamplingEligibilityRulesReadiness;
   qaFeedbackAiImprovementApprovalReadiness: QaFeedbackAiImprovementApprovalReadiness;
+  consentDisclosureReadiness: ConsentDisclosureReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -15338,6 +15456,250 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const consentDisclosureReadiness: ConsentDisclosureReadiness = {
+    currentState: 'not_ready',
+    consentDisclosureApproved: false,
+    consentDisclosureMode: 'read_only_design',
+    campaignScopedDisclosureStatus: 'read_only_design',
+    disclosureOptionalPerCampaignStatus: 'read_only_design',
+    globalForcedDisclosureStatus: 'not_allowed',
+    languageCustomizableDisclosureStatus: 'read_only_design',
+    inboundDisclosureStatus: 'read_only_design',
+    outboundDisclosureStatus: 'read_only_design',
+    aiHandledDisclosureStatus: 'read_only_design',
+    humanHandledDisclosureStatus: 'read_only_design',
+    recordedCallDisclosureStatus: 'read_only_design',
+    monitoredCallDisclosureStatus: 'read_only_design',
+    transcribedCallDisclosureStatus: 'read_only_design',
+    disclosureDefaultLanguageStatus: 'read_only_design',
+    disclosureFallbackLanguageStatus: 'read_only_design',
+    disclosureTextByLanguageStatus: 'read_only_design',
+    disclosureAudioReferenceByLanguageStatus: 'read_only_design',
+    disclosureMissingLanguageFallbackStatus: 'read_only_design',
+    disclosureAuditStatus: 'read_only_design',
+    disclosureVersioningStatus: 'read_only_design',
+    disclosureEffectiveDateStatus: 'read_only_design',
+    disclosureRollbackStatus: 'read_only_design',
+    jurisdictionPolicyMappingStatus: 'read_only_design',
+    multilingualDependencyStatus: 'read_only_design',
+    rbacDisclosureControlStatus: 'read_only_design',
+    tenantIsolationStatus: 'read_only_design',
+    campaignIsolationStatus: 'read_only_design',
+    mfaStepUpForDisclosureChangesStatus: 'read_only_design',
+    middlewareCoreDependencyStatus: 'read_only_design',
+    consentStorageStatus: 'not_implemented',
+    disclosureStorageStatus: 'not_implemented',
+    disclosureLanguageStorageStatus: 'not_implemented',
+    disclosureAudioStorageStatus: 'not_implemented',
+    disclosureAuditStorageStatus: 'not_implemented',
+    consentEndpointStatus: 'not_implemented',
+    disclosureEndpointStatus: 'not_implemented',
+    consentCrudStatus: 'not_implemented',
+    disclosureCrudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    consentCaptureRuntimeStatus: 'not_allowed',
+    disclosurePlaybackRuntimeStatus: 'not_allowed',
+    disclosureAudioGenerationRuntimeStatus: 'not_allowed',
+    disclosureAudioUploadRuntimeStatus: 'not_allowed',
+    ivrRuntimeStatus: 'not_allowed',
+    callScriptRuntimeStatus: 'not_allowed',
+    recordingRuntimeStatus: 'not_allowed',
+    transcriptionRuntimeStatus: 'not_allowed',
+    liveCallQueryStatus: 'not_allowed',
+    transcriptAccessStatus: 'not_allowed',
+    recordingAccessStatus: 'not_allowed',
+    reportRuntimeStatus: 'not_allowed',
+    asteriskModificationStatus: 'not_allowed',
+    vicidialModificationStatus: 'not_allowed',
+    dialplanModificationStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    aiVoiceStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    globalForcedDisclosureAllowed: false,
+    consentStorageAllowed: false,
+    disclosureStorageAllowed: false,
+    disclosureLanguageStorageAllowed: false,
+    disclosureAudioStorageAllowed: false,
+    disclosureAuditStorageAllowed: false,
+    consentEndpointAllowed: false,
+    disclosureEndpointAllowed: false,
+    consentCrudAllowed: false,
+    disclosureCrudAllowed: false,
+    migrationAllowed: false,
+    consentCaptureRuntimeAllowed: false,
+    disclosurePlaybackRuntimeAllowed: false,
+    disclosureAudioGenerationRuntimeAllowed: false,
+    disclosureAudioUploadRuntimeAllowed: false,
+    ivrRuntimeAllowed: false,
+    callScriptRuntimeAllowed: false,
+    recordingRuntimeAllowed: false,
+    transcriptionRuntimeAllowed: false,
+    liveCallQueryAllowed: false,
+    transcriptAccessAllowed: false,
+    recordingAccessAllowed: false,
+    reportRuntimeAllowed: false,
+    asteriskModificationAllowed: false,
+    vicidialModificationAllowed: false,
+    dialplanModificationAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    openAiConnectionAllowed: false,
+    openAiRuntimeAllowed: false,
+    realtimeSessionAllowed: false,
+    aiVoiceAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    realCredentialAllowed: false,
+    realPiiAllowed: false,
+    realCallAllowed: false,
+    futureDisclosureScopeFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'disclosurePolicyId',
+      'consentPolicyId',
+      'jurisdictionPolicyId',
+      'callDirection',
+      'routeType',
+      'agentType',
+      'language',
+      'recordingEnabled',
+      'monitoringEnabled',
+      'transcriptionEnabled',
+      'effectiveDate',
+      'rollbackVersion',
+      'auditCorrelationId',
+    ],
+    futureDisclosureLanguageFields: [
+      'defaultDisclosureLanguage',
+      'fallbackDisclosureLanguage',
+      'selectedCallLanguage',
+      'disclosureTextByLanguage',
+      'disclosureAudioReferenceByLanguage',
+      'disclosureContentVersionByLanguage',
+      'disclosureMissingLanguageContent',
+      'disclosureFallbackUsed',
+      'languageSource',
+      'multilingualRoutingPolicyId',
+    ],
+    futureDisclosureApplicationRules: [
+      'Future disclosure can be enabled or disabled per campaign',
+      'Future disclosure must not be globally forced across all clients or campaigns',
+      'Campaigns that do not require disclosure must be able to keep disclosure off',
+      'Future disclosure may apply to inbound calls when campaign policy enables it',
+      'Future disclosure may apply to outbound calls when campaign policy enables it',
+      'Future disclosure may apply to AI-handled calls when campaign policy enables it',
+      'Future disclosure may apply to human-handled calls when campaign policy enables it',
+      'Future disclosure may apply when recording, monitoring, transcription, jurisdiction, or client policy requires it',
+      'Campaign A: disclosure ON, English/Spanish',
+      'Campaign B: disclosure OFF',
+      'Campaign C: disclosure ON, English only',
+      'Campaign D: disclosure ON, English/Spanish/Portuguese, only for AI calls',
+    ],
+    futureDisclosureFallbackRules: [
+      'Future fallback may use campaign fallback disclosure language',
+      'Future fallback may route to human if configured',
+      'Future fallback may block or hold a call if policy requires disclosure and content is missing',
+      'Future fallback should log disclosureFallbackUsed',
+      'Future fallback should log disclosureMissingLanguageContent',
+      'Fallback behavior is not implemented or executable in this readiness phase',
+    ],
+    futureDisclosureContentRules: [
+      'Future disclosure text should be customizable per language',
+      'Future disclosure audio reference should be configurable per language',
+      'Future disclosure content should support versioning, audit, effective date, and rollback reference',
+      'English and Spanish are examples only and language support must not be hardcoded to English/Spanish only',
+      'Disclosure audio files are not created, generated, uploaded, played, or stored in this readiness phase',
+    ],
+    futureJurisdictionPolicyRules: [
+      'Future campaign disclosure policy may map jurisdiction and client policy requirements',
+      'Future campaign disclosure policy may require disclosure when recording is enabled',
+      'Future campaign disclosure policy may require disclosure when monitoring is enabled',
+      'Future campaign disclosure policy may require disclosure when transcription is enabled',
+      'Jurisdiction and client policy mapping is design-only in this readiness phase',
+    ],
+    futureRbacDisclosureRules: [
+      'super_admin can define global disclosure policy templates in a future implementation',
+      'authorized internal admin can manage assigned campaigns only in a future implementation',
+      'campaign_admin/client_admin can manage assigned campaign disclosure only if permission allows in a future implementation',
+      'restricted users cannot change disclosure or consent settings',
+      'High-risk disclosure policy changes may require MFA/step-up authentication in a future implementation',
+    ],
+    futureTenantCampaignIsolationRules: [
+      'Client A must not see or change client B disclosure settings',
+      'Campaign A must not use campaign B disclosure content',
+      'Disclosure content must not cross client/campaign boundaries',
+      'Tenant and campaign isolation must be enforced server-side in a future implementation',
+      'Disclosure configuration reports must respect tenant/campaign scope in a future implementation',
+    ],
+    futureMfaStepUpRules: [
+      'High-risk disclosure policy changes should require future MFA/step-up authentication',
+      'Disclosure content changes should require future MFA/step-up authentication when policy requires it',
+      'Disclosure effective-date and rollback changes should require future MFA/step-up authentication when policy requires it',
+      'MFA/step-up remains design-only and does not change current auth behavior in this readiness phase',
+    ],
+    futureReportCoverageRules: [
+      'Future reports may show disclosure configuration status',
+      'Future reports may show language coverage',
+      'Future reports may show missing disclosure content',
+      'Future reports may show fallback usage',
+      'Future reports may show consent capture status',
+      'Future reports may show audit events',
+      'Report runtime is not implemented in this readiness phase',
+    ],
+    futureMiddlewareCoreDependencyRules: [
+      'Vicidial Middleware remains the source of truth for campaign routing',
+      'Vicidial Middleware remains the source of truth for DID rules',
+      'Vicidial Middleware remains the source of truth for route simulation and shadow mode',
+      'Vicidial Middleware remains the source of truth for local touch, limits, inventory health, and runtime safety',
+      'AI Voice and QA modules must consume middleware context and must not bypass or override middleware core rules without explicit approved runtime activation',
+    ],
+    futureRuntimeBoundaries: [
+      'Consent / Disclosure readiness must not create consent storage, disclosure storage, disclosure language storage, disclosure audio storage, disclosure audit storage, CRUD, endpoints, migrations, database tables, or storage',
+      'Consent / Disclosure readiness must not create consent records, disclosure records, disclosure audio, IVR routes, call scripts, or disclosure playback behavior',
+      'Consent / Disclosure readiness must not create consent capture runtime, disclosure playback runtime, disclosure audio generation runtime, disclosure audio upload runtime, IVR runtime, call script runtime, recording runtime, transcription runtime, or report runtime',
+      'Consent / Disclosure readiness must not access transcripts, recordings, live calls, raw PII, or real credentials',
+      'Consent / Disclosure readiness must not connect OpenAI, execute OpenAI API calls, open Realtime sessions, enable AI voice, enable AI inbound calls, enable AI outbound calls, enable FastAGI, modify Asterisk/Vicidial, modify dialplan, reload dialplan, or change route behavior',
+      'Consent / Disclosure readiness must not change current auth, login, session, or RBAC behavior and must not add UI execution controls',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create consent records',
+      'Do not create disclosure records',
+      'Do not create disclosure audio',
+      'Do not upload audio',
+      'Do not generate audio',
+      'Do not play audio',
+      'Do not create IVR routes',
+      'Do not create call scripts',
+      'Do not create consent storage, disclosure storage, disclosure language storage, disclosure audio storage, or disclosure audit storage',
+      'Do not create CRUD, endpoints, migrations, database tables, or storage',
+      'Do not create consent capture runtime',
+      'Do not create disclosure playback runtime',
+      'Do not create recording or transcription runtime',
+      'Do not access recordings or transcripts',
+      'Do not query live calls or execute live calls',
+      'Do not expose raw PII or secrets',
+      'Do not connect OpenAI, execute OpenAI API calls, or open Realtime sessions',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not modify Asterisk, Vicidial, dialplan, or route behavior',
+      'Do not change auth, login, session, or RBAC behavior',
+    ],
+    nextSteps: [
+      'Keep Consent / Disclosure Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, OpenAI-disconnected, telephony-change-blocked, and runtime-blocked.',
+      'Define future campaign-scoped optional disclosure policy for inbound, outbound, AI-handled, human-handled, recorded, monitored, and transcribed calls in a separately approved phase.',
+      'Define future disclosure language configuration, default language, fallback language, text/audio reference by language, fallback behavior, jurisdiction/client policy mapping, audit, versioning, rollback, effective-date, RBAC, tenant isolation, and MFA/step-up policy before implementation.',
+      'Integrate future disclosure language behavior with future multilingual routing configuration without hardcoding language support to English/Spanish only.',
+      'Keep consent/disclosure storage, disclosure audio storage, CRUD, endpoints, migrations, consent capture runtime, disclosure playback runtime, audio generation/upload runtime, IVR runtime, call script runtime, recording runtime, transcription runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, raw PII, recordings/transcripts, and UI execution controls blocked.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -15701,6 +16063,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'QA Feedback to AI Improvement Approval readiness is read-only, not ready, not approved, campaign-scoped feedback/proposal mapping only, AI Agent QA and Human Agent QA mapped, inbound/outbound and AI-handled/human-handled calls mapped, human-in-the-loop approval/versioning/audit/rollback/sandbox testing/RBAC/MFA/tenant isolation mapped, no-auto-learning enforced by design, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, approval/versioning/rollback/prompt-optimization/AI-learning/update/QA/report runtime blocked, transcript/recording/live-call access blocked, OpenAI-disconnected, and exposes no QA feedback, AI improvement, prompt, knowledge base, policy, handoff, scorecard, approval, version, rollback, deploy, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
     },
+    {
+      id: 'consent-disclosure-readiness-read-only',
+      label: 'Consent / Disclosure readiness read-only',
+      status: 'pass',
+      detail: 'Consent / Disclosure readiness is read-only, not ready, not approved, campaign-scoped optional disclosure mapped, global forced disclosure blocked, language-customizable disclosure mapped, inbound/outbound and AI-handled/human-handled calls mapped, recorded/monitored/transcribed call disclosure mapped, fallback/audit/versioning/effective-date/rollback/jurisdiction-policy/RBAC/MFA/tenant isolation mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, consent-capture/disclosure-playback/audio-generation/audio-upload/IVR/call-script/recording/transcription/report runtime blocked, transcript/recording/live-call access blocked, OpenAI-disconnected, telephony changes blocked, and exposes no consent, disclosure, audio, IVR, recording, transcription, language save, campaign save, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -15841,6 +16209,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     campaignAiAgentCapacityBudgetReadiness,
     qaSamplingEligibilityRulesReadiness,
     qaFeedbackAiImprovementApprovalReadiness,
+    consentDisclosureReadiness,
     checklist,
     risks,
     recommendations: [
@@ -15895,6 +16264,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat Campaign AI Agent Capacity & Budget readiness as read-only design visibility; it maps future campaign-scoped AI agent limits, active AI agent counts, concurrency, campaign budget/capacity, budget warning and hard stop thresholds, exceeded behavior, approval, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create AI agents, AI agent limits, budget records, usage records, billing records, cost records, storage, CRUD, endpoints, migrations, runtime enforcement, OpenAI connection, Realtime sessions, AI voice, AI inbound/outbound execution, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, recordings/transcripts access, raw PII exposure, or UI execution controls.',
       'Treat QA Sampling & Eligibility Rules readiness as read-only design visibility; it maps future campaign-scoped QA eligibility and sampling so QA does not evaluate all calls by default, including AI Agent QA, Human Agent QA, inbound/outbound, AI-handled and human-handled calls, duration filters, disposition filters, language filters, exclusions, sampling methods, agent min/max rules, capacity/budget boundaries, RBAC, tenant isolation, MFA step-up, report coverage, and middleware core dependency only and does not create QA sampling storage, QA eligibility storage, sampling queues, QA evaluation jobs, QA records, CRUD, endpoints, migrations, sampling runtime, eligibility runtime, QA runtime, scheduler runtime, background jobs, report runtime, OpenAI connection, Realtime sessions, AI voice, AI inbound/outbound execution, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, or UI execution controls.',
       'Treat QA Feedback to AI Improvement Approval readiness as read-only design visibility; it maps future campaign-scoped QA feedback to controlled AI improvement proposals with human review, approval, versioning, audit, rollback planning, sandbox testing, RBAC, tenant isolation, MFA step-up, and future activation gates only and does not create QA feedback storage, AI improvement storage, prompt/KB/policy/handoff/scorecard change storage, approval storage, version storage, audit storage, CRUD, endpoints, migrations, approval runtime, versioning runtime, rollback runtime, prompt optimization runtime, AI learning runtime, prompt/KB/policy/handoff/scorecard update runtime, QA evaluation runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, or UI execution controls.',
+      'Treat Consent / Disclosure readiness as read-only design visibility; it maps future campaign-scoped optional disclosure, language-customizable text/audio references, inbound/outbound, AI-handled/human-handled, recorded/monitored/transcribed call applicability, multilingual dependency, fallback behavior, jurisdiction/client policy mapping, audit, versioning, rollback, effective dates, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create consent storage, disclosure storage, disclosure language storage, disclosure audio storage, disclosure audit storage, CRUD, endpoints, migrations, consent capture runtime, disclosure playback runtime, audio generation/upload runtime, IVR runtime, call script runtime, recording runtime, transcription runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, or UI execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],
