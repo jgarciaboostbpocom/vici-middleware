@@ -1098,6 +1098,15 @@
                   <div class="muted small">Loading Usage &amp; Cost Tracking readiness status...</div>
                 </div>
                 <div class="section-head" style="margin-top:14px">
+                  <h2>Failure Handling / Fallback Readiness</h2>
+                  <span class="muted small">Read-only failure handling and fallback design status for future tenant-scoped, campaign-scoped, provider-aware, route-aware, auditable, safe-by-default fallback behavior across AI Voice, QA, transcription, recording, tools, Asterisk, Vicidial, middleware, provider outages, retries, circuit breakers, alerts, incidents, human handoff fallback, queue fallback, voicemail fallback, and safe degradation. This does not create failure records, fallback records, outage records, retry records, circuit breaker records, alert records, incident records, handoff records, storage, CRUD, endpoints, migrations, fallback runtime, failover runtime, retry runtime, circuit breaker runtime, alert runtime, incident runtime, queue/voicemail/IVR/audio/call-transfer runtime, OpenAI connection, AI voice execution, FastAGI, live calls, transcript/recording access, raw PII exposure, Asterisk/Vicidial changes, dialplan changes, or route behavior changes.</span>
+                </div>
+                <div class="summary-grid" id="failureHandlingFallbackReadinessCards"></div>
+                <div class="row" id="failureHandlingFallbackReadinessBadges" style="margin-top:12px"></div>
+                <div id="failureHandlingFallbackReadinessDetails" class="placeholder" style="margin-top:12px">
+                  <div class="muted small">Loading Failure Handling / Fallback readiness status...</div>
+                </div>
+                <div class="section-head" style="margin-top:14px">
                   <h2>Safety Checklist</h2>
                   <span class="muted small">Pass/warn/fail state from masked configuration and source diagnostics.</span>
                 </div>
@@ -3140,10 +3149,13 @@ function renderRouteReadiness() {
   const usageCostTrackingReadinessCards = $('#usageCostTrackingReadinessCards');
   const usageCostTrackingReadinessBadges = $('#usageCostTrackingReadinessBadges');
   const usageCostTrackingReadinessDetails = $('#usageCostTrackingReadinessDetails');
+  const failureHandlingFallbackReadinessCards = $('#failureHandlingFallbackReadinessCards');
+  const failureHandlingFallbackReadinessBadges = $('#failureHandlingFallbackReadinessBadges');
+  const failureHandlingFallbackReadinessDetails = $('#failureHandlingFallbackReadinessDetails');
   const checklistBody = $('#routeReadinessChecklistBody');
   const risksBody = $('#routeReadinessRisksBody');
   const recommendations = $('#routeReadinessRecommendations');
-  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !usageCostTrackingReadinessCards || !usageCostTrackingReadinessBadges || !usageCostTrackingReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
+  if (!cards || !badges || !liveContractCards || !liveContractBadges || !liveContractDetails || !productionPreflightCards || !productionPreflightBadges || !productionPreflightDetails || !liveApprovalGateCards || !liveApprovalGateBadges || !liveApprovalGateDetails || !campaignPilotReadinessCards || !campaignPilotReadinessBadges || !campaignPilotReadinessDetails || !providerDidAcceptanceCards || !providerDidAcceptanceBadges || !providerDidAcceptanceDetails || !rollbackReadinessCards || !rollbackReadinessBadges || !rollbackReadinessDetails || !asteriskChangePlanCards || !asteriskChangePlanBadges || !asteriskChangePlanDetails || !stagingDryRunCards || !stagingDryRunBadges || !stagingDryRunDetails || !aiVoiceContractCards || !aiVoiceContractBadges || !aiVoiceContractDetails || !aiProviderSelectionCards || !aiProviderSelectionBadges || !aiProviderSelectionDetails || !openAiPromptManagementCards || !openAiPromptManagementBadges || !openAiPromptManagementDetails || !openAiKnowledgeBaseCards || !openAiKnowledgeBaseBadges || !openAiKnowledgeBaseDetails || !openAiHandoffCards || !openAiHandoffBadges || !openAiHandoffDetails || !openAiLoggingQaCards || !openAiLoggingQaBadges || !openAiLoggingQaDetails || !openAiPiiComplianceConsentCards || !openAiPiiComplianceConsentBadges || !openAiPiiComplianceConsentDetails || !openAiToolBoundaryCards || !openAiToolBoundaryBadges || !openAiToolBoundaryDetails || !openAiStagingRuntimeApprovalCards || !openAiStagingRuntimeApprovalBadges || !openAiStagingRuntimeApprovalDetails || !openAiConfigModelCards || !openAiConfigModelBadges || !openAiConfigModelDetails || !openAiAdminConfigPreviewCards || !openAiAdminConfigPreviewBadges || !openAiAdminConfigPreviewDetails || !openAiApprovalWorkflowCards || !openAiApprovalWorkflowBadges || !openAiApprovalWorkflowDetails || !openAiRollbackWorkflowCards || !openAiRollbackWorkflowBadges || !openAiRollbackWorkflowDetails || !openAiAuditTrailCards || !openAiAuditTrailBadges || !openAiAuditTrailDetails || !openAiRbacScopeCards || !openAiRbacScopeBadges || !openAiRbacScopeDetails || !openAiCredentialBoundaryCards || !openAiCredentialBoundaryBadges || !openAiCredentialBoundaryDetails || !openAiEmergencyStopCards || !openAiEmergencyStopBadges || !openAiEmergencyStopDetails || !openAiRuntimeActivationGateCards || !openAiRuntimeActivationGateBadges || !openAiRuntimeActivationGateDetails || !openAiStagingSandboxEnvironmentCards || !openAiStagingSandboxEnvironmentBadges || !openAiStagingSandboxEnvironmentDetails || !openAiSyntheticScenarioLibraryCards || !openAiSyntheticScenarioLibraryBadges || !openAiSyntheticScenarioLibraryDetails || !openAiSandboxEvidenceReviewCards || !openAiSandboxEvidenceReviewBadges || !openAiSandboxEvidenceReviewDetails || !openAiTestResultScoringCards || !openAiTestResultScoringBadges || !openAiTestResultScoringDetails || !openAiTranscriptReviewCards || !openAiTranscriptReviewBadges || !openAiTranscriptReviewDetails || !openAiAiResponseEvaluationCards || !openAiAiResponseEvaluationBadges || !openAiAiResponseEvaluationDetails || !openAiQaReviewWorkflowCards || !openAiQaReviewWorkflowBadges || !openAiQaReviewWorkflowDetails || !openAiImprovementProposalCards || !openAiImprovementProposalBadges || !openAiImprovementProposalDetails || !qaCenterReadinessCards || !qaCenterReadinessBadges || !qaCenterReadinessDetails || !aiAgentQaReadinessCards || !aiAgentQaReadinessBadges || !aiAgentQaReadinessDetails || !qaScorecardConfigurationReadinessCards || !qaScorecardConfigurationReadinessBadges || !qaScorecardConfigurationReadinessDetails || !humanAgentQaReadinessCards || !humanAgentQaReadinessBadges || !humanAgentQaReadinessDetails || !campaignAiQaScopeReadinessCards || !campaignAiQaScopeReadinessBadges || !campaignAiQaScopeReadinessDetails || !campaignPromptKbScopeReadinessCards || !campaignPromptKbScopeReadinessBadges || !campaignPromptKbScopeReadinessDetails || !campaignQaProvisioningReadinessCards || !campaignQaProvisioningReadinessBadges || !campaignQaProvisioningReadinessDetails || !qaRbacAccessScopeReadinessCards || !qaRbacAccessScopeReadinessBadges || !qaRbacAccessScopeReadinessDetails || !qaEvaluationWorkflowReadinessCards || !qaEvaluationWorkflowReadinessBadges || !qaEvaluationWorkflowReadinessDetails || !qaReportsAnalyticsReadinessCards || !qaReportsAnalyticsReadinessBadges || !qaReportsAnalyticsReadinessDetails || !multilingualCallLanguageRoutingReadinessCards || !multilingualCallLanguageRoutingReadinessBadges || !multilingualCallLanguageRoutingReadinessDetails || !authenticationMfaSecurityReadinessCards || !authenticationMfaSecurityReadinessBadges || !authenticationMfaSecurityReadinessDetails || !campaignAiAgentCapacityBudgetReadinessCards || !campaignAiAgentCapacityBudgetReadinessBadges || !campaignAiAgentCapacityBudgetReadinessDetails || !qaSamplingEligibilityRulesReadinessCards || !qaSamplingEligibilityRulesReadinessBadges || !qaSamplingEligibilityRulesReadinessDetails || !qaFeedbackAiImprovementApprovalReadinessCards || !qaFeedbackAiImprovementApprovalReadinessBadges || !qaFeedbackAiImprovementApprovalReadinessDetails || !consentDisclosureReadinessCards || !consentDisclosureReadinessBadges || !consentDisclosureReadinessDetails || !usageCostTrackingReadinessCards || !usageCostTrackingReadinessBadges || !usageCostTrackingReadinessDetails || !failureHandlingFallbackReadinessCards || !failureHandlingFallbackReadinessBadges || !failureHandlingFallbackReadinessDetails || !checklistBody || !risksBody || !recommendations) return;
 
   const report = state.routeReadiness;
   if (!report) {
@@ -3302,6 +3314,9 @@ function renderRouteReadiness() {
     usageCostTrackingReadinessCards.innerHTML = '<div class="muted small">Usage &amp; Cost Tracking readiness status not loaded.</div>';
     usageCostTrackingReadinessBadges.innerHTML = '';
     usageCostTrackingReadinessDetails.innerHTML = '<div class="muted small">Usage &amp; Cost Tracking readiness details not loaded.</div>';
+    failureHandlingFallbackReadinessCards.innerHTML = '<div class="muted small">Failure Handling / Fallback readiness status not loaded.</div>';
+    failureHandlingFallbackReadinessBadges.innerHTML = '';
+    failureHandlingFallbackReadinessDetails.innerHTML = '<div class="muted small">Failure Handling / Fallback readiness details not loaded.</div>';
     checklistBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness checklist not loaded.</td></tr>';
     risksBody.innerHTML = '<tr><td colspan="3" class="muted">Readiness risks not loaded.</td></tr>';
     recommendations.innerHTML = '<div class="muted small">Readiness recommendations not loaded.</div>';
@@ -9905,6 +9920,211 @@ function renderRouteReadiness() {
   usageCostTrackingReadinessDetails.innerHTML = `
     <div class="summary-grid">
       ${usageCostTrackingDetailGroups.map(([label, rawItems]) => {
+        const items = Array.isArray(rawItems) ? rawItems : [];
+        return `
+          <div>
+            <strong>${escapeHtml(label)}</strong>
+            ${items.length ? `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<div class="muted small">No items returned.</div>'}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  const failureHandlingFallback = report.failureHandlingFallbackReadiness || {};
+  const failureHandlingFallbackReadinessCardsData = [
+    ['Current state', failureHandlingFallback.currentState || 'not_ready'],
+    ['Failure handling fallback approved', failureHandlingFallback.failureHandlingFallbackApproved ? 'yes' : 'no'],
+    ['Failure handling fallback mode', failureHandlingFallback.failureHandlingFallbackMode || 'read_only_design'],
+    ['Tenant-scoped failure', failureHandlingFallback.tenantScopedFailureStatus || 'read_only_design'],
+    ['Campaign-scoped failure', failureHandlingFallback.campaignScopedFailureStatus || 'read_only_design'],
+    ['Provider-aware fallback', failureHandlingFallback.providerAwareFallbackStatus || 'read_only_design'],
+    ['Inbound fallback', failureHandlingFallback.inboundFallbackStatus || 'read_only_design'],
+    ['Outbound fallback', failureHandlingFallback.outboundFallbackStatus || 'read_only_design'],
+    ['AI Voice failure', failureHandlingFallback.aiVoiceFailureStatus || 'read_only_design'],
+    ['AI QA failure', failureHandlingFallback.aiQaFailureStatus || 'read_only_design'],
+    ['Human QA failure', failureHandlingFallback.humanQaFailureStatus || 'read_only_design'],
+    ['OpenAI failure', failureHandlingFallback.openAiFailureStatus || 'read_only_design'],
+    ['Realtime session failure', failureHandlingFallback.realtimeSessionFailureStatus || 'read_only_design'],
+    ['Voice gateway failure', failureHandlingFallback.voiceGatewayFailureStatus || 'read_only_design'],
+    ['Media bridge failure', failureHandlingFallback.mediaBridgeFailureStatus || 'read_only_design'],
+    ['Asterisk failure', failureHandlingFallback.asteriskFailureStatus || 'read_only_design'],
+    ['Vicidial failure', failureHandlingFallback.vicidialFailureStatus || 'read_only_design'],
+    ['FastAGI failure', failureHandlingFallback.fastAgiFailureStatus || 'read_only_design'],
+    ['Carrier/SIP failure', failureHandlingFallback.carrierSipFailureStatus || 'read_only_design'],
+    ['DID failure', failureHandlingFallback.didFailureStatus || 'read_only_design'],
+    ['Route engine failure', failureHandlingFallback.routeEngineFailureStatus || 'read_only_design'],
+    ['Middleware API failure', failureHandlingFallback.middlewareApiFailureStatus || 'read_only_design'],
+    ['Campaign config failure', failureHandlingFallback.campaignConfigFailureStatus || 'read_only_design'],
+    ['Budget/capacity failure', failureHandlingFallback.budgetCapacityFailureStatus || 'read_only_design'],
+    ['Prompt load failure', failureHandlingFallback.promptLoadFailureStatus || 'read_only_design'],
+    ['Knowledge base failure', failureHandlingFallback.knowledgeBaseFailureStatus || 'read_only_design'],
+    ['Tool call failure', failureHandlingFallback.toolCallFailureStatus || 'read_only_design'],
+    ['Transcription failure', failureHandlingFallback.transcriptionFailureStatus || 'read_only_design'],
+    ['Recording reference failure', failureHandlingFallback.recordingReferenceFailureStatus || 'read_only_design'],
+    ['QA evaluation failure', failureHandlingFallback.qaEvaluationFailureStatus || 'read_only_design'],
+    ['Language fallback failure', failureHandlingFallback.languageFallbackFailureStatus || 'read_only_design'],
+    ['Disclosure fallback failure', failureHandlingFallback.disclosureFallbackFailureStatus || 'read_only_design'],
+    ['Handoff failure', failureHandlingFallback.handoffFailureStatus || 'read_only_design'],
+    ['Queue fallback', failureHandlingFallback.queueFallbackStatus || 'read_only_design'],
+    ['Voicemail fallback', failureHandlingFallback.voicemailFallbackStatus || 'read_only_design'],
+    ['Retry strategy', failureHandlingFallback.retryStrategyStatus || 'read_only_design'],
+    ['Circuit breaker', failureHandlingFallback.circuitBreakerStatus || 'read_only_design'],
+    ['Incident', failureHandlingFallback.incidentStatus || 'read_only_design'],
+    ['Alert', failureHandlingFallback.alertStatus || 'read_only_design'],
+    ['Audit', failureHandlingFallback.auditStatus || 'read_only_design'],
+    ['Report', failureHandlingFallback.reportStatus || 'read_only_design'],
+    ['RBAC failure/fallback control', failureHandlingFallback.rbacFailureFallbackControlStatus || 'read_only_design'],
+    ['Tenant isolation', failureHandlingFallback.tenantIsolationStatus || 'read_only_design'],
+    ['Campaign isolation', failureHandlingFallback.campaignIsolationStatus || 'read_only_design'],
+    ['MFA step-up for fallback changes', failureHandlingFallback.mfaStepUpForFallbackChangesStatus || 'read_only_design'],
+    ['Middleware core dependency', failureHandlingFallback.middlewareCoreDependencyStatus || 'read_only_design'],
+    ['Failure storage', failureHandlingFallback.failureStorageStatus || 'not_implemented'],
+    ['Fallback storage', failureHandlingFallback.fallbackStorageStatus || 'not_implemented'],
+    ['Outage storage', failureHandlingFallback.outageStorageStatus || 'not_implemented'],
+    ['Retry storage', failureHandlingFallback.retryStorageStatus || 'not_implemented'],
+    ['Circuit breaker storage', failureHandlingFallback.circuitBreakerStorageStatus || 'not_implemented'],
+    ['Alert storage', failureHandlingFallback.alertStorageStatus || 'not_implemented'],
+    ['Incident storage', failureHandlingFallback.incidentStorageStatus || 'not_implemented'],
+    ['Escalation storage', failureHandlingFallback.escalationStorageStatus || 'not_implemented'],
+    ['Handoff storage', failureHandlingFallback.handoffStorageStatus || 'not_implemented'],
+    ['Failure endpoint', failureHandlingFallback.failureEndpointStatus || 'not_implemented'],
+    ['Fallback endpoint', failureHandlingFallback.fallbackEndpointStatus || 'not_implemented'],
+    ['Alert endpoint', failureHandlingFallback.alertEndpointStatus || 'not_implemented'],
+    ['Incident endpoint', failureHandlingFallback.incidentEndpointStatus || 'not_implemented'],
+    ['Failure CRUD', failureHandlingFallback.failureCrudStatus || 'not_implemented'],
+    ['Fallback CRUD', failureHandlingFallback.fallbackCrudStatus || 'not_implemented'],
+    ['Alert CRUD', failureHandlingFallback.alertCrudStatus || 'not_implemented'],
+    ['Incident CRUD', failureHandlingFallback.incidentCrudStatus || 'not_implemented'],
+    ['Migration', failureHandlingFallback.migrationStatus || 'not_implemented'],
+    ['Fallback runtime', failureHandlingFallback.fallbackRuntimeStatus || 'not_allowed'],
+    ['Failover runtime', failureHandlingFallback.failoverRuntimeStatus || 'not_allowed'],
+    ['Retry runtime', failureHandlingFallback.retryRuntimeStatus || 'not_allowed'],
+    ['Circuit breaker runtime', failureHandlingFallback.circuitBreakerRuntimeStatus || 'not_allowed'],
+    ['Alert runtime', failureHandlingFallback.alertRuntimeStatus || 'not_allowed'],
+    ['Incident runtime', failureHandlingFallback.incidentRuntimeStatus || 'not_allowed'],
+    ['Escalation runtime', failureHandlingFallback.escalationRuntimeStatus || 'not_allowed'],
+    ['Handoff runtime', failureHandlingFallback.handoffRuntimeStatus || 'not_allowed'],
+    ['Queue fallback runtime', failureHandlingFallback.queueFallbackRuntimeStatus || 'not_allowed'],
+    ['Voicemail fallback runtime', failureHandlingFallback.voicemailFallbackRuntimeStatus || 'not_allowed'],
+    ['IVR fallback runtime', failureHandlingFallback.ivrFallbackRuntimeStatus || 'not_allowed'],
+    ['Audio playback runtime', failureHandlingFallback.audioPlaybackRuntimeStatus || 'not_allowed'],
+    ['Call transfer runtime', failureHandlingFallback.callTransferRuntimeStatus || 'not_allowed'],
+    ['Report runtime', failureHandlingFallback.reportRuntimeStatus || 'not_allowed'],
+    ['Live call query', failureHandlingFallback.liveCallQueryStatus || 'not_allowed'],
+    ['Transcript access', failureHandlingFallback.transcriptAccessStatus || 'not_allowed'],
+    ['Recording access', failureHandlingFallback.recordingAccessStatus || 'not_allowed'],
+    ['OpenAI connection', failureHandlingFallback.openAiConnectionStatus || 'not_connected'],
+    ['OpenAI runtime', failureHandlingFallback.openAiRuntimeStatus || 'not_connected'],
+    ['Realtime session', failureHandlingFallback.realtimeSessionStatus || 'not_connected'],
+    ['AI voice', failureHandlingFallback.aiVoiceStatus || 'not_allowed'],
+    ['AI inbound execution', failureHandlingFallback.aiInboundExecutionStatus || 'not_allowed'],
+    ['AI outbound execution', failureHandlingFallback.aiOutboundExecutionStatus || 'not_allowed'],
+    ['FastAGI', failureHandlingFallback.fastAgiStatus || 'not_allowed'],
+    ['Asterisk modification', failureHandlingFallback.asteriskModificationStatus || 'not_allowed'],
+    ['Vicidial modification', failureHandlingFallback.vicidialModificationStatus || 'not_allowed'],
+    ['Dialplan modification', failureHandlingFallback.dialplanModificationStatus || 'not_allowed'],
+    ['Route behavior change', failureHandlingFallback.routeBehaviorChangeStatus || 'not_allowed'],
+    ['Failure storage allowed', failureHandlingFallback.failureStorageAllowed ? 'yes' : 'no'],
+    ['Fallback storage allowed', failureHandlingFallback.fallbackStorageAllowed ? 'yes' : 'no'],
+    ['Outage storage allowed', failureHandlingFallback.outageStorageAllowed ? 'yes' : 'no'],
+    ['Retry storage allowed', failureHandlingFallback.retryStorageAllowed ? 'yes' : 'no'],
+    ['Circuit breaker storage allowed', failureHandlingFallback.circuitBreakerStorageAllowed ? 'yes' : 'no'],
+    ['Alert storage allowed', failureHandlingFallback.alertStorageAllowed ? 'yes' : 'no'],
+    ['Incident storage allowed', failureHandlingFallback.incidentStorageAllowed ? 'yes' : 'no'],
+    ['Escalation storage allowed', failureHandlingFallback.escalationStorageAllowed ? 'yes' : 'no'],
+    ['Handoff storage allowed', failureHandlingFallback.handoffStorageAllowed ? 'yes' : 'no'],
+    ['Failure endpoint allowed', failureHandlingFallback.failureEndpointAllowed ? 'yes' : 'no'],
+    ['Fallback endpoint allowed', failureHandlingFallback.fallbackEndpointAllowed ? 'yes' : 'no'],
+    ['Alert endpoint allowed', failureHandlingFallback.alertEndpointAllowed ? 'yes' : 'no'],
+    ['Incident endpoint allowed', failureHandlingFallback.incidentEndpointAllowed ? 'yes' : 'no'],
+    ['Failure CRUD allowed', failureHandlingFallback.failureCrudAllowed ? 'yes' : 'no'],
+    ['Fallback CRUD allowed', failureHandlingFallback.fallbackCrudAllowed ? 'yes' : 'no'],
+    ['Alert CRUD allowed', failureHandlingFallback.alertCrudAllowed ? 'yes' : 'no'],
+    ['Incident CRUD allowed', failureHandlingFallback.incidentCrudAllowed ? 'yes' : 'no'],
+    ['Migration allowed', failureHandlingFallback.migrationAllowed ? 'yes' : 'no'],
+    ['Fallback runtime allowed', failureHandlingFallback.fallbackRuntimeAllowed ? 'yes' : 'no'],
+    ['Failover runtime allowed', failureHandlingFallback.failoverRuntimeAllowed ? 'yes' : 'no'],
+    ['Retry runtime allowed', failureHandlingFallback.retryRuntimeAllowed ? 'yes' : 'no'],
+    ['Circuit breaker runtime allowed', failureHandlingFallback.circuitBreakerRuntimeAllowed ? 'yes' : 'no'],
+    ['Alert runtime allowed', failureHandlingFallback.alertRuntimeAllowed ? 'yes' : 'no'],
+    ['Incident runtime allowed', failureHandlingFallback.incidentRuntimeAllowed ? 'yes' : 'no'],
+    ['Escalation runtime allowed', failureHandlingFallback.escalationRuntimeAllowed ? 'yes' : 'no'],
+    ['Handoff runtime allowed', failureHandlingFallback.handoffRuntimeAllowed ? 'yes' : 'no'],
+    ['Queue fallback runtime allowed', failureHandlingFallback.queueFallbackRuntimeAllowed ? 'yes' : 'no'],
+    ['Voicemail fallback runtime allowed', failureHandlingFallback.voicemailFallbackRuntimeAllowed ? 'yes' : 'no'],
+    ['IVR fallback runtime allowed', failureHandlingFallback.ivrFallbackRuntimeAllowed ? 'yes' : 'no'],
+    ['Audio playback runtime allowed', failureHandlingFallback.audioPlaybackRuntimeAllowed ? 'yes' : 'no'],
+    ['Call transfer runtime allowed', failureHandlingFallback.callTransferRuntimeAllowed ? 'yes' : 'no'],
+    ['Report runtime allowed', failureHandlingFallback.reportRuntimeAllowed ? 'yes' : 'no'],
+    ['Live call query allowed', failureHandlingFallback.liveCallQueryAllowed ? 'yes' : 'no'],
+    ['Transcript access allowed', failureHandlingFallback.transcriptAccessAllowed ? 'yes' : 'no'],
+    ['Recording access allowed', failureHandlingFallback.recordingAccessAllowed ? 'yes' : 'no'],
+    ['OpenAI connection allowed', failureHandlingFallback.openAiConnectionAllowed ? 'yes' : 'no'],
+    ['OpenAI runtime allowed', failureHandlingFallback.openAiRuntimeAllowed ? 'yes' : 'no'],
+    ['Realtime session allowed', failureHandlingFallback.realtimeSessionAllowed ? 'yes' : 'no'],
+    ['AI voice allowed', failureHandlingFallback.aiVoiceAllowed ? 'yes' : 'no'],
+    ['AI inbound execution allowed', failureHandlingFallback.aiInboundExecutionAllowed ? 'yes' : 'no'],
+    ['AI outbound execution allowed', failureHandlingFallback.aiOutboundExecutionAllowed ? 'yes' : 'no'],
+    ['FastAGI allowed', failureHandlingFallback.fastAgiAllowed ? 'yes' : 'no'],
+    ['Asterisk modification allowed', failureHandlingFallback.asteriskModificationAllowed ? 'yes' : 'no'],
+    ['Vicidial modification allowed', failureHandlingFallback.vicidialModificationAllowed ? 'yes' : 'no'],
+    ['Dialplan modification allowed', failureHandlingFallback.dialplanModificationAllowed ? 'yes' : 'no'],
+    ['Route behavior change allowed', failureHandlingFallback.routeBehaviorChangeAllowed ? 'yes' : 'no'],
+    ['Real credential allowed', failureHandlingFallback.realCredentialAllowed ? 'yes' : 'no'],
+    ['Real PII allowed', failureHandlingFallback.realPiiAllowed ? 'yes' : 'no'],
+    ['Real call allowed', failureHandlingFallback.realCallAllowed ? 'yes' : 'no'],
+    ['Runtime fallback execution allowed', failureHandlingFallback.runtimeFallbackExecutionAllowed ? 'yes' : 'no'],
+  ];
+  failureHandlingFallbackReadinessCards.innerHTML = failureHandlingFallbackReadinessCardsData.map(([label, value]) => `
+    <div class="summary-card">
+      <div class="label">${escapeHtml(label)}</div>
+      <div class="value compact">${escapeHtml(value)}</div>
+    </div>
+  `).join('');
+  failureHandlingFallbackReadinessBadges.innerHTML = [
+    readinessBadge('Not ready', 'bad'),
+    readinessBadge('Read-only failure/fallback design', 'info'),
+    readinessBadge('Tenant scoped', 'info'),
+    readinessBadge('Campaign scoped', 'info'),
+    readinessBadge('Provider aware', 'info'),
+    readinessBadge('Inbound/outbound mapped', 'info'),
+    readinessBadge('AI Voice failure mapped', 'info'),
+    readinessBadge('QA failure mapped', 'info'),
+    readinessBadge('Provider failover mapped', 'info'),
+    readinessBadge('Retry/circuit breaker mapped', 'info'),
+    readinessBadge('Human handoff fallback mapped', 'info'),
+    readinessBadge('RBAC/MFA mapped', 'info'),
+    readinessBadge('Tenant isolation mapped', 'info'),
+    readinessBadge('No runtime fallback', 'ok'),
+    readinessBadge('No telephony changes', 'ok'),
+    readinessBadge('No runtime controls', 'ok'),
+  ].join('');
+
+  const failureHandlingFallbackDetailGroups = [
+    ['Future failure scope fields', failureHandlingFallback.futureFailureScopeFields],
+    ['Future failure categories', failureHandlingFallback.futureFailureCategories],
+    ['Future fallback actions', failureHandlingFallback.futureFallbackActions],
+    ['Future inbound fallback rules', failureHandlingFallback.futureInboundFallbackRules],
+    ['Future outbound fallback rules', failureHandlingFallback.futureOutboundFallbackRules],
+    ['Future AI Voice fallback rules', failureHandlingFallback.futureAiVoiceFallbackRules],
+    ['Future QA fallback rules', failureHandlingFallback.futureQaFallbackRules],
+    ['Future provider failover rules', failureHandlingFallback.futureProviderFailoverRules],
+    ['Future retry/circuit breaker rules', failureHandlingFallback.futureRetryCircuitBreakerRules],
+    ['Future alert rules', failureHandlingFallback.futureAlertRules],
+    ['Future incident rules', failureHandlingFallback.futureIncidentRules],
+    ['Future audit/reconciliation rules', failureHandlingFallback.futureAuditReconciliationRules],
+    ['Future RBAC failure/fallback rules', failureHandlingFallback.futureRbacFailureFallbackRules],
+    ['Future tenant/campaign isolation rules', failureHandlingFallback.futureTenantCampaignIsolationRules],
+    ['Future MFA step-up rules', failureHandlingFallback.futureMfaStepUpRules],
+    ['Future middleware core dependency rules', failureHandlingFallback.futureMiddlewareCoreDependencyRules],
+    ['Future runtime boundaries', failureHandlingFallback.futureRuntimeBoundaries],
+    ['Prohibited current actions', failureHandlingFallback.prohibitedCurrentActions],
+    ['Next steps', failureHandlingFallback.nextSteps],
+  ];
+  failureHandlingFallbackReadinessDetails.innerHTML = `
+    <div class="summary-grid">
+      ${failureHandlingFallbackDetailGroups.map(([label, rawItems]) => {
         const items = Array.isArray(rawItems) ? rawItems : [];
         return `
           <div>

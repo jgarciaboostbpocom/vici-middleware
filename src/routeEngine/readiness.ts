@@ -3779,6 +3779,170 @@ export type UsageCostTrackingReadiness = {
   nextSteps: string[];
 };
 
+export type FailureHandlingFallbackReadiness = {
+  currentState: 'not_ready';
+  failureHandlingFallbackApproved: false;
+  failureHandlingFallbackMode: 'read_only_design';
+  tenantScopedFailureStatus: 'read_only_design';
+  campaignScopedFailureStatus: 'read_only_design';
+  providerAwareFallbackStatus: 'read_only_design';
+  inboundFallbackStatus: 'read_only_design';
+  outboundFallbackStatus: 'read_only_design';
+  aiVoiceFailureStatus: 'read_only_design';
+  aiQaFailureStatus: 'read_only_design';
+  humanQaFailureStatus: 'read_only_design';
+  openAiFailureStatus: 'read_only_design';
+  realtimeSessionFailureStatus: 'read_only_design';
+  voiceGatewayFailureStatus: 'read_only_design';
+  mediaBridgeFailureStatus: 'read_only_design';
+  asteriskFailureStatus: 'read_only_design';
+  vicidialFailureStatus: 'read_only_design';
+  fastAgiFailureStatus: 'read_only_design';
+  carrierSipFailureStatus: 'read_only_design';
+  didFailureStatus: 'read_only_design';
+  routeEngineFailureStatus: 'read_only_design';
+  middlewareApiFailureStatus: 'read_only_design';
+  campaignConfigFailureStatus: 'read_only_design';
+  budgetCapacityFailureStatus: 'read_only_design';
+  promptLoadFailureStatus: 'read_only_design';
+  knowledgeBaseFailureStatus: 'read_only_design';
+  toolCallFailureStatus: 'read_only_design';
+  transcriptionFailureStatus: 'read_only_design';
+  recordingReferenceFailureStatus: 'read_only_design';
+  qaEvaluationFailureStatus: 'read_only_design';
+  languageFallbackFailureStatus: 'read_only_design';
+  disclosureFallbackFailureStatus: 'read_only_design';
+  handoffFailureStatus: 'read_only_design';
+  queueFallbackStatus: 'read_only_design';
+  voicemailFallbackStatus: 'read_only_design';
+  retryStrategyStatus: 'read_only_design';
+  circuitBreakerStatus: 'read_only_design';
+  incidentStatus: 'read_only_design';
+  alertStatus: 'read_only_design';
+  auditStatus: 'read_only_design';
+  reportStatus: 'read_only_design';
+  rbacFailureFallbackControlStatus: 'read_only_design';
+  tenantIsolationStatus: 'read_only_design';
+  campaignIsolationStatus: 'read_only_design';
+  mfaStepUpForFallbackChangesStatus: 'read_only_design';
+  middlewareCoreDependencyStatus: 'read_only_design';
+  failureStorageStatus: 'not_implemented';
+  fallbackStorageStatus: 'not_implemented';
+  outageStorageStatus: 'not_implemented';
+  retryStorageStatus: 'not_implemented';
+  circuitBreakerStorageStatus: 'not_implemented';
+  alertStorageStatus: 'not_implemented';
+  incidentStorageStatus: 'not_implemented';
+  escalationStorageStatus: 'not_implemented';
+  handoffStorageStatus: 'not_implemented';
+  failureEndpointStatus: 'not_implemented';
+  fallbackEndpointStatus: 'not_implemented';
+  alertEndpointStatus: 'not_implemented';
+  incidentEndpointStatus: 'not_implemented';
+  failureCrudStatus: 'not_implemented';
+  fallbackCrudStatus: 'not_implemented';
+  alertCrudStatus: 'not_implemented';
+  incidentCrudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  fallbackRuntimeStatus: 'not_allowed';
+  failoverRuntimeStatus: 'not_allowed';
+  retryRuntimeStatus: 'not_allowed';
+  circuitBreakerRuntimeStatus: 'not_allowed';
+  alertRuntimeStatus: 'not_allowed';
+  incidentRuntimeStatus: 'not_allowed';
+  escalationRuntimeStatus: 'not_allowed';
+  handoffRuntimeStatus: 'not_allowed';
+  queueFallbackRuntimeStatus: 'not_allowed';
+  voicemailFallbackRuntimeStatus: 'not_allowed';
+  ivrFallbackRuntimeStatus: 'not_allowed';
+  audioPlaybackRuntimeStatus: 'not_allowed';
+  callTransferRuntimeStatus: 'not_allowed';
+  reportRuntimeStatus: 'not_allowed';
+  liveCallQueryStatus: 'not_allowed';
+  transcriptAccessStatus: 'not_allowed';
+  recordingAccessStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  aiVoiceStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  asteriskModificationStatus: 'not_allowed';
+  vicidialModificationStatus: 'not_allowed';
+  dialplanModificationStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  failureStorageAllowed: false;
+  fallbackStorageAllowed: false;
+  outageStorageAllowed: false;
+  retryStorageAllowed: false;
+  circuitBreakerStorageAllowed: false;
+  alertStorageAllowed: false;
+  incidentStorageAllowed: false;
+  escalationStorageAllowed: false;
+  handoffStorageAllowed: false;
+  failureEndpointAllowed: false;
+  fallbackEndpointAllowed: false;
+  alertEndpointAllowed: false;
+  incidentEndpointAllowed: false;
+  failureCrudAllowed: false;
+  fallbackCrudAllowed: false;
+  alertCrudAllowed: false;
+  incidentCrudAllowed: false;
+  migrationAllowed: false;
+  fallbackRuntimeAllowed: false;
+  failoverRuntimeAllowed: false;
+  retryRuntimeAllowed: false;
+  circuitBreakerRuntimeAllowed: false;
+  alertRuntimeAllowed: false;
+  incidentRuntimeAllowed: false;
+  escalationRuntimeAllowed: false;
+  handoffRuntimeAllowed: false;
+  queueFallbackRuntimeAllowed: false;
+  voicemailFallbackRuntimeAllowed: false;
+  ivrFallbackRuntimeAllowed: false;
+  audioPlaybackRuntimeAllowed: false;
+  callTransferRuntimeAllowed: false;
+  reportRuntimeAllowed: false;
+  liveCallQueryAllowed: false;
+  transcriptAccessAllowed: false;
+  recordingAccessAllowed: false;
+  openAiConnectionAllowed: false;
+  openAiRuntimeAllowed: false;
+  realtimeSessionAllowed: false;
+  aiVoiceAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  asteriskModificationAllowed: false;
+  vicidialModificationAllowed: false;
+  dialplanModificationAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  realCredentialAllowed: false;
+  realPiiAllowed: false;
+  realCallAllowed: false;
+  runtimeFallbackExecutionAllowed: false;
+  futureFailureScopeFields: string[];
+  futureFailureCategories: string[];
+  futureFallbackActions: string[];
+  futureInboundFallbackRules: string[];
+  futureOutboundFallbackRules: string[];
+  futureAiVoiceFallbackRules: string[];
+  futureQaFallbackRules: string[];
+  futureProviderFailoverRules: string[];
+  futureRetryCircuitBreakerRules: string[];
+  futureAlertRules: string[];
+  futureIncidentRules: string[];
+  futureAuditReconciliationRules: string[];
+  futureRbacFailureFallbackRules: string[];
+  futureTenantCampaignIsolationRules: string[];
+  futureMfaStepUpRules: string[];
+  futureMiddlewareCoreDependencyRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -3849,6 +4013,7 @@ export type RouteReadinessReport = {
   qaFeedbackAiImprovementApprovalReadiness: QaFeedbackAiImprovementApprovalReadiness;
   consentDisclosureReadiness: ConsentDisclosureReadiness;
   usageCostTrackingReadiness: UsageCostTrackingReadiness;
+  failureHandlingFallbackReadiness: FailureHandlingFallbackReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -16147,6 +16312,412 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const failureHandlingFallbackReadiness: FailureHandlingFallbackReadiness = {
+    currentState: 'not_ready',
+    failureHandlingFallbackApproved: false,
+    failureHandlingFallbackMode: 'read_only_design',
+    tenantScopedFailureStatus: 'read_only_design',
+    campaignScopedFailureStatus: 'read_only_design',
+    providerAwareFallbackStatus: 'read_only_design',
+    inboundFallbackStatus: 'read_only_design',
+    outboundFallbackStatus: 'read_only_design',
+    aiVoiceFailureStatus: 'read_only_design',
+    aiQaFailureStatus: 'read_only_design',
+    humanQaFailureStatus: 'read_only_design',
+    openAiFailureStatus: 'read_only_design',
+    realtimeSessionFailureStatus: 'read_only_design',
+    voiceGatewayFailureStatus: 'read_only_design',
+    mediaBridgeFailureStatus: 'read_only_design',
+    asteriskFailureStatus: 'read_only_design',
+    vicidialFailureStatus: 'read_only_design',
+    fastAgiFailureStatus: 'read_only_design',
+    carrierSipFailureStatus: 'read_only_design',
+    didFailureStatus: 'read_only_design',
+    routeEngineFailureStatus: 'read_only_design',
+    middlewareApiFailureStatus: 'read_only_design',
+    campaignConfigFailureStatus: 'read_only_design',
+    budgetCapacityFailureStatus: 'read_only_design',
+    promptLoadFailureStatus: 'read_only_design',
+    knowledgeBaseFailureStatus: 'read_only_design',
+    toolCallFailureStatus: 'read_only_design',
+    transcriptionFailureStatus: 'read_only_design',
+    recordingReferenceFailureStatus: 'read_only_design',
+    qaEvaluationFailureStatus: 'read_only_design',
+    languageFallbackFailureStatus: 'read_only_design',
+    disclosureFallbackFailureStatus: 'read_only_design',
+    handoffFailureStatus: 'read_only_design',
+    queueFallbackStatus: 'read_only_design',
+    voicemailFallbackStatus: 'read_only_design',
+    retryStrategyStatus: 'read_only_design',
+    circuitBreakerStatus: 'read_only_design',
+    incidentStatus: 'read_only_design',
+    alertStatus: 'read_only_design',
+    auditStatus: 'read_only_design',
+    reportStatus: 'read_only_design',
+    rbacFailureFallbackControlStatus: 'read_only_design',
+    tenantIsolationStatus: 'read_only_design',
+    campaignIsolationStatus: 'read_only_design',
+    mfaStepUpForFallbackChangesStatus: 'read_only_design',
+    middlewareCoreDependencyStatus: 'read_only_design',
+    failureStorageStatus: 'not_implemented',
+    fallbackStorageStatus: 'not_implemented',
+    outageStorageStatus: 'not_implemented',
+    retryStorageStatus: 'not_implemented',
+    circuitBreakerStorageStatus: 'not_implemented',
+    alertStorageStatus: 'not_implemented',
+    incidentStorageStatus: 'not_implemented',
+    escalationStorageStatus: 'not_implemented',
+    handoffStorageStatus: 'not_implemented',
+    failureEndpointStatus: 'not_implemented',
+    fallbackEndpointStatus: 'not_implemented',
+    alertEndpointStatus: 'not_implemented',
+    incidentEndpointStatus: 'not_implemented',
+    failureCrudStatus: 'not_implemented',
+    fallbackCrudStatus: 'not_implemented',
+    alertCrudStatus: 'not_implemented',
+    incidentCrudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    fallbackRuntimeStatus: 'not_allowed',
+    failoverRuntimeStatus: 'not_allowed',
+    retryRuntimeStatus: 'not_allowed',
+    circuitBreakerRuntimeStatus: 'not_allowed',
+    alertRuntimeStatus: 'not_allowed',
+    incidentRuntimeStatus: 'not_allowed',
+    escalationRuntimeStatus: 'not_allowed',
+    handoffRuntimeStatus: 'not_allowed',
+    queueFallbackRuntimeStatus: 'not_allowed',
+    voicemailFallbackRuntimeStatus: 'not_allowed',
+    ivrFallbackRuntimeStatus: 'not_allowed',
+    audioPlaybackRuntimeStatus: 'not_allowed',
+    callTransferRuntimeStatus: 'not_allowed',
+    reportRuntimeStatus: 'not_allowed',
+    liveCallQueryStatus: 'not_allowed',
+    transcriptAccessStatus: 'not_allowed',
+    recordingAccessStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    aiVoiceStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    asteriskModificationStatus: 'not_allowed',
+    vicidialModificationStatus: 'not_allowed',
+    dialplanModificationStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    failureStorageAllowed: false,
+    fallbackStorageAllowed: false,
+    outageStorageAllowed: false,
+    retryStorageAllowed: false,
+    circuitBreakerStorageAllowed: false,
+    alertStorageAllowed: false,
+    incidentStorageAllowed: false,
+    escalationStorageAllowed: false,
+    handoffStorageAllowed: false,
+    failureEndpointAllowed: false,
+    fallbackEndpointAllowed: false,
+    alertEndpointAllowed: false,
+    incidentEndpointAllowed: false,
+    failureCrudAllowed: false,
+    fallbackCrudAllowed: false,
+    alertCrudAllowed: false,
+    incidentCrudAllowed: false,
+    migrationAllowed: false,
+    fallbackRuntimeAllowed: false,
+    failoverRuntimeAllowed: false,
+    retryRuntimeAllowed: false,
+    circuitBreakerRuntimeAllowed: false,
+    alertRuntimeAllowed: false,
+    incidentRuntimeAllowed: false,
+    escalationRuntimeAllowed: false,
+    handoffRuntimeAllowed: false,
+    queueFallbackRuntimeAllowed: false,
+    voicemailFallbackRuntimeAllowed: false,
+    ivrFallbackRuntimeAllowed: false,
+    audioPlaybackRuntimeAllowed: false,
+    callTransferRuntimeAllowed: false,
+    reportRuntimeAllowed: false,
+    liveCallQueryAllowed: false,
+    transcriptAccessAllowed: false,
+    recordingAccessAllowed: false,
+    openAiConnectionAllowed: false,
+    openAiRuntimeAllowed: false,
+    realtimeSessionAllowed: false,
+    aiVoiceAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    asteriskModificationAllowed: false,
+    vicidialModificationAllowed: false,
+    dialplanModificationAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    realCredentialAllowed: false,
+    realPiiAllowed: false,
+    realCallAllowed: false,
+    runtimeFallbackExecutionAllowed: false,
+    futureFailureScopeFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'providerName',
+      'providerAccountId',
+      'providerProduct',
+      'callId',
+      'callDirection',
+      'routeType',
+      'agentType',
+      'aiAgentId',
+      'humanAgentId',
+      'language',
+      'sessionId',
+      'qaEvaluationId',
+      'scorecardId',
+      'failureCategory',
+      'fallbackAction',
+      'fallbackActionResult',
+      'retryCount',
+      'circuitBreakerState',
+      'incidentStatus',
+      'auditCorrelationId',
+    ],
+    futureFailureCategories: [
+      'OpenAI provider unavailable',
+      'OpenAI Realtime session failed',
+      'AI Voice provider unavailable',
+      'AI Voice response timeout',
+      'AI Voice high latency',
+      'AI Voice no audio received',
+      'AI Voice no audio generated',
+      'AI Voice session disconnected',
+      'Voice gateway unavailable',
+      'Media bridge unavailable',
+      'Asterisk unavailable',
+      'Vicidial unavailable',
+      'FastAGI unavailable',
+      'SIP/carrier error',
+      'DID unavailable',
+      'DID health unknown',
+      'route engine unavailable',
+      'campaign config unavailable',
+      'campaign AI disabled',
+      'campaign budget exhausted',
+      'AI agent capacity exhausted',
+      'prompt unavailable',
+      'prompt version missing',
+      'knowledge base unavailable',
+      'tool call timeout',
+      'tool call denied',
+      'CRM/tool integration unavailable',
+      'transcription provider unavailable',
+      'transcription timeout',
+      'recording reference unavailable',
+      'QA evaluation timeout',
+      'QA provider unavailable',
+      'report generation unavailable',
+      'webhook failure',
+      'storage unavailable',
+      'database unavailable',
+      'authentication/session failure',
+      'tenant scope mismatch',
+      'language fallback missing',
+      'disclosure content missing',
+      'queue unavailable',
+      'human agents unavailable',
+      'handoff failed',
+      'retry limit exceeded',
+      'circuit breaker opened',
+      'abnormal error spike',
+      'runaway loop suspected',
+      'retry storm suspected',
+    ],
+    futureFallbackActions: [
+      'continue read-only/no-op',
+      'retry with backoff',
+      'open circuit breaker',
+      'use secondary provider',
+      'use secondary model',
+      'use secondary voice',
+      'use secondary transcription provider',
+      'use campaign fallback language',
+      'play approved temporary message',
+      'route to human queue',
+      'route to backup queue',
+      'route to voicemail',
+      'pause AI session',
+      'end call safely',
+      'mark call for manual review',
+      'mark QA evaluation for retry',
+      'mark transcript as unavailable',
+      'mark recording reference as unavailable',
+      'alert internal admin',
+      'alert campaign admin',
+      'create incident record',
+      'suppress repeated alerts',
+      'block unsafe automated action',
+      'preserve audit context',
+      'preserve middleware route context',
+      'require management approval before reactivation',
+    ],
+    futureInboundFallbackRules: [
+      'Future inbound fallback must remain campaign-scoped and route-aware',
+      'Future inbound fallback may use approved temporary messages, human queue, backup queue, voicemail, or safe call end only after approval',
+      'Future inbound fallback must preserve DID, route simulation, shadow mode, local touch, limits, and inventory health context',
+      'Inbound fallback runtime is not implemented in this readiness phase',
+    ],
+    futureOutboundFallbackRules: [
+      'Future outbound fallback must remain campaign-scoped and route-aware',
+      'Future outbound fallback may pause AI session, route to human, mark manual review, or end call safely only after approval',
+      'Future outbound fallback must not bypass campaign, DID, budget, capacity, language, disclosure, RBAC, or tenant rules',
+      'Outbound fallback runtime is not implemented in this readiness phase',
+    ],
+    futureAiVoiceFallbackRules: [
+      'Future AI Voice fallback may handle provider unavailable, response timeout, high latency, no audio, session disconnect, voice gateway, and media bridge failures',
+      'Future AI Voice fallback may support secondary provider, secondary model, secondary voice, approved temporary message, human queue, voicemail, pause AI session, or safe call end after approval',
+      'Future AI Voice failures must degrade safely and must never silently continue in an unsafe state',
+      'AI Voice fallback runtime is not implemented in this readiness phase',
+    ],
+    futureQaFallbackRules: [
+      'Future QA fallback may handle AI QA failure, Human QA processing failure, transcription failure, recording reference failure, QA evaluation timeout, and QA provider unavailable states',
+      'Future QA fallback may mark QA evaluation for retry, mark transcript unavailable, mark recording reference unavailable, or mark call for manual review after approval',
+      'Future QA fallback must not execute QA evaluation or access recordings or transcripts in this readiness phase',
+      'QA fallback runtime is not implemented in this readiness phase',
+    ],
+    futureProviderFailoverRules: [
+      'Future provider failover must be provider-aware, campaign-scoped, tenant-isolated, auditable, and safe by default',
+      'Future provider failover may use secondary provider, model, voice, or transcription provider only after approval',
+      'Future provider failover must preserve middleware route context and must not leak provider details between tenants',
+      'Provider failover runtime is not implemented in this readiness phase',
+    ],
+    futureRetryCircuitBreakerRules: [
+      'Future strategy may define retry count',
+      'Future strategy may define retry window',
+      'Future strategy may define exponential backoff',
+      'Future strategy may define provider timeout threshold',
+      'Future strategy may define latency threshold',
+      'Future strategy may define error rate threshold',
+      'Future strategy may define circuit breaker open status',
+      'Future strategy may define circuit breaker half-open status',
+      'Future strategy may define circuit breaker reset policy',
+      'Future strategy may detect retry storm behavior',
+      'Future strategy may detect runaway loop behavior',
+      'Future strategy may require manual reset approval',
+      'Future strategy may define automatic recovery rules',
+      'Future strategy may define campaign-specific override',
+      'Future strategy may define provider-specific override',
+      'Retry and circuit breaker runtime are not implemented in this readiness phase',
+    ],
+    futureAlertRules: [
+      'Future alerts may cover provider outage',
+      'Future alerts may cover OpenAI outage',
+      'Future alerts may cover Realtime session failure',
+      'Future alerts may cover AI Voice high latency',
+      'Future alerts may cover media bridge failure',
+      'Future alerts may cover Asterisk/Vicidial error',
+      'Future alerts may cover route engine failure',
+      'Future alerts may cover prompt/KB load failure',
+      'Future alerts may cover tool-call failure',
+      'Future alerts may cover transcription failure',
+      'Future alerts may cover recording reference failure',
+      'Future alerts may cover QA evaluation failure',
+      'Future alerts may cover budget/capacity exhausted',
+      'Future alerts may cover language/disclosure fallback missing',
+      'Future alerts may cover handoff failure',
+      'Future alerts may cover queue unavailable',
+      'Future alerts may cover abnormal error spike, retry storm, runaway loop, fallback usage spike, high-cost fallback usage, repeated provider failover, and incident escalation required',
+      'Alert runtime is not implemented in this readiness phase',
+    ],
+    futureIncidentRules: [
+      'Future incident visibility may track provider outage, middleware outage, telephony outage, repeated fallback, and escalation required states',
+      'Future incident workflow may preserve failure category, fallback action, alert state, owner, status, approval reference, and audit correlation',
+      'Future incident close or provider reactivation may require MFA/step-up authentication',
+      'Incident runtime is not implemented in this readiness phase',
+    ],
+    futureAuditReconciliationRules: [
+      'Future audit may record failure reason',
+      'Future audit may record failure category',
+      'Future audit may record fallback action selected',
+      'Future audit may record fallback action result',
+      'Future audit may record provider attempted, provider failed, and provider fallback used',
+      'Future audit may record retry count and circuit breaker state',
+      'Future audit may preserve route context, campaign context, call direction, AI/human route type, language, disclosure dependency, and budget/capacity state',
+      'Future audit may record handoff result, alert emitted, incident status, actor/user that changed policy, approval reference, timestamp, and auditCorrelationId',
+      'Audit and reconciliation storage/runtime are not implemented in this readiness phase',
+    ],
+    futureRbacFailureFallbackRules: [
+      'super_admin can review global failure/fallback policy templates in a future implementation',
+      'authorized internal admin can review/manage assigned campaigns only in a future implementation',
+      'client_admin can view/manage assigned campaign fallback policy only if permission allows in a future implementation',
+      'QA manager can view QA failure/fallback status only within assigned scope in a future implementation',
+      'finance/admin can view cost-related fallback impact only if permission allows in a future implementation',
+      'restricted users cannot view or change failure/fallback policy',
+      'High-risk fallback, failover, circuit breaker reset, provider reactivation, or incident close actions may require MFA/step-up authentication in a future implementation',
+    ],
+    futureTenantCampaignIsolationRules: [
+      'Client A must not see client B failures',
+      'Campaign A must not see campaign B fallback rules',
+      'Campaign A must not trigger campaign B fallback actions',
+      'Provider failover details must not leak between tenants',
+      'Incidents, alerts, recordings, transcripts, QA failures, or cost impact must not cross tenant/campaign boundaries',
+      'Tenant and campaign isolation must be enforced server-side in a future implementation',
+    ],
+    futureMfaStepUpRules: [
+      'High-risk fallback changes should require future MFA/step-up authentication',
+      'High-risk failover changes should require future MFA/step-up authentication',
+      'Circuit breaker reset should require future MFA/step-up authentication when policy requires it',
+      'Provider reactivation should require future MFA/step-up authentication when policy requires it',
+      'Incident close actions should require future MFA/step-up authentication when policy requires it',
+      'MFA/step-up remains design-only and does not change current auth behavior in this readiness phase',
+    ],
+    futureMiddlewareCoreDependencyRules: [
+      'Vicidial Middleware remains the source of truth for campaign routing',
+      'Vicidial Middleware remains the source of truth for DID rules',
+      'Vicidial Middleware remains the source of truth for route simulation and shadow mode',
+      'Vicidial Middleware remains the source of truth for local touch, limits, inventory health, and runtime safety',
+      'Failure/fallback behavior must not bypass campaign rules, DID rules, middleware route rules, budget rules, language rules, disclosure rules, RBAC, tenant isolation, or middleware core safety',
+      'AI Voice and QA modules must consume middleware context and must not bypass or override middleware core rules without explicit approved runtime activation',
+    ],
+    futureRuntimeBoundaries: [
+      'Failure Handling / Fallback readiness must not create failure storage, fallback storage, outage storage, retry storage, circuit breaker storage, alert storage, incident storage, escalation storage, handoff storage, CRUD, endpoints, migrations, database tables, or storage',
+      'Failure Handling / Fallback readiness must not create failure records, fallback records, outage records, retry records, circuit breaker records, alert records, incident records, escalation records, handoff records, or provider failover records',
+      'Failure Handling / Fallback readiness must not create fallback runtime, failover runtime, retry runtime, circuit breaker runtime, alert runtime, incident runtime, escalation runtime, handoff runtime, queue fallback runtime, voicemail fallback runtime, IVR fallback runtime, audio playback runtime, call transfer runtime, or report runtime',
+      'Failure Handling / Fallback readiness must not connect OpenAI, configure credentials, execute OpenAI API calls, open Realtime sessions, enable AI voice, enable AI inbound calls, enable AI outbound calls, or enable FastAGI',
+      'Failure Handling / Fallback readiness must not access transcripts, recordings, live calls, raw PII, or real credentials',
+      'Failure Handling / Fallback readiness must not modify Asterisk, Vicidial, dialplan, route behavior, current auth, login, session, or RBAC behavior',
+      'Failure Handling / Fallback readiness must not add UI execution controls',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create failure records',
+      'Do not create fallback records',
+      'Do not create outage records',
+      'Do not create retry records',
+      'Do not create circuit breaker records',
+      'Do not create alert records',
+      'Do not create incident records',
+      'Do not create escalation records',
+      'Do not create handoff records',
+      'Do not create provider failover records',
+      'Do not create failure, fallback, outage, retry, circuit breaker, alert, incident, escalation, or handoff storage',
+      'Do not create CRUD, endpoints, migrations, database tables, or storage',
+      'Do not create fallback, failover, retry, circuit breaker, alert, incident, escalation, handoff, queue fallback, voicemail fallback, IVR fallback, audio playback, call transfer, or report runtime',
+      'Do not connect OpenAI, execute OpenAI API calls, or open Realtime sessions',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not query live calls or execute live calls',
+      'Do not access recordings or transcripts',
+      'Do not expose raw PII or secrets',
+      'Do not modify Asterisk, Vicidial, dialplan, or route behavior',
+      'Do not change auth, login, session, or RBAC behavior',
+    ],
+    nextSteps: [
+      'Keep Failure Handling / Fallback Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, fallback-runtime-blocked, failover-blocked, retry-blocked, circuit-breaker-blocked, alert-blocked, incident-blocked, OpenAI-disconnected, telephony-change-blocked, and runtime-blocked.',
+      'Define future tenant-scoped, campaign-scoped, provider-aware, route-aware failure and fallback data contracts for AI Voice, AI QA, Human QA processing, transcription, recording, tools, Asterisk, Vicidial, middleware, route engine, provider outages, budget/capacity exhaustion, language/disclosure dependencies, queue fallback, voicemail fallback, human handoff, alerts, incidents, and audit in a separately approved phase.',
+      'Define future retry count, retry window, exponential backoff, provider timeout threshold, latency threshold, error rate threshold, circuit breaker open/half-open/reset policy, retry storm detection, runaway loop detection, manual reset approval, automatic recovery rules, campaign overrides, provider overrides, RBAC, tenant isolation, and MFA/step-up policy before implementation.',
+      'Require future fallback behavior to degrade safely, never silently continue in an unsafe state, preserve middleware route context, and require management approval before reactivation when policy requires it.',
+      'Keep failure storage, fallback storage, outage storage, retry storage, circuit breaker storage, alert storage, incident storage, escalation storage, handoff storage, CRUD, endpoints, migrations, fallback runtime, failover runtime, retry runtime, circuit breaker runtime, alert runtime, incident runtime, escalation runtime, handoff runtime, queue fallback runtime, voicemail fallback runtime, IVR fallback runtime, audio playback runtime, call transfer runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, raw PII, recordings/transcripts, runtime fallback execution, and UI execution controls blocked.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -16522,6 +17093,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'Usage & Cost Tracking readiness is read-only, not ready, not approved, tenant-scoped and campaign-scoped usage mapped, provider-aware usage mapped, AI Voice/AI QA/Human QA/transcription/recording/token/audio/tool-call usage mapped, cost estimation/reconciliation/pricing version/budget/alert/export audit mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, usage/cost/billing/invoice/provider-pricing/provider-usage/payment/export/report/alert/budget runtime blocked, transcript/recording/live-call access blocked, OpenAI-disconnected, billing and invoice behavior blocked, hardcoded provider pricing blocked, and exposes no usage, cost, billing, invoice, pricing, provider, payment, export, budget, alert, report, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
     },
+    {
+      id: 'failure-handling-fallback-readiness-read-only',
+      label: 'Failure Handling / Fallback readiness read-only',
+      status: 'pass',
+      detail: 'Failure Handling / Fallback readiness is read-only, not ready, not approved, tenant-scoped and campaign-scoped failure handling mapped, provider-aware and route-aware fallback mapped, inbound/outbound and AI Voice/AI QA/Human QA failure handling mapped, OpenAI/Realtime/voice gateway/media bridge/Asterisk/Vicidial/FastAGI/SIP/DID/route engine/middleware/campaign/budget/prompt/KB/tool/transcription/recording/QA/language/disclosure/handoff/queue fallback mapped, retry/circuit breaker/alert/incident/audit/RBAC/MFA/tenant isolation mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, fallback/failover/retry/circuit-breaker/alert/incident/escalation/handoff/queue/voicemail/IVR/audio/call-transfer/report runtime blocked, transcript/recording/live-call access blocked, OpenAI-disconnected, telephony changes blocked, runtime fallback execution blocked, and exposes no failure, fallback, outage, retry, circuit breaker, failover, alert, incident, escalation, handoff, queue fallback, voicemail fallback, IVR, audio, transfer, provider, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -16664,6 +17241,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     qaFeedbackAiImprovementApprovalReadiness,
     consentDisclosureReadiness,
     usageCostTrackingReadiness,
+    failureHandlingFallbackReadiness,
     checklist,
     risks,
     recommendations: [
@@ -16720,6 +17298,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat QA Feedback to AI Improvement Approval readiness as read-only design visibility; it maps future campaign-scoped QA feedback to controlled AI improvement proposals with human review, approval, versioning, audit, rollback planning, sandbox testing, RBAC, tenant isolation, MFA step-up, and future activation gates only and does not create QA feedback storage, AI improvement storage, prompt/KB/policy/handoff/scorecard change storage, approval storage, version storage, audit storage, CRUD, endpoints, migrations, approval runtime, versioning runtime, rollback runtime, prompt optimization runtime, AI learning runtime, prompt/KB/policy/handoff/scorecard update runtime, QA evaluation runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, or UI execution controls.',
       'Treat Consent / Disclosure readiness as read-only design visibility; it maps future campaign-scoped optional disclosure, language-customizable text/audio references, inbound/outbound, AI-handled/human-handled, recorded/monitored/transcribed call applicability, multilingual dependency, fallback behavior, jurisdiction/client policy mapping, audit, versioning, rollback, effective dates, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create consent storage, disclosure storage, disclosure language storage, disclosure audio storage, disclosure audit storage, CRUD, endpoints, migrations, consent capture runtime, disclosure playback runtime, audio generation/upload runtime, IVR runtime, call script runtime, recording runtime, transcription runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, or UI execution controls.',
       'Treat Usage & Cost Tracking readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-aware, auditable, budget-aware usage and cost tracking for AI Voice, AI QA, Human QA processing, transcription, recording, tokens, audio, tool calls, reports, fallback, retry, handoff events, pricing versions, budgets, alerts, reconciliation, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create usage storage, cost storage, billing storage, invoice storage, pricing storage, provider usage storage, CRUD, endpoints, migrations, usage runtime, cost calculation runtime, billing runtime, invoice runtime, provider pricing fetch runtime, provider usage fetch runtime, payment provider runtime, export runtime, report runtime, alert runtime, budget enforcement runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, real billing, real invoices, hardcoded provider pricing, or UI execution controls.',
+      'Treat Failure Handling / Fallback readiness as read-only design visibility; it maps future tenant-scoped, campaign-scoped, provider-aware, route-aware, auditable, safe-by-default failure handling and fallback planning for AI Voice, AI QA, Human QA processing, OpenAI/Realtime providers, voice gateway, media bridge, Asterisk/Vicidial, FastAGI, SIP/carrier, DIDs, route engine, middleware API, campaign config, budget/capacity, prompts, knowledge bases, tools, transcription, recording references, QA evaluation, reports, webhooks, storage/database, auth/session, language/disclosure fallback, queues, human agents, handoff, retries, circuit breakers, alerts, incidents, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create failure storage, fallback storage, outage storage, retry storage, circuit breaker storage, alert storage, incident storage, escalation storage, handoff storage, CRUD, endpoints, migrations, fallback runtime, failover runtime, retry runtime, circuit breaker runtime, alert runtime, incident runtime, escalation runtime, handoff runtime, queue fallback runtime, voicemail fallback runtime, IVR fallback runtime, audio playback runtime, call transfer runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, dialplan changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, runtime fallback execution, or UI execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

@@ -64,8 +64,8 @@ const ui = read(uiPath);
 const uiText = ui.replace(/&amp;/g, '&');
 const docs = exists(docsPath) ? read(docsPath) : '';
 const statusDoc = read(statusPath);
-const usageSource = sectionBetween(readiness, 'const usageCostTrackingReadiness', 'const checklist');
-const usageUiSection = sectionBetween(ui, 'Usage &amp; Cost Tracking Readiness', 'Safety Checklist');
+const usageSource = sectionBetween(readiness, 'const usageCostTrackingReadiness', 'const failureHandlingFallbackReadiness');
+const usageUiSection = sectionBetween(ui, 'Usage &amp; Cost Tracking Readiness', 'Failure Handling / Fallback Readiness');
 const usageUiText = usageUiSection.replace(/&amp;/g, '&');
 
 const scalarChecks = [
@@ -357,7 +357,7 @@ const statusPhrases = [
 check(readiness.includes('usageCostTrackingReadiness'), 'readiness.ts must contain usageCostTrackingReadiness');
 check(usageSource, 'usageCostTrackingReadiness source section missing');
 check(/qaCenterReadiness,\s*aiAgentQaReadiness,\s*qaScorecardConfigurationReadiness,\s*humanAgentQaReadiness/s.test(readiness), 'existing QA readiness payload order must remain unchanged');
-check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*qaRbacAccessScopeReadiness,\s*qaEvaluationWorkflowReadiness,\s*qaReportsAnalyticsReadiness,\s*multilingualCallLanguageRoutingReadiness,\s*authenticationMfaSecurityReadiness,\s*campaignAiAgentCapacityBudgetReadiness,\s*qaSamplingEligibilityRulesReadiness,\s*qaFeedbackAiImprovementApprovalReadiness,\s*consentDisclosureReadiness,\s*usageCostTrackingReadiness,\s*checklist/s.test(readiness), 'readiness response payload must include usageCostTrackingReadiness after consentDisclosureReadiness');
+check(/campaignAiQaScopeReadiness,\s*campaignPromptKbScopeReadiness,\s*campaignQaProvisioningReadiness,\s*qaRbacAccessScopeReadiness,\s*qaEvaluationWorkflowReadiness,\s*qaReportsAnalyticsReadiness,\s*multilingualCallLanguageRoutingReadiness,\s*authenticationMfaSecurityReadiness,\s*campaignAiAgentCapacityBudgetReadiness,\s*qaSamplingEligibilityRulesReadiness,\s*qaFeedbackAiImprovementApprovalReadiness,\s*consentDisclosureReadiness,\s*usageCostTrackingReadiness,\s*(failureHandlingFallbackReadiness,\s*)?checklist/s.test(readiness), 'readiness response payload must include usageCostTrackingReadiness after consentDisclosureReadiness');
 
 for (const [key, value] of scalarChecks) {
   check(sourceContainsValue(usageSource, key, value), `readiness response must contain ${key}: ${JSON.stringify(value)}`);

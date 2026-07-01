@@ -1,0 +1,29 @@
+# Failure Handling / Fallback Readiness
+
+This is read-only Failure Handling / Fallback Readiness. It is planning/status only and does not create failure storage, fallback storage, outage storage, retry storage, circuit breaker storage, alert storage, incident storage, escalation storage, handoff storage, CRUD, endpoints, migrations, runtime fallback execution, provider failover execution, retries, circuit breakers, live alerts, incidents, handoffs, queue transfers, voicemail routing, IVR routing, audio playback, OpenAI calls, live calls, report runtime, or UI execution controls.
+
+Failure handling and fallback rules must be tenant-scoped, campaign-scoped, provider-aware, route-aware, auditable, and safe by default. AI Voice and QA failures must degrade safely. Failure handling must never silently continue in an unsafe state.
+
+Failure handling must never bypass campaign rules, DID rules, middleware route rules, budget rules, language rules, disclosure rules, RBAC, tenant isolation, or middleware core safety.
+
+Future failures should cover OpenAI provider failures, Realtime session failures, AI Voice provider failures, voice gateway failures, media bridge failures, Asterisk/Vicidial failures, FastAGI failures, SIP/carrier errors, DID failures, route engine failures, middleware API failures, campaign config failures, budget/capacity failures, prompt/KB failures, tool-call failures, CRM/tool integration failures, transcription failures, recording reference failures, QA evaluation failures, report failures, webhook failures, storage/database failures, auth/session failures, tenant scope mismatch, language/disclosure fallback missing, queue unavailable, human agents unavailable, handoff failed, retry limit exceeded, circuit breaker opened, error spikes, runaway loops, and retry storms.
+
+Future fallback actions should support retry with backoff, circuit breaker, secondary provider/model/voice/transcription provider, campaign fallback language, approved temporary message, human queue, backup queue, voicemail, pause AI session, safe call end, manual review, QA retry, transcript unavailable, recording reference unavailable, admin alerts, campaign alerts, incident creation, repeated alert suppression, unsafe action blocking, audit preservation, route context preservation, and management approval before reactivation.
+
+Future retry/circuit breaker strategy should support retry count, retry window, exponential backoff, provider timeout threshold, latency threshold, error rate threshold, open/half-open/reset policy, retry storm detection, runaway loop detection, manual reset approval, automatic recovery rules, campaign-specific override, and provider-specific override.
+
+Future alerts should cover provider outage, OpenAI outage, Realtime session failure, AI Voice high latency, media bridge failure, Asterisk/Vicidial error, route engine failure, prompt/KB load failure, tool-call failure, transcription failure, recording reference failure, QA evaluation failure, budget/capacity exhausted, language/disclosure fallback missing, handoff failure, queue unavailable, abnormal error spike, retry storm, runaway loop, fallback usage spike, high-cost fallback usage, repeated provider failover, and incident escalation required.
+
+Future RBAC must control who can view/change failure/fallback policy. Super admins may review global failure/fallback policy templates. Authorized internal admins may review/manage assigned campaigns only. Client admins may view/manage assigned campaign fallback policy only if permission allows. QA managers may view QA failure/fallback status only within assigned scope. Finance/admin roles may view cost-related fallback impact only if permission allows. Restricted users cannot view or change failure/fallback policy.
+
+High-risk fallback, failover, circuit breaker reset, provider reactivation, or incident close actions should require future MFA/step-up authentication. This readiness phase does not change current authentication, login, session, MFA, or RBAC behavior.
+
+Future tenant isolation must prevent one client/campaign from seeing, changing, or triggering another client/campaign failure/fallback behavior. Client A must not see client B failures. Campaign A must not see campaign B fallback rules. Campaign A must not trigger campaign B fallback actions. Provider failover details must not leak between tenants. Incidents, alerts, recordings, transcripts, QA failures, or cost impact must not cross tenant/campaign boundaries.
+
+The Vicidial Middleware remains the source of truth for routing, DID rules, shadow mode, local touch, limits, inventory health, and runtime safety. AI Voice and QA must consume middleware context and must not bypass middleware core rules.
+
+This phase does not create failure storage, fallback storage, outage storage, retry storage, circuit breaker storage, alert storage, incident storage, escalation storage, handoff storage, CRUD, endpoints, migrations, fallback runtime, failover runtime, retry runtime, circuit breaker runtime, alert runtime, incident runtime, escalation runtime, handoff runtime, queue fallback runtime, voicemail fallback runtime, IVR fallback runtime, audio playback runtime, call transfer runtime, report runtime, OpenAI calls, Realtime sessions, AI voice, AI inbound, AI outbound, FastAGI, live calls, route behavior changes, Asterisk/Vicidial changes, dialplan changes, transcript access, recording access, raw PII exposure, runtime fallback execution, or UI execution controls.
+
+This phase does not create failure records, fallback records, outage records, retry records, circuit breaker records, alert records, incident records, escalation records, handoff records, provider failover records, runtime fallback execution, live fallback execution, telephony fallback execution, or operational fallback actions.
+
+No runtime behavior changed.
