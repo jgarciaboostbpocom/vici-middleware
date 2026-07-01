@@ -3389,6 +3389,149 @@ export type QaSamplingEligibilityRulesReadiness = {
   nextSteps: string[];
 };
 
+export type QaFeedbackAiImprovementApprovalReadiness = {
+  currentState: 'not_ready';
+  qaFeedbackAiImprovementApprovalApproved: false;
+  qaFeedbackAiImprovementApprovalMode: 'read_only_design';
+  campaignScopedFeedbackStatus: 'read_only_design';
+  aiAgentQaFeedbackStatus: 'read_only_design';
+  humanAgentQaFeedbackStatus: 'read_only_design';
+  inboundFeedbackStatus: 'read_only_design';
+  outboundFeedbackStatus: 'read_only_design';
+  qaCommentToImprovementProposalStatus: 'read_only_design';
+  promptImprovementProposalStatus: 'read_only_design';
+  knowledgeBaseImprovementProposalStatus: 'read_only_design';
+  policyImprovementProposalStatus: 'read_only_design';
+  handoffRuleImprovementProposalStatus: 'read_only_design';
+  scorecardImprovementProposalStatus: 'read_only_design';
+  humanCoachingRecommendationStatus: 'read_only_design';
+  managerReviewStatus: 'read_only_design';
+  approvalWorkflowStatus: 'read_only_design';
+  rejectionWorkflowStatus: 'read_only_design';
+  requestChangesWorkflowStatus: 'read_only_design';
+  versioningStatus: 'read_only_design';
+  rollbackStatus: 'read_only_design';
+  effectiveDateStatus: 'read_only_design';
+  auditTrailStatus: 'read_only_design';
+  sandboxTestStatus: 'read_only_design';
+  syntheticScenarioTestStatus: 'read_only_design';
+  noAutoLearningStatus: 'enforced_by_design';
+  noAutoPromptUpdateStatus: 'enforced_by_design';
+  noAutoKbUpdateStatus: 'enforced_by_design';
+  noAutoPolicyUpdateStatus: 'enforced_by_design';
+  noAutoHandoffUpdateStatus: 'enforced_by_design';
+  noAutomaticProductionDeployStatus: 'enforced_by_design';
+  rbacApprovalControlStatus: 'read_only_design';
+  tenantIsolationStatus: 'read_only_design';
+  campaignIsolationStatus: 'read_only_design';
+  mfaStepUpForApprovalStatus: 'read_only_design';
+  middlewareCoreDependencyStatus: 'read_only_design';
+  qaFeedbackStorageStatus: 'not_implemented';
+  aiImprovementProposalStorageStatus: 'not_implemented';
+  promptChangeStorageStatus: 'not_implemented';
+  kbChangeStorageStatus: 'not_implemented';
+  policyChangeStorageStatus: 'not_implemented';
+  handoffChangeStorageStatus: 'not_implemented';
+  scorecardChangeStorageStatus: 'not_implemented';
+  approvalStorageStatus: 'not_implemented';
+  versionStorageStatus: 'not_implemented';
+  auditStorageStatus: 'not_implemented';
+  qaFeedbackEndpointStatus: 'not_implemented';
+  aiImprovementEndpointStatus: 'not_implemented';
+  approvalEndpointStatus: 'not_implemented';
+  qaFeedbackCrudStatus: 'not_implemented';
+  aiImprovementCrudStatus: 'not_implemented';
+  migrationStatus: 'not_implemented';
+  approvalRuntimeStatus: 'not_allowed';
+  versioningRuntimeStatus: 'not_allowed';
+  rollbackRuntimeStatus: 'not_allowed';
+  promptOptimizationRuntimeStatus: 'not_allowed';
+  aiLearningRuntimeStatus: 'not_allowed';
+  promptUpdateRuntimeStatus: 'not_allowed';
+  kbUpdateRuntimeStatus: 'not_allowed';
+  policyUpdateRuntimeStatus: 'not_allowed';
+  handoffUpdateRuntimeStatus: 'not_allowed';
+  scorecardUpdateRuntimeStatus: 'not_allowed';
+  qaEvaluationRuntimeStatus: 'not_allowed';
+  transcriptAccessStatus: 'not_allowed';
+  recordingAccessStatus: 'not_allowed';
+  liveCallQueryStatus: 'not_allowed';
+  reportRuntimeStatus: 'not_allowed';
+  openAiConnectionStatus: 'not_connected';
+  openAiRuntimeStatus: 'not_connected';
+  realtimeSessionStatus: 'not_connected';
+  aiVoiceStatus: 'not_allowed';
+  aiInboundExecutionStatus: 'not_allowed';
+  aiOutboundExecutionStatus: 'not_allowed';
+  fastAgiStatus: 'not_allowed';
+  routeBehaviorChangeStatus: 'not_allowed';
+  qaFeedbackStorageAllowed: false;
+  aiImprovementProposalStorageAllowed: false;
+  promptChangeStorageAllowed: false;
+  kbChangeStorageAllowed: false;
+  policyChangeStorageAllowed: false;
+  handoffChangeStorageAllowed: false;
+  scorecardChangeStorageAllowed: false;
+  approvalStorageAllowed: false;
+  versionStorageAllowed: false;
+  auditStorageAllowed: false;
+  qaFeedbackEndpointAllowed: false;
+  aiImprovementEndpointAllowed: false;
+  approvalEndpointAllowed: false;
+  qaFeedbackCrudAllowed: false;
+  aiImprovementCrudAllowed: false;
+  migrationAllowed: false;
+  approvalRuntimeAllowed: false;
+  versioningRuntimeAllowed: false;
+  rollbackRuntimeAllowed: false;
+  promptOptimizationRuntimeAllowed: false;
+  aiLearningRuntimeAllowed: false;
+  promptUpdateRuntimeAllowed: false;
+  kbUpdateRuntimeAllowed: false;
+  policyUpdateRuntimeAllowed: false;
+  handoffUpdateRuntimeAllowed: false;
+  scorecardUpdateRuntimeAllowed: false;
+  qaEvaluationRuntimeAllowed: false;
+  transcriptAccessAllowed: false;
+  recordingAccessAllowed: false;
+  liveCallQueryAllowed: false;
+  reportRuntimeAllowed: false;
+  openAiConnectionAllowed: false;
+  openAiRuntimeAllowed: false;
+  realtimeSessionAllowed: false;
+  aiVoiceAllowed: false;
+  aiInboundExecutionAllowed: false;
+  aiOutboundExecutionAllowed: false;
+  fastAgiAllowed: false;
+  routeBehaviorChangeAllowed: false;
+  autoLearningAllowed: false;
+  autoPromptUpdateAllowed: false;
+  autoKbUpdateAllowed: false;
+  autoPolicyUpdateAllowed: false;
+  autoHandoffUpdateAllowed: false;
+  automaticProductionDeployAllowed: false;
+  realCredentialAllowed: false;
+  realPiiAllowed: false;
+  realCallAllowed: false;
+  futureFeedbackScopeFields: string[];
+  futureImprovementProposalFields: string[];
+  futureFeedbackIssueCategories: string[];
+  futureProposedChangeTypes: string[];
+  futureApprovalWorkflowRules: string[];
+  futureHumanInTheLoopRules: string[];
+  futureNoAutoLearningRules: string[];
+  futureVersioningRollbackRules: string[];
+  futureSandboxTestingRules: string[];
+  futureRbacApprovalRules: string[];
+  futureTenantCampaignIsolationRules: string[];
+  futureMfaStepUpRules: string[];
+  futureReportImpactRules: string[];
+  futureMiddlewareCoreDependencyRules: string[];
+  futureRuntimeBoundaries: string[];
+  prohibitedCurrentActions: string[];
+  nextSteps: string[];
+};
+
 export type ReadinessChecklistItem = {
   id: string;
   label: string;
@@ -3456,6 +3599,7 @@ export type RouteReadinessReport = {
   authenticationMfaSecurityReadiness: AuthenticationMfaSecurityReadiness;
   campaignAiAgentCapacityBudgetReadiness: CampaignAiAgentCapacityBudgetReadiness;
   qaSamplingEligibilityRulesReadiness: QaSamplingEligibilityRulesReadiness;
+  qaFeedbackAiImprovementApprovalReadiness: QaFeedbackAiImprovementApprovalReadiness;
   checklist: ReadinessChecklistItem[];
   risks: ReadinessRisk[];
   recommendations: string[];
@@ -14854,6 +14998,346 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     ],
   };
 
+  const qaFeedbackAiImprovementApprovalReadiness: QaFeedbackAiImprovementApprovalReadiness = {
+    currentState: 'not_ready',
+    qaFeedbackAiImprovementApprovalApproved: false,
+    qaFeedbackAiImprovementApprovalMode: 'read_only_design',
+    campaignScopedFeedbackStatus: 'read_only_design',
+    aiAgentQaFeedbackStatus: 'read_only_design',
+    humanAgentQaFeedbackStatus: 'read_only_design',
+    inboundFeedbackStatus: 'read_only_design',
+    outboundFeedbackStatus: 'read_only_design',
+    qaCommentToImprovementProposalStatus: 'read_only_design',
+    promptImprovementProposalStatus: 'read_only_design',
+    knowledgeBaseImprovementProposalStatus: 'read_only_design',
+    policyImprovementProposalStatus: 'read_only_design',
+    handoffRuleImprovementProposalStatus: 'read_only_design',
+    scorecardImprovementProposalStatus: 'read_only_design',
+    humanCoachingRecommendationStatus: 'read_only_design',
+    managerReviewStatus: 'read_only_design',
+    approvalWorkflowStatus: 'read_only_design',
+    rejectionWorkflowStatus: 'read_only_design',
+    requestChangesWorkflowStatus: 'read_only_design',
+    versioningStatus: 'read_only_design',
+    rollbackStatus: 'read_only_design',
+    effectiveDateStatus: 'read_only_design',
+    auditTrailStatus: 'read_only_design',
+    sandboxTestStatus: 'read_only_design',
+    syntheticScenarioTestStatus: 'read_only_design',
+    noAutoLearningStatus: 'enforced_by_design',
+    noAutoPromptUpdateStatus: 'enforced_by_design',
+    noAutoKbUpdateStatus: 'enforced_by_design',
+    noAutoPolicyUpdateStatus: 'enforced_by_design',
+    noAutoHandoffUpdateStatus: 'enforced_by_design',
+    noAutomaticProductionDeployStatus: 'enforced_by_design',
+    rbacApprovalControlStatus: 'read_only_design',
+    tenantIsolationStatus: 'read_only_design',
+    campaignIsolationStatus: 'read_only_design',
+    mfaStepUpForApprovalStatus: 'read_only_design',
+    middlewareCoreDependencyStatus: 'read_only_design',
+    qaFeedbackStorageStatus: 'not_implemented',
+    aiImprovementProposalStorageStatus: 'not_implemented',
+    promptChangeStorageStatus: 'not_implemented',
+    kbChangeStorageStatus: 'not_implemented',
+    policyChangeStorageStatus: 'not_implemented',
+    handoffChangeStorageStatus: 'not_implemented',
+    scorecardChangeStorageStatus: 'not_implemented',
+    approvalStorageStatus: 'not_implemented',
+    versionStorageStatus: 'not_implemented',
+    auditStorageStatus: 'not_implemented',
+    qaFeedbackEndpointStatus: 'not_implemented',
+    aiImprovementEndpointStatus: 'not_implemented',
+    approvalEndpointStatus: 'not_implemented',
+    qaFeedbackCrudStatus: 'not_implemented',
+    aiImprovementCrudStatus: 'not_implemented',
+    migrationStatus: 'not_implemented',
+    approvalRuntimeStatus: 'not_allowed',
+    versioningRuntimeStatus: 'not_allowed',
+    rollbackRuntimeStatus: 'not_allowed',
+    promptOptimizationRuntimeStatus: 'not_allowed',
+    aiLearningRuntimeStatus: 'not_allowed',
+    promptUpdateRuntimeStatus: 'not_allowed',
+    kbUpdateRuntimeStatus: 'not_allowed',
+    policyUpdateRuntimeStatus: 'not_allowed',
+    handoffUpdateRuntimeStatus: 'not_allowed',
+    scorecardUpdateRuntimeStatus: 'not_allowed',
+    qaEvaluationRuntimeStatus: 'not_allowed',
+    transcriptAccessStatus: 'not_allowed',
+    recordingAccessStatus: 'not_allowed',
+    liveCallQueryStatus: 'not_allowed',
+    reportRuntimeStatus: 'not_allowed',
+    openAiConnectionStatus: 'not_connected',
+    openAiRuntimeStatus: 'not_connected',
+    realtimeSessionStatus: 'not_connected',
+    aiVoiceStatus: 'not_allowed',
+    aiInboundExecutionStatus: 'not_allowed',
+    aiOutboundExecutionStatus: 'not_allowed',
+    fastAgiStatus: 'not_allowed',
+    routeBehaviorChangeStatus: 'not_allowed',
+    qaFeedbackStorageAllowed: false,
+    aiImprovementProposalStorageAllowed: false,
+    promptChangeStorageAllowed: false,
+    kbChangeStorageAllowed: false,
+    policyChangeStorageAllowed: false,
+    handoffChangeStorageAllowed: false,
+    scorecardChangeStorageAllowed: false,
+    approvalStorageAllowed: false,
+    versionStorageAllowed: false,
+    auditStorageAllowed: false,
+    qaFeedbackEndpointAllowed: false,
+    aiImprovementEndpointAllowed: false,
+    approvalEndpointAllowed: false,
+    qaFeedbackCrudAllowed: false,
+    aiImprovementCrudAllowed: false,
+    migrationAllowed: false,
+    approvalRuntimeAllowed: false,
+    versioningRuntimeAllowed: false,
+    rollbackRuntimeAllowed: false,
+    promptOptimizationRuntimeAllowed: false,
+    aiLearningRuntimeAllowed: false,
+    promptUpdateRuntimeAllowed: false,
+    kbUpdateRuntimeAllowed: false,
+    policyUpdateRuntimeAllowed: false,
+    handoffUpdateRuntimeAllowed: false,
+    scorecardUpdateRuntimeAllowed: false,
+    qaEvaluationRuntimeAllowed: false,
+    transcriptAccessAllowed: false,
+    recordingAccessAllowed: false,
+    liveCallQueryAllowed: false,
+    reportRuntimeAllowed: false,
+    openAiConnectionAllowed: false,
+    openAiRuntimeAllowed: false,
+    realtimeSessionAllowed: false,
+    aiVoiceAllowed: false,
+    aiInboundExecutionAllowed: false,
+    aiOutboundExecutionAllowed: false,
+    fastAgiAllowed: false,
+    routeBehaviorChangeAllowed: false,
+    autoLearningAllowed: false,
+    autoPromptUpdateAllowed: false,
+    autoKbUpdateAllowed: false,
+    autoPolicyUpdateAllowed: false,
+    autoHandoffUpdateAllowed: false,
+    automaticProductionDeployAllowed: false,
+    realCredentialAllowed: false,
+    realPiiAllowed: false,
+    realCallAllowed: false,
+    futureFeedbackScopeFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'qaEvaluationId',
+      'callId',
+      'callDirection',
+      'routeType',
+      'agentType',
+      'aiAgentId',
+      'humanAgentId',
+      'language',
+      'scorecardId',
+      'scorecardVersion',
+      'evaluatorUserId',
+      'qaManagerUserId',
+      'feedbackType',
+      'issueCategory',
+      'issueSeverity',
+      'evidenceReference',
+      'recommendedAnswer',
+      'recommendedBehavior',
+    ],
+    futureImprovementProposalFields: [
+      'companyId',
+      'clientId',
+      'campaignId',
+      'projectId',
+      'lineOfBusiness',
+      'qaEvaluationId',
+      'callId',
+      'callDirection',
+      'routeType',
+      'agentType',
+      'aiAgentId',
+      'humanAgentId',
+      'language',
+      'scorecardId',
+      'scorecardVersion',
+      'evaluatorUserId',
+      'qaManagerUserId',
+      'feedbackType',
+      'issueCategory',
+      'issueSeverity',
+      'evidenceReference',
+      'recommendedAnswer',
+      'recommendedBehavior',
+      'proposedChangeType',
+      'targetArtifactType',
+      'targetArtifactId',
+      'currentVersion',
+      'proposedVersion',
+      'proposalStatus',
+      'approvalStatus',
+      'approvedBy',
+      'rejectedBy',
+      'rejectionReason',
+      'effectiveDate',
+      'rollbackVersion',
+      'auditCorrelationId',
+    ],
+    futureFeedbackIssueCategories: [
+      'wrong AI response',
+      'missing AI response',
+      'hallucinated response',
+      'bad tone',
+      'compliance issue',
+      'failed handoff',
+      'wrong escalation',
+      'missing knowledge base article',
+      'outdated policy',
+      'weak objection handling',
+      'slow resolution',
+      'human agent coaching opportunity',
+      'prompt improvement opportunity',
+      'knowledge base improvement opportunity',
+      'policy improvement opportunity',
+      'handoff rule improvement opportunity',
+      'scorecard improvement opportunity',
+    ],
+    futureProposedChangeTypes: [
+      'prompt update proposal',
+      'knowledge base update proposal',
+      'policy update proposal',
+      'handoff rule update proposal',
+      'scorecard update proposal',
+      'human coaching recommendation',
+      'AI coaching rule proposal',
+      'compliance script proposal',
+      'language-specific response proposal',
+    ],
+    futureApprovalWorkflowRules: [
+      'Future workflow may create a draft proposal only after authorized QA feedback review',
+      'Future workflow must support manager review before approval',
+      'Future workflow must support approve, reject, and request changes outcomes',
+      'Future workflow may allow proposal edits before approval when permission allows',
+      'Future workflow must support proposal versioning, effective date assignment, rollback reference, audit trail, and status history',
+      'Approval workflow is not implemented or executable in this readiness phase',
+    ],
+    futureHumanInTheLoopRules: [
+      'QA feedback must not become an AI improvement without authorized human review',
+      'QA feedback must not become an AI improvement without approval, versioning, audit, rollback planning, and a future approved activation gate',
+      'Managers must be able to review evidence, proposed answer, proposed behavior, target artifact, and rollback plan in a future implementation',
+      'Restricted users cannot approve AI improvements',
+      'Human-in-the-loop review is mapped only and not executable in this readiness phase',
+    ],
+    futureNoAutoLearningRules: [
+      'QA feedback must not auto-train AI',
+      'QA feedback must not auto-learn from QA findings',
+      'QA feedback must not auto-update prompts',
+      'QA feedback must not auto-update knowledge bases',
+      'QA feedback must not auto-update policies',
+      'QA feedback must not auto-update handoff rules',
+      'QA feedback must not auto-change AI behavior',
+      'No automatic production deployment is allowed from QA feedback',
+    ],
+    futureVersioningRollbackRules: [
+      'Future proposals must record current and proposed versions before approval',
+      'Future approvals must bind approved changes to a versioned target artifact',
+      'Future activation must include rollback reference and rollback plan before effective date',
+      'Future status history must preserve draft, review, approval, rejection, request-changes, activation, and rollback states',
+      'Versioning and rollback runtime are not implemented or executable in this readiness phase',
+    ],
+    futureSandboxTestingRules: [
+      'Future approved proposals should support sandbox testing before activation',
+      'Future approved proposals should support synthetic scenario testing before activation',
+      'Future test evidence should be available for manager review before activation',
+      'Future activation should require approval evidence, rollback plan, and effective date',
+      'Sandbox and synthetic scenario testing are not executable in this readiness phase',
+    ],
+    futureRbacApprovalRules: [
+      'super_admin can review/manage global or per-campaign improvement policy in a future implementation',
+      'authorized internal admin can review/manage assigned campaigns only in a future implementation',
+      'campaign_admin/client_admin can review/manage assigned campaign proposals only if permission allows in a future implementation',
+      'QA manager can create/review improvement proposals only within scope in a future implementation',
+      'evaluator can submit feedback only within scope in a future implementation',
+      'restricted users cannot approve AI improvements',
+      'High-risk approvals require MFA/step-up authentication in a future implementation',
+    ],
+    futureTenantCampaignIsolationRules: [
+      'Client A must not see or approve client B proposals',
+      'Campaign A must not apply campaign B prompt, knowledge base, policy, handoff, or scorecard changes',
+      'Human coaching proposals must not cross client or campaign boundaries',
+      'AI improvement proposals must not cross client or campaign boundaries',
+      'No cross-campaign improvement leakage is allowed',
+      'No client-to-client data leakage is allowed',
+      'Tenant and campaign isolation must be enforced server-side in a future implementation',
+    ],
+    futureMfaStepUpRules: [
+      'High-risk approvals should require future MFA/step-up authentication',
+      'Prompt, knowledge base, policy, handoff, scorecard, and compliance script activation should require future step-up security when policy requires it',
+      'Rollback and effective-date changes should require future step-up security when policy requires it',
+      'MFA/step-up remains design-only and does not change current auth behavior in this readiness phase',
+    ],
+    futureReportImpactRules: [
+      'Future reports may show feedback volume',
+      'Future reports may show proposal status',
+      'Future reports may show approval time',
+      'Future reports may show recurring issues',
+      'Future reports may show improvement impact',
+      'Future reports may show rollback history',
+      'Report runtime is not implemented in this readiness phase',
+    ],
+    futureMiddlewareCoreDependencyRules: [
+      'Vicidial Middleware remains the source of truth for campaign routing',
+      'Vicidial Middleware remains the source of truth for DID rules',
+      'Vicidial Middleware remains the source of truth for route simulation and shadow mode',
+      'Vicidial Middleware remains the source of truth for local touch, limits, inventory health, and runtime safety',
+      'AI Voice and QA modules must consume middleware context and must not bypass or override middleware core rules without explicit approved runtime activation',
+    ],
+    futureRuntimeBoundaries: [
+      'QA Feedback to AI Improvement Approval readiness must not create QA feedback storage, AI improvement proposal storage, prompt storage, knowledge base storage, policy storage, handoff storage, scorecard storage, approval storage, version storage, audit storage, CRUD, endpoints, migrations, database tables, or storage',
+      'QA Feedback to AI Improvement Approval readiness must not create QA feedback records, AI improvement proposal records, prompt records, approval records, version records, audit records, or scorecard records',
+      'QA Feedback to AI Improvement Approval readiness must not create approval runtime, versioning runtime, rollback runtime, prompt optimization runtime, AI learning runtime, prompt update runtime, knowledge base update runtime, policy update runtime, handoff update runtime, scorecard update runtime, QA evaluation runtime, report runtime, or runtime enforcement',
+      'QA Feedback to AI Improvement Approval readiness must not access transcripts, recordings, live calls, raw PII, or real credentials',
+      'QA Feedback to AI Improvement Approval readiness must not connect OpenAI, execute OpenAI API calls, open Realtime sessions, enable AI voice, enable AI inbound calls, enable AI outbound calls, enable FastAGI, modify Asterisk/Vicidial, or change route behavior',
+      'QA Feedback to AI Improvement Approval readiness must not change current auth, login, session, or RBAC behavior and must not add UI execution controls',
+    ],
+    prohibitedCurrentActions: [
+      'Do not create QA feedback storage',
+      'Do not create AI improvement proposal storage',
+      'Do not create prompt, knowledge base, policy, handoff, scorecard, approval, version, or audit storage',
+      'Do not create QA feedback records',
+      'Do not create AI improvement proposal records',
+      'Do not create prompt records',
+      'Do not modify prompts, knowledge bases, policies, handoff rules, scorecards, or QA evaluations',
+      'Do not approve or reject real changes',
+      'Do not create approval workflow runtime',
+      'Do not create versioning runtime',
+      'Do not create rollback runtime',
+      'Do not create prompt optimization runtime',
+      'Do not create AI learning runtime',
+      'Do not auto-train AI',
+      'Do not auto-update prompts, knowledge bases, policies, or handoff rules',
+      'Do not execute QA evaluation',
+      'Do not access recordings or transcripts',
+      'Do not query live calls or execute live calls',
+      'Do not expose raw PII or secrets',
+      'Do not create CRUD, endpoints, migrations, database tables, or storage',
+      'Do not connect OpenAI, execute OpenAI API calls, or open Realtime sessions',
+      'Do not enable AI voice, AI inbound calls, AI outbound calls, or FastAGI',
+      'Do not modify Asterisk/Vicidial',
+      'Do not change route behavior',
+      'Do not change auth, login, session, or RBAC behavior',
+    ],
+    nextSteps: [
+      'Keep QA Feedback to AI Improvement Approval Readiness read-only, not ready, unapproved, storage-unimplemented, endpoint-unimplemented, CRUD-unimplemented, migration-unimplemented, OpenAI-disconnected, and runtime-blocked.',
+      'Define future campaign-scoped QA feedback and AI improvement proposal policy for AI Agent QA, Human Agent QA, inbound, outbound, AI-handled calls, and human-handled calls in a separately approved phase.',
+      'Define future human review, manager approval, rejection, request-changes, versioning, audit, rollback, effective-date, sandbox testing, synthetic scenario testing, tenant isolation, RBAC, and MFA/step-up policy before implementation.',
+      'Require explicit approved runtime activation before any approved proposal can affect prompts, knowledge bases, policies, handoff rules, scorecards, AI coaching rules, compliance scripts, language-specific responses, or AI behavior.',
+      'Keep QA feedback storage, AI improvement storage, prompt/KB/policy/handoff/scorecard change storage, approval storage, version storage, audit storage, CRUD, endpoints, migrations, approval runtime, versioning runtime, rollback runtime, prompt optimization runtime, AI learning runtime, prompt/KB/policy/handoff/scorecard update runtime, QA evaluation runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, raw PII, recordings/transcripts, and UI execution controls blocked.',
+    ],
+  };
+
   const checklist: ReadinessChecklistItem[] = [
     {
       id: 'admin-auth',
@@ -15211,6 +15695,12 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       status: 'pass',
       detail: 'QA Sampling & Eligibility Rules readiness is read-only, not ready, not approved, QA-does-not-evaluate-all-calls-by-default mapped, campaign-scoped sampling and eligibility mapped, AI Agent QA sampling mapped, Human Agent QA sampling mapped, inbound/outbound mapped, AI-handled/human-handled eligibility mapped, duration/disposition/language/recording/transcript/consent/PII eligibility mapped, exclusions mapped, sampling methods mapped, agent min/max sampling mapped, capacity/budget mapped, RBAC/MFA/tenant isolation mapped, middleware core dependency mapped, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, sampling/eligibility/QA/scheduler/background/report runtime blocked, transcript/recording/live-call access blocked, OpenAI-disconnected, and exposes no QA sampling, QA eligibility, QA evaluation, report, scheduler, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
     },
+    {
+      id: 'qa-feedback-ai-improvement-approval-readiness-read-only',
+      label: 'QA Feedback to AI Improvement Approval readiness read-only',
+      status: 'pass',
+      detail: 'QA Feedback to AI Improvement Approval readiness is read-only, not ready, not approved, campaign-scoped feedback/proposal mapping only, AI Agent QA and Human Agent QA mapped, inbound/outbound and AI-handled/human-handled calls mapped, human-in-the-loop approval/versioning/audit/rollback/sandbox testing/RBAC/MFA/tenant isolation mapped, no-auto-learning enforced by design, storage-unimplemented, CRUD-unimplemented, endpoint-unimplemented, approval/versioning/rollback/prompt-optimization/AI-learning/update/QA/report runtime blocked, transcript/recording/live-call access blocked, OpenAI-disconnected, and exposes no QA feedback, AI improvement, prompt, knowledge base, policy, handoff, scorecard, approval, version, rollback, deploy, runtime, OpenAI, AI voice, call, route, FastAGI, Asterisk/Vicidial, auth/MFA, service, or execution controls.',
+    },
   ];
 
   const risks: ReadinessRisk[] = [];
@@ -15350,6 +15840,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
     authenticationMfaSecurityReadiness,
     campaignAiAgentCapacityBudgetReadiness,
     qaSamplingEligibilityRulesReadiness,
+    qaFeedbackAiImprovementApprovalReadiness,
     checklist,
     risks,
     recommendations: [
@@ -15403,6 +15894,7 @@ export function buildRouteReadinessReport(input: ReadinessInput): RouteReadiness
       'Treat Authentication / MFA Security readiness as read-only design visibility; it maps future strong authentication, MFA/2FA, role-aware MFA, step-up authentication, session security, recovery, login audit, tenant/campaign/RBAC security, and server-side enforcement only and does not create auth storage, MFA storage, session storage, recovery storage, audit storage, CRUD, endpoints, migrations, users, credentials, MFA secrets, enrollment flows, recovery codes, trusted devices, OTP sending, SMS/email sending, passkey/security-key runtime, session revocation, login/session/password/RBAC behavior changes, OpenAI connection, AI voice, FastAGI, Asterisk/Vicidial changes, or route behavior changes.',
       'Treat Campaign AI Agent Capacity & Budget readiness as read-only design visibility; it maps future campaign-scoped AI agent limits, active AI agent counts, concurrency, campaign budget/capacity, budget warning and hard stop thresholds, exceeded behavior, approval, RBAC, tenant isolation, MFA step-up, and middleware core dependency only and does not create AI agents, AI agent limits, budget records, usage records, billing records, cost records, storage, CRUD, endpoints, migrations, runtime enforcement, OpenAI connection, Realtime sessions, AI voice, AI inbound/outbound execution, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, recordings/transcripts access, raw PII exposure, or UI execution controls.',
       'Treat QA Sampling & Eligibility Rules readiness as read-only design visibility; it maps future campaign-scoped QA eligibility and sampling so QA does not evaluate all calls by default, including AI Agent QA, Human Agent QA, inbound/outbound, AI-handled and human-handled calls, duration filters, disposition filters, language filters, exclusions, sampling methods, agent min/max rules, capacity/budget boundaries, RBAC, tenant isolation, MFA step-up, report coverage, and middleware core dependency only and does not create QA sampling storage, QA eligibility storage, sampling queues, QA evaluation jobs, QA records, CRUD, endpoints, migrations, sampling runtime, eligibility runtime, QA runtime, scheduler runtime, background jobs, report runtime, OpenAI connection, Realtime sessions, AI voice, AI inbound/outbound execution, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, or UI execution controls.',
+      'Treat QA Feedback to AI Improvement Approval readiness as read-only design visibility; it maps future campaign-scoped QA feedback to controlled AI improvement proposals with human review, approval, versioning, audit, rollback planning, sandbox testing, RBAC, tenant isolation, MFA step-up, and future activation gates only and does not create QA feedback storage, AI improvement storage, prompt/KB/policy/handoff/scorecard change storage, approval storage, version storage, audit storage, CRUD, endpoints, migrations, approval runtime, versioning runtime, rollback runtime, prompt optimization runtime, AI learning runtime, prompt/KB/policy/handoff/scorecard update runtime, QA evaluation runtime, report runtime, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, transcript/recording access, raw PII exposure, or UI execution controls.',
       'Review simulator traces and inventory alerts before adding any new live routing controls.',
       'Confirm deployment artifacts and service state separately before any production cutover.',
     ],

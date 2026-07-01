@@ -6,6 +6,12 @@ The Vicidial Middleware route engine has passed Vicidial/Asterisk staging FastAG
 
 FastAGI is implemented and has passed local middleware-hosted testing plus real Asterisk/Vicidial shadow insertion validation, but it is currently disabled. It must remain disabled except during an approved staging test window. No live caller ID changes have been made, no production Vicidial/Asterisk systems have been touched, and live routing must not be enabled yet.
 
+QA Feedback to AI Improvement Approval Readiness has been added as read-only design/status. Future QA feedback can create controlled AI improvement proposals only after authorized human review, approval, versioning, audit, rollback planning, and future approved activation. QA feedback must not auto-train, auto-learn, auto-update prompts, auto-update KBs, auto-update policies, auto-update handoff rules, or auto-change AI behavior.
+
+The future improvement workflow supports AI Agent QA, Human Agent QA, inbound, outbound, AI-handled calls, human-handled calls, prompt proposals, KB proposals, policy proposals, handoff proposals, scorecard proposals, human coaching recommendations, sandbox testing, synthetic scenario testing, RBAC, tenant/campaign isolation, and MFA step-up for sensitive approvals. The middleware remains the source of truth for routing, DID rules, shadow mode, local touch, limits, inventory health, and runtime safety.
+
+No QA feedback storage, AI improvement storage, prompt/KB/policy/handoff/scorecard change storage, approval storage, version storage, audit storage, CRUD, endpoints, migrations, approval runtime, versioning runtime, rollback runtime, prompt optimization runtime, AI learning runtime, prompt/KB/policy/handoff/scorecard update runtime, QA evaluation runtime, report runtime, transcript access, recording access, live call queries, OpenAI connection, Realtime sessions, AI voice, AI calls, FastAGI, Asterisk/Vicidial changes, route behavior changes, live calls, raw PII exposure, or UI execution controls were added. No runtime behavior changed.
+
 ## Current Runtime State
 
 - PM2 app id `0` runs `vici-mw`.
